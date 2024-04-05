@@ -1,0 +1,276 @@
+<div class="row" style="padding-right: 10px; padding-left: 10px; padding-bottom: 50px; margin: 0; display: inherit;">
+<h2>{{ currentLanguageSet?.agentCallAllocation }}</h2>
+<mat-card class="mainCard">
+  <form [formGroup]="callAllocationForm">
+    <div class="row">
+      <mat-form-field appearance="outline" id="fieldBackground" class="dropdownAlignment fontStyle">
+        <mat-label class="fontStyle">{{ currentLanguageSet?.recordType }}</mat-label>
+        <mat-select
+          (selectionChange)="onClickOfRecordType($event)"
+          formControlName="recordType"
+          required
+        >
+          <mat-option *ngFor="let record of recordData" [value]="record.name">
+            {{ record.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" id="fieldBackground" class="dropdownAlignment fontStyle">
+        <mat-label class="fontStyle">{{ currentLanguageSet?.phoneNumberType }}</mat-label>
+        <mat-select
+          (selectionChange)="onClickOfPhoneNoType($event)"
+          formControlName="phoneNoType"
+          required
+        >
+          <mat-option *ngFor="let number of phoneNumber" [value]="number.name">
+            {{ number.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        id="fieldBackground"
+        style="width: 300px; font-size: 12px !important;"
+        class="fontStyle"
+      >
+        <mat-label class="fontStyle">{{ currentLanguageSet?.enterDateRange }}</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker"    [max]="maxDate" required>
+          <input
+            matStartDate
+            formControlName="start"
+            placeholder="{{ currentLanguageSet?.startDate }}"
+          />
+          <input
+            matEndDate
+            formControlName="end"
+            placeholder="{{ currentLanguageSet?.endDate }}"
+          />
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        <mat-error
+          *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+          >{{ currentLanguageSet?.invalidStartDate }}</mat-error
+        >
+        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">{{
+          currentLanguageSet?.invalidEndDate
+        }}</mat-error>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        class="buttonColor full-width buttonWidth"
+        type="submit"
+        style="margin-left: 30px;"
+        [disabled]="isSubmitDisabled"
+        (click)="onSubmit()"
+      >
+        {{ currentLanguageSet?.submit }}
+      </button>
+    </div>
+
+    <div class="row c-b tabStyle">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <mat-tab-group>
+          <div *ngIf="enableMotherData">
+          <mat-tab class="fontStyle" label="{{ currentLanguageSet?.mother }}">
+            <div style="margin-top: 15px; border-right: 1px solid black">
+              <table class="fontStyle">
+                <tr>
+                  <td>{{ currentLanguageSet?.totalMotherRecords }}</td>
+                  <td colspan="2">{{ recordsData.totalRecord }}</td>
+                </tr>
+                <tr>
+                  <td>{{ currentLanguageSet?.introductoryCallRecords }}</td>
+                  <td>{{ recordsData.totalIntroductoryRecord }}</td>
+                  <td>
+                    <button
+                      mat-raised-button
+                      class="buttonColor full-width-allocate buttonWidth"
+                      type="submit"
+                      style="float: right;"
+                      (click)="onAllocate('introductory', recordsData.totalIntroductoryRecord)"
+                      [disabled]="!(recordsData.totalIntroductoryRecord > 0)"
+                    >
+                      {{ currentLanguageSet?.allocate }}
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>{{ currentLanguageSet?.lowRiskRecords }}</td>
+                  <td>{{ recordsData.totalLowRiskRecord }}</td>
+                  <td>
+                    <button
+                      mat-raised-button
+                      class="buttonColor full-width-allocate buttonWidth"
+                      type="submit"
+                      style="float: right;"
+                      (click)="onAllocate('low risk', recordsData.totalLowRiskRecord)"
+                      [disabled]="!(recordsData.totalLowRiskRecord > 0)"
+                    >
+                      {{ currentLanguageSet?.allocate }}
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>{{ currentLanguageSet?.highRiskRecords }}</td>
+                  <td>{{ recordsData.totalHighRiskRecord }}</td>
+                  <td>
+                    <button
+                      mat-raised-button
+                      class="buttonColor full-width-allocate buttonWidth"
+                      type="submit"
+                      style="float: right;"
+                      (click)="onAllocate('high risk',recordsData.totalHighRiskRecord)"
+                      [disabled]="!(recordsData.totalHighRiskRecord > 0)"
+                    >
+                      {{ currentLanguageSet?.allocate }}
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>{{ currentLanguageSet?.allocatedMotherRecords }}</td>
+                  <td colspan="2">{{ recordsData.totalAllocatedRecord }}</td>
+                </tr>
+              </table>
+            </div>
+          </mat-tab>
+          </div>
+          <div *ngIf="!enableMotherData">
+          <mat-tab class="fontStyle" label="{{ currentLanguageSet?.child }}">
+            <div style="margin-top: 15px; border-right: 1px solid black">
+              <table class="fontStyle">
+                <tr>
+                  <td>{{ currentLanguageSet?.totalChildRecords }}</td>
+                  <td colspan="2">{{ recordsData.totalRecord }}</td>
+                </tr>
+                <tr>
+                  <td>{{ currentLanguageSet?.introductoryCallRecords }}</td>
+                  <td>{{ recordsData.totalIntroductoryRecord }}</td>
+                  <td>
+                    <button
+                      mat-raised-button
+                      class="buttonColor full-width-allocate buttonWidth"
+                      type="submit"
+                      style="float: right;"
+                      (click)="onAllocate('introductory',recordsData.totalIntroductoryRecord)"
+                      [disabled]="!(recordsData.totalIntroductoryRecord > 0)"
+                    >
+                      {{ currentLanguageSet?.allocate }}
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>{{ currentLanguageSet?.lowRiskRecords }}</td>
+                  <td>{{ recordsData.totalLowRiskRecord }}</td>
+                  <td>
+                    <button
+                      mat-raised-button
+                      class="buttonColor full-width-allocate buttonWidth"
+                      type="submit"
+                      style="float: right;"
+                      (click)="onAllocate('low risk',recordsData.totalLowRiskRecord)"
+                      [disabled]="!(recordsData.totalLowRiskRecord > 0)"
+                    >
+                      {{ currentLanguageSet?.allocate }}
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>{{ currentLanguageSet?.highRiskRecords }}</td>
+                  <td>{{ recordsData.totalHighRiskRecord }}</td>
+                  <td>
+                    <button
+                      mat-raised-button
+                      class="buttonColor full-width-allocate buttonWidth"
+                      type="submit"
+                      style="float: right;"
+                      (click)="onAllocate('high risk',recordsData.totalHighRiskRecord)"
+                      [disabled]="!(recordsData.totalHighRiskRecord > 0)"
+                    >
+                      {{ currentLanguageSet?.allocate }}
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>{{ currentLanguageSet?.allocatedChildRecords }}</td>
+                  <td colspan="2">{{ recordsData.totalAllocatedRecord }}</td>
+                </tr>
+              </table>
+            </div>
+          </mat-tab>
+          </div>
+        </mat-tab-group>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="padding-top: 60px;">
+        <mat-card class="cardAlign" style="margin: 2px; padding: 5px;" *ngIf="enableAgentAllocation">
+          <h2>{{ currentLanguageSet?.allocateCallRecords }}</h2>
+          <div *ngIf="enableAgentAllocation">
+            <div>
+              <mat-form-field appearance="outline" class="dropdownAllocateAlignment fontStyle">
+                <mat-label class="fontStyle">{{ currentLanguageSet?.role }}</mat-label>
+                <mat-select
+                  (selectionChange)="onClickOfAgentType()"
+                  formControlName="agentType"
+                  required
+                >
+                  <mat-option *ngFor="let agent of rolesArr" (click) = "setSelectedRoleName(agent.roleName);" [value]="agent.roleId">
+                    {{ agent.roleName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="dropdownAllocateAlignment fontStyle">
+                <mat-label class="fontStyle">{{ currentLanguageSet?.allocateTo }}</mat-label>
+                <mat-select
+                  (selectionChange)="onClickOfAllocateTo($event)"
+                  formControlName="allocateTo"
+                  multiple
+                  required
+                >
+                  <mat-option
+                    *ngFor="let allocate of allocatesTo"
+                    [value]="allocate.userId"
+                  >
+                    {{ allocate.firstName }} {{allocate.lastName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline" class="dropdownAllocateAlignment fontStyle">
+                <mat-label class="fontStyle">{{ currentLanguageSet?.allocateRecords }}</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  placeholder="{{ currentLanguageSet?.allocateRecords }}"
+                  style="width: 230px"
+                  formControlName="numericValue"
+                  allowText="number"
+                  (ngModelChange)="checkAllocateDisabledButton()"
+                  required
+                />
+              </mat-form-field>
+
+              <button
+                mat-raised-button
+                class="buttonColor full-width buttonWidth"
+                style="margin: 5px"
+                type="submit"
+                [disabled]="isAllocateDisabled"
+                (click)="onClickOfAllocate()"
+              >
+                {{ currentLanguageSet?.allocate }}
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </form>
+</mat-card>
+</div>

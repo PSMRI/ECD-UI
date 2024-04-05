@@ -1,0 +1,67 @@
+<h1 mat-dialog-title [ngClass]="['title', title]">
+  {{
+    (title === "confirm" || title === "sessionTimeOut" ? "info" : title)
+      | titlecase
+  }}
+</h1>
+<div mat-dialog-content class="message">{{ message }}</div>
+<div mat-dialog-actions class="pull-right">
+  <button
+    mat-button
+    class="action"
+    *ngIf="title === 'info' || title === 'warn' || title === 'error'"
+    (click)="onCancel()"
+  >
+    Cancel
+  </button>
+  <button
+    mat-button
+    class="action"
+    *ngIf="title === 'info' || title === 'warn' || title === 'success'"
+    (click)="onConfirm()"
+  >
+    OK
+  </button>
+  <button
+    mat-button
+    class="action"
+    *ngIf="title === 'confirm'"
+    (click)="onConfirm()"
+  >
+    Yes
+  </button>
+  <button
+    mat-button
+    class="action"
+    *ngIf="title === 'confirm'"
+    (click)="onCancel()"
+  >
+    No
+  </button>
+
+  <button
+    mat-button
+    class="action"
+    *ngIf="title === 'sessionTimeOut'"
+    (click)="continueSession()"
+  >
+    Yes
+  </button>
+  <button
+    mat-button
+    class="action"
+    *ngIf="title === 'sessionTimeOut'"
+    (click)="stopTimer()"
+  >
+    No
+  </button>
+
+  <button
+  mat-button
+  class="action"
+  *ngIf="title === 'latestHrpDetails'"
+  (click)="onConfirm()"
+  >
+    OK
+  </button>
+</div>

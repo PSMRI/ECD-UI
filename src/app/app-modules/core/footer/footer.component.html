@@ -1,0 +1,63 @@
+<!-- <div class="footer" #footer>
+  <div class="row">
+    <P class="inner" style="float: left; margin-left: 10px; margin-top: 5px">{{
+      currentLanguageSet?.poweredByWipro
+    }}</P>
+    <p class="inner pull-right">2023 &copy; {{ currentLanguageSet?.psmri }}</p>
+    <p class="inner pull-right" style="float: right; margin-right: 10px">
+      {{ currentLanguageSet?.version }}
+    </p>
+  </div>
+</div> -->
+
+<footer
+  class="text-center text-white fixed-bottom"
+  style="background-color: #003089"
+>
+  <div class="p-2" style="background-color: #003089">
+    <p class="text-white" style="float: left">
+      {{ currentLanguageSet?.poweredByWipro }}
+    </p>
+    <span class="text-center text-white"
+      >{{ year }} &copy; {{ currentLanguageSet?.psmri }}</span
+    >
+    <p class="text-white" style="float: right">
+      {{ currentLanguageSet?.version }}
+    </p>
+  </div>
+</footer>
+
+<!-- <footer class="footer">
+  <div class="row">
+    <div
+      class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+      style="margin-left: 15px; margin-top: 5px"
+    >
+      <span class="footer-text">{{ currentLanguageSet?.poweredByWipro }}</span>
+    </div>
+    <div
+      class="col-lg-4 col-md-4 col-sm-4 col-xs-4 pull-center"
+      style="margin-top: 5px"
+    >
+      <p class="footer-text">
+        {{ year }} &copy;
+        {{ currentLanguageSet?.psmri }}
+      </p>
+    </div>
+    <div class="col-lg-4 col-md-4 pull-right" style="margin-top: 5px">
+      {{ currentLanguageSet?.version }}
+    </div>
+  </div>
+</footer> -->
+
+<!-- <div class="footer" #footer>
+  <div class="row">
+    <P class="col-xs-4 text-left" style="margin-top: 10px">{{
+      currentLanguageSet?.poweredByWipro
+    }}</P>
+    <p class="col-xs-4 text-center" style="margin-top: -30px">
+      2023 &copy; {{ currentLanguageSet?.psmri }}
+    </p>
+    <p class="col-xs-4">{{ currentLanguageSet?.version }}</p>
+  </div>
+</div> -->

@@ -1,0 +1,71 @@
+<mat-card class="cardAlign">
+  <div>
+    <mat-icon
+      class="inner"
+      style="float: left; margin-top: -3px; color: #00071e"
+      >bar_chart</mat-icon
+    >
+    <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 inner titleDisplay">
+      {{ currentLanguageSet?.trendAnalysisOfCentreOverallQualityRatings }}
+    </p>
+  </div>
+  <mat-divider
+    [inset]="true"
+    class="cardDivider"
+
+  ></mat-divider>
+  <div class="row">
+  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" style="margin-top: 10px;">
+    <mat-form-field
+      appearance="outline"
+      class="dropdownAlignment blueInput fontStyle"
+      [style.width]="'100%'"
+    >
+      <mat-label class="labelStyle">{{
+        currentLanguageSet?.frequencyFilter
+      }}</mat-label>
+      <mat-select
+        mdInput
+        class="mat-select-blue"
+        [(ngModel)]="frequency"
+        (selectionChange)="checkFrequency()"
+      >
+        <mat-option 
+          *ngFor="let frequencies of frequencyList"
+          [value]="frequencies.name"
+        >
+          {{ frequencies.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+    <div *ngIf="enableMonthFilter" class="col-xs-12 col-sm-6 col-md-6 col-lg-4" style="margin-top: 10px;">
+      <mat-form-field
+        appearance="outline"
+        class="dropdownAlignment blueInput fontStyle marginStyle"
+      
+        [style.width]="'100%'"
+      >
+        <mat-label class="labelStyle">{{
+          currentLanguageSet?.monthFilter
+        }}</mat-label>
+        <mat-select
+          mdInput
+          class="mat-select-blue"
+          [(ngModel)]="month"
+          (selectionChange)="getOverallQualityRatingsData()"
+        >
+          <mat-option
+            *ngFor="let month of lastSixMonths"
+            [value]="month.month"
+          >
+            {{ month.month }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div id="main" class="chartAlign"></div>
+</mat-card>

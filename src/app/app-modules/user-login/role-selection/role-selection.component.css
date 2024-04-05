@@ -1,0 +1,64 @@
+mat-card {
+  max-width: 900px;
+  margin: 2em auto;
+  text-align: center;
+  /* height: 500px; */
+  border-radius: 16px;
+}
+
+.buttonSize {
+  margin: 15px;
+  height: 124px;
+  width: 357px;
+  border-radius: 13px;
+  box-shadow: -1px 4px 15px rgb(0 0 0 / 25%);
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: #00071E;
+  text-align: left;
+  padding: 0;
+}
+
+/* .selected {
+  background-color: #4fa2d0;
+  color: #ffffff;
+} */
+
+.imgRole {
+  width: 100%;
+  max-width: 65px;
+  height: 65px;
+  float: left;
+}
+
+.mainContainer {
+  height: auto;
+  /* overflow-x: hidden; */
+  /* overflow-y: hidden !important; */
+  /* overflow-y: auto; */
+  background: linear-gradient(
+    90deg,
+    #96d1eb 61.98%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* min-height: 100vh; */
+}
+
+.buttonSize:hover {
+  background-color: #4fa2d0;
+  color: #ffffff;
+}
+
+mat-icon {
+  height: 110px;
+  width: 150px;
+}
+
+.hover-icon:hover svg{
+  background-color: #4fa2d0;
+  color: #ffffff;
+}

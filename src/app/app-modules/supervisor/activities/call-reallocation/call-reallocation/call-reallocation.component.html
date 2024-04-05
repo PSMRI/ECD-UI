@@ -1,0 +1,235 @@
+<div style="padding-right: 10px; padding-left: 10px; padding-bottom: 15px;">
+<h2>{{ currentLanguageSet?.reallocateCallsToAgents }}</h2>
+<mat-card class="mainCard">
+  <form [formGroup]="callReallocationForm">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <mat-label class="fontStyle" style="margin-right: 10px">Activity</mat-label>
+      <mat-radio-group
+        [(ngModel)]="selectedRadioButtonChange"
+        aria-label="Select an option"
+        (click)="onRadioButtonChange()"
+        class="fontStyle"
+        formControlName="selectedRadioButton"
+      >
+        <mat-radio-button value="1">Reallocate</mat-radio-button>
+        <mat-radio-button value="2">Unallocate</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+      *ngIf="selectedRadioButtonChange"
+    >
+      <div class="row">
+        <mat-form-field
+          appearance="outline"
+          id="fieldBackground"
+          class="dropdownAlignment fontStyle"
+        >
+          <mat-label class="fontStyle">{{
+            currentLanguageSet?.role
+          }}</mat-label>
+          <mat-select
+            (selectionChange)="onClickOfRoles($event)"
+            formControlName="agentTypes"
+            required
+          >
+            <mat-option
+              *ngFor="let agentTypes of rolesArr"
+              [value]="agentTypes.roleId"
+              (click)="setAgentRoleName(agentTypes.roleName)"
+            >
+              {{ agentTypes.roleName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          id="fieldBackground"
+          class="dropdownAlignment fontStyle"
+        >
+          <mat-label class="fontStyle">{{
+            currentLanguageSet?.agentName
+          }}</mat-label>
+          <mat-select
+            (selectionChange)="onClickOfAgents($event)"
+            formControlName="agentName"
+            required
+          >
+            <mat-option *ngFor="let agent of agentNames" [value]="agent.userId">
+              {{ agent.firstName }}  {{ agent.lastName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          id="fieldBackground"
+          class="dropdownAlignment fontStyle"
+        >
+          <mat-label class="fontStyle">{{
+            currentLanguageSet?.recordType
+          }}</mat-label>
+          <mat-select
+            (selectionChange)="onClickOfRecordType($event)"
+            formControlName="recordType"
+            required
+          >
+            <mat-option *ngFor="let record of recordData" [value]="record.name">
+              {{ record.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field
+          appearance="outline"
+          id="fieldBackground"
+          class="dropdownAlignment fontStyle"
+        >
+          <mat-label class="fontStyle">{{
+            currentLanguageSet?.phoneNumberType
+          }}</mat-label>
+          <mat-select
+            (selectionChange)="onClickOfPhoneNoType($event)"
+            formControlName="phoneNoType"
+            required
+          >
+            <mat-option *ngFor="let number of phoneNumber" [value]="number.name">
+              {{ number.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          id="fieldBackground"
+          style="padding: 15px; width: 320px; font-size: 12px !important"
+        >
+          <mat-label class="fontStyle">{{
+            currentLanguageSet?.enterDateRange
+          }}</mat-label>
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker"  [max]="maxDate" required>
+            <input
+              matStartDate
+              formControlName="start"
+              placeholder="{{ currentLanguageSet?.startDate }}"
+            />
+            <input
+              matEndDate
+              formControlName="end"
+              placeholder="{{ currentLanguageSet?.endDate }}"
+            />
+          </mat-date-range-input>
+          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+
+          <mat-error
+            *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+            >{{ currentLanguageSet?.invalidStartDate }}</mat-error
+          >
+          <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">{{
+            currentLanguageSet?.invalidEndDate
+          }}</mat-error>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          class="buttonColor full-width buttonWidth"
+          type="submit"
+          style="margin: 20px"
+          [disabled]="isSubmitDisabled || !callReallocationForm.valid"
+          (click)="onSubmit()"
+        >
+          {{ currentLanguageSet?.submit }}
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <form [formGroup]="callReallocateForm">
+      <mat-card class="cardAlign" *ngIf="enableAgentAllocation">
+        <h2 *ngIf="reallocateEnabled">{{ currentLanguageSet?.reallocateCallRecords }}</h2>
+        <h2 *ngIf="unallocateEnabled">{{currentLanguageSet?.unallocateCallRecords}}</h2>
+        <div>
+          <mat-form-field
+            appearance="outline"
+            id="fieldBackground"
+            class="dropdownAlignment fontStyle"
+            *ngIf="reallocateEnabled"
+          >
+            <mat-label class="fontStyle">{{
+              currentLanguageSet?.allocateTo
+            }}</mat-label>
+            <mat-select
+              (selectionChange)="onClickOfAllocateTo()"
+              formControlName="allocateTo"
+              multiple
+              required
+            >
+              <mat-option
+                *ngFor="let allocate of agentArr"
+                [value]="allocate.userId"
+              >
+                {{ allocate.firstName }}   {{ allocate.lastName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            id="fieldBackground"
+            class="dropdownAlignment fontStyle"
+          >
+            <mat-label class="fontStyle">{{
+              currentLanguageSet?.allocateRecords
+            }}</mat-label>
+            <input
+              matInput
+              type="number"
+              min="1"
+              placeholder="{{ currentLanguageSet?.allocateRecords }}"
+              style="width: 250px"
+              formControlName="numericValue"
+              [max]="totalCount"
+              allowText="number"
+              (change)="enableUnallocateReallocateButton()"
+              required
+            />
+          </mat-form-field>
+
+          <button
+            *ngIf="reallocateEnabled"
+            mat-raised-button
+            class="buttonColor full-width buttonWidth"
+            style="margin: 5px"
+            type="submit"
+            [disabled]="!callReallocateForm.valid || isDisableUnallocateButton"
+            (click)="onClickOfAllocate()"
+          >
+            {{ currentLanguageSet?.reallocate }}
+          </button>
+
+          <button
+            *ngIf="unallocateEnabled"
+            mat-raised-button
+            class="buttonColor full-width buttonWidth"
+            style="margin: 5px"
+            type="submit"
+            (click)="onClickOfBin()"
+            [disabled]="isDisableUnallocateButton"
+          >
+            {{ currentLanguageSet?.unallocate }}
+          </button>
+        </div>
+      </mat-card>
+    </form>
+  </div>
+</mat-card>
+</div>

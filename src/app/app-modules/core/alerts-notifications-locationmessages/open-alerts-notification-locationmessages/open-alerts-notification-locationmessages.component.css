@@ -1,0 +1,97 @@
+.inner {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  width: 600px;
+  max-width: 100%;
+  height: 409px;
+  max-height: fit-content;
+  }
+
+
+.headerCard {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 28px;
+    background-color: #ffc30b;
+    color: #ffffff;
+    height: 68px;
+    margin: -30px;
+    width: 109%;
+    margin-top: -24px;
+  }
+
+  .mainCard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* margin: 10px auto; */
+    /* height: 400px; */
+    max-height: fit-content;
+  }
+
+  .inline {
+    display: inline-block;
+  }
+
+  mat-card{
+    background: #FFFFFF;
+    border: 1px solid #4FA2D0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
+  .messageCard{
+    border-radius: 0px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+
+  .unread {
+    background: #FFFFFF;
+    border: 2px solid #4FA2D0;
+  }
+
+  .read {
+    background: #F2F2F2;
+    border: 2px solid rgba(79, 162, 208, 0.4);
+  }
+
+  .subjectFont {
+    font-family: 'Lato', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .messageFont {
+    font-family: 'Lato', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .closeButton {
+    float: right; 
+    margin-top: -40px;
+    background: #E14646;
+    color: #ffffff;
+    position: absolute;
+    /* margin-left: 79%;
+    margin-top: -100px; */
+  }
+
+  .deleteIcon{
+    font-size: 27px;
+    margin-top: 17px;
+  }
+
+  .mat-dialog-content {
+    display: inline-table;
+    margin: 0 -24px;
+    padding: 0 24px 20px;
+    max-height: 65vh;
+	}
+  

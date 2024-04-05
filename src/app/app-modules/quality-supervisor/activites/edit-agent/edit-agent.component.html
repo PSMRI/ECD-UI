@@ -1,0 +1,97 @@
+<div
+  class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv"
+  *ngIf="enableEdit"
+>
+  <h2 class="mainHeading"> {{ currentLanguageSet?.editAgentQualityAuditorMapping }}</h2>
+</div>
+  
+<mat-card class="innerCard">
+  <mat-card-content>
+    <form class="row" [formGroup]="editQualityAuditorForm"
+      autocomplete="off"
+      style="margin-top: 10px"
+      *ngIf="enableEdit"
+    >
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+      <mat-form-field class="backgroundWhite" appearance="outline" id="qualityAuditorId" style="width:100%">
+        <mat-label> {{ currentLanguageSet?.qualityAuditor }}</mat-label>
+        <mat-select
+          formControlName="qualityAuditorId"
+          required
+        >
+          <mat-option
+            *ngFor="let auditor of auditorList"
+            [value]="auditor.userId"
+          >
+          {{ auditor.firstName | titlecase}} {{auditor.lastName | titlecase}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box ">
+      <mat-form-field class="backgroundWhite" appearance="outline" id="roleId" style="width:100%">
+        <mat-label>{{ currentLanguageSet?.role }}</mat-label>
+        <mat-select
+          formControlName="roleId"
+          (selectionChange)="
+          setRoleTypeForEdit(
+            editQualityAuditorForm.controls.roleId.value
+          )
+        "
+          required
+        >
+          <mat-option
+            *ngFor="let roles of rolesList"
+            [value]="roles.roleId"
+          >
+          {{ roles.roleName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+      <mat-form-field class="backgroundWhite" appearance="outline" id="agentId" style="width:100%">
+        <mat-label>{{ currentLanguageSet?.agentName }}</mat-label>
+        <mat-select 
+          formControlName="agentId"
+          required
+          (selectionChange)="setAgenNameOnChange()"
+        >
+          <mat-option
+            *ngFor="let agent of agentNameList"
+            [value]="agent.userId"
+          >
+          {{ agent?.firstName | titlecase }} {{ agent?.lastName | titlecase }} {{ (agent?.agentId !== null && agent?.agentId !== undefined) ? '-' : '' }} {{ agent?.agentId }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+     
+
+
+      <div
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn-toolbar pull-right"
+        style="margin-top: 20px; justify-content: right;"
+      >
+        <button
+          mat-raised-button
+          class="buttonColorRed buttonWidth"
+          (click)="back()"
+          type="button"
+        >
+        {{ currentLanguageSet?.back }}
+        </button>
+        <button
+          mat-raised-button
+          class="buttonColorGreen buttonWidth"
+          style="margin-left: 10px"
+          type="submit"
+          [disabled]="!editQualityAuditorForm.valid ||!editQualityAuditorForm.dirty " 
+          (click)="updateQualityAuditor(editQualityAuditorForm.value)"
+        >
+         {{ currentLanguageSet?.update }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

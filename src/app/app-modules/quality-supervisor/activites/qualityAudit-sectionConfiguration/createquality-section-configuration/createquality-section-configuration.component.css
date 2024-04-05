@@ -1,0 +1,137 @@
+.innerCard {
+    height: auto;
+    margin-top: 5px;
+    margin-left: 15px;
+    margin-right: 15px;
+    width: 98%;
+    background: #F2F2F2;
+    border: 1px solid #4FA2D0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  mat-card {
+    /* max-width: 97%; */
+    /* margin-left: 15px; */
+    height: auto;
+  }
+  .alignTable{
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 100%;
+    /* border: 1px solid #4FA2D0; */
+  }
+  
+  .align {
+    margin-right: 10px;
+    padding: 10px;
+  }
+  .mainHeadingDiv {
+    margin-top: 15px;
+    padding-left: 20px; 
+  }
+  
+  .mainHeading {
+    font-weight: 600;
+  }
+  .example-full-width {
+    width: 70%;
+    margin-right: 10px;
+    padding: 10px;
+    }
+    
+  .buttonStyle{
+    background: #FF0000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    width: 90px;
+    height: 40px;
+    left: 911px;
+  }
+  .button-style{
+    background:  #239438;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    width: 90px;
+    height: 40px;
+    left: 917px;
+  }
+  .full-width {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  table {
+
+    width: 100%;
+  
+    border-spacing: 0 8px !important;
+  
+    border-collapse: separate !important;
+  
+    background-color: #f2f2f2;
+  
+    font-family: 'Lato', sans-serif;
+  
+  }
+  
+  td.mat-cell {
+  
+    border-bottom: 1px solid #4fa2d0;
+  
+    border-top: 1px solid #4fa2d0;
+  
+    background-color: white;
+  
+    padding: 5px 15px 5px 15px;
+  
+    text-align: justify;
+  
+  }
+  
+  th.mat-header-cell {
+  
+    padding: 5px 15px 5px 15px;
+  
+    color: #00071e;
+  
+    font-size: 14px;
+  
+    font-weight: 520;
+  
+    /* text-align: center; */
+  
+  }
+  
+  
+  
+  td.mat-cell:first-child {
+  
+    border-left: 1px solid #4fa2d0;
+  
+    background-color: white;
+  
+  }
+  
+  td.mat-cell:last-child {
+  
+    border-right: 1px solid #4fa2d0;
+  
+    background-color: white;
+  
+  }
+  
+  mat-paginator {
+  
+    background-color: #f2f2f2;
+  
+  }
+
+  .mat-elevation-z8 {
+   box-shadow: none;
+  }
+  .borderStyle{
+  border-bottom: none;
+  }

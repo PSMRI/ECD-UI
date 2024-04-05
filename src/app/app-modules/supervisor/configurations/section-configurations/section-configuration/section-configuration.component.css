@@ -1,0 +1,129 @@
+.button {
+    background-color: rgba(0, 183, 255, 0.534);
+    margin-right: 10px;
+}
+
+
+.mainHeadingDiv {
+  margin-top: 15px;
+  /* margin-left: 30px; */
+}
+
+.mainHeading {
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+}
+.labelColor {
+  color: #4fa2d0 !important;
+  font-family: "Lato";
+}
+
+.createButton {
+    float: right;
+    margin-right: 40px;
+    color: #ffffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+.inner {
+    display: inline-block;
+  }
+
+  button{
+      cursor: pointer;
+  }
+
+  mat-icon{
+      cursor: pointer;
+  }
+
+  .innerCard {
+    height: auto;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 99%;
+    background-color: #f2f2f2;
+    border: 1px solid #4fa2d0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    margin-bottom: 40px;
+  }
+  
+  table {
+    width: 100%;
+    border-spacing: 0 8px !important;
+    border-collapse: separate !important;
+    background-color: #f2f2f2;
+    font-family: "Lato", sans-serif;
+  }
+  
+  th.mat-header-cell {
+    color: #00071e;
+    font-size: 16px;
+    font-weight: 520;
+    padding: 5px 15px 5px 60px;
+    text-align: left;
+    border-bottom-width: none;
+    border-bottom-style: none;
+  }
+  
+  td.mat-cell {
+    border-bottom: 1px solid #4fa2d0;
+    border-top: 1px solid #4fa2d0;
+    background-color: #ffffff;
+    text-align: justify;
+    padding: 5px 15px 5px 60px;
+    font-size: 14px;
+  }
+  
+  td.mat-cell:first-child {
+    border-left: 1px solid #4fa2d0;
+    background-color: #ffffff;
+  }
+  
+  td.mat-cell:last-child {
+    border-right: 1px solid #4fa2d0;
+    background-color: #ffffff;
+  }
+  
+  mat-paginator {
+    background-color: hsl(0, 0%, 95%);
+  }
+  
+  
+  .responsiveTable{
+    margin-top: 30px;
+    width: 100%;
+  }
+  @media screen and (max-width: 750px) {
+    .responsiveTable {
+      margin-top: 30px;
+      width: 100%;
+      overflow-x: scroll;
+    }
+  }
+  
+  .mat-elevation-z8 {
+    box-shadow: none;
+  }
+
+  .full-width {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+    /* width: 100%;
+    max-width: 150px; */
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  
+  mat-paginator {
+    background-color: hsl(0, 0%, 95%);
+  }
+
+  .fontStyleButton {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+  }  

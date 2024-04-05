@@ -1,0 +1,157 @@
+<div class="row" style="margin:0px">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+  <h2 class="mainHeading">
+    {{ currentLanguageSet?.editSectionQuestionnaireMapping }}
+  </h2>
+</div>
+</div>
+
+<mat-card class="innerCard">
+  <mat-card-content>
+    <form class="row" [formGroup]="editQuestionnaireSectionMappingForm">
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+        <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
+          <mat-label class="fontStyleDisabled">{{
+            currentLanguageSet?.questionnaireType
+          }}</mat-label>
+          <input
+            matInput
+            placeholder=""
+            id="questionType"
+            formControlName="questionType"
+            defaultNull
+          />
+        </mat-form-field>
+      </div>
+
+      <div
+        class="col-xs-12  col-lg-12 p-t-4"
+        style="margin-top: 20px"
+      >
+        <mat-form-field
+          appearance="outline"
+          [style.width]="'70%'"
+          class="fontStyle"
+        >
+          <mat-label class="fontStyleDisabled">{{
+            currentLanguageSet?.questionnaire
+          }}</mat-label>
+          <textarea
+            style="height: 70px"
+            matInput
+            placeholder=""
+            id="question"
+            formControlName="question"
+            defaultNull
+            disable
+          ></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-6">
+        <mat-form-field
+          appearance="outline"
+          [style.width]="'100%'"
+          class="fontStyle"
+        >
+          <mat-label class="fontStyleDisabled">{{
+            currentLanguageSet?.sectionName
+          }}</mat-label>
+          <textarea
+            style="height: 20px"
+            matInput
+            placeholder=""
+            id="sectionName"
+            formControlName="sectionName"
+            defaultNull
+          ></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+        <mat-form-field
+          appearance="outline"
+          [style.width]="'100%'"
+          class="backgroundWhite fieldAlignment fontStyle"
+        >
+          <mat-label class="fontStyle">{{
+            currentLanguageSet?.rank
+          }}</mat-label>
+          <input
+            style="height: 20px"
+            matInput
+            placeholder=""
+            id="sectionQuestionRank"
+            formControlName="sectionQuestionRank"
+            appMobileNumber
+            type="number"
+            maxlength="10"
+            [min]="1"
+            [max]="10000"
+            defaultNull
+            required
+          />
+
+          <mat-error
+            *ngIf="editQuestionnaireSectionMappingForm.controls.sectionQuestionRank.errors?.['required']"
+          >
+            {{ currentLanguageSet?.rankIsRequired }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+        <mat-form-field
+          appearance="outline"
+          [style.width]="'100%'"
+          class="backgroundWhite fieldAlignment fontStyle"
+        >
+          <mat-label class="fontStyle">{{
+            currentLanguageSet?.role
+          }}</mat-label>
+          <mat-select
+            name="roleType"
+            [value]="roles"
+            multiple
+            formControlName="roleType"
+            required
+          >
+            <mat-option *ngFor="let type of roles" [value]="type.roleName">{{
+              type.roleName
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 m-b-10 pull-right"
+        style="margin-top: 20px"
+      >
+        <button
+          mat-raised-button
+          class="buttonColorRedish full-width buttonWidth"
+          (click)="back()"
+          type="submit"
+        >
+          {{ currentLanguageSet?.back }}
+        </button>
+        <button
+          [disabled]="
+            !editQuestionnaireSectionMappingForm.valid ||
+            !editQuestionnaireSectionMappingForm.dirty
+          "
+          mat-raised-button
+          class="buttonColorGreen full-width buttonWidth"
+          type="submit"
+          style="margin-left: 10px"
+          (click)="
+            updateQuestionnairesSectionMap(
+              editQuestionnaireSectionMappingForm.value
+            )
+          "
+        >
+          {{ currentLanguageSet?.update }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

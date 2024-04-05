@@ -1,0 +1,98 @@
+<div class="row" style="margin:0px">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+        <h2 class="inner mainHeading"> {{ currentLanguageSet?.sectionConfiguration }} </h2>
+        <button mat-raised-button class="buttonColor inner createButton fontStyleButton" (click)="createSectionConfiguration()"> {{currentLanguageSet?.createSectionConfiguration}} </button>
+    </div>
+</div>
+<mat-card class="innerCard">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right" *ngIf="sectionList.length !== 0">
+
+        <mat-form-field
+        appearance="outline"
+        class="pull-right searchInput blueInput"
+        style="width: 400px;"
+      >
+        <mat-label class="labelColor">{{
+          currentLanguageSet?.inTableSearch
+        }}</mat-label>
+        <input
+          matInput
+          [(ngModel)]="searchTerm"
+          name="searchTerm"
+          placeholder=""
+          #filterTerm
+          (keyup)="filterSearchTerm(filterTerm.value)"
+        />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="mat-elevation-z8 responsiveTable">
+    <table mat-table [dataSource]="sectionsData" matSort>
+        <ng-container matColumnDef="sNo">
+            <th mat-header-cell *matHeaderCellDef>S.No.</th> 
+            <td mat-cell *matCellDef="let element"> {{ element.sno }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="ecdSectionName">
+            <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.ecdSectionName}} </th>
+            <td mat-cell *matCellDef="let element"> {{element.sectionName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ecdSectionDescription">
+            <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.ecdSectionDescription}} </th>
+            <td mat-cell *matCellDef="let element"> {{element.sectionDesc}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.edit}} </th>
+            <td mat-cell  *matCellDef="let element"> 
+                <mat-icon *ngIf="element.deleted === false" matTooltip="Edit configuration" (click)="editSessionConfiguration(element)">edit</mat-icon>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.action}} </th>
+            <td mat-cell  *matCellDef="let element"> 
+                <button
+                *ngIf="element.deleted === true"
+                mat-raised-button
+                class="buttonColorGreen full-width buttonWidth"
+                (click)="activateDeactivateConfig(element, 'activate')"
+              >
+                {{ currentLanguageSet?.activate }}
+              </button>
+              <button
+                *ngIf="element.deleted === false"
+                mat-raised-button
+                class="buttonColorRed full-width buttonWidth"
+                (click)="activateDeactivateConfig(element, 'deactivate')"
+              >
+                {{ currentLanguageSet?.deactivate }}
+              </button>
+                <!-- <mat-icon (click)="activateDeactivateConfig()">delete</mat-icon> -->
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+        <div
+        class="pull-center"
+        style="margin-top: 5px"
+        [hidden]="sectionsData.data.length > 0"
+        >
+            <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+        </div>
+    </table>
+
+ 
+    <mat-paginator
+    #myPaginator
+    [pageSizeOptions]="[5, 10, 20]"
+    [pageSize]="5"
+    showFirstLastButtons
+    aria-label="Select page of questionnaire elements"
+  >
+  </mat-paginator>
+    </div>
+
+</mat-card>

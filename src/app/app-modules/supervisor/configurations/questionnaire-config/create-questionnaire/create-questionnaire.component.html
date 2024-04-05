@@ -1,0 +1,574 @@
+<div class="row" style="margin:0px">
+<div
+  class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv"
+  *ngIf="!enableEdit"
+>
+  <h2 class="mainHeading">
+    {{ currentLanguageSet?.createQuestionnaireConfiguration }}
+  </h2>
+</div>
+
+<div
+  class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv"
+  *ngIf="enableEdit"
+>
+  <h2 class="mainHeading">
+    {{ currentLanguageSet?.editQuestionnaireConfiguration }}
+  </h2>
+</div>
+</div>
+<mat-card class="innerCard">
+  <mat-card-content>
+    <form
+      class="row"
+      [formGroup]="createQuestionnaireForm"
+      style="margin-top: 10px"
+      *ngIf="!enableEdit"
+    >
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+        <mat-form-field
+          appearance="outline"
+          class="backgroundWhite fieldAlignment fontStyle"
+        >
+          <mat-label class="fontStyle">{{
+            currentLanguageSet?.rank
+          }}</mat-label>
+          <input
+            matInput
+            placeholder=""
+            id="questionRank"
+            formControlName="questionRank"
+           
+            appMobileNumber
+            type="number"
+            maxlength="10"
+            [min]="1"
+            [max]="10000"
+            defaultNull
+            required
+          />
+
+          <mat-error
+            *ngIf="createQuestionnaireForm.controls.questionRank.errors?.['required']"
+          >
+            {{ currentLanguageSet?.rankIsRequired }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+        <mat-form-field
+          appearance="outline"
+          class="backgroundWhite fieldAlignment fontStyle"
+        >
+          <mat-label class="fontStyle">{{
+            currentLanguageSet?.questionnaireType
+          }}</mat-label>
+          <mat-select
+            [style.width]="'100%'"
+            required
+            placeholder=""
+            id="questionnaireTypeId"
+            defaultNull
+            formControlName="questionnaireTypeId"
+            (selectionChange)="
+              setQuestionnaireTypeName(
+                createQuestionnaireForm.controls.questionnaireTypeId.value
+              )
+            "
+          >
+            <mat-option
+              *ngFor="let questionnaireTypeValue of questionnaireTypeList"
+              [value]="questionnaireTypeValue.questionTypeId"
+              >{{ questionnaireTypeValue.questionType }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+                createQuestionnaireForm.controls.questionnaireTypeId.errors?.['required']
+              "
+          >
+            {{ currentLanguageSet?.questionnaireTypeIsRequired }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div
+        class="col-xs-12 col-lg-12 p-t-4 marginAlign"
+        *ngIf="
+          questionnaireTypeTitle !== null &&
+          questionnaireTypeTitle !== undefined
+        "
+      >
+        <mat-form-field
+          appearance="outline"
+          class="backgroundWhite questionnaireOptionsAlign fontStyle"
+          [style.width]="'70%'"
+        >
+          <mat-label class="fontStyle">{{ questionnaireTypeTitle }}</mat-label>
+          <textarea
+            matInput
+            placeholder=""
+            id="questionnaire"
+            appNoEmptySpaceWithAllChracs
+            formControlName="questionnaire"
+            defaultNull
+            minlength="10"
+            maxlength="500"
+            required
+          ></textarea>
+          <mat-error style="margin-top: -5px;"
+            *ngIf="
+                createQuestionnaireForm.controls.questionnaire.errors
+                  ?.['required']
+              "
+          >
+            {{ questionnaireTypeTitle }}
+            {{ currentLanguageSet?.isRequired }}</mat-error
+          >
+          <mat-error style="margin-top: -5px;"
+            *ngIf="
+                createQuestionnaireForm.controls.questionnaire.errors
+                  ?.['minlength']
+              "
+            >{{
+              currentLanguageSet?.pleaseProvideMinimumTenCharacter
+            }}</mat-error
+          >
+          <mat-error style="margin-top: -5px;"
+            *ngIf="
+                createQuestionnaireForm.controls.questionnaire.errors
+                  ?.['maxlength']
+              "
+            >{{
+              currentLanguageSet?.pleaseProvideMaximumFiveHundredCharacter
+            }}</mat-error
+          >
+          <mat-error *ngIf="createQuestionnaireForm.controls.questionnaire?.errors?.['whitespace']">Please enter valid data</mat-error>            
+
+        </mat-form-field>
+      </div>
+
+      <div
+        class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box"
+        *ngIf="
+          questionnaireTypeTitle !== null &&
+          questionnaireTypeTitle !== undefined &&
+          questionnaireTypeTitle === 'Question'
+        "
+      >
+        <mat-form-field
+          appearance="outline"
+          class="backgroundWhite fieldAlignment fontStyle"
+        >
+          <mat-label class="fontStyle">{{
+            currentLanguageSet?.answerType
+          }}</mat-label>
+          <mat-select
+            [style.width]="'100%'"
+            placeholder=""
+            id="answerTypeId"
+            defaultNull
+            formControlName="answerTypeId"
+            (selectionChange)="
+              setAnswerType(createQuestionnaireForm.controls.answerTypeId.value)
+            "
+          >
+            <mat-option
+              *ngFor="let answerTypeValue of answerTypeList"
+              [value]="answerTypeValue.answerTypeId"
+              >{{ answerTypeValue.answerType }}
+            </mat-option>
+          </mat-select>
+          <mat-error 
+          *ngIf="
+          createQuestionnaireForm.controls.answerTypeId.errors?.['required']
+            "
+        >
+          {{ currentLanguageSet?.answerTypeIsRequired }}</mat-error
+        >
+        </mat-form-field>
+      </div>
+
+      <div
+        class="col-xs-12 col-lg-12 p-t-4 marginAlign"
+       
+        *ngIf="enableOption === true"
+      >
+        <mat-form-field
+          appearance="outline"
+          class="backgroundWhite questionnaireOptionsAlign fontStyle"
+          [style.width]="'50%'"
+        >
+          <mat-label class="fontStyle"
+            >{{ currentLanguageSet?.options }} *</mat-label
+          >
+          <mat-chip-list #chipList formControlName="options">
+            <mat-chip
+              *ngFor="let optionValue of optionList"
+              [selectable]="selectable"
+              [removable]="removable"
+              (removed)="remove(optionValue)"
+              style="background-color: #4fa2d0;color: #ffffff;"
+            >
+              {{ optionValue }}
+              <mat-icon matChipRemove *ngIf="removable" >cancel</mat-icon>
+            </mat-chip>
+            <input
+              placeholder=""
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="add($event)"
+            />
+          </mat-chip-list>
+        </mat-form-field>
+      </div>
+
+      .
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+          <button
+            [disabled]="
+              !createQuestionnaireForm.valid ||
+              (enableOption === true && optionList.length === 0)
+            "
+            mat-raised-button
+            class="buttonColor full-width"
+            type="submit"
+            (click)="addQuestionnaires(createQuestionnaireForm.value)"
+          >
+            {{ currentLanguageSet?.addQuestionnaire }}
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <form
+      class="row"
+      [formGroup]="editQuestionnaireForm"
+      style="margin-top: 10px"
+      *ngIf="enableEdit"
+    >
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+        <mat-form-field
+          appearance="outline"
+          class="backgroundWhite fieldAlignment fontStyle"
+        >
+          <mat-label class="fontStyle">{{
+            currentLanguageSet?.rank
+          }}</mat-label>
+          <input
+            matInput
+            placeholder=""
+            id="questionRank"
+            formControlName="questionRank"
+            appMobileNumber
+            type="number"
+            maxlength="10"
+            [min]="1"
+            [max]="10000"
+            defaultNull
+            required
+          />
+
+          <mat-error
+            *ngIf="editQuestionnaireForm.controls.questionRank.errors?.['required']"
+          >
+            {{ currentLanguageSet?.rankIsRequired }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+        <mat-form-field
+          appearance="outline"
+          class="backgroundWhite fieldAlignment fontStyle"
+        >
+          <mat-label class="fontStyle">{{
+            currentLanguageSet?.questionnaireType
+          }}</mat-label>
+          <mat-select
+            [style.width]="'100%'"
+            required
+            placeholder=""
+            id="questionnaireTypeId"
+            defaultNull
+            formControlName="questionnaireTypeId"
+            (selectionChange)="
+              setQuestionnaireTypeNameForEdit(
+                editQuestionnaireForm.controls.questionnaireTypeId.value
+              )
+            "
+          >
+            <mat-option
+              *ngFor="let questionnaireTypeValue of questionnaireTypeList"
+              [value]="questionnaireTypeValue.questionTypeId"
+              >{{ questionnaireTypeValue.questionType }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+        editQuestionnaireForm.controls.questionnaireTypeId.errors?.['required']
+              "
+          >
+            {{ currentLanguageSet?.questionnaireTypeIsRequired }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div
+        class="col-xs-12  col-lg-12 p-t-4"
+        style="margin-top: 20px"
+        *ngIf="
+          questionnaireTypeTitle !== null &&
+          questionnaireTypeTitle !== undefined
+        "
+      >
+        <mat-form-field
+          appearance="outline"
+          class="backgroundWhite questionnaireOptionsAlign fontStyle"
+          [style.width]="'70%'"
+        >
+          <mat-label class="fontStyle">{{ questionnaireTypeTitle }}</mat-label>
+          <textarea
+            matInput
+            placeholder=""
+            appNoEmptySpaceWithAllChracs
+            id="questionnaire"
+            formControlName="questionnaire"
+            defaultNull
+            minlength="10"
+            maxlength="500"
+            required
+          ></textarea>
+          <mat-error
+            *ngIf="
+        editQuestionnaireForm.controls.questionnaire.errors
+                  ?.['required']
+              "
+          >
+            {{ questionnaireTypeTitle }}
+            {{ currentLanguageSet?.isRequired }}</mat-error
+          >
+          <mat-error
+            *ngIf="
+        editQuestionnaireForm.controls.questionnaire.errors
+                  ?.['minlength']
+              "
+            >{{
+              currentLanguageSet?.pleaseProvideMinimumTenCharacter
+            }}</mat-error
+          >
+          <mat-error
+            *ngIf="
+        editQuestionnaireForm.controls.questionnaire.errors
+                  ?.['maxlength']
+              "
+            >{{
+              currentLanguageSet?.pleaseProvideMaximumFiveHundredCharacter
+            }}</mat-error
+          >
+          <mat-error *ngIf="editQuestionnaireForm.controls.questionnaire?.errors?.['whitespace']">Please enter valid data</mat-error>            
+
+        </mat-form-field>
+      </div>
+
+      <div
+        class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box"
+        *ngIf="
+          questionnaireTypeTitle !== null &&
+          questionnaireTypeTitle !== undefined &&
+          questionnaireTypeTitle === 'Question'
+        "
+      >
+        <mat-form-field
+          appearance="outline"
+          class="backgroundWhite fieldAlignment fontStyle"
+        >
+          <mat-label class="fontStyle">{{
+            currentLanguageSet?.answerType
+          }}</mat-label>
+          <mat-select
+            [style.width]="'100%'"
+            placeholder=""
+            id="answerTypeId"
+            defaultNull
+            formControlName="answerTypeId"
+            (selectionChange)="
+              setAnswerTypeForEdit(
+                editQuestionnaireForm.controls.answerTypeId.value
+              )
+            "
+          >
+            <mat-option
+              *ngFor="let answerTypeValue of answerTypeList"
+              [value]="answerTypeValue.answerTypeId"
+              >{{ answerTypeValue.answerType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div
+        class="col-xs-12 col-lg-12 p-t-4"
+        style="margin-top: 20px"
+        *ngIf="enableOption === true"
+      >
+        <mat-form-field
+          appearance="outline"
+          class="backgroundWhite questionnaireOptionsAlign fontStyle"
+          [style.width]="'50%'"
+        >
+          <mat-label class="fontStyle"
+            >{{ currentLanguageSet?.options }} *</mat-label
+          >
+          <mat-chip-list #chipList formControlName="options">
+            <mat-chip
+              *ngFor="let optionValue of optionList"
+              [selectable]="selectable"
+              [removable]="removable"
+              (removed)="remove(optionValue)"
+              style="background-color: #4fa2d0;color: #ffffff;"
+            >
+              {{ optionValue }}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input
+              placeholder=""
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="add($event)"
+            />
+          </mat-chip-list>
+        </mat-form-field>
+      </div>
+
+      <div
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12  pull-right"
+        style="margin-top: 20px"
+      >
+        <button
+          mat-raised-button
+          class="buttonColorRedish full-width buttonWidth"
+          (click)="back()"
+          type="submit"
+        >
+          {{ currentLanguageSet?.back }}
+        </button>
+        <button
+          [disabled]="
+            !editQuestionnaireForm.valid ||
+            (enableOption === true && optionList.length === 0) ||
+            !editQuestionnaireForm.dirty
+          "
+          mat-raised-button
+          class="buttonColorGreen full-width buttonWidth"
+          type="submit"
+          style="margin-left: 10px"
+          (click)="updateQuestionnaires(editQuestionnaireForm.value)"
+        >
+          {{ currentLanguageSet?.update }}
+        </button>
+      </div>
+    </form>
+
+    <div
+      class="mat-elevation-z8 responsiveTable"
+      style="margin-top: 30px"
+      *ngIf="dataSource.data.length > 0 && !enableEdit"
+    >
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        aria-describedby="questionsList"
+      >
+        <ng-container matColumnDef="questionRank">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ currentLanguageSet?.rank }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.questionRank }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="questionnaireType">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ currentLanguageSet?.questionnaireType }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.questionnaireType }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="questionnaire">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ currentLanguageSet?.questionnaire }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.questionnaire }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="answerType">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ currentLanguageSet?.answerType }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.answerType }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="options">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ currentLanguageSet?.options }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.options }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ currentLanguageSet?.action }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon
+              class="cursorPointer"
+              matTooltip="{{ currentLanguageSet?.delete }}"
+              (click)="removeQuestionnaire(dataSource.data.indexOf(element))"
+              >delete</mat-icon
+            >
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageSize]="5"
+        showFirstLastButtons
+        aria-label="Select page of questionnaire elements"
+      >
+      </mat-paginator>
+    </div>
+
+    <div
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right"
+      style="margin-top: 20px"
+      *ngIf="!enableEdit"
+    >
+      <button
+        mat-raised-button
+        class="buttonColorRed full-width buttonWidth"
+        (click)="back()"
+        type="submit"
+      >
+        {{ currentLanguageSet?.back }}
+      </button>
+      <button
+        *ngIf="this.dataSource.data.length > 0"
+        mat-raised-button
+        class="buttonColorGreen full-width buttonWidth"
+        style="margin-left: 10px"
+        type="submit"
+        (click)="saveQuestionnaires()"
+      >
+        {{ currentLanguageSet?.submit }}
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

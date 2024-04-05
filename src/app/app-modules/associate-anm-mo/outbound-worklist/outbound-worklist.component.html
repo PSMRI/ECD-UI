@@ -1,0 +1,348 @@
+<div>
+  <div class="row">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <h2 class="fontStyle">
+            {{currentLanguageSet?.outBoundWorklist}}
+          </h2>
+      </div>
+    
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <button
+        mat-raised-button
+        [ngClass]="activeMother === true ? 'activeButton' : 'nonActiveButton'"
+        class="m-right"
+        (click)="selectedRecord('mother')"
+        >
+        {{currentLanguageSet?.motherRecords}}
+      </button>
+      <button
+        mat-raised-button
+        [ngClass]="activeChild === true ? 'activeButton' : 'nonActiveButton'"
+        (click)="selectedRecord('child')"
+       >
+         {{currentLanguageSet?.childRecords}}
+      </button>
+      </div>
+    
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+    
+        <mat-form-field  *ngIf="activeMother===true && outBoundListForMother.length>0 " style="width: 370px; float: right;"appearance="outline" id="filterbox" class="pull-right searchInput blueInput">
+            <mat-label class="labelColor">
+              {{
+                currentLanguageSet?.inTableSearch
+              }}</mat-label>
+            <input
+              matInput
+              [(ngModel)]="searchTerm"
+              name="searchTerm"
+              placeholder=""
+              #filterTerm
+              (keyup)="filterSearchTerm(filterTerm.value)"
+            />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+
+
+
+          <mat-form-field *ngIf="activeChild===true && outBoundListForChild.length>0 " style="width: 100%;"appearance="outline" id="filterbox" class="pull-right searchInput blueInput">
+            <mat-label class="labelColor">
+              {{
+                currentLanguageSet?.inTableSearch
+              }}</mat-label>
+            <input
+              matInput
+              [(ngModel)]="searchTerm"
+              name="searchTerm"
+              placeholder=""
+              #filterTerm
+              (keyup)="filterSearchTerm(filterTerm.value)"
+            />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+      </div>
+
+<!-- <button style="width: 200px; margin: 10px;"class="btn btn-primary" (click)="openCallClosure()">Call Closure</button> -->
+<!-- <button  style="width: 200px; margin: 10px;" class="btn btn-primary" (click)="openEcdQuestionnaire()">ECD Questionnaire</button> -->
+<!-- <button  style="width: 200px; margin: 10px;" class="btn btn-primary" (click)="openBenCallHistory()">Beneficary Call History</button> -->
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <mat-card class="innerCard">
+      <div class="mat-elevation-z8 responsiveTable" style="margin-top: 30px" *ngIf="activeMother===true">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          aria-describedby="Outbound"
+          matSort>
+          <ng-container matColumnDef="sno">
+            <th mat-header-cell style="border-bottom: none" *matHeaderCellDef mat-sort-header> {{currentLanguageSet?.sno}}</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.sno }}
+            </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="phoneNo">
+            <th mat-header-cell style="border-bottom: none" *matHeaderCellDef >
+              {{currentLanguageSet?.phoneNumber}}
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.whomPhoneNo }}</td>
+          </ng-container>
+      
+          <ng-container matColumnDef="wPhoneNumber">
+            <th mat-header-cell style="border-bottom: none" *matHeaderCellDef>
+              {{currentLanguageSet?.whomPhoneNo}}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.phoneNoOfWhom }}
+            </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="mctsidNo">
+            <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef>
+              Mother Id
+            </th>
+            <td mat-cell *matCellDef="let element" class="truncate-cell">
+              {{ element.mctsidNo }}
+            </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="lapseTime">
+            <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef >
+              {{currentLanguageSet?.lapseTime}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="truncate-cell">
+              {{ element.lapseTime }}
+            </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="callAttemptNo">
+            <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef >
+              {{currentLanguageSet?.callAttemptNumber}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="truncate-cell">
+              {{ element.noOfTrials }}
+            </td>
+          </ng-container>
+    
+          <!-- <ng-container matColumnDef="callStatus">
+            <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef>
+              {{currentLanguageSet?.callStatus}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="truncate-cell">
+              {{ element.callStatus }}
+            </td>
+          </ng-container> -->
+    
+          <ng-container matColumnDef="recordUploadDate">
+            <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef mat-sort-header>
+              {{currentLanguageSet?.recordUploadDate}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="truncate-cell">
+              {{ element.recordUploadDate  | date: 'MM/dd/yyyy'}}
+            </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="ecdCallType">
+            <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef>
+              {{currentLanguageSet?.ecdCallType}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="truncate-cell">
+              {{ element.displayOBCallType }}
+            </td>
+            
+          </ng-container>
+          <ng-container matColumnDef="view">
+            <th mat-header-cell  *matHeaderCellDef style="padding-left: 20px;border-bottom: none">
+              View
+            </th>
+            <td mat-cell *matCellDef="let element" style="padding-left: 20px">
+              <mat-icon
+                matTooltip="View"
+                class="mat-icon material-icons"
+                role="img"
+                aria-hidden="true"
+                style="cursor: pointer"
+                (click)="openDialog(element)"
+                >visibility</mat-icon
+              >
+            </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="action">
+            <th mat-header-cell  *matHeaderCellDef style="padding-left: 20px;border-bottom: none">
+              {{currentLanguageSet?.action}}
+            </th>
+            <td mat-cell *matCellDef="let element" style="padding-left: 20px">
+              <mat-icon
+              *ngIf = "!isAutoPreviewDial"
+                matTooltip="Call"
+                class="mat-icon material-icons"
+                role="img"
+                aria-hidden="true"
+                style="cursor: pointer"
+                (click)="callBeneficary(element,true)"
+                >phone</mat-icon
+              >
+            </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <div
+          class="pull-center"
+          style="margin-top: 5px"
+          [hidden]="dataSource.data.length > 0"
+        >
+          <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+        </div>
+      </div>
+      <div class="mat-elevation-z8 responsiveTable" style="margin-top: 30px" *ngIf="activeChild===true">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          aria-describedby="ChildRecord"
+          matSort>
+          <ng-container matColumnDef="sno">
+            <th mat-header-cell mat-sort-header style="border-bottom: none" *matHeaderCellDef>{{currentLanguageSet?.sno}}</th>
+            <td mat-cell *matCellDef="let element">
+              {{element.sno}}
+            </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="phoneNo">
+            <th mat-header-cell style="border-bottom: none" *matHeaderCellDef >
+              {{currentLanguageSet?.phoneNumber}}
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.phoneNo }}</td>
+          </ng-container>
+      
+          <ng-container matColumnDef="wPhoneNumber">
+            <th mat-header-cell style="border-bottom: none" *matHeaderCellDef>
+              {{currentLanguageSet?.whomPhoneNo}}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.phoneNoOf }}
+            </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="childId">
+            <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef>
+              {{currentLanguageSet?.childId}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="truncate-cell">
+              {{ element.mctsidNoChildId }}
+            </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="lapseTime">
+            <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef>
+              {{currentLanguageSet?.lapseTime}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="truncate-cell">
+              {{ element.lapseTime }}
+            </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="callAttemptNo">
+            <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef>
+              {{currentLanguageSet?.callAttemptNumber}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="truncate-cell">
+              {{ element.noOfTrials }}
+            </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="callStatus">
+            <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef>
+              {{currentLanguageSet?.callStatus}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="truncate-cell">
+              {{ element.callStatus }}
+            </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="recordUploadDate">
+            <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef mat-sort-header>
+              {{currentLanguageSet?.recordUploadDate}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="truncate-cell">
+              {{ element.recordUploadDate | date: 'MM/dd/yyyy' }}
+            </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="ecdCallType">
+            <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef>
+              {{currentLanguageSet?.ecdCallType}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="truncate-cell">
+              {{ element.displayOBCallType }}
+            </td>
+            
+          </ng-container>
+          <ng-container matColumnDef="view">
+            <th mat-header-cell  *matHeaderCellDef style="padding-left: 20px;border-bottom: none">
+              {{currentLanguageSet?. view}}
+            </th>
+            <td mat-cell *matCellDef="let element" style="padding-left: 20px">
+              <mat-icon
+                matTooltip="View"
+                class="mat-icon material-icons"
+                role="img"
+                aria-hidden="true"
+                style="cursor: pointer"
+                (click)="openDialog(element)"
+                >visibility</mat-icon
+              >
+            </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="action">
+            <th mat-header-cell  *matHeaderCellDef style="padding-left: 20px;border-bottom: none">
+              {{currentLanguageSet?.action}}
+            </th>
+            <td mat-cell *matCellDef="let element" style="padding-left: 20px">
+              <mat-icon 
+              *ngIf = "!isAutoPreviewDial"
+                matTooltip="Call"
+                class="mat-icon material-icons"
+                role="img"
+                aria-hidden="true"
+                style="cursor: pointer"
+                (click)="callBeneficary(element,false)"
+                >phone</mat-icon
+              >
+            </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <div
+          class="pull-center"
+          style="margin-top: 5px"
+          [hidden]="dataSource.data.length > 0"
+        >
+          <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+        </div>  
+      </div>
+      <mat-paginator
+          [pageSizeOptions]="[5, 10, 20]"
+          [pageSize]="5"
+          showFirstLastButtons
+          aria-label="Select page of Outbound Worklist elements"
+        >
+        </mat-paginator>
+      <br>
+      <div style="visibility: hidden;"><h1>hidden div</h1></div>
+      <div style="float: right;  margin-right: -25px;"> <app-czentrix-iframe></app-czentrix-iframe></div>
+    </mat-card>
+</div>
+</div>
+</div>
+
+<!-- Modal Code-->
+
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->

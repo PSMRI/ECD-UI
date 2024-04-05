@@ -1,0 +1,120 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.inner {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.mainCard {
+  display: flex;
+  flex-direction: column;
+  width: 98%;
+  margin: 10px auto;
+  height: auto;
+}
+
+.headerCard {
+  margin-top: -16px !important;
+  /* display: flex;
+  flex-wrap: wrap; */
+  /* justify-content: space-between; */
+  align-items: center;
+  padding: 2px;
+  background-color: #ffc30b;
+  color: #ffffff;
+  height: 65px;
+  margin: -16px;
+  margin-bottom: 15px;
+}
+
+.arrowButton {
+  margin-left: 10px;
+  background-color: #ffffff;
+  color: #4fa2d0;
+}
+
+
+@media (max-width: 767px) {
+  .headerCard {
+    margin-top: -16px !important;
+    /* display: flex;
+    flex-wrap: wrap; */
+    /* justify-content: space-between; */
+    align-items: center;
+    padding: 2px;
+    background-color: #ffc30b;
+    color: #ffffff;
+    height: 65px;
+    margin: -16px;
+    margin-bottom: 15px;
+  }
+}
+  
+  .arrowButton {
+    margin-left: 10px;
+    background-color: #ffffff;
+    color: #4fa2d0;
+  }
+  
+  
+  @media (max-width: 767px) {
+    .headerCard {
+      height: 50px;
+      padding: 10px;
+    }
+  }
+  
+  mat-form-field {
+    color: #ffffff;
+  }
+  
+  mat-card {
+    margin-top: none;
+    height: auto;
+  }
+
+  .buttonStyle {
+    background-color: #ffffff;
+    /* color: #ffffff; */
+    /* width: 180px; */
+    margin-top: 2px;
+    border: 1px solid #4fa2d0;
+    /* box-shadow: 5px 2px 9px rgba(0, 0, 0, 0.25); */
+    border-radius: 20px;
+    margin-right: 10px;
+  }
+
+  .fontStyle {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 21px;
+    color: #239438;
+  }
+
+  .fontStyleTimer {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 21px;
+    color: #4fa2d0;
+  }
+
+  
+  .fontStyleWrapup {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 21px;
+    color: #ffffff;
+  }
+
+  ::ng-deep .mat-select-blue .mat-select-value {
+    font-family: "Lato", sans-serif;
+    color: #4fa2d0 !important;
+    font-size: 17px;
+  }
+  

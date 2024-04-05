@@ -1,0 +1,166 @@
+<div class="row" style="margin:0px">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+    <h2 class="mainHeading">{{currentLanguageSet?.createCallConfiguration}}</h2>
+    </div>
+</div>
+<mat-card class="innerCard">
+    <div>
+    <form [formGroup]="createcallconfigurationform">
+        <div>
+            <mat-form-field  class="backgroundWhite" appearance="outline">
+                <mat-label> {{currentLanguageSet?.noOfIntroductoryCalls}} </mat-label>
+                <input matInput id="noOfIntroductoryCalls" type="number" [min]="1" [max]="1" appMobileNumber formControlName="noOfIntroductoryCalls"/>
+                <mat-error *ngIf="createcallconfigurationform.controls.noOfIntroductoryCalls?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error>
+                <mat-error *ngIf="createcallconfigurationform.controls.noOfEcdCalls?.errors?.['minlength'] || createcallconfigurationform.controls.noOfEcdCalls?.errors?.['maxlength'] ">There can only be one Introductory call</mat-error>
+            </mat-form-field>
+            <mat-form-field class="backgroundWhite" appearance="outline">
+                <mat-label> {{currentLanguageSet?.noOfAncCalls}} </mat-label>
+                <input matInput id="noOfAncCalls" type="number" [min]="1" appMobileNumber formControlName="noOfAncCalls" (change)="checkTotalCallsCount()"/>
+                <mat-error *ngIf="createcallconfigurationform.controls.noOfAncCalls?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="backgroundWhite" appearance="outline">
+                <mat-label> {{currentLanguageSet?.noOfPncCalls}} </mat-label>
+                <input matInput id="noOfPncCalls" type="number" appMobileNumber [min]="1" formControlName="noOfPncCalls" (change)="checkTotalCallsCount()"/>
+                <mat-error *ngIf="createcallconfigurationform.controls.noOfPncCalls?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="backgroundWhite" appearance="outline">
+                <mat-label> {{currentLanguageSet?.noOfEcdCalls}} </mat-label>
+                <input matInput id="noOfEcdCalls" type="number" appMobileNumber formControlName="noOfEcdCalls" readonly/>
+                <mat-error *ngIf="createcallconfigurationform.controls.noOfEcdCalls?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error>
+                <mat-error *ngIf="createcallconfigurationform.controls.noOfEcdCalls?.errors?.['minlength']">Total calls should be atleast 3(Introductory+ ANC +PNC)</mat-error>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="backgroundWhite" appearance="outline">
+                <mat-label> {{currentLanguageSet?.enterDateRange}} </mat-label>
+                <mat-date-range-input [rangePicker]="picker" [min]="minDate" required>
+                    <input matStartDate formControlName="startDate" placeholder="Start date">
+                    <input matEndDate formControlName="endDate" placeholder="End date">
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+                <mat-error *ngIf="createcallconfigurationform.controls.startDate?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error>
+                <mat-error *ngIf="createcallconfigurationform.controls.startDate.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                <mat-error *ngIf="createcallconfigurationform.controls.endDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="backgroundWhite" appearance="outline">
+                <mat-label> {{currentLanguageSet?.configTerms}} </mat-label>
+                <mat-select matInput id="configTerms" formControlName="configTerms">
+                    <mat-option value="days">Days</mat-option>
+                    <mat-option value="months">Months</mat-option>
+                    <!-- <mat-option value="weeks">Weeks</mat-option> -->
+                </mat-select>
+                <mat-error *ngIf="createcallconfigurationform.controls.configTerms?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="backgroundWhite" appearance="outline">
+                <mat-label> {{currentLanguageSet?.noOfAttempts}} </mat-label>
+                <input matInput id="noOfAttempts" type="number" min="1" appMobileNumber formControlName="noOfAttempts" (input)="checkNoOfAttempts()" />
+                <!-- <mat-error *ngIf="createcallconfigurationform.controls.noOfAttempts?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error> -->
+            </mat-form-field>
+            
+            <mat-form-field class="backgroundWhite" appearance="outline" *ngIf="enableNextCallAttempt" >
+                <mat-label> {{currentLanguageSet?.nextCallAttemptPeriod}} </mat-label>
+                <input matInput id="nextCallAttempt" type="number" min="0" formControlName="nextCallAttempt" (input)="enableSubmitOnFill()" required />
+                <mat-error *ngIf="createcallconfigurationform.controls.nextCallAttempt?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error>
+            </mat-form-field>
+        </div>
+        <div>
+            <button mat-raised-button class="buttonColor full-width" (click)="addCallTypes()" [disabled]="!createcallconfigurationform.valid || disableAddTerms" >{{currentLanguageSet?.addTerms}}</button>
+        </div>
+    </form>
+    </div>
+    <div class="mat-elevation-z8 responsiveTable" *ngIf="displayCallTypes">
+        <table mat-table [dataSource]="introCallData">
+            <ng-container matColumnDef="callType">
+                <th mat-header-cell *matHeaderCellDef style="padding-left: 60px;"> {{currentLanguageSet?.callType}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.callType}} </td>
+            </ng-container>
+            <ng-container matColumnDef="displayName">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.displayName}} </th>
+                <td style="padding-left: 2px !important; padding-right: 35px;" mat-cell *matCellDef="let element">
+                <mat-form-field>
+                    <input matInput placeholder="" [(ngModel)]="element.displayName" name="displayName">
+                </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="baseLine">
+                <th mat-header-cell *matHeaderCellDef style="padding-left: 30px;"> {{currentLanguageSet?.baseLine}} </th>
+                <td style="font-size: 40px;" mat-cell *matCellDef="let element"> - </td>
+            </ng-container>
+            <ng-container matColumnDef="termRange">
+                <th mat-header-cell *matHeaderCellDef style="padding-left: 60px;"> {{currentLanguageSet?.termRange}} </th>
+                <td style="font-weight: 900;" mat-cell *matCellDef="let element">
+                <mat-form-field>
+                    <input matInput appMobileNumber placeholder="-" [(ngModel)]="element.termRange" name="termRange" disabled>
+                </mat-form-field>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table> 
+        <table mat-table [dataSource]="ancCallData">
+            <ng-container matColumnDef="callType">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.callType}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.callType}} </td>
+            </ng-container>
+            <ng-container matColumnDef="displayName">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.displayName}} </th>
+                <td mat-cell *matCellDef="let element">
+                <mat-form-field>
+                    <input matInput placeholder="" [(ngModel)]="element.displayName" name="displayName">
+                </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="baseLine">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.baseLine}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.baseLine}} </td>
+            </ng-container>
+            <ng-container matColumnDef="termRange">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.termRange}} </th>
+                <td mat-cell *matCellDef="let element">
+                <mat-form-field>
+                    <input matInput appMobileNumber placeholder="" type="number" [min]="0" [(ngModel)]="element.termRange" name="termRange" (ngModelChange)="onTermRangeChangeForAnc(element)">
+                </mat-form-field>
+                <mat-error>{{ element.rowErrorMessage }}</mat-error>
+                </td>
+            </ng-container>
+            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table> 
+        <table mat-table [dataSource]="pncCallData">
+            <ng-container matColumnDef="callType">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.callType}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.callType}} </td>
+            </ng-container>
+            <ng-container matColumnDef="displayName">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.displayName}} </th>
+                <td mat-cell *matCellDef="let element">
+                <mat-form-field>
+                    <input matInput placeholder="" [(ngModel)]="element.displayName" name="displayName">
+                </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="baseLine">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.baseLine}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.baseLine}} </td>
+            </ng-container>
+            <ng-container matColumnDef="termRange">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.termRange}} </th>
+                <td mat-cell *matCellDef="let element">
+                <mat-form-field>
+                    <input matInput appMobileNumber placeholder="" type="number" [min]="0" [(ngModel)]="element.termRange" name="termRange" (ngModelChange)="onTermRangeChangeForPnc(element)">
+                </mat-form-field>
+                <mat-error>{{ element.rowErrorMessage }}</mat-error>
+                </td>
+            </ng-container>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>  
+    </div>
+    <br>
+    <div class="pull-right" style="margin-top: 35px;">
+        <button mat-raised-button style="margin: 5px;" class="buttonColorRed full-width buttonWidth" (click)="goBack()"> {{currentLanguageSet?.back}} </button>
+        <button *ngIf="displayCallTypes" mat-raised-button style="margin: 5px;" class="buttonColorGreen full-width buttonWidth" [disabled]="disableSubmit" (click)="createCallConfiguration()" > {{currentLanguageSet?.submit}} </button>
+    </div>
+</mat-card>

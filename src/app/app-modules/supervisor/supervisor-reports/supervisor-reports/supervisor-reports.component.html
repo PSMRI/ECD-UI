@@ -1,0 +1,156 @@
+<div class="row" style="margin:0px">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+    <h2 class="mainHeading">{{currentLanguageSet?.reports}}</h2>
+    </div>
+</div>
+<mat-card class="innerCard" > 
+    <mat-card-content>
+      <form class="row" 
+        autocomplete="off"
+        style="margin-top: 10px"
+      >
+      <div class="row" [formGroup]="reportForm">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box ">
+            <mat-form-field style="width:100%" class="backgroundWhite" appearance="outline">
+                <mat-label> {{currentLanguageSet?.enterDateRange}} </mat-label>
+                <mat-date-range-input [rangePicker]="picker" [max]="today" required>
+                    <input matStartDate formControlName="startDate" placeholder="Start date">
+                    <input matEndDate formControlName="endDate" placeholder="End date">
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+                <mat-error *ngIf="reportForm.controls['startDate'].errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error>
+                <!-- <mat-error *ngIf="createcallconfigurationform.controls.startDate.hasError('matStartDateInvalid')">Invalid start date</mat-error> -->
+                <!-- <mat-error *ngIf="createcallconfigurationform.controls.endDate.hasError('matEndDateInvalid')">Invalid end date</mat-error> -->
+                <mat-error
+            *ngIf="reportForm.controls['startDate'].hasError('valueGreater')">
+            {{ currentLanguageSet?.dateRangeDifference }}</mat-error
+          >
+              </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box ">
+          <mat-form-field  class="backgroundWhite" appearance="outline" id="roleId" style="width:100%">
+            <mat-label>{{ currentLanguageSet?.role }}</mat-label>
+            <mat-select formControlName="roleId" (selectionChange)="setRoleType(reportForm.controls['roleId'].value)">
+              <mat-option *ngFor="let roles of rolesList" [value]="roles.roleId">
+                {{ roles.roleName }}
+              </mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="reportForm.controls['roleId'].errors?.['required']">
+              {{ currentLanguageSet?.roleRequired }}</mat-error> -->
+          </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box ">
+          <mat-form-field class="backgroundWhite" appearance="outline" id="agentId" style="width:100%">
+            <mat-label>{{ currentLanguageSet?.agentId }}</mat-label>
+            <mat-select 
+              formControlName="agentId" >
+              <mat-option *ngFor="let agent of agentNameList" [value]="agent.agentId" >
+              {{ agent?.agentId }}
+              </mat-option>
+            </mat-select>
+            <!-- <mat-error
+            *ngIf="reportForm.controls['agentId'].errors?.['required']"
+          >
+          {{ currentLanguageSet?.agentNameisRequired }}</mat-error
+          > -->
+            
+          </mat-form-field>
+        </div>
+        <!-- <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+          <button
+              mat-raised-button
+              class="buttonColorGreen full-width buttonWidth"
+              style="margin-left: 10px"
+              type="reset"
+              [disabled]="!reportForm.valid"
+              (click)="DownloadReport(reportForm.value)"
+            >
+            {{ currentLanguageSet?.download }}
+            </button>
+        </div> -->
+      
+      </div> 
+      <div class="row" style="margin-top:50px;padding-right:0px">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 box ">
+          <mat-form-field
+        appearance="outline"
+        id="filterBox"
+        class="pull-right searchInput blueInput"
+        style="float: right"
+      >
+        <mat-label class="labelColor">{{
+          currentLanguageSet?.inTableSearch
+        }}</mat-label>
+        <input
+          matInput
+          placeholder=""
+          #filterTerm
+          [(ngModel)]="searchTerm"
+          name="searchTerm"
+          (keyup)="filterSearchTerm(filterTerm.value)"
+        />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+        </div>
+        
+      </div>
+      </form>
+      <div class="mat-elevation-z8" style="margin-top: 30px">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          aria-describedby="reportsList"
+          matSort
+        >
+          <ng-container matColumnDef="sno">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef style="border-bottom: none">
+              {{ currentLanguageSet?.sno }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{element.sno}}
+            </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="reportName">
+            <th mat-header-cell *matHeaderCellDef style="border-bottom: none;" mat-sort-header>
+              {{ currentLanguageSet?.reportName }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.reportName }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+              {{ currentLanguageSet?.action }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <!-- <mat-icon (click)="downloadReport(element)"  [disabled]="reportsForm.invalid">file_download</mat-icon> -->
+              <button mat-icon-button [disabled]="reportForm.invalid"(click)="downloadReport(element,reportForm.value)">
+                <mat-icon>file_download</mat-icon>
+              </button>
+              
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+      <div
+      class="pull-center"
+      style="margin-top: 5px"
+      [hidden]="dataSource.data.length > 0"
+    >
+      <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+    </div>
+      <mat-paginator
+        #myPaginator
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageSize]="5"
+        showFirstLastButtons
+        aria-label="Select page of Alerts elements"
+      >
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>

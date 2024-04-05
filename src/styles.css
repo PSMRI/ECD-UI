@@ -1,0 +1,302 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+body {
+  height: 100%;
+  margin: 0;
+
+}
+
+/* body {
+  --text-color: #2d3436;
+  --bkg-color: linear-gradient(89.81deg, #96d1eb 0.17%, #4fa2d0 99.84%); */
+/* --card-color: white; */
+/* } */
+/* body.dark-theme {
+  --text-color: #dfe6e9;
+  --bkg-color: #2d3436; */
+/* --card-color: #2d2d2d;
+  --input-color: white; */
+/* } */
+
+body {
+  margin: 0;
+  /* font-family: Roboto, "Helvetica Neue", sans-serif; */
+  /* font-family: "Lato", sans-serif; */
+  font-family: "Lato", sans-serif !important;
+  font-weight: 400;
+  /* background: var(--bkg-color);
+  color: var(--text-color); */
+}
+
+/* h1,
+p {
+  color: var(--text-color);
+} */
+
+.mainContainer {
+  /* overflow: hidden; */
+  height:100%;
+   /* overflow-x: hidden; */
+  /* overflow-y: hidden !important; */
+  /* overflow-y: hidden;  */
+  background: linear-gradient(89.81deg, #96d1eb 0.17%, #4fa2d0 99.84%);
+}
+
+.pull-right {
+  display: flex;
+  justify-content: right;
+}
+
+.pull-left {
+  display: flex;
+  justify-content: left;
+}
+
+.pull-center {
+  display: flex;
+  justify-content: center;
+}
+
+/* .cardDark {
+  background: var(--card-color);
+  color: var(--text-color);
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: var(--input-color);
+}
+
+
+input.mat-input-element {
+  color: var(--input-color);
+}
+
+.labelColor {
+  color: var(--input-color);
+} */
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #00071e;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #00071e;
+}
+
+.mat-form-field-appearance-outline.mat-focused.blueInput
+  .mat-form-field-outline-thick {
+  color: #4fa2d0;
+}
+
+.mat-form-field-appearance-outline.blueInput .mat-form-field-outline {
+  color: #4fa2d0;
+}
+
+/* .searchInput {
+  width: 280px;
+} */
+/* .mat-form-field-appearance-outline.searchInput .mat-form-field-outline {
+  border-radius: 8px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 505px;
+} */
+
+.mat-focused .mat-form-field-label {
+  color: #00071e !important;
+  font-weight: 500;
+}
+
+.buttonColor {
+  font-family: "Lato", sans-serif;
+  background-color: #4fa2d0;
+  color: #ffffff;
+  border-radius: 10px !important;
+}
+
+.buttonColorRedish {
+  font-family: 'Lato', sans-serif;
+  background-color: #E14646 !important;
+  color: #ffffff;
+  border-radius: 10px !important;
+}
+
+.buttonColorRed {
+  font-family: 'Lato', sans-serif;
+  background-color: #E14646 !important;
+  color: #ffffff;
+  border-radius: 10px !important;
+}
+
+.buttonColorGreen {
+  font-family: 'Lato', sans-serif;
+  background-color: #239438 !important;
+  color: #ffffff;
+  border-radius: 10px !important;
+}
+
+.buttonColorGreen:disabled {
+  opacity: 0.7;
+   cursor: not-allowed
+}
+
+.buttonColorRedish:disabled {
+  opacity: 0.7;
+   cursor: not-allowed
+}
+
+.buttonColorRed:disabled {
+  opacity: 0.7;
+   cursor: not-allowed
+}
+
+.buttonColor:disabled {
+  opacity: 0.7;
+   cursor: not-allowed
+}
+
+.cursorPointer {
+  cursor: pointer;
+}
+
+.spinner-color circle {
+  stroke: #4fa2d0 !important;
+}
+
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+}
+
+.box {
+  height: 60px;
+}
+
+.buttonWidth {
+  /* max-width: 150px; */
+  width: 150px;
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #4fa2d0 !important;
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #4fa2d0 !important;
+}
+
+.mat-tab-nav-bar,
+.mat-tab-header {
+  border-bottom: 2px solid #00071e;
+}
+
+.mat-tab-label .mat-tab-label-content {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+/* .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: #ffffff;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 280px;
+} */
+
+.mat-form-field-appearance-outline.backgroundWhite .mat-form-field-outline {
+  background-color: #ffffff !important;
+  border-radius: 8px;
+  width: 100%;
+  /* max-width: 420px; */
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #4fa2d0;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+  background-color: #4fa2d0;
+}
+
+.mat-form-field-appearance-outline.searchInput .mat-form-field-outline {
+  border-radius: 8px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 505px;
+}
+
+.mat-form-field-appearance-outline.dropdownAlign .mat-form-field-outline {
+  border-radius: 8px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 400px;
+}
+
+.test{
+  background: linear-gradient(90deg, #96D1EB 61.98%, rgba(255, 255, 255, 0) 100%)!important;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: linear-gradient(89.81deg, #96D1EB 0.17%, #4FA2D0 99.84%); }
+
+body .mat-select-arrow {
+  background-image: url('\assets\images\CaretDown.png') !important;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right center;
+  width: 28px;
+  height: 28px;
+  color: transparent;
+  border: 0;
+  margin: 0;
+}
+
+.dropdownAlignment > div {
+  padding-bottom: 0;
+}
+
+::ng-deep.mat-step-label {
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: #000000;
+  line-height: 24px;
+  font-style: normal;
+}
+
+::ng-deep.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+    background-color: #4fa2d0 !important
+}
+
+.mat-stepper-horizontal, .mat-stepper-vertical {
+  background-color: transparent;
+}
+
+/* ::ng-deep.mat-step-header {
+  overflow: hidden;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  box-sizing: content-box;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  display: grid !important;
+} */
+.changeOpacity span.mat-button-focus-overlay {
+  opacity: 0 !important;
+}

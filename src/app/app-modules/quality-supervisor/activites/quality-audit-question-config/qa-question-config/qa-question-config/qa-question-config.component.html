@@ -1,0 +1,141 @@
+<div class="row" style="margin:0px"> 
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+    <h2 class="inner fontStyle">{{ currentLanguageSet?.qualityAuditQuestionConfig }}</h2>
+    <button 
+      mat-raised-button
+      class="buttonColor inner createButton fontStyleButton"
+      (click)="createNewQuestionnaireConfig()"
+    >
+      {{ currentLanguageSet?.createQualityAuditQuestionConfig }}
+    </button>
+  </div>
+</div>
+<div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <mat-card class="innerCard">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right">
+      <mat-form-field
+      appearance="outline"
+      class="pull-right searchInput blueInput"
+      style="width:370px"
+      >
+        <mat-label class="labelColor">{{
+          currentLanguageSet?.inTableSearch
+        }}</mat-label>
+        <input
+          matInput
+          [(ngModel)]="searchTerm"
+          name="searchTerm"
+          placeholder=""
+          #filterTerm
+          (keyup)="filterSearchTerm(filterTerm.value)"
+        />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="mat-elevation-z8 responsiveTable" style="margin-top: 30px">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        aria-describedby="qaQuestionnaireConfigList"
+        matSort
+      >
+        <ng-container matColumnDef="sno">
+          <th mat-header-cell *matHeaderCellDef style="border-bottom: none" mat-sort-header>{{ currentLanguageSet?.sno }}</th>
+          <td mat-cell *matCellDef="let element">
+            {{ dataSource.data.indexOf(element) + 1 }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="rank">
+          <th mat-header-cell *matHeaderCellDef style="border-bottom: none" mat-sort-header>{{ currentLanguageSet?.rank}}</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.questionRank }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="questionnaire">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="border-bottom: none" mat-sort-header>
+            {{ currentLanguageSet?.questionnaire}}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.question }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="answerType">
+          <th mat-header-cell *matHeaderCellDef style="border-bottom: none">{{ currentLanguageSet?.answerType }}</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.answerType }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="sectionName">
+          <th mat-header-cell *matHeaderCellDef style="border-bottom: none" mat-sort-header>{{ currentLanguageSet?.sectionName }}</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.sectionName }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef style="padding-left: 20px; border-bottom: none">
+            {{ currentLanguageSet?.edit }}
+          </th>
+          <td mat-cell *matCellDef="let element" style="padding-left: 20px">
+            <mat-icon
+              matTooltip="{{ currentLanguageSet?.edit }}"
+              class="mat-icon material-icons"
+              role="img"
+              aria-hidden="true"
+              style="cursor: pointer"
+              *ngIf="!element.deleted"
+              (click)="editQAQuestionnarieConfig(element)"
+              >edit</mat-icon
+            >
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+            {{ currentLanguageSet?.action }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              *ngIf="element.deleted === true"
+              mat-raised-button
+              class="buttonColorGreen full-width buttonWidth"
+              (click)="activateDeactivateQuestionConfig(element, 'activate')"
+            >
+              {{ currentLanguageSet?.activate }}
+            </button>
+            <button
+              *ngIf="element.deleted === false"
+              mat-raised-button
+              class="buttonColorRed full-width buttonWidth"
+              (click)="activateDeactivateQuestionConfig(element, 'deactivate')"
+            >
+              {{ currentLanguageSet?.deactivate }}
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <div
+        class="pull-center"
+        style="margin-top: 5px"
+        [hidden]="dataSource.data.length > 0"
+      >
+        <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+      </div>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageSize]="5"
+        showFirstLastButtons
+        aria-label="Select page of questionnaire elements"
+      >
+      </mat-paginator>
+    </div>
+  </mat-card>
+  </div>
+</div>
+  

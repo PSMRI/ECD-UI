@@ -1,0 +1,232 @@
+.mainHeading {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+mat-expansion-panel {
+    border: 1px solid #4fa2d0;
+    margin-bottom: 5px;
+    border-radius: 10px;
+}
+
+.innerCard {
+    height: auto;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 99%;
+    background-color: #f2f2f2;
+    border: 1px solid #4fa2d0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    margin-bottom: 20px;
+}
+
+.stepperCard {
+    height: auto;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 99%;
+    background-color: white;
+    border: 1px solid #4fa2d0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+}
+
+.inner {
+    display: inline-block;
+}
+
+  .stepper-paginator {
+    display: flex;
+    margin-left: 0rem;
+    margin-right: 0rem;
+  }
+  
+  .stepper {
+    flex-grow: 2;
+  }
+  
+  .arrow-icons {
+    display: flex;
+    height: 72px;
+    align-items: center;
+  }
+
+.fontHeaderStyle {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #00071e;
+    font-style: normal;
+    line-height: 24px;
+}
+
+.radioButtonFontStyle {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.fontStyle {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: #000000;
+  line-height: 24px;
+  font-style: normal;
+}
+
+.stepFontStyle {
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: #000000;
+  line-height: 24px;
+  font-style: normal;
+}
+
+/* ::ng-deep.mat-step-label {
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: #000000;
+  line-height: 24px;
+  font-style: normal;
+}
+
+::ng-deep.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+    background-color: #4fa2d0 !important
+}
+
+.mat-stepper-horizontal, .mat-stepper-vertical {
+    background-color: transparent;
+} */
+
+li::marker {
+    color: #4fa2d0;
+    font-family: "Material Icons";
+    font-size: 11px;
+    content: "panorama_fish_eye"; /* Use the empty-circled icon */
+   /* list-style-type: circle; */
+   
+  }
+
+  li.quesStyle::marker {
+    color: #dd2c00;
+    font-family: "Material Icons";
+    font-size: 11px;
+    content: "panorama_fish_eye"; /* Use the empty-circled icon */
+   /* list-style-type: circle; */
+   
+  }
+  
+  .fieldsFontStyle{
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #000000;
+    /* line-height: 24px; */
+    font-style: normal;
+    margin-bottom: 5px;
+  }
+
+  .textColor {
+    color: #4fa2d0;
+  }
+
+  mat-form-field {
+    width: 252px;
+    font-size: 15px;
+    margin-left: 10px;
+    }
+
+  mat-radio-button {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  mat-radio-group {
+    margin-left: 25px;
+  }
+
+  .form-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .section {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+  }
+
+  .error {
+    margin: auto;
+    margin-top: -20px;
+    font-size: 15px;
+  }
+
+  .inner{
+    display: inline-block;
+  }
+
+  .highRiskButtonColor{
+    font-family: 'Lato', sans-serif;
+    background-color: #E14646 !important;
+    color: #ffffff;
+    border-radius: 10px !important;
+  }
+
+  .fieldAlignment {
+    /* max-width: 270px; */
+    /* padding: 7px; */
+    margin: 0px;
+    font-size: 13px;
+    width: 50%;
+    padding: 10px;
+  }
+
+  .fieldForHRP {
+    margin: 0px;
+    font-size: 13px;
+    padding: 10px;
+    width: 100%;
+    max-width: 220px;
+  }
+
+  .dropdownfontStyle {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #00071e;
+  }
+  .fieldStyleDisabled {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .mat-option {
+    white-space: inherit;
+    overflow: visible;
+    text-overflow: unset;
+    /* display: block !important; */
+    line-height: 22px !important;
+    height: inherit !important;
+    padding: 10px 15px;
+    text-align: left;
+    text-decoration: none;
+    max-width: 100%;
+    height: inherit;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    box-sizing: border-box;
+    align-items: center;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}

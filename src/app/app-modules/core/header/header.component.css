@@ -1,0 +1,99 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 0;
+  height: 70px;
+  color: #ffffff;
+  overflow: hidden;
+  padding-top: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+  padding-right: 65px;
+  font-size: large;
+}
+
+.language {
+  display: flex;
+  align-items: center;
+}
+
+/* .logoutButton {
+  margin-right: 40px;
+  padding-right: 65px;
+  font-size: large;
+} */
+
+.roleButton {
+  display: flex;
+  align-items: center;
+  margin-left: 40px;
+}
+@media (max-width: 767px) {
+  .roleButton {
+    display: flex;
+    align-items: center;
+    margin-left: 0px;
+  }
+}
+
+.headerDivider {
+  border-top-color: #ffffff;
+  border-width: 2px;
+}
+/* 
+.language {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+} */
+
+::ng-deep
+  .mat-form-field-appearance-outline#fieldBackground
+  .mat-form-field-outline {
+  background-color: #ffffff;
+  border-radius: 8px;
+  width: 100%;
+  /* max-width: 280px; */
+}
+
+img {
+  width: 100px;
+}
+
+#languageWidth .mat-form-field {
+  width: 10px;
+}
+
+.languageWidth .mat-form-field-appearance-outline .mat-form-field-outline {
+  width: 20px;
+}
+
+/* ::ng-deep .mat-select-value.fontBlue {
+  font-family: "Lato", sans-serif;
+  color: #4fa2d0 !important;
+  font-size: 17px;
+} */
+
+::ng-deep .mat-select-blue .mat-select-value {
+  font-family: "Lato", sans-serif;
+  color: #4fa2d0 !important;
+  font-size: 17px;
+}
+@media (max-width: 767px) {
+  .header {
+    display: inline;
+    top: 0;
+    height: auto;
+    color: #ffffff;
+    /* overflow: hidden; */
+    padding-top: 5px;
+    padding-top: 12px;
+  }
+}

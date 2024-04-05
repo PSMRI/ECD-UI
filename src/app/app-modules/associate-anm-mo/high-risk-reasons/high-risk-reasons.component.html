@@ -1,0 +1,20 @@
+<div class="inner">
+    <div class="mainCard">
+        <div mat-dialog-title class="fontStyle">
+        <h2 class="headerCard inline fontStyle">{{dialogTitle}}</h2>
+        <button class="inline closeButton" mat-icon-button mat-dialog-close aria-label="Close">
+            <mat-icon>close</mat-icon>
+        </button>
+        </div>
+        <mat-dialog-content *ngIf="hrpHrniReasons.length > 0" class="contentFontStyle">
+            <ul>
+                <li *ngFor="let reason of hrpHrniReasons">
+                    {{reason}}
+                </li>
+            </ul>
+        </mat-dialog-content>
+        <mat-dialog-content *ngIf="hrpHrniReasons.length === 0" class="contentFontStyle">
+            No Risk Reasons Found
+        </mat-dialog-content>
+    </div>
+    </div>

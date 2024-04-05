@@ -1,0 +1,167 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+  <h2 class="mainHeading">
+    {{ currentLanguageSet?.createQualityAuditSectionConfig }}
+  </h2>
+</div>
+
+<mat-card class="innerCard">
+  <mat-card-content>
+    <form
+      [formGroup]="createQualityAuditSectionForm"
+      autocomplete="off"
+      style="margin-top: 10px"
+    >
+    <div class ="row" style="margin-bottom:10px">
+      <div  class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+        <mat-form-field class="backgroundWhite" appearance="outline" style="width:100%">
+          <mat-label>{{ currentLanguageSet?.sectionName }}</mat-label>
+          <input
+            matInput
+            #sectionName
+            defaultNull
+            minlength="5"
+            maxlength="100"
+            formControlName="sectionName"
+            appTextareaWithCopyPaste
+          />
+          <mat-error
+            *ngIf="createQualityAuditSectionForm.controls.sectionName?.errors?.['required']"
+            >{{ currentLanguageSet.sectionNameRequired }}</mat-error
+          >
+          <mat-error
+            *ngIf="createQualityAuditSectionForm.controls.sectionName?.errors?.['minlength']"
+            >{{ currentLanguageSet.shouldContainAtleast2Charc }}
+          </mat-error>
+          <mat-error
+            *ngIf="createQualityAuditSectionForm.controls.sectionName?.errors?.['maxlength']"
+            >{{ currentLanguageSet.shouldContain50CharOnly }}</mat-error
+          >
+          <mat-error *ngIf="createQualityAuditSectionForm.controls['sectionName'].hasError('whitespace')">Please enter valid data</mat-error>            
+        </mat-form-field>
+      </div>
+      <div  class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+        <mat-form-field class="backgroundWhite" appearance="outline" style="width:100%">
+          <mat-label>{{ currentLanguageSet?.rank }}</mat-label>
+          <input
+          matInput
+          placeholder=""
+          id="rank"
+          formControlName="rank"
+          appMobileNumber
+          type="number"
+          [min]="1"
+          [max]="10000"
+          defaultNull
+          required
+          />
+          <mat-error
+            *ngIf="
+        createQualityAuditSectionForm.controls.rank.errors
+            ?.['required']
+        "
+          >
+            {{ currentLanguageSet?.rankIsRequired }}</mat-error
+          >
+        </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+      <div  class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6" >
+        <mat-form-field class="backgroundWhite"
+        style="width: 100%; line-height: 30px"
+        appearance="outline"
+      >
+        <mat-label>{{ currentLanguageSet?.sectionDescription }}</mat-label>
+        <textarea
+          matInput
+          #message
+          minlength="5"
+          maxlength="300"
+          formControlName="sectionDescription"
+          appTextareaWithCopyPaste
+        ></textarea>
+        <mat-error
+            *ngIf="createQualityAuditSectionForm.controls.sectionDescription?.errors?.['minlength']"
+            >{{ currentLanguageSet.shouldContainAtleast2Charc }}
+          </mat-error>
+          <mat-error
+            *ngIf="createQualityAuditSectionForm.controls.sectionDescription?.errors?.['maxlength']"
+            >{{ currentLanguageSet.shouldContain300CharOnly }}</mat-error
+          >
+          <mat-error *ngIf="createQualityAuditSectionForm.controls['sectionDescription'].hasError('nonWhitespace')">Please enter valid data</mat-error>            
+
+      </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <button
+        mat-raised-button
+        class="buttonColor full-width"
+        type="button"
+        (click)="addSections(createQualityAuditSectionForm.value)"
+        [disabled]="!createQualityAuditSectionForm.valid"
+      >
+        {{ currentLanguageSet?.addSection }}
+      </button>
+      </div>
+    </div>   
+      <!-- </div> -->
+    </form>
+    <div class="mat-elevation-z8" style="margin-top: 5px">
+      <table
+        *ngIf="dataSource.data.length > 0"
+        class="alignTable"
+        mat-table
+        [dataSource]="dataSource"
+      >
+        <ng-container matColumnDef="sectionName">
+          <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+            {{ currentLanguageSet?.sectionName }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.sectionName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="sectionDescription">
+          <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+            {{ currentLanguageSet?.sectionDescription }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.sectionDesc }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="rank">
+          <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+            {{ currentLanguageSet?.rank }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.rank }}</td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+            {{ currentLanguageSet?.action }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon (click)="removeSection(dataSource.data.indexOf(element))"
+              >delete</mat-icon
+            >
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    
+    <div
+      class="pull-right col-xs-12 col-sm-12 col-md-12 col-lg-12"
+      style="margin-top: 20px;justify-content: right;"
+    >
+      <button mat-raised-button class="buttonColorRed full-width buttonWidth" type="back" (click)="back()">
+        {{ currentLanguageSet?.back }}
+      </button>
+      <button mat-raised-button style="margin-left: 10px" class="buttonColorGreen full-width buttonWidth"  [disabled]="dataSource.data.length === 0" type="submit" (click)="createSectionConfiguration()" >
+        {{ currentLanguageSet?.submit }}
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,68 @@
+.mainHeadingDiv {
+    margin-top: 15px;
+    /* margin-left: 30px; */
+  }
+  
+  .mainHeading {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+  }
+  .fontStyle {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #00071e;
+  }
+  .innerCard {
+    height: auto;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 99%;
+    background-color: #f2f2f2;
+    border: 1px solid #4fa2d0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    margin-bottom: 20px;
+  }
+  .casesheetStyling{
+    margin-top: 30px;
+    border:1px solid #ccc !important ;
+    background: #fff;
+  }
+  .caseSheetHeader{
+    margin-left: 15px;
+    background: #4fa2d0;
+    display: inline-block;
+    padding: 5px 10px;
+    color: #fff;
+  }
+
+.casesheet-table tr, th, .casesheet-table tr td, .casesheet-table thead tr th, .casesheet-table tbody tr th, .casesheet-table tbody tr td {
+    width: 25%;
+}
+.questionaireTable tr, th, .casesheet-table tr td, .questionaireTable thead tr th, .questionaireTable tbody tr th, .questionaireTable tbody tr td {
+    width: 50%;
+}
+.table {
+    margin-bottom: 0px;
+}
+
+.table-no-border tr, th, .table-no-border tr td, .table-no-border thead tr th, .table-no-border tbody tr th, .table-no-border tbody tr td {
+    border: none;
+}
+/* .caseSheet-TableStyling{
+margin: 20px;
+} */
+th{
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+}
+td{
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 16px; 
+}
+.table-bordered th, .table-bordered td { border: 1px solid #4fa2d0 !important }

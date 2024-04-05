@@ -1,0 +1,48 @@
+<mat-card class="cardAlign">
+  <div>
+    <mat-icon
+      class="inner"
+      style="float: left; margin-top: -3px; color: #00071e"
+      >chrome_reader_mode</mat-icon
+    >
+    <p class="inner titleDisplay" style="float: left; margin-left: 2px">
+      {{ currentLanguageSet?.reports }}
+    </p>
+  </div>
+  <mat-divider
+    [inset]="true"
+    class="cardDivider"
+    style="margin-top: 35px"
+  ></mat-divider>
+  <br />
+  <div class="row">
+    <div class="col-md-12">
+      <div
+        class="btn-group"
+        style="margin-left: 15px !important"
+        role="group"
+        aria-label="button group"
+        *ngFor="let reports of reportName"
+      >
+        <button
+          mat-raised-button
+          class="buttonStyle col-md-12 fontStyle"
+          (click)="openReport(reports.value)"
+        >
+          {{ reports.screen }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <mat-label
+      style="float: right; color: #00071e; margin-top: 15px"
+      class="fontStyleMore"
+      >
+      <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
+      <a tabindex="{0}" (click)="openActivityArea()" class="cursorPointer textColor"
+        ><u>{{ currentLanguageSet?.more }}</u></a
+      ></mat-label
+    >
+  </div>
+</mat-card>

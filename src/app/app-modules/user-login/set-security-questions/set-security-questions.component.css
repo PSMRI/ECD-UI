@@ -1,0 +1,65 @@
+.center-bold {
+  text-align: center;
+  font-weight: bold;
+}
+
+.next-button {
+  /* set the width and height to make the button bigger */
+  width: 30px;
+  height: 40px;
+
+  /* add padding and background color for the button */
+  padding: 5px;
+  background-color: #007bff;
+
+  /* add font-size and text color */
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+.center-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+mat-card {
+  height: 600px;
+  width: 600px;
+  padding: 20px;
+}
+.mat-form-field-underline {
+  display: block;
+  border-top-width: 2px; /* width of the underline */
+  border-top-color: black; /* color of the underline */
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+.password {
+  width: 400px;
+  margin-top: 15px;
+}
+
+.submitButton {
+  width: 400px;
+  margin-top: 15px;
+}
+.labelStyle {
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  color: #00071e;
+}
+.fontStyle{
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 18px;
+  background-color: #4fa2d0;
+  color: #ffffff;
+  border-radius: 10px !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}

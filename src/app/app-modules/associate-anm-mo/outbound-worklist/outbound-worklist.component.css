@@ -1,0 +1,174 @@
+.mainHeadingDiv {
+    margin-top: 15px;
+    margin-left: 30px;
+}
+
+.mainHeading {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.inner {
+    display: inline-block;
+}
+
+.fontStyle {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+}
+.createButton {
+    margin-right: 40px;
+    color: black;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .fontStyleButton {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .center{
+    text-align: center !important;
+  }
+  .labelColor {
+    color: #4fa2d0 !important;
+    font-family: "Lato";
+  }
+  .buttonColor{
+    border-radius: 30px !important;
+  }
+  .nonActiveButton{
+    font-weight: 700;
+    font-size: 14px;
+    width: 150px;
+    border-radius: 30px;
+    border: 1px solid #4fa2d0;
+    font-family: "Lato", sans-serif;
+  }
+  .activeButton{
+    font-weight: 700;
+    font-size: 14px;
+    width: 150px;
+    border-radius: 30px;
+    font-family: "Lato", sans-serif;
+    background-color: #4fa2d0;
+    color: #ffffff;
+  }
+
+  .m-right{
+    margin-right: 5px !important;
+  }
+
+  .innerCard {
+    height: auto;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 99%;
+    background-color: #f2f2f2;
+    border: 1px solid #4fa2d0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    margin-bottom: 20px;
+  }
+  table {
+    width: 100%;
+    border-spacing: 0 8px !important;
+    border-collapse: separate !important;
+    background-color: #f2f2f2;
+    font-family: "Lato", sans-serif;
+  }
+  
+  td.mat-cell {
+    font-size: 14px;
+    border-bottom: 1px solid #4fa2d0;
+    border-top: 1px solid #4fa2d0;
+    background-color: #ffffff;
+    padding: 5px 15px 5px 15px;
+    text-align: center;
+  }
+  
+  th.mat-header-cell {
+    padding: 5px 15px 5px 15px;
+    color: #00071e;
+    font-size: 16px;
+    font-weight: 520;
+    text-align: center;
+  }
+  
+  td.mat-cell:first-child {
+    border-left: 1px solid #4fa2d0;
+    background-color: #ffffff;
+  }
+  
+  td.mat-cell:last-child {
+    border-right: 1px solid #4fa2d0;
+    background-color: #ffffff;
+  }
+  
+  mat-paginator {
+    background-color: hsl(0, 0%, 95%);
+  }  
+
+  ::ng-deep .mat-sort-header-container{
+    justify-content: center;
+  }
+  .mat-elevation-z8 {
+    box-shadow: none;
+  }
+  .autoDialing{
+    position: relative;
+    background-color: #ffffff;
+    width: 170px;
+    background: rgba(255, 255, 255, 0.66);
+    border: 1px solid #4FA2D0;
+    border-radius: 8px;
+    font-family: "Lato";
+    height: 50px;
+    padding: 12px;
+    text-align: center;
+
+  }
+  ::ng-deep .mat-slide-toggle-bar, .mat-slide-toggle-label-before .mat-slide-toggle-bar{
+    background-color: rgba(225, 70, 70, 0.4);
+  }
+  ::ng-deep .mat-slide-toggle-thumb{
+   background-color:  #E14646;
+  }
+  ::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb{
+    background-color: #239438;
+  }
+
+  ::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar{
+    background-color: rgba(89, 208, 79, 0.4);
+  }
+
+  .mat-slide-toggle {
+    box-shadow: none !important;
+  }
+
+  .toggleText{
+  font-family: 'Lato';
+ font-style: normal;
+ font-weight: 700;
+ color: #4FA2D0;
+ line-height: 22px;
+  }
+
+  .responsiveTable{
+    margin-top: 30px;
+    width: 100%;
+  }
+  @media screen and (max-width: 1024px) {
+    .responsiveTable {
+      margin-top: 30px;
+      width: 100%;
+      overflow-x: scroll;
+    }
+    
+   
+  }
+
+  
+  

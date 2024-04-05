@@ -1,0 +1,81 @@
+<mat-grid-list cols="1" rowHeight="650px">
+  <mat-grid-tile>
+    <mat-card >
+        <div class="center-image">
+          <img src="assets/images/Piramal-logo-login.png" alt="Logo" />
+        </div>
+        <div class="center-bold">
+          <h4 class="font-Medium f-s-24 labelStyle">Account Support</h4>
+          <h5 class="f-s-16 f-c-54 labelStyle">
+            Follow the steps to change/reset the password
+          </h5>
+        </div>
+      <div class="row" >
+        <form [formGroup]="questionForm">
+          <div class="row labelStyle">
+            <mat-form-field style="width: 100%;" class="labelStyle">
+            <mat-label class="labelStyle" style="margin-top: 20px;">Question1</mat-label>
+            <mat-select formControlName="question1">
+              <mat-option *ngFor="let question of questions" 
+              [value]="question.QuestionID" id="question1"
+              (click)="questionSelected1(question.QuestionID)">
+                {{ question.Question }}
+              </mat-option>
+            </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-xs-12 col-sm-12">
+            <mat-form-field style="width: 100%; margin-top: 15px" class="labelStyle">
+              <mat-label class="labelStyle">Answer1</mat-label>
+              <input answerValidator matInput id="answer1" type="text" name="answer1" formControlName="answer1" required />
+            </mat-form-field>
+          </div>
+
+          <div class="row labelStyle">
+            <mat-form-field style="width: 100%; " class="labelStyle">
+            <mat-label class="labelStyle">Question2</mat-label>
+            <mat-select formControlName="question2" >
+              <mat-option *ngFor="let question of filteredQuestions" (click)="questionSelected2(question.QuestionID)" id="question2"  [value]="question.QuestionID"  required>
+                {{ question.Question }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          </div>
+
+          <div class="col-xs-12 col-sm-12 m-t-10">
+            <mat-form-field style="width: 100%; margin-top: 15px" class="labelStyle">
+              <mat-label class="labelStyle">Answer2</mat-label>
+              <input answerValidator matInput id="answer2" type="text" name="answer2" formControlName="answer2" required />
+            </mat-form-field>
+          </div>
+
+          <div class="row labelStyle" >
+            <mat-form-field style="width: 100%; " class="labelStyle">
+            <mat-label class="labelStyle">Question3</mat-label>
+            <mat-select formControlName="question3">
+              <mat-option  *ngFor="let question of filteredQuestions2" (click)="questionSelected3(question.QuestionID)" id="question3" [value]="question.QuestionID"  required>
+                {{ question.Question }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          </div>
+
+          <div class="col-xs-12 col-sm-12 m-t-10">
+            <mat-form-field style="width: 100%; margin-top: 15px" class="labelStyle">
+              <mat-label class="labelStyle">Answer3</mat-label>
+              <input answerValidator matInput id="answer3" type="text" name="answer3" formControlName="answer3" required />
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <button mat-raised-button style="width: 100%" class="cursorPointer fontStyle" (click)="setSecurityQuestions()" [disabled]="
+            !(
+             questionForm.valid
+            )
+          ">Next</button>
+          </div>
+        </form>
+      </div>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

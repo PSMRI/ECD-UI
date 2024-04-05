@@ -1,0 +1,135 @@
+<div class="panel panel-default m-b-10">
+  <mat-card class="callStaticsCard">
+    <div>
+      <mat-icon class="inner textColor" style="float: left; margin-top: -3px"
+        >phone_in_talk</mat-icon
+      >
+      <p class="inner titleDisplay titleAlignMob">
+        {{ currentLanguageSet?.callStatistics }}
+      </p>
+      <p class="inner titleDisplay" style="float: right">
+        {{ today | date : "MM/dd/yyyy - HH:mm:ss" }}
+      </p>
+    </div>
+
+    <mat-divider
+      [inset]="true"
+      class="statisticsDivider"
+      style="margin-top: 35px"
+    ></mat-divider>
+    <!-- <br /> -->
+    <div class="row">
+      <div class="col-md-12">
+        <div
+          class="btn-group flex-wrap buttonAlign"
+          style="margin-top: 15px;"
+          role="group"
+          aria-label="button group"
+        >
+          <button mat-raised-button class="buttonStyle">
+            <span class="fontStyle">{{statisticsData !== undefined && statisticsData !== null ? statisticsData.total_call_duration : '00:00:00'}}  </span>
+            <span class="fontStyleTime" style="display: block">
+              {{ currentLanguageSet?.callDuration }}
+            </span>
+          </button>
+
+          <button mat-raised-button class="buttonStyle">
+            <span class="fontStyle">{{statisticsData !== undefined && statisticsData !== null ? statisticsData.total_break_time : '00:00:00'}}</span>
+            <span class="fontStyleTime" style="display: block">
+              {{ currentLanguageSet?.breakTime }}
+            </span>
+          </button>
+
+          <button mat-raised-button class="buttonStyle">
+            <span class="fontStyle">{{statisticsData !== undefined && statisticsData !== null ? statisticsData.total_free_time : '00:00:00'}}</span>
+            <br />
+            <span class="fontStyleTime" style="display: block">
+              {{ currentLanguageSet?.freeTime }}
+            </span>
+          </button>
+
+          <button mat-raised-button class="buttonStyle">
+            <span class="fontStyle">{{statisticsData !== undefined && statisticsData !== null ? statisticsData.total_calls : '0'}}</span>
+            <br />
+            <span class="fontStyleTime" style="display: block">
+              {{ currentLanguageSet?.totalCalls }}
+            </span>
+          </button>
+
+
+
+          <button mat-raised-button class="buttonStyle">
+            <span class="fontStyle">{{totalCallsAnswered !== undefined && totalCallsAnswered !== null ? totalCallsAnswered : '0'}}</span>
+            <br />
+            <span class="fontStyleTime" style="display: block">
+              {{ currentLanguageSet?.totalCallsAnswered }}
+            </span>
+          </button>
+
+          <button mat-raised-button class="buttonStyle">
+            <span class="fontStyle">{{totalCallsVerified !== undefined && totalCallsVerified !== null ? totalCallsVerified : '0'}}</span>
+            <br />
+            <span class="fontStyleTime" style="display: block">
+              {{ currentLanguageSet?.totalCallsVerified }}
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- <div style="margin-top: 7px">
+      <mat-card class="callInnerCard inner">
+        <div class="f-s-14 text-center p-t-10">
+          <span>00:00:00</span>
+        </div>
+        <div class="f-s-18 text-center p-t-10 p-b-5">
+          {{ currentLanguageSet?.callDuration }}
+        </div>
+      </mat-card>
+
+      <mat-card class="callInnerCard inner" style="margin-left: 35px">
+        <div class="f-s-14 text-center p-t-10">
+          <span>00:00:00</span>
+        </div>
+        <div class="f-s-18 text-center p-t-10 p-b-5">
+          {{ currentLanguageSet?.breakTime }}
+        </div>
+      </mat-card>
+
+      <mat-card class="callInnerCard inner" style="margin-left: 35px">
+        <div class="f-s-14 text-center p-t-10">
+          <span>00:00:00</span>
+        </div>
+        <div class="f-s-18 text-center p-t-10 p-b-5">
+          {{ currentLanguageSet?.freeTime }}
+        </div>
+      </mat-card>
+
+      <mat-card class="callInnerCard inner" style="margin-left: 35px">
+        <div class="f-s-14 text-center p-t-10">
+          <span>00:00:00</span>
+        </div>
+        <div class="f-s-18 text-center p-t-10 p-b-5">
+          {{ currentLanguageSet?.totalCalls }}
+        </div>
+      </mat-card>
+
+      <mat-card class="callInnerCard inner" style="margin-left: 35px">
+        <div class="f-s-14 text-center p-t-10">
+          <span>00:00:00</span>
+        </div>
+        <div class="f-s-18 text-center p-t-10 p-b-5">
+          {{ currentLanguageSet?.totalCallsAnswered }}
+        </div>
+      </mat-card>
+
+      <mat-card class="callInnerCard inner" style="margin-left: 35px">
+        <div class="f-s-14 text-center p-t-10">
+          <span>00:00:00</span>
+        </div>
+        <div class="f-s-18 text-center p-t-10 p-b-5">
+          {{ currentLanguageSet?.totalCallsVerified }}
+        </div>
+      </mat-card>
+    </div> -->
+  </mat-card>
+</div>

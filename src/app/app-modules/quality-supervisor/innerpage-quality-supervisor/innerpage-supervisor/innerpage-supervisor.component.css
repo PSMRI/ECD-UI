@@ -1,0 +1,177 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  /* height: 100vh; */
+  width: 100%;
+  /* overflow: hidden; */
+}
+
+/* .inner {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+} */
+
+/* .mainCard {
+  display: flex;
+  flex-direction: column;
+  width: 98%;
+  margin: 10px auto;
+  padding-top: 0;
+} */
+
+/* .headerCard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 2px;
+  background-color: #ffc30b;
+  color: white;
+  height: 65px;
+  margin: -16px;
+  margin-bottom: 5px;
+} */
+
+/* .arrowButton {
+  margin-left: 10px;
+  background-color: #ffffff;
+  color: #4fa2d0;
+  margin-top: -15px;
+} */
+
+/* .dropdownAlignment {
+  padding: 5px;
+  margin: 0 5px;
+  font-size: 11px;
+  width: 270px;
+} */
+
+.inner {
+    display: inherit;
+    flex-direction: inherit;
+    flex: 1;
+    padding: 10px 10px;
+}
+
+.mainCard {
+   height: 100%;
+    display: inherit;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.headerCard {
+  padding-top: 8px;
+  height: 65px;
+    background-color: #ffc30b;
+    color: white;
+    /* padding: 6px 20px 9px 20px; */
+}
+
+.arrowButton {
+    margin-left: 10px;
+    display: inline-block;
+    background-color: #ffffff;
+    color: #4fa2d0;
+    line-height: 24px;
+    vertical-align: super;
+}
+
+.dropdownAlignment {
+    display: inline-block;
+    padding: 0px 10px;
+    font-size: 11px;
+    width: 370px;
+   
+}
+
+/* @media screen and (max-width: 600px) {
+  .dropdownAlignment {
+    width: 100%;
+    margin: 20px 0;
+  }
+} */
+
+/* @media (max-width: 767px) {
+  .headerCard {
+    height: 50px;
+    padding: 10px;
+  }
+} */
+
+mat-form-field {
+  color: #ffffff;
+  display: none;
+  position: relative;
+  text-align: left;
+}
+
+mat-card {
+  margin-top: none;
+}
+
+.fontStyle {
+  font-family: "Lato" sans-serif;
+  font-weight: 400;
+}
+
+::ng-deep .mat-select-blue .mat-select-value {
+  font-family: "Lato", sans-serif;
+  color: #4fa2d0 !important;
+  font-size: 17px;
+}
+
+.mat-select-arrow {
+  background-image: url('..\..\..\..\..\assets\images\CaretDown.png') !important;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  width: 65px;
+  height: 65px;
+}
+
+.mat-form-field-appearance-outline .mat-select-arrow-wrapper {
+  transform: none;
+}
+
+.mat-select-arrow-wrapper {
+  height: none;
+  flex-shrink: initial;
+  display: initial;
+  align-items: initial;
+}
+
+.mat-form-field {
+  display: inline-block;
+  position: relative;
+  text-align: left;
+}
+
+.dropdownAlignment > div {
+  padding-bottom: 0;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: inherit;
+}
+
+body .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0.2em 0.75em 0.2em 0.75em;
+  margin-top: inherit;
+  position: relative;
+}
+
+.mat-form-field-flex {
+  display: inline-flex;
+  align-items: baseline;
+  box-sizing: border-box;
+  width: 100%;
+}

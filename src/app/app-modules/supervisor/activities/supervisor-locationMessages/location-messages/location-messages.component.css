@@ -1,0 +1,220 @@
+.mat-raised-button {
+  background-color: #4fa2d0;
+  margin-right: 10px;
+}
+
+  table {
+
+    width: 100%;
+  
+    border-spacing: 0 8px !important;
+  
+    border-collapse: separate !important;
+  
+    background-color: #f2f2f2;
+  
+    font-family: 'Lato', sans-serif;
+  
+  }
+  
+  td.mat-cell {
+  
+    border-bottom: 1px solid #4fa2d0;
+  
+    border-top: 1px solid #4fa2d0;
+  
+    background-color: white;
+  
+    padding: 5px 15px 5px 15px;
+  
+    text-align: justify;
+  
+  }
+  
+  th.mat-header-cell {
+  
+    padding: 5px 15px 5px 15px;
+  
+    color: #00071e;
+  
+    font-size: 14px;
+  
+    font-weight: 520;
+  
+    text-align: center;
+  
+  }
+  
+  
+  
+  td.mat-cell:first-child {
+  
+    border-left: 1px solid #4fa2d0;
+  
+    background-color: white;
+  
+  }
+  
+  td.mat-cell:last-child {
+  
+    border-right: 1px solid #4fa2d0;
+  
+    background-color: white;
+  
+  }
+  
+  mat-paginator {
+  
+    background-color: #f2f2f2;
+  
+  }
+  
+  
+
+.record {
+  font-size: medium;
+  font-weight: bold;
+}
+.example-form {
+  min-width: 150px;
+  max-width: 300px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+  margin-right: 10px;
+  padding: 10px;
+}
+
+.example-full-width-subject {
+  width: 70%;
+  margin-right: 10px;
+  padding: 10px;
+}
+.buttonColorGreen {
+  background-color: #239438;
+  color: #ffffff;
+  border-radius: 8px !important;
+}
+
+.mat-raised-button {
+  background-color: #4fa2d0;
+  margin-right: 10px;
+}
+
+.align {
+  margin-right: 10px;
+  padding: 10px;
+}
+.mat-elevation-z8 {
+  box-shadow: none;
+}
+
+    td {
+      justify-content: center !important;
+  }
+  .error_text{
+     color: red;
+  }
+  .labelColor {
+    color: #4fa2d0 !important;
+    font-family: "Lato";
+  }
+  .inner {
+    display: inline-block;
+  }
+  .innerCard {
+    height: auto;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 99%;
+    background-color: #f2f2f2;
+    border: 1px solid #4fa2d0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    margin-bottom: 10px;
+  }
+  .headingFont{
+    font-size: 24px;
+    font-weight: 600;
+    font-family: 'Lato';
+    font-style: normal;
+    /* margin-left: 43px; */
+   
+  }
+  h2 {
+    margin-top: 20px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600; 
+    font-size: 24px;
+    color: #00071E;
+    margin-left: 20px;
+    }
+    
+  .fontStyle {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+  }
+
+  .fontStyleDate {
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #00071E;
+  }
+
+  .fontStyleButton {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .createButton {
+    float: right;
+    margin-top: 15px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 15px !important;
+    margin-right: 25px;
+  }
+    
+  
+  .buttonStyle{
+    width: 160px;
+    height: 38px;
+    left: 1200;
+    left: 78px;
+    background: #4FA2D0;
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    border-radius: 10px !important;
+    float: right;
+    margin-top: -55px;
+    margin-right: 100px;
+  }
+ .styleButton{
+   background: #4FA2D0;
+   width: 150px;
+   height: 46px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    /* float: right;
+    margin-right: 100px; */
+    color: #ffffff;
+ }
+ .styleBtn{
+  width: 100px;
+  background: #4FA2D0;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    /* float: right;
+    margin-right: 100px; */
+    color: #ffffff;
+ }
+ .mainHeadingDiv {
+  margin-top: 15px;
+  /* margin-left: 30px; */
+  /* padding: 0 25px; */
+}

@@ -1,0 +1,121 @@
+.mainBox{
+  height: auto;
+  overflow: hidden !important;
+}
+.headerCardSupervisor {
+  border-radius: 40px !important;
+  height: 55px;
+  background-color: #ffb800;
+  color: #ffffff;
+  margin-top: 20px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+@media screen and (max-width: 280px) {
+  .headerCard {
+    border-radius: 40px !important;
+    height: 100px;
+    background-color: #ffb800;
+    color: #ffffff;
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  
+  .iconStyle{
+    margin-top: 5px;
+  }
+
+  .iconAlign {
+    float: right;
+    margin-top: 10px;
+    margin-right: 25px;
+  }
+}
+
+@media screen and (min-width: 300px) and (max-width: 540px) {
+  .headerCard {
+    border-radius: 40px !important;
+    height: 70px;
+    background-color: #ffb800;
+    color: #ffffff;
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  
+  .iconStyle{
+    margin-top: 5px;
+  }
+
+  .iconAlign {
+    float: right;
+  }
+  
+}
+
+
+@media screen and (min-width: 541px) {
+  .headerCard {
+    border-radius: 40px !important;
+    height: 55px;
+    background-color: #ffb800;
+    color: #ffffff;
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .iconStyle{
+  }
+  
+  .iconAlign {
+    float: right;
+    margin-right: 25px;
+  }
+ 
+  
+}
+
+
+
+@media screen and (min-width: 600px) {
+  .card-container {
+    display: flex;
+        flex-flow: row wrap;
+    }
+
+    .iconAlign {
+      float: right;
+      margin-right: 25px;
+    }
+}
+/* .mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-radius: 40px;
+} */
+
+.headerDivider {
+  border-top-color: #ffffff;
+  border-width: 2px;
+}
+
+mat-toolbar {
+  background-color: #4fa2d0;
+}
+
+.inner {
+  display: inline-block;
+}
+
+
+.titleStyle {
+  font-size: 22px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+}
+
+

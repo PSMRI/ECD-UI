@@ -1,0 +1,215 @@
+<div class="row" style="margin:0;margin-top: 20px;">
+    <form class="row" style="margin:0" *ngIf="uploadDataSection" [formGroup]="uploadForm">
+      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+    <mat-label class="fontStyle">{{currentLanguageSet?.dataUpload}}</mat-label>
+    <mat-radio-group
+      id="options"
+      name="options"
+      [checked]="choice === option"
+      class="fontStyle"
+      style="margin-left: 15px"
+      formControlName="choice"
+      required
+    >
+      <mat-radio-button
+        class="radio-button fontStyle"
+        [value]="choices"
+        *ngFor="let choices of choice"
+      >
+        {{ choices }}
+      </mat-radio-button>
+    </mat-radio-group>
+      </div>
+    
+      <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+        <button [disabled]="!uploadForm.controls['choice'].value" mat-raised-button color="accent" type="button" (click)="downloadTemplate()" class="buttonFontStyle changeOpacity">
+          {{ currentLanguageSet?.downloadTemplate }}
+        </button> 
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+        <button mat-raised-button color="accent" (click)="uploadTemplate()" class="buttonFontStyle">
+          Upload New Template
+        </button>   
+      </div>
+  </form>
+
+
+  <form class="row" style="margin:0" *ngIf="uploadTemplateSection" [formGroup]="uploadTemplateForm">
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+  <mat-label class="fontStyle">Template Upload</mat-label>
+  <mat-radio-group
+    id="options"
+    name="options"
+    [checked]="choice === option"
+    class="fontStyle"
+    style="margin-left: 15px"
+    formControlName="choice"
+    required
+  >
+    <mat-radio-button
+      class="radio-button fontStyle"
+      [value]="choices"
+      *ngFor="let choices of choice"
+    >
+      {{ choices }}
+    </mat-radio-button>
+  </mat-radio-group>
+    </div>
+  
+    <!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+      <button mat-raised-button color="accent" type="downloadTemplate" (click)="downloadTemplate()" class="buttonFontStyle">
+        {{ currentLanguageSet?.downloadTemplate }}
+      </button> 
+    </div> -->
+</form>
+
+</div>
+  
+<mat-card class="mainCard" >
+  <div class="row">
+    <!-- Form For Data Upload-->
+    <form  class="row"(ngSubmit)="onSubmit()" *ngIf="uploadDataSection" [formGroup]="uploadForm" >
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="text-align: -webkit-center;">
+    
+        <div class="UploadBox">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <img style="padding-bottom:20px;padding-top: 50px;" src="assets/images/Browse.png" class="browser" alt="browse"
+            />
+            <span class="textBrowser">Drag & Drop files or  
+              <a  style= " margin-left: 5px;" href="javascript:void(0)" for="file" (click)="fileUpload.click()">Browse</a>
+            </span>
+              <span for="upload-file" class="labelcolor" *ngIf="file === undefined">Supported File Formats(.xls, .xlsx,.xlsm, .xlsb)
+              </span>
+            <!-- </mat-form-field> -->
+          </div>
+            <div class="m-t-20">
+              <button *ngIf="file !== undefined && !fileContent && !inValidFileName && !error1 && !error2 && !invalid_file_flag" class="fileContent btn btn-primary" type="button" disabled>
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Please wait file content is fetching
+              </button>
+              <!-- <mat-spinner *ngIf="file != undefined && !fileContent && !inValidFileName && !error1 && !error2 && !invalid_file_flag" class="spinner-color"></mat-spinner> -->
+              <label for="upload-file" class="alexcolor" style="display: block;" *ngIf="file !== undefined && fileContent" >Upload File Name: {{file.name}}</label>
+              <label for="upload-file" class="alexcolor" *ngIf="file !== undefined && fileContent" >{{ currentLanguageSet?.uploadFile}}
+               {{ currentLanguageSet?.size }} :{{ ((file.size / 1024) / 1024) | number : '1.2-2' }}/{{maxFileSize}}{{ currentLanguageSet?.mb }})</label>
+              <label for="upload-file" class="alexcolor" *ngIf="file === undefined">{{ currentLanguageSet?.uploadFile}}
+                {{ currentLanguageSet?.size }} :0/{{ maxFileSize}}{{ currentLanguageSet?.mb }})</label> 
+                <div>
+                  <input
+                  #fileUpload
+                    hidden
+                    style="margin-top: 15px"
+                    type="file"
+                    accept=".xls, .xlsx, .xlsm, .xlsb"
+                    size="100"
+                    placeholder="{{ currentLanguageSet?.uploadFile }}"
+                    (change)="onFileUpload($event)"
+                    name="fileList"
+                    formControlName="uploadfile"
+                    style="display:none" 
+                    required
+                  >
+                </div>         
+              <span class="help-block" *ngIf="inValidFileName">Invalid file name</span>
+              <span class="help-block" *ngIf="invalid_file_flag">Supported File Formats(.xls, .xlsx, .xlsm, .xlsb)</span>
+              <span class="file-upload" *ngIf="error1">{{currentLanguageSet?.pleaseChooseAFileForUpload}}</span>
+              <span class="help-block" *ngIf="error2">{{ currentLanguageSet?.fileSizeShouldNotExceed }}{{ maxFileSize }} {{ currentLanguageSet?.mb }}</span>
+            </div>    
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+          <button  mat-raised-button class="uploadButton" type="submit"
+          [disabled]="!uploadForm.valid || invalid_file_flag || error2 || inValidFileName || !fileContent">
+            {{ currentLanguageSet?.upload }}
+          </button>
+        </div>    
+    
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" *ngIf="data?.fileID">
+      <div class="uploadedFileRecord">
+        <h5 class="fileDetails"><strong><span>{{currentLanguageSet?.fileID}} - {{data?.fileID}}, {{data?.fileName}} - {{data?.createdDate | date: 'MM/DD/YYYY' }} </span></strong></h5>
+      </div>
+    </div>
+    </form>
+    
+    <!--Form for Template Upload-->
+    <form  class="row"(ngSubmit)="onUpload()" [formGroup]="uploadTemplateForm" *ngIf="uploadTemplateSection">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="text-align: -webkit-center;">
+    
+        <div class="UploadBox">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <img style="padding-bottom:20px;padding-top: 50px;" src="assets/images/Browse.png" class="browser" alt="browse"
+            />
+            <span class="textBrowser">Drag & Drop files or  
+              <a  style= " margin-left: 5px;" href="javascript:void(0)" for="file" (click)="templateUpload.click()">Browse</a>
+            </span>
+              <span for="upload-file" class="labelcolor" *ngIf="file === undefined">Supported File Formats(.xls, .xlsx,.xlsm, .xlsb)
+              </span>
+            <!-- </mat-form-field> -->
+          </div>
+            <div class="m-t-20">
+              <button *ngIf="file !== undefined && !fileContent && !inValidFileName && !error1 && !error2 && !invalid_file_flag" class="fileContent btn btn-primary" type="button" disabled>
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Please wait file content is fetching
+              </button>
+              <!-- <mat-spinner *ngIf="file != undefined && !fileContent && !inValidFileName && !error1 && !error2 && !invalid_file_flag" class="spinner-color"></mat-spinner> -->
+              <label for="upload-file" class="alexcolor" style="display: block;" *ngIf="file !== undefined && fileContent" >Upload File Name: {{file.name}}</label>
+              <label for="upload-file" class="alexcolor" *ngIf="file !== undefined && fileContent"  >{{ currentLanguageSet?.uploadFile}}
+               {{ currentLanguageSet?.size }} :{{ ((file.size / 1024) / 1024) | number : '1.2-2' }}/{{maxFileSize}}{{ currentLanguageSet?.mb }})</label>
+              <label for="upload-file" class="alexcolor" *ngIf="file === undefined">{{ currentLanguageSet?.uploadFile}}
+                {{ currentLanguageSet?.size }} :0/{{ maxFileSize}}{{ currentLanguageSet?.mb }})</label> 
+                <div>
+                  <input
+                  #templateUpload
+                    hidden
+                    style="margin-top: 15px"
+                    type="file"
+                    accept=".xls, .xlsx, .xlsm, .xlsb"
+                    size="100"
+                    placeholder="{{ currentLanguageSet?.uploadFile }}"
+                    (change)="onFileUpload($event)"
+                    name="fileList"
+                    formControlName="uploadTemplatefile"
+                    style="display:none" 
+                    required
+                  >
+                </div>         
+              <span class="help-block" *ngIf="inValidFileName">Invalid file name</span>
+              <span class="help-block" *ngIf="invalid_file_flag">Supported File Formats(.xls, .xlsx, .xlsm, .xlsb)</span>
+              <span class="file-upload" *ngIf="error1">{{currentLanguageSet?.pleaseChooseAFileForUpload}}</span>
+              <span class="help-block" *ngIf="error2">{{ currentLanguageSet?.fileSizeShouldNotExceed }}{{ maxFileSize }}{{ currentLanguageSet?.mb }}</span>
+            </div>    
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <button  mat-raised-button class="uploadButtonForTemplate" type="submit"
+            [disabled]="!uploadTemplateForm.valid || invalid_file_flag || error2 || inValidFileName || !fileContent">
+              {{ currentLanguageSet?.upload }}
+            </button>
+          </div>  
+          <div class="col-xs-12 col-sm-3 col-md-6 col-lg-6">
+            <button (click)="onback()" mat-raised-button class="uploadButtonForTemplate buttonColorRed" type="button">
+              {{ currentLanguageSet?.back }}
+            </button>
+          </div>    
+        </div>
+        
+         
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" *ngIf="data?.fileID">
+      <div class="uploadedFileRecord">
+        <h5 class="fileDetails"><strong><span>{{currentLanguageSet?.fileID}} - {{data?.fileID}}, {{data?.fileName}} - {{data?.createdDate | date: 'MM/DD/YYYY' }} </span></strong></h5>
+      </div>
+    </div>
+    </form> 
+
+  </div>
+  
+  
+</mat-card>

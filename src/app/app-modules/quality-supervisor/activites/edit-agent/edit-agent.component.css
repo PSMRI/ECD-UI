@@ -1,0 +1,27 @@
+.mainHeading {
+  font-size: 24px;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  margin-left: 30px;
+}
+
+.mainHeadingDiv {
+  margin-top: 15px;
+  /* margin-left: 30px; */
+}
+
+.innerCard{
+    height: auto;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 99%;
+    background-color: #f2f2f2;
+    border: 1px solid #4fa2d0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    margin-bottom: 20px;
+  }
+  .fields-width{
+    width: 250px
+  }

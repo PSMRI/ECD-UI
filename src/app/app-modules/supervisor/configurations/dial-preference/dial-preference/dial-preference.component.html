@@ -1,0 +1,144 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+  <h2 class="mainHeading">{{ currentLanguageSet?.autoPreviewDialing }}</h2>
+</div>
+
+<mat-card class="innerCard">
+  <mat-card-content>
+    <form [formGroup]="dialPreferenceForm" autocomplete="off" style="margin-top: 10px">
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right"
+             *ngIf="this.preferDupList.controls.length !== 0">
+          <mat-form-field
+            appearance="outline"
+            *ngIf="this.preferDupList.controls.length !== 0"
+            class="pull-right searchInput blueInput"
+            style="width: 400px;"
+          >
+            <mat-label class="labelColor fontStyle">{{
+              currentLanguageSet?.inTableSearch
+            }}</mat-label>
+            <input
+              matInput
+              formControlName="searchTerm"
+              placeholder=""
+              #filterTerm
+              (keyup)="filterSearchTerm()"
+            />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+
+      <ng-container  class="mat-elevation-z8 responsiveTable" style="margin-top: 30px">
+        <table
+          mat-table
+          [dataSource]="sectionsData"
+          formArrayName="preferenceList"
+          aria-describedby="dialPreferenceListData"
+          matSort
+        >
+          <ng-container matColumnDef="sNo">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+            >
+              {{ currentLanguageSet?.sno }}
+            </th>
+            <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="getActualIndex(i)">{{ sectionsData.data.indexOf(element) + 1 }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="roleName">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+            >
+              {{ currentLanguageSet?.roleName }}
+            </th>
+            <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="getActualIndex(i)">{{ element.value.roleName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="agentName">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+            >
+              {{ currentLanguageSet?.agentName }}
+            </th>
+            <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="getActualIndex(i)">{{ element.value.agentName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="previewWindowTime">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ currentLanguageSet?.previewWindowTime }}
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              [formGroupName]="getActualIndex(i)"
+            >
+              <mat-form-field appearance="standard" class="tableInput">
+                <input
+                  matInput
+                  type="number"
+                  formControlName="previewWindowTime"
+                  placeholder=""
+                  (keyup)="removeCheck(element)"
+                  [min]="15"
+                  [max]="60"
+                />
+                
+                <mat-error *ngIf="element.value.previewWindowTime < 15">Please enter 15 to 60 Value</mat-error>
+                <mat-error *ngIf="element.value.previewWindowTime > 60">Please enter 15 to 60 Value</mat-error>
+
+              </mat-form-field>
+
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="selected">
+            <th mat-header-cell *matHeaderCellDef>
+            </th>
+            <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="getActualIndex(i)">
+              <mat-checkbox
+              formControlName="selected"
+              [checked]="(element.value.selected === true) && 
+                          (element.value.previewWindowTime !== null && 
+                          element.value.previewWindowTime !== undefined && 
+                          element.value.previewWindowTime !== '' &&
+                          element.value.previewWindowTime >=15 &&
+                          element.value.previewWindowTime  <= 60)"
+              (change)="updateAllCheckboxes($event, element.value); removeCheck(element)"
+              [disabled]="
+              !(
+                element.value.previewWindowTime !== null &&
+                element.value.previewWindowTime !== undefined &&
+                element.value.previewWindowTime !== '' &&
+                element.value.previewWindowTime >=15 &&
+                element.value.previewWindowTime  <= 60
+                
+              )
+            "
+            ></mat-checkbox>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns"></tr>
+        </table>
+
+        <div
+        class="pull-center"
+        style="margin-top: 5px"
+        [hidden]="sectionsData.data.length > 0"
+      >
+        <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+      </div>
+
+        <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      >
+      </mat-paginator>
+      </ng-container>
+    </form>
+  </mat-card-content>
+</mat-card>

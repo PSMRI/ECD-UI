@@ -1,0 +1,60 @@
+.innerCard {
+    height: auto;
+    color: #ffffff;
+    margin-top: 5px;
+    margin-left: 15px;
+    margin-right: 15px;
+    width: 95%;
+    background-color: #f2f2f2;
+    border: 1px solid #4fa2d0;
+    margin-bottom: 20px;
+  }
+  
+  .inner {
+    display: inline-block;
+  }
+  .fontStyle {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: #00071e;
+  }
+  .fontHeaderStyle {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: #00071e;
+  }
+  .example-full-width-subject {
+    width: 24%;
+    margin-right: 10px;
+    padding: 10px;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    }
+    .labelColor {
+      color: #4fa2d0 !important;
+      font-weight: 500;
+    }
+    .fontStyle {
+      font-family: "Lato", sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: #00071e;
+    }
+    .fieldAlignment {
+      max-width: 270px;
+      /* padding: 7px; */
+      margin: 0px;
+      font-size: 13px;
+      width: 100%;
+    }
+    .fontStyleHeading {
+      font-family: "Lato", sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+    }
+    .mainHeading {
+      padding: 5px;
+  }

@@ -1,0 +1,115 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+  <h2 class="inner mainHeading">
+    {{ currentLanguageSet?.reports }}
+  </h2>
+</div>
+<mat-card class="innerCard">
+  <form [formGroup]="reportsForm">
+    <mat-form-field
+      appearance="outline"
+      class="align"
+      style="padding: 15px; width: 320px; font-size: 12px !important"
+    >
+      <mat-label>{{ currentLanguageSet?.enterDateRange }}</mat-label>
+      <mat-date-range-input [rangePicker]="picker"  [max]="today">
+        <input
+          matStartDate
+          formControlName="startDate"
+          placeholder="Start date"
+          required
+        />
+        <input
+          matEndDate
+          formControlName="endDate"
+          placeholder="End date"
+          required
+         
+        />
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+
+      <mat-error
+        *ngIf="
+      reportsForm.controls.startDate.errors?.['required']"
+      >
+        {{ currentLanguageSet?.dateIsRequired }}</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="outline"
+      id="filterBox"
+      class="pull-right searchInput blueInput"
+      style="float: right"
+    >
+      <mat-label class="labelColor">{{
+        currentLanguageSet?.inTableSearch
+      }}</mat-label>
+      <input
+        matInput
+        name="searchTerm"
+        formControlName="searchTerm"
+        (keyup)="filterSearchTerm(filterTerm.value)"
+        placeholder=""
+        #filterTerm
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </form>
+
+  <div class="mat-elevation-z8" style="margin-top: 30px">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      aria-describedby="reportsList"
+      matSort
+    >
+      <ng-container matColumnDef="sno">
+        <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+          {{ currentLanguageSet?.sno }}
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="reportName">
+        <th mat-header-cell *matHeaderCellDef style="border-bottom: none;" mat-sort-header>
+          {{ currentLanguageSet?.reportName }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.reportName }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+          {{ currentLanguageSet?.action }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <!-- <mat-icon (click)="downloadReport(element)"  [disabled]="reportsForm.invalid">file_download</mat-icon> -->
+          <button mat-icon-button [disabled]="reportsForm.invalid" (click)="downloadReport(element)">
+            <mat-icon>file_download</mat-icon>
+          </button>
+          
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  <div
+  class="pull-center"
+  style="margin-top: 5px"
+  [hidden]="dataSource.data.length > 0"
+>
+  <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+</div>
+  <mat-paginator
+    #myPaginator
+    [pageSizeOptions]="[5, 10, 20]"
+    [pageSize]="5"
+    showFirstLastButtons
+    aria-label="Select page of Alerts elements"
+  >
+  </mat-paginator>
+</mat-card>

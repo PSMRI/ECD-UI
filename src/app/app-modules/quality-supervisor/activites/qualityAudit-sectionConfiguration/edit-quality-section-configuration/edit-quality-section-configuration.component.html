@@ -1,0 +1,120 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+    <h2 class="mainHeading">
+        {{ currentLanguageSet?.editQualityAuditSectionConfig }}
+      </h2>  
+</div>
+<mat-card class="innerCard">
+    <mat-card-content>
+        <form
+        [formGroup]="editqualityAuditSectionForm"
+        autocomplete="off"
+        style="margin-top: 10px"
+      >
+      <div class ="row">
+        <div  class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+          <mat-form-field class="backgroundWhite" style="width:100%"  appearance="outline">
+            <mat-label>{{currentLanguageSet?.sectionName}}</mat-label>
+            <input
+              matInput
+              #sectionName
+              defaultNull
+              minlength="5"
+              maxlength="100"
+              formControlName="sectionName"
+              appTextareaWithCopyPaste
+            />
+            <mat-error
+              *ngIf="
+              editqualityAuditSectionForm.controls.sectionName.errors
+                  ?.['required']
+              "
+            >
+              {{ currentLanguageSet?.sectionNameRequired }}</mat-error
+            >
+            <mat-error
+              *ngIf="
+              editqualityAuditSectionForm.controls.sectionName.errors
+                  ?.['minlength']
+              "
+              >{{
+                currentLanguageSet?.shouldContainAtleast2Charc
+              }}</mat-error
+            >
+            <mat-error
+              *ngIf="
+              editqualityAuditSectionForm.controls.sectionName.errors
+                  ?.['maxlength']
+              "
+              >{{
+                currentLanguageSet?.shouldContain50CharOnly
+              }}</mat-error
+            >
+            <mat-error *ngIf="editqualityAuditSectionForm.controls['sectionName'].hasError('whitespace')">Please enter valid data</mat-error>            
+
+          </mat-form-field>.
+        </div>
+        <div  class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+          <mat-form-field class="backgroundWhite" style="width:100%" appearance="outline">
+            <mat-label>{{currentLanguageSet?.rank}}</mat-label>
+            <input
+            matInput
+            placeholder=""
+            id="rank"
+            formControlName="rank"
+            appMobileNumber
+            type="number"
+            [min]="1"
+            [max]="10000"
+            defaultNull
+            required
+            />
+            <mat-error
+            *ngIf="editqualityAuditSectionForm.controls.rank.errors?.['required']"
+          >
+            {{ currentLanguageSet?.rankIsRequired }}</mat-error
+          >
+          </mat-form-field>
+        </div>
+       </div> 
+     <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <mat-form-field class="backgroundWhite"  style="width: 100%; line-height: 30px;" appearance="outline">
+          <mat-label>{{currentLanguageSet?.sectionDescription}}</mat-label>
+          <textarea
+            matInput
+            #message
+            minlength="5"
+            maxlength="300"
+            appTextarea
+            formControlName="sectionDesc"
+            appTextareaWithCopyPaste
+          ></textarea>
+          <mat-error
+            *ngIf="editqualityAuditSectionForm.controls.sectionDesc?.errors?.['minlength']"
+            >{{ currentLanguageSet.shouldContainAtleast2Charc }}
+          </mat-error>
+          <mat-error
+            *ngIf="editqualityAuditSectionForm.controls.sectionDesc?.errors?.['maxlength']"
+            >{{ currentLanguageSet.shouldContain300CharOnly }}</mat-error
+          >
+          <mat-error *ngIf="editqualityAuditSectionForm.controls['sectionDesc'].hasError('nonWhitespace')">Please enter valid data</mat-error>            
+        </mat-form-field>
+      </div>
+     </div>
+     
+     <div
+     class="pull-right col-xs-12 col-sm-12 col-md-12 col-lg-12"
+     style="margin-top: 20px;justify-content: right;"
+   >
+     <button mat-raised-button class="buttonColorRed full-width buttonWidth" type="back" (click)="back()">
+       {{ currentLanguageSet?.back }}
+     </button>
+     <button mat-raised-button style="margin-left: 10px" class="buttonColorGreen full-width buttonWidth"   type="submit"
+     (click)="updateSectionConfiguration(editqualityAuditSectionForm.value)"
+     [disabled]="!editqualityAuditSectionForm.valid || !editqualityAuditSectionForm.dirty " >
+       {{ currentLanguageSet?.update }}
+     </button>
+   </div>
+        </form>
+    </mat-card-content>
+</mat-card>

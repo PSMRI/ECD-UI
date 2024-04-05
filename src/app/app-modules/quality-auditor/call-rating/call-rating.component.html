@@ -1,0 +1,133 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+  <h2 class="mainHeading">
+    {{ currentLanguageSet?.agentRating }}
+  </h2>
+</div>
+
+<mat-card class="innerCard">
+  <!-- <div>
+    <h2 style="margin-right: 30px" class="mainHeading inner">
+      {{ routedData.agetname }} {{ currentLanguageSet?.recording }}
+    </h2>
+    <audio controls><source src="{{ audioResponse }}" type="audio/ogg" />
+      <source src="{{ audioResponse }}" type="audio/mpeg" />
+    </audio>
+  </div> -->
+
+  <div  class="inner" *ngIf="audioResponse !== undefined && audioResponse !== null && audioResponse !== ' '">
+    <h2 style="margin-right: 30px;overflow: hidden;" class="mainHeading">
+      {{ routedData.agetname | titlecase }} {{ currentLanguageSet?.recording }} :
+    </h2>
+    </div>
+    <div class="inner" *ngIf="audioResponse !== undefined && audioResponse !== null && audioResponse !== ' '">
+    <audio controls style="margin-top: 12px;"><source src="{{ audioResponse }}" type="audio/ogg" />
+      <source src="{{ audioResponse }}" type="audio/mpeg" />
+    </audio>
+  </div>
+
+
+  <div *ngFor="let section of filteredRatingQuestions">
+    <h2 style="margin-top: 25px" class="mainHeading">
+      {{ section.sectionName }}
+    </h2>
+    <mat-divider [inset]="false" class="headerDivider"></mat-divider>
+    <table
+      class="alignTable mainTable"
+      mat-table
+      [dataSource]="section.questions"
+    >
+    <ng-container matColumnDef="questionnaire">
+        <th mat-header-cell *matHeaderCellDef></th>
+          <td class="questionWidth" mat-cell *matCellDef="let element">
+            <span [ngStyle]="{'font-weight': element.isFatalQues ? '600' : 'normal',
+                              'color': element.isFatalQues ? 'red' : 'inherit'}">
+            {{ element.question }}
+            </span>
+          </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="optionsQuestionnaire">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <ng-container>
+          <td class="optionsWidth" mat-cell *matCellDef="let element" style="text-align: center !important;">
+            <mat-radio-group
+              [(ngModel)]="element.answer"
+              aria-label="Select an option"
+              (change)="calculateScore(element, section);enableUpdate()"
+            >
+              <mat-radio-button *ngFor="let option of element.options" [value]="option.option">
+                {{ option.option }}
+              </mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </ng-container>
+      
+        <!-- <ng-container *ngIf="auditType === 'callReAudit'">
+          <td class="scorewidth" mat-cell *matCellDef="let element">
+            {{ element.answer }}
+          </td>
+        </ng-container> -->
+      
+        <td style="font-weight: 600" mat-footer-cell *matFooterCellDef>
+          Total Score :
+        </td>
+      </ng-container>
+      
+
+      <ng-container matColumnDef="scoreQuestionaire">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ currentLanguageSet?.score }}
+        </th>
+        <td class="scorewidth" mat-cell *matCellDef="let element">
+          {{ element.score }}
+        </td>
+        <td mat-footer-cell *matFooterCellDef #footer>
+          {{ section.totalScore }}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+    </table>
+  </div>
+
+  <div style="margin-top: 25px">
+    <table class="tableAlign">
+      <tr>
+        <td >Final Score:</td>
+        <td style="padding-left: 40px;">{{ finalScore }}</td>
+      </tr>
+      <tr>
+        <td >Final Score in Percentage:</td>
+        <td style="padding-left: 40px;">{{ finalScorePercentage | number: '1.2-2'}} %</td>
+      </tr>
+      <tr>
+        <td>Final Grade:</td>
+        <td style="padding-left: 40px;">{{ finalGrade }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <mat-form-field
+        style="width: 500px; line-height: 30px; margin-top: 95px"
+        appearance="outline" class="backgroundWhite fontStyle"
+      >
+        <mat-label>{{ currentLanguageSet?.callRemarks }}</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="callRemarks"
+          name="callRemarks"
+          (change)="enableUpdate()"
+        ></textarea>
+      </mat-form-field>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right">
+    <button mat-raised-button style="margin: 5px;" class="buttonColorRed full-width buttonWidth" (click)="backToQualityAudit()"> {{currentLanguageSet?.back}} </button>
+    <button *ngIf="auditType !== 'callReAudit'" mat-raised-button style="margin: 5px;" class="buttonColorGreen full-width buttonWidth" (click)="saveRatings()" > {{currentLanguageSet?.submit}} </button>
+    <button *ngIf="auditType === 'callReAudit'" mat-raised-button style="margin: 5px;" class="buttonColorGreen full-width buttonWidth" [disabled]="!enableUpdateButton" (click)="updateRatings()" > {{currentLanguageSet?.update}} </button>
+
+</div>
+</mat-card>

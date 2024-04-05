@@ -1,0 +1,17 @@
+<!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
+<iframe
+  tabindex="{0}"
+  [src]="ctiHandlerURL"
+  width="230px"
+  height="380px"
+  class="czenrix-bar"
+  title="czentrixBar"
+  [hidden]="barMinimized"
+  (click)="toggleBar()"
+></iframe>
+<!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
+<button id="check" (click)="toggleBar()" tabindex="{0}" class="iframeButton" mat-fab aria-label="call">
+    <mat-icon>call</mat-icon>
+</button>
+    
+  

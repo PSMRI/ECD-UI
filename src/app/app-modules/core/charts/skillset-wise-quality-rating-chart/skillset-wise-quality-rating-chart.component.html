@@ -1,0 +1,124 @@
+<mat-card class="cardAlign">
+  <div>
+    <mat-icon
+      
+      style="float: left; margin-top: -3px; color: #00071e"
+      >pie_chart</mat-icon
+    >
+    <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12  titleDisplay">
+      {{ currentLanguageSet?.actorWiseSkillSetWiseQualityRatings }}
+    </p>
+    </div>
+
+ 
+
+    <!-- <button mat-raised-button [matMenuTriggerFor]="menu" class="buttonColor">
+      Agent Filter
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+
+    <button mat-raised-button [matMenuTriggerFor]="menu" class="buttonColor">
+      Frequency Filter
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu> -->
+
+
+  <mat-divider
+    [inset]="true"
+    class="cardDivider"
+  ></mat-divider>
+  <!-- <div class="row">
+    <button
+      mat-raised-button
+      [matMenuTriggerFor]="menu"
+      class="buttonColor pull-left"
+      style="margin-top: 2px; float: left"
+    >
+      Agent Filter
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+
+    <button mat-raised-button [matMenuTriggerFor]="menu" class="buttonColor">
+      Frequency Filter
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+  </div> -->
+
+  <!-- <div class="row"> -->
+  <!-- <table class="example-full-width" cellspacing="0" style="margin-top: 10px;">
+    <tr>
+      <td> -->
+
+        
+          <div class="fieldStyle" style="margin-top: 10px;">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" >
+        <mat-form-field
+          appearance="outline"
+          class="dropdownAlignment blueInput fontStyle"
+          [style.width]="'100%'"
+        >
+          <mat-label class="labelStyle">{{
+            currentLanguageSet?.agentFiler
+          }}</mat-label>
+          <mat-select
+            mdInput
+            class="mat-select-blue"
+            [(ngModel)]="agentRole"
+            (selectionChange)="getSkillSetQualityRatingsData()"
+          >
+            <mat-option *ngFor="let roles of roleList" [value]="roles.roleName">
+              {{ roles.roleName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- </td>
+      <td> -->
+     
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+        <mat-form-field
+          appearance="outline"
+          class="dropdownAlignment blueInput fontStyle marginStyle"
+        
+          [style.width]="'100%'"
+        >
+          <mat-label class="labelStyle">{{
+            currentLanguageSet?.monthFilter
+          }}</mat-label>
+          <mat-select
+            mdInput
+            class="mat-select-blue"
+            [(ngModel)]="month"
+            (selectionChange)="getSkillSetQualityRatingsData()"
+          >
+            <mat-option
+              *ngFor="let month of monthsOfCurrentYear"
+              [value]="month.month"
+            >
+              {{ month.month }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+     
+     
+      <!-- </td>
+    </tr>
+  </table> -->
+
+  </div>
+
+  <div id="mainQualityChart" class="chartAlign"></div>
+</mat-card>

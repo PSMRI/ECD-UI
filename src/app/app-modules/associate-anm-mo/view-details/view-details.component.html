@@ -1,0 +1,441 @@
+<h2 class="fontStyle" mat-dialog-title>View Record</h2>
+<button class="inline closeButton" mat-icon-button mat-dialog-close aria-label="Close">
+    <mat-icon>close</mat-icon>
+</button>
+<mat-dialog-content>
+    <form class="row" *ngIf="data.activeMother" [formGroup]="viewOutboundWorklistForm"
+    autocomplete="off"
+    style="margin-top: 10px"
+  >
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+    <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+        <mat-label>Record Upload Date</mat-label>
+        <input
+          matInput
+          placeholder=""
+          id="recordUploadDate"
+          formControlName="recordUploadDate"
+          appMobileNumber
+          type="text"
+          defaultNull
+          
+          readonly
+        />
+      </mat-form-field>
+  </div>
+   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+    <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>Mother Id</mat-label>
+      <input
+        matInput
+        placeholder=""
+        id="motherId"
+        formControlName="motherId"
+        appMobileNumber
+        type="text"
+        defaultNull
+        
+        readonly
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box ">
+    <mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>Mother Name</mat-label>
+      <input
+        matInput
+        placeholder=""
+        id="motherName"
+        formControlName="motherName"
+        appMobileNumber
+        type="text"
+        defaultNull
+        
+        readonly
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+    <mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>Husband's Name</mat-label>
+      <input 
+        matInput
+        placeholder=""
+        id="husbandName"
+        formControlName="husbandName"
+        appMobileNumber
+        type="text"
+        defaultNull
+        
+        readonly
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+    <mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>Health Block</mat-label>
+      <input 
+        matInput
+        placeholder=""
+        id="healthBlock"
+        formControlName="healthBlock"
+        appMobileNumber
+        type="text"
+        defaultNull
+        
+        readonly
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+    <mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>PHC Name</mat-label>
+      <input
+        matInput
+        placeholder=""
+        id="phcName"
+        formControlName="phcName"
+        appMobileNumber
+        type="text"
+        defaultNull
+        
+        readonly
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 box">
+    <mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>Address</mat-label>
+      <input
+        matInput
+        placeholder=""
+        id="Address"
+        formControlName="Address"
+        appMobileNumber
+        type="text"
+        defaultNull
+        
+        readonly
+      />
+    </mat-form-field>
+  </div>
+  
+
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+    <mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>Sub Facility / Sub Center</mat-label>
+      <input
+        matInput
+        placeholder=""
+        id="subFacility"
+        formControlName="subFacility"
+        appMobileNumber
+        type="text"
+        defaultNull
+        
+        readonly
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+    <mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>Phone Number</mat-label>
+      <input
+        matInput
+        placeholder=""
+        id="phoneNo"
+        formControlName="phoneNo"
+        appMobileNumber
+        type="text"
+        defaultNull
+        
+        readonly
+      />
+    </mat-form-field>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+    <mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>Asha</mat-label>
+      <input
+        matInput
+        placeholder=""
+        id="Aasha"
+        formControlName="Aasha"
+        appMobileNumber
+        type="text"
+        defaultNull
+        
+        readonly
+      />
+    </mat-form-field>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+    <mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>ANM</mat-label>
+      <input
+        matInput
+        placeholder=""
+        id="anmName"
+        formControlName="anmName"
+        appMobileNumber
+        type="text"
+        [min]="1"
+        [max]="100"
+        defaultNull
+        
+        readonly
+       
+      />
+    </mat-form-field>
+  </div>
+ 
+   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+    <mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>LMP Date</mat-label>
+      <input
+        matInput
+        placeholder=""
+        id="lmpDate"
+        formControlName="lmpDate"
+        appMobileNumber
+        type="text"
+        defaultNull
+        
+        readonly 
+      />
+    </mat-form-field>
+  </div> 
+
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+    <mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>Expected Delivery Date</mat-label>
+      <input
+        matInput
+        placeholder=""
+        id="edd"
+        formControlName="edd"
+        appMobileNumber
+        type="text"
+        defaultNull
+        
+        readonly
+      />
+    </mat-form-field>
+  </div> 
+
+  <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+    <mat-form-field appearance="outline" [style.width]="'100%'">
+      <mat-label>Next ANC Call Date</mat-label>
+      <input
+        matInput
+        placeholder=""
+        id="nextAnc"
+        formControlName="nextAnc"
+        appMobileNumber
+        type="text"
+        defaultNull
+        
+        readonly
+      />
+    </mat-form-field>
+  </div>   -->
+</form>
+<form class="row" *ngIf="data.activeChild" [formGroup]="viewOutboundWorklistFormForChild"
+autocomplete="off"
+style="margin-top: 10px"
+>
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+<mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+    <mat-label>Record Upload Date</mat-label>
+    <input
+      matInput
+      placeholder=""
+      id="recordUploadDate"
+      formControlName="recordUploadDate"
+      appMobileNumber
+      type="text"
+      defaultNull
+      
+      readonly
+    />
+  </mat-form-field>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+<mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+  <mat-label>Child Id</mat-label>
+  <input
+    matInput
+    placeholder=""
+    id="childId"
+    formControlName="childId"
+    appMobileNumber
+    type="text"
+    defaultNull
+    
+    readonly
+  />
+</mat-form-field>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box ">
+<mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+  <mat-label>Child Name</mat-label>
+  <input
+    matInput
+    placeholder=""
+    id="childName"
+    formControlName="childName"
+    appMobileNumber
+    type="text"
+    defaultNull
+    
+    readonly
+  />
+</mat-form-field>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+<mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+  <mat-label>Health Block</mat-label>
+  <input 
+    matInput
+    placeholder=""
+    id="healthBlock"
+    formControlName="healthBlock"
+    appMobileNumber
+    type="text"
+    defaultNull
+    
+    readonly
+  />
+</mat-form-field>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+<mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+  <mat-label>PHC Name</mat-label>
+  <input
+    matInput
+    placeholder=""
+    id="phcName"
+    formControlName="phcName"
+    appMobileNumber
+    type="text"
+    defaultNull
+    
+    readonly
+  />
+</mat-form-field>
+</div>
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+    <mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>Sub Facility / Sub Center</mat-label>
+      <input
+        matInput
+        placeholder=""
+        id="subFacility"
+        formControlName="subFacility"
+        appMobileNumber
+        type="text"
+        defaultNull
+        
+        readonly
+        readonly
+      />
+    </mat-form-field>
+    </div>
+<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 box">
+<mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+  <mat-label>Address</mat-label>
+  <input
+    matInput
+    placeholder=""
+    id="Address"
+    formControlName="Address"
+    appMobileNumber
+    type="text"
+    defaultNull
+    
+    readonly
+    readonly
+  />
+</mat-form-field>
+</div>
+
+
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+<mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+  <mat-label>Phone Number</mat-label>
+  <input
+    matInput
+    placeholder=""
+    id="phoneNo"
+    formControlName="phoneNo"
+    appMobileNumber
+    type="text"
+    defaultNull
+    
+    readonly
+    readonly
+  />
+</mat-form-field>
+</div>
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+<mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+  <mat-label>Asha</mat-label>
+  <input
+    matInput
+    placeholder=""
+    id="Aasha"
+    formControlName="Aasha"
+    appMobileNumber
+    type="text"
+    defaultNull
+    
+    readonly
+    readonly
+  />
+</mat-form-field>
+</div>
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+<mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+  <mat-label>ANM</mat-label>
+  <input
+    matInput
+    placeholder=""
+    id="anmName"
+    formControlName="anmName"
+    appMobileNumber
+    type="text"
+    [min]="1"
+    [max]="100"
+    defaultNull
+    
+    readonly
+   
+  />
+</mat-form-field>
+</div> 
+
+<!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
+<mat-form-field appearance="outline" [style.width]="'100%'">
+  <mat-label>Next PNC Call Date</mat-label>
+  <input
+    matInput
+    placeholder=""
+    id="nextPnc"
+    formControlName="nextPnc"
+    appMobileNumber
+    type="text"
+    defaultNull
+    
+    readonly
+  />
+</mat-form-field>
+</div>   -->
+</form>
+<!-- <button mat-button (click)="onNoClick()">No Thanks</button> -->
+</mat-dialog-content>

@@ -1,0 +1,86 @@
+<div class="row" style="margin:0px">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+        <h2 class="mainHeading">{{currentLanguageSet?.createSectionConfiguration}}</h2>
+    </div>
+</div>
+<mat-card class="innerCard">
+    <div>
+    <form class="fontStyle" [formGroup]="sectionconfigurationform">
+        <div>
+            <mat-form-field class="backgroundWhite fontStyle" appearance="outline">
+                <mat-label> {{currentLanguageSet?.sectionName}} </mat-label>
+                <input matInput id="sectionName" appTextareaWithCopyPaste formControlName="sectionName" name="sectionName" value="sectionName" />
+                    <mat-error *ngIf="sectionconfigurationform.controls.sectionName?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error>
+                    <mat-error *ngIf="sectionconfigurationform.controls.sectionName?.errors?.['minlength']">{{ currentLanguageSet.shouldContainAtleast2Charc }} </mat-error>
+                    <mat-error *ngIf="sectionconfigurationform.controls.sectionName?.errors?.['maxlength']">{{ currentLanguageSet.shouldContain300CharOnly }}</mat-error>
+                    <mat-error *ngIf="sectionconfigurationform.controls['sectionName'].hasError('whitespace')">Please enter valid data</mat-error>            
+                </mat-form-field>
+            <br>
+            <mat-form-field class="backgroundWhite fontStyle" style="width: 600px; line-height: 30px;" appearance="outline">
+                <mat-label> {{currentLanguageSet?.sectionDescription}} </mat-label>
+                <textarea matInput id="sectionDesc" appTextareaWithCopyPaste formControlName="sectionDesc" value="sectionDesc">
+                </textarea>
+                <mat-error *ngIf="sectionconfigurationform.controls.sectionDesc?.errors?.['minlength']">{{ currentLanguageSet.shouldContainAtleast5Charc }} </mat-error>
+                <mat-error *ngIf="sectionconfigurationform.controls.sectionDesc?.errors?.['maxlength']">{{ currentLanguageSet.shouldContain500CharOnly }} </mat-error>
+                <mat-error *ngIf="sectionconfigurationform.controls.sectionDesc?.errors?.['nonWhitespace']">Please enter valid data</mat-error>            
+            </mat-form-field>
+        </div>
+
+        <div class="row mt-20">
+            <div class="col-sm-12 step-btn m-b-20 pull-right">
+              <button
+              [disabled]="!sectionconfigurationform.valid"
+                mat-raised-button
+                class="buttonColor full-width"
+                type="submit"
+                (click)="addSections(sectionconfigurationform.value)"
+              >
+                {{ currentLanguageSet?.addSection }}
+              </button>
+            </div>
+          </div>
+    </form>
+    </div>
+
+    <div *ngIf="addSection.data.length > 0" class="mat-elevation-z8 responsiveTable">
+        <table class="alignTable" mat-table [dataSource]="addSection">
+            <ng-container matColumnDef="sNo">
+                <th mat-header-cell *matHeaderCellDef>S.No.</th>
+                <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="ecdSectionName">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.sectionName}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.sectionName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ecdSectionDescription">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.sectionDescription}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.sectionDesc}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.action}} </th>
+                <td mat-cell  *matCellDef="let element"> 
+                    <mat-icon (click)="removeSection(addSection.data.indexOf(element))">delete</mat-icon>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+        </table>
+        
+        <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageSize]="5"
+        showFirstLastButtons
+        aria-label="Select page of section elements"
+      >
+      </mat-paginator>
+    </div>
+
+    <div class="pull-right" style="margin-top: 25px;">
+        <button mat-raised-button style="margin: 5px;" class="buttonColorRed full-width buttonWidth" (click)="goBack()"> {{currentLanguageSet?.back}} </button>
+        <button *ngIf="addSection.data.length > 0" mat-raised-button style="margin: 5px;" class="buttonColorGreen full-width buttonWidth" (click)="createSectionConfiguration()" > {{currentLanguageSet?.submit}} </button>
+    </div>
+</mat-card>

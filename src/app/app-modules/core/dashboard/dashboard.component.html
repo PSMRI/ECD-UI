@@ -1,0 +1,155 @@
+<div class="mainContainer mainBox" style="margin-top: 2px" 
+[ngStyle]="selectedRole === 'Quality Supervisor'?{'height': 'auto'} : {'height': 'auto'}">
+  <!-- <mat-divider [inset]="false" class="headerDivider"></mat-divider> -->
+  <div>
+    <mat-card   [ngClass]="
+    selectedRole === 'Supervisor'
+      ? 'headerCardSupervisor'
+      : 'headerCard'">
+      <!-- <mat-toolbar color="primary"> -->
+        <div  class="card-container">
+          <div class="col-xs-12 col-sm-6">
+      <span *ngIf="selectedRole === 'Supervisor'" class="titleStyle">
+        {{ currentLanguageSet?.supervisorDashboard }}
+      </span>
+      
+      <span *ngIf="selectedRole === 'Quality Supervisor'" class="titleStyle">
+        <!-- <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 inner titleDisplay"> -->
+        {{ currentLanguageSet?.qualitySupervisorDashboard }}
+      </span>
+      <span
+        *ngIf="
+          selectedRole === 'ANM' ||
+          selectedRole === 'MO' ||
+          selectedRole === 'Associate'
+        "
+        class="inner titleStyle"
+        style="float: left;"
+      >
+        {{ currentLanguageSet?.myIdAgent }} - {{ agentId }}
+      </span>
+      </div>
+
+
+      <div class="col-xs-12 col-sm-6 iconStyle">
+      <mat-icon
+        *ngIf="selectedRole !== 'Supervisor'"
+        class="inner iconAlign cursorPointer"
+        matBadge="{{locationCount}}" matBadgeColor="warn"
+        matTooltip="{{ currentLanguageSet?.locationMessages }}"
+        (click)="openDialogcomponent(locMessagesUnreadCount, 'Location Message',communicationTypeId)"
+        >mail_outline</mat-icon
+      >
+      <mat-icon
+        *ngIf="selectedRole !== 'Supervisor'"
+        class="inner iconAlign cursorPointer"
+        matBadge="{{notificationCount}}" matBadgeColor="warn"
+        matTooltip="{{ currentLanguageSet?.notifications }}"
+        (click)="openDialogcomponent(notificationsUnreadCount, 'Notification', notificationTypeId)"
+        >push_pin</mat-icon
+      >
+      <mat-icon name="alerts"
+        *ngIf="selectedRole !== 'Supervisor'"
+        matBadge="{{alertCount}}" matBadgeColor="warn"
+        class="inner iconAlign cursorPointer"
+        matTooltip="{{ currentLanguageSet?.alerts }}"
+        (click)="openDialogcomponent(alertsUnreadCount, 'Alert', alertTypeId)"
+        >notifications_none</mat-icon
+      >
+      </div>
+      </div>
+      <!-- <button
+        *ngIf="selectedRole === 'Quality Supervisor'"
+        mat-raised-button
+        style="margin-top: -7px"
+        class="buttonColor buttonWidth inner fontStyle iconAlign"
+        (click)="loadReports()"
+      >
+        {{ currentLanguageSet?.reports }}
+      </button> -->
+      <!-- </mat-toolbar> -->
+    </mat-card>
+  </div>
+  <br />
+  <div
+    class="row"
+    *ngIf="
+      selectedRole === 'MO' ||
+      selectedRole === 'ANM' ||
+      selectedRole === 'Associate'
+    "
+  >
+    <div class="col-xs-12 col-sm-12">
+      <app-call-statistics></app-call-statistics>
+    </div>
+  </div>
+
+  <div  class="card-container" style="margin-bottom: 50px;">
+    <div
+      [ngClass]="
+        selectedRole === 'MO' ||
+        selectedRole === 'ANM' ||
+        selectedRole === 'Associate'
+          ? 'col-xs-12 col-sm-6 p-r-lg-0'
+          : 'col-xs-12 col-sm-12'
+      "
+    >
+      <app-activity-this-week></app-activity-this-week>
+    </div>
+    <div
+      class="col-xs-12 col-sm-6"
+      *ngIf="
+        selectedRole === 'MO' ||
+        selectedRole === 'ANM' ||
+        selectedRole === 'Associate'
+      "
+    >
+      <app-rating></app-rating>
+    </div>
+  </div>
+
+  <!-- <div class="content">
+    <div fxLayout="row wrap">
+      <div fxFlex="50%">
+        <app-activity-this-week></app-activity-this-week>
+      </div>
+      <div
+        fxFlex="50%"
+        *ngIf="
+          selectedRole === 'MO' ||
+          selectedRole === 'ANM' ||
+          selectedRole === 'Associate'
+        "
+      >
+        <app-rating></app-rating>
+      </div>
+    </div>
+  </div> -->
+
+  <div *ngIf="selectedRole === 'Supervisor'">
+    <app-reports></app-reports>
+  </div>
+
+  <!-- <div *ngIf="selectedRole === 'Quality Supervisor'" class="row"> -->
+    <div *ngIf="selectedRole === 'Quality Supervisor'" class="card-container">
+    <div class="col-xs-12 col-sm-6">
+      <app-centre-overall-quality-rating-chart></app-centre-overall-quality-rating-chart>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+      <app-skillset-wise-quality-rating-chart></app-skillset-wise-quality-rating-chart>
+    </div>
+  </div>
+
+  <div *ngIf="selectedRole === 'Quality Supervisor'" class="card-container">
+    <div class="col-xs-12 col-sm-6 p-r-lg-0">
+      <app-customer-satisfaction></app-customer-satisfaction>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+      <app-tenure-wise-quality-ratings></app-tenure-wise-quality-ratings>
+    </div>
+  </div>
+
+  <div *ngIf="selectedRole === 'Quality Supervisor'">
+    <app-agent-quality-score-chart></app-agent-quality-score-chart>
+  </div>
+</div>

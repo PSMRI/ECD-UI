@@ -1,0 +1,192 @@
+<div class="row" style="margin:0px">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+  <h2 class="inner fontStyle">{{ currentLanguageSet?.notifications }}</h2>
+  <button
+    mat-raised-button
+    class="buttonColor inner createButton fontStyleButton"
+    color="accent"
+    type="button"
+    (click)="showForm()"
+  >
+    {{ currentLanguageSet?.createNew }}
+  </button>
+</div>
+</div>
+<mat-card class="innerCard">
+  <div
+    class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+  >
+    <form [formGroup]="alertNotificationForm">
+      <mat-form-field 
+        appearance="outline"
+        id="fieldBackground"
+        style="padding: 15px; width: 320px; font-size: 12px !important;"
+        class="fontStyleDate">
+        <mat-label>{{ currentLanguageSet?.enterDateRange }}</mat-label>
+        <mat-date-range-input [rangePicker]="picker" >
+          <input
+            matStartDate
+            formControlName="start"
+            placeholder="Start date"
+            required
+          />
+          <input
+            matEndDate
+            formControlName="end"
+            placeholder="End date"
+            required
+          />
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        <mat-error
+          *ngIf="
+           alertNotificationForm.controls.start.errors?.['required']"
+        >
+          {{ currentLanguageSet?.dateIsRequired }}</mat-error
+        >
+        <!-- <mat-error
+            *ngIf="
+              alertNotificationForm.controls.end.hasError('matEndDateInvalid')
+            "
+            >Invalid end date</mat-error
+          > -->
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="accent"
+        type="button"
+        class="styleButton"
+        (click)="getNotificationOnSearch()"
+        [disabled]="alertNotificationForm.invalid"
+      >
+        {{ currentLanguageSet?.search }}
+      </button>
+
+      <mat-form-field
+      appearance="outline"
+      class="pull-right searchInput blueInput"
+      style="width:370px; float: right;"
+      *ngIf="notificationData.length !== 0"
+    >
+        <mat-label class="labelColor">{{
+          currentLanguageSet?.inTableSearch
+        }}</mat-label>
+        <input
+          matInput
+          [(ngModel)]="searchTerm"
+          name="searchTerm"
+          formControlName="searchTerm"
+          placeholder=""
+          #filterTerm
+          (keyup)="filterSearchTerm(filterTerm.value)"
+        />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="mat-elevation-z8" style="margin-top: 30px">
+  <table mat-table [dataSource]="alertDataSource" aria-describedby="notificationData" matSort>
+    <ng-container matColumnDef="sno" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header style="border-bottom: none">{{ currentLanguageSet?.sno }}</th>
+      <td mat-cell *matCellDef="let element; let i = index">{{ element.sno }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef  mat-sort-header style="border-bottom: none">{{ currentLanguageSet?.role }}</th>
+      <td mat-cell *matCellDef="let element">{{ element.role.RoleName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="office">
+      <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+        {{ currentLanguageSet?.office }}
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center !important;">{{ element?.workingLocation?.locationName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="subject">
+      <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+        {{ currentLanguageSet?.subject }}
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center !important;">{{ element.notification  }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="validFrom">
+      <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+        {{ currentLanguageSet?.validFrom }}
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center !important;">{{ element.validFrom |utcdate| date: 'MM/dd/yyyy' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="validTill">
+      <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+        {{ currentLanguageSet?.validTill }}
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center !important;">{{ element.validTill |utcdate| date: 'MM/dd/yyyy' }}</td>
+    </ng-container>
+    <!-- <ng-container matColumnDef="publish">
+      <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+        {{ currentLanguageSet?.publish }}
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button class="styleBtn" (click)="onPublish()">
+          {{ currentLanguageSet?.publish }}
+        </button>
+      </td>
+    </ng-container> -->
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef style="border-bottom: none">{{ currentLanguageSet?.edit }}</th>
+      <!-- <mat-icon matTooltip="Edit configuration" (click)="editSessionConfiguration()">edit</mat-icon> -->
+      <td mat-cell *matCellDef="let element" style="text-align: center !important;">
+        <mat-icon  class="mat-icon material-icons" 
+        *ngIf="!element.deleted" (click)="editAlert(element)" matTooltip="Edit"
+          >edit</mat-icon
+        >
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+        {{ currentLanguageSet?.action }}
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center !important;">
+        <button
+        *ngIf="element.deleted === true"
+          mat-raised-button
+          class="buttonColorGreen full-width buttonWidth"
+          (click)="activateDeactivateConfig(element, 'activate')"
+        >
+          {{ currentLanguageSet?.activate }}
+        </button>
+        <button
+        *ngIf="element.deleted === false"
+          mat-raised-button
+          class="buttonColorRed full-width buttonWidth"
+          (click)="activateDeactivateConfig(element, 'deactivate')"
+        >
+          {{ currentLanguageSet?.deactivate }}
+        </button>
+        <!-- <mat-icon (click)="activateDeactivateConfig()">delete</mat-icon> -->
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+  </table>
+  </div>
+  <div
+  class="pull-center"
+  style="margin-top: 5px"
+  [hidden]="alertDataSource.data.length > 0"
+  >
+      <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+  </div>
+  <mat-paginator
+    #myPaginator
+    [pageSizeOptions]="[5, 10, 20]"
+    [pageSize]="5"
+    showFirstLastButtons
+    aria-label="Select page of Notification elements"
+  >
+  </mat-paginator>
+</mat-card>

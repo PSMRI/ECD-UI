@@ -1,0 +1,30 @@
+<div class="mainContainer">
+    <div class="inner">
+        <mat-card class="mainCard">
+            <div class="headerCard">
+                <button mat-icon-button style="margin-top: 10px" class="arrowButton" matTooltip="Back To Dashboard">
+                    <mat-icon (click)="backToDashboard()">arrow_back</mat-icon>
+                </button>
+                <span class="fontStyleWrapup" *ngIf="ticks > 0" style="margin-left: 10px;">{{currentLanguageSet?.timeRemaining}}:  {{ticks}}</span> 
+                <button mat-raised-button class="buttonStyle" style="float: right;margin-top: 10px">
+                  <span class="fontStyle">{{agentStatus}}</span><span class="fontStyleTimer"> - {{callDuration}}</span>
+              
+                </button>
+                <form [formGroup]="agentInnerpageForm" style="display: inline-block; width: 96%;">
+                    <!-- <mat-label>My ID Agent -</mat-label> -->
+                </form>
+             
+            </div>
+        <!-- <ng-template #dynamicContent></ng-template> -->
+        <app-outbound-worklist  [hidden]="isEnableComp !== 'Outbound Worklist'"></app-outbound-worklist>
+        <app-ben-registration  [hidden]="isEnableComp !== 'Beneficiary Registration'"></app-ben-registration>
+        <app-beneficiary-call-history  [hidden]="isEnableComp !== 'Beneficiary Call History'"></app-beneficiary-call-history>
+        <app-ecd-questionnaire  [hidden]="isEnableComp !== 'ECD Questionnaire'"></app-ecd-questionnaire>
+        <app-call-closure  [hidden]="isEnableComp !== 'Call Closure'"></app-call-closure>
+
+        </mat-card>
+
+   
+      
+    </div>
+</div>

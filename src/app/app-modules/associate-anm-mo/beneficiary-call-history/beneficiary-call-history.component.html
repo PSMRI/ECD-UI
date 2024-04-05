@@ -1,0 +1,337 @@
+
+<div class="row">
+  <div class="col-lg-4 col-md--4 col-xs-12 col-sm-12">
+    <button mat-icon-button style="margin-top: 10px" class="arrowButton" matTooltip="Back To ECD Questionnare">
+      <mat-icon (click)="backToQuestinare()">arrow_back</mat-icon>
+    </button>
+    <h2 class="inner mainHeading fontStyleHeading">{{ currentLanguageSet?.benCallHistory }}</h2>
+  </div>
+  <!-- <div class="col-lg-4 col-md--4 col-xs-12 col-sm-12">
+    <mat-form-field appearance="outline" class="searchInput">
+      <mat-label for="sort-select">Sort By:</mat-label>
+      <mat-select id="sort-select" (selectionChange)="sortBy('ecdCallType')">
+        <mat-option *ngFor="let item of values" [value]="item">{{item.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div> -->
+  <div *ngIf="benHistoryData.length>0" class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
+    <mat-form-field
+  appearance="outline"
+  id="filterBox"
+  class="searchInput"
+  style="float: right;width: 370px;"
+>
+  <mat-label class="labelColor fontTable">{{
+    currentLanguageSet?.inTableSearch
+  }}</mat-label>
+  <input
+    matInput
+    name="searchTerm"
+    [(ngModel)]="searchTerm"
+    placeholder=""
+    #filterTerm
+    (keyup)="filterSearchTerm(filterTerm.value)"
+  />
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+  </div>
+</div> 
+  
+      <mat-card class="innerCard fontStyle">
+        <div class="fontStyle" style="font-size: 20px; text-align: center;" *ngIf="benHistoryData.length===0">No Record Found</div>
+        <div  *ngIf="benHistoryData.length>0">
+          <mat-accordion multi="false" >
+            <mat-expansion-panel *ngFor="let item of benHistoryData" (afterExpand)="getCallHistoryDetails(item.obCallId)">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <b class="fontHeaderStyle">{{item.displayEcdCallType}}-{{item.lastModDate | date: 'MM/dd/yyyy'}}</b>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-panel-description>
+                <div class="row" style="width:100%"> 
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" *ngIf="beneficiaryCallDetails.motherId!==null || beneficiaryCallDetails.motherId!==undefined">
+                  <mat-form-field
+                  style="width:100%"
+                  class="fieldAlignment fontStyle"
+                  appearance="outline"
+                >
+                  <mat-label>Mother Id</mat-label>
+                  <input
+                    matInput
+                    placeholder=""
+                    id="motherID"
+                    [value]="beneficiaryCallDetails.motherId"
+                    appMobileNumber
+                    type="text"
+                    defaultNull
+                    required
+                    readonly
+                  />
+                </mat-form-field>
+                </div>
+                 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" 
+                 *ngIf="beneficiaryCallDetails.motherName!==null || beneficiaryCallDetails.motherName!==undefined">
+                  <mat-form-field
+                  style="width:100%"
+                  class="fieldAlignment fontStyle"
+                  appearance="outline"
+                 
+                >
+                  <mat-label>Mother Name</mat-label>
+                  <input
+                    matInput
+                    placeholder=""
+                    id="motherName"
+                    [value]="beneficiaryCallDetails.motherName"
+                    type="text"
+                    defaultNull
+                    required
+                    readonly
+                  />
+                </mat-form-field>
+                 </div>
+                
+                
+                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"
+                  *ngIf="beneficiaryCallDetails.childId!==null || beneficiaryCallDetails.childId!==undefined">
+                    <mat-form-field
+                    style="width:100%"
+                    class="fieldAlignment fontStyle"
+                    appearance="outline">
+                    <mat-label>Child Id</mat-label>
+                    <input
+                      matInput
+                      placeholder=""
+                      id="childID"
+                      [value]="beneficiaryCallDetails.childId"
+                      appMobileNumber
+                      type="text"
+                      defaultNull
+                      required
+                      readonly
+                    />
+                  </mat-form-field>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"
+                  *ngIf="beneficiaryCallDetails.childName!==null || beneficiaryCallDetails.childName!==undefined">
+                    <mat-form-field
+                    style="width:100%"
+                    class="fieldAlignment fontStyle"
+                    appearance="outline"
+                  >
+                    <mat-label>Child Name</mat-label>
+                    <input
+                      matInput
+                      placeholder=""
+                      id="childName"
+                      [value]="beneficiaryCallDetails.childName"
+                      type="text"
+                      defaultNull
+                      required
+                      readonly
+                    />
+                  </mat-form-field>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"
+                  *ngIf="beneficiaryCallDetails.phoneNo!==null || beneficiaryCallDetails.phoneNo!==undefined">
+                    <mat-form-field
+                   style="width:100%"
+                   class="fieldAlignment fontStyle"
+                    appearance="outline"
+                  >
+                    <mat-label>Phone Number</mat-label>
+                    <input
+                      matInput
+                      placeholder=""
+                      id="phoneNo"
+                      [value]="beneficiaryCallDetails.phoneNo"
+                      appMobileNumber
+                      type="text"
+                      defaultNull
+                      required
+                      readonly
+                    />
+                  </mat-form-field>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"
+                  *ngIf="beneficiaryCallDetails.ashaName!==null || beneficiaryCallDetails.ashaName!==undefined">
+                    <mat-form-field
+                    style="width:100%"
+                    class="fieldAlignment fontStyle"
+                    appearance="outline"
+                  >
+                    <mat-label>Asha</mat-label>
+                    <input
+                      matInput
+                      placeholder=""
+                      id="asha"
+                      [value]="beneficiaryCallDetails.ashaName"
+                      appMobileNumber
+                      type="text"
+                      defaultNull
+                      required
+                      readonly
+                    />
+                  </mat-form-field>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"
+                  *ngIf="beneficiaryCallDetails.anmName!==null || beneficiaryCallDetails.anmName!==undefined">
+                    <mat-form-field
+                    style="width:100%"
+                    class="fieldAlignment fontStyle"
+                    appearance="outline"
+                  >
+                    <mat-label>ANM</mat-label>
+                    <input
+                      matInput
+                      placeholder=""
+                      id="callId"
+                      [value]="beneficiaryCallDetails.anmName"
+                      appMobileNumber
+                      type="text"
+                      defaultNull
+                      required
+                      readonly
+                    />
+                  </mat-form-field>
+                  </div>        
+                
+                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"
+                  *ngIf="beneficiaryCallDetails.lmpDate!==null || beneficiaryCallDetails.lmpDate!==undefined">
+                    <mat-form-field
+                    style="width:100%"
+                    class="fieldAlignment fontStyle"
+                    appearance="outline"
+                  >
+                    <mat-label>LMP Date</mat-label>
+                    <input
+                      matInput
+                      placeholder=""
+                      id="lmpDate"
+                      [value]="beneficiaryCallDetails.lmpDate | date: 'MM/dd/yyyy'"
+                      appMobileNumber
+                      type="text"
+                      defaultNull
+                      required
+                      readonly
+                    />
+                  </mat-form-field>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"
+                  *ngIf="beneficiaryCallDetails.dob!==null || beneficiaryCallDetails.dob!==undefined">
+                    <mat-form-field
+                    style="width:100%"
+                    class="fieldAlignment fontStyle"
+                    appearance="outline"
+                  >
+                    <mat-label>DOB</mat-label>
+                    <input
+                      matInput
+                      placeholder=""
+                      id="dateOfBirth"
+                      [value]="beneficiaryCallDetails.dob |date: 'MM/dd/yyyy'"
+                      appMobileNumber
+                      type="text"
+                      defaultNull
+                      required
+                      readonly
+                    />
+                  </mat-form-field>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"
+                  *ngIf="beneficiaryCallDetails.callTime!==null || beneficiaryCallDetails.callTime!==undefined">
+                    <mat-form-field
+                    style="width:100%"
+                    class="fieldAlignment fontStyle"
+                    appearance="outline"
+                  >
+                    <mat-label>Next Attemt Date and Time</mat-label>
+                    <input
+                      matInput
+                      placeholder=""
+                      type="datetime "
+                      [value]="beneficiaryCallDetails.callTime | date:'short'"
+                      appMobileNumber
+                      type="text"
+                      defaultNull
+                      required
+                      readonly
+                    />
+                  </mat-form-field>
+                </div>
+                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"
+                  *ngIf="beneficiaryCallDetails.ecdCallType!==null || beneficiaryCallDetails.ecdCallType!==undefined">
+                    <mat-form-field
+                    style="width:100%"
+                    class="fieldAlignment fontStyle"
+                    appearance="outline"
+                  >
+                    <mat-label>ECD Call Type</mat-label>
+                    <input
+                      matInput
+                      placeholder=""
+                      id="ecdCallType"
+                      [value]="beneficiaryCallDetails.ecdCallType"
+                      appMobileNumber
+                      type="text"
+                      defaultNull
+                      required
+                      readonly
+                    />
+                  </mat-form-field>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"
+                  *ngIf="beneficiaryCallDetails.adviseProvided!==null || beneficiaryCallDetails.adviseProvided!==undefined">
+                    <mat-form-field
+                    style="width:100%"
+                    class="fieldAlignment fontStyle"
+                    appearance="outline"
+                  >
+                    <mat-label>Advice Provided</mat-label>
+                    <input
+                      matInput
+                      placeholder=""
+                      id="adivceProvided"
+                      [value]="beneficiaryCallDetails.adviseProvided "
+                      appMobileNumber
+                      type="text"
+                      defaultNull
+                      required
+                      readonly
+                    />
+                  </mat-form-field>
+        
+  
+                  </div>     
+                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3"
+                  *ngIf="beneficiaryCallDetails.typeOfComplaint!==null || beneficiaryCallDetails.typeOfComplaint!==undefined">
+                    <mat-form-field
+                    style="width:100%"
+                    class="fieldAlignment fontStyle"
+                    appearance="outline"
+                  >
+                    <mat-label>Complaint</mat-label>
+                    <input
+                      matInput
+                      placeholder=""
+                      id="complaint"
+                      [value]="beneficiaryCallDetails.typeOfComplaint"
+                      appMobileNumber
+                      type="text"
+                      defaultNull
+                      required
+                      readonly
+                    />
+                  </mat-form-field>
+                  </div>
+                </div>                       
+              </mat-panel-description>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <div style="float: right;  margin-right: -25px;"> <app-czentrix-iframe></app-czentrix-iframe></div>
+        </div>
+       
+      </mat-card>
+ 
+
+

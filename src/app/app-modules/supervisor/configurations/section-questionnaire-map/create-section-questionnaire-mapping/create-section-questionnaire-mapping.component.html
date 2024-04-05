@@ -1,0 +1,259 @@
+<div class="row" style="margin:0px">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+  <h2 class="mainHeading">
+    {{ currentLanguageSet?.createSectionQuestionnaireMapping }}
+  </h2>
+</div>
+</div>
+<mat-card class="innerCard">
+  <mat-card-content>
+    <form
+      [formGroup]="sectionQuestionnaireMapForm"
+      autocomplete="off"
+      style="margin-top: 10px"
+    >
+      <mat-form-field
+        appearance="outline"
+        class="backgroundWhite dropdownAlignment fontStyle"
+      >
+        <mat-label class="fontStyle">{{
+          currentLanguageSet?.sectionName
+        }}</mat-label>
+        <mat-select
+          formControlName="sectionid"
+          (selectionChange)="
+            getUnMappedQuestionnaireMaster(
+              sectionQuestionnaireMapForm.controls.sectionid.value
+            )
+          "
+          required
+        >
+          <mat-option
+            *ngFor="let sections of sectionList"
+            [value]="sections.sectionId"
+          >
+            {{ sections.sectionName }}
+          </mat-option>
+        </mat-select>
+        <mat-error style="margin-top: 20px;"
+        *ngIf="
+        sectionQuestionnaireMapForm.controls.sectionid.errors?.['required']
+          "
+      >
+        {{ currentLanguageSet?.sectionNameIsRequired }}</mat-error
+      >
+      </mat-form-field>
+      
+
+      <div
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right"
+        *ngIf="this.quesDupList.controls.length !== 0"
+      >
+        <mat-form-field
+          *ngIf="this.quesDupList.controls.length !== 0"
+          appearance="outline"
+          class="pull-right searchInput blueInput"
+          style="width: 400px;"
+        >
+          <mat-label class="labelColor">{{
+            currentLanguageSet?.inTableSearch
+          }}</mat-label>
+          <input
+            matInput
+            formControlName="searchTerm"
+            placeholder=""
+            #filterTerm
+            (keyup)="
+              filterSearchTerm(
+                sectionQuestionnaireMapForm.controls.searchTerm.value
+              )
+            "
+          />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <ng-container   class="mat-elevation-z8 responsiveTable" *ngIf="enableQuestionnaireTable === true">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          formArrayName="questionnaireList"
+          aria-describedby="mapSectionQuestionnaireList"
+          matSort
+        >
+          <ng-container matColumnDef="sno">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ currentLanguageSet?.sno }}
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              [formGroupName]="getActualIndex(i)"
+            >
+              {{ dataSource.data.indexOf(element) + 1 }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="questionnaireType">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ currentLanguageSet?.questionnaireType }}
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              [formGroupName]="getActualIndex(i)"
+            >
+              {{ element.value.questionnaireType }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="questionnaire">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ currentLanguageSet?.questionnaire }}
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              [formGroupName]="getActualIndex(i)"
+              class="truncate-cell"
+            >
+              {{ element.value.questionnaire }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="rank">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ currentLanguageSet?.rank }}
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              [formGroupName]="getActualIndex(i)"
+            >
+              <mat-form-field appearance="standard" class="tableInput">
+                <input
+                  matInput
+                  type="number"
+                  appMobileNumber
+                  formControlName="rank"
+                  placeholder=""
+                  (keyup)="removeCheck(element)"
+                  [min]="1"
+                  [max]="10000"
+                />
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="roleType">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ currentLanguageSet?.role }}
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              [formGroupName]="getActualIndex(i)"
+            >
+              <mat-form-field appearance="standard" class="tableInput">
+                <mat-select
+            name="roleType"
+            [value]="roles"
+            multiple
+            formControlName="roleType"
+          >
+            <mat-option *ngFor="let type of roles" [value]="type.roleName">{{
+              type.roleName
+            }}</mat-option>
+          </mat-select>
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="selected">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              [formGroupName]="getActualIndex(i)"
+            >
+     
+              <mat-checkbox
+                formControlName="selected"
+                [checked]="element.value.selected === true"
+                (change)="addQuestionnaire($event, element.value)"
+                [disabled]="
+                  !(
+                    element.value.rank !== null &&
+                    element.value.rank !== undefined &&
+                    element.value.rank !== ''
+                  ) ||  !(
+                    element.value.roleType !== null &&
+                    element.value.roleType !== undefined &&
+                    element.value.roleType !== ''
+                  )
+                "
+                [required]="
+                 ( element.value.rank !== null &&
+                  element.value.rank !== undefined &&
+                  element.value.rank !== ''
+                    ? true
+                    : false) ||
+                    ( element.value.roleType !== null &&
+                  element.value.roleType !== undefined &&
+                  element.value.roleType !== ''
+                    ? true
+                    : false)
+                "
+              ></mat-checkbox>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; let i = index; columns: displayedColumns"
+          ></tr>
+        </table>
+
+        <div
+          class="pull-center"
+          style="margin-top: 5px"
+          [hidden]="dataSource.data.length > 0"
+        >
+          <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+        </div>
+
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 15]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </ng-container>
+
+      <div
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12  pull-right"
+        style="margin-top: 20px"
+      >
+        <button
+          mat-raised-button
+          class="buttonColorRedish full-width buttonWidth"
+          (click)="back()"
+          type="button"
+        >
+          {{ currentLanguageSet?.back }}
+        </button>
+        <button
+          mat-raised-button
+          class="buttonColorGreen full-width buttonWidth"
+          style="margin-left: 10px"
+          type="submit"
+          (click)="saveSectionQuestionnaireMapping()"
+          [disabled]="
+            selectedQuestionnaires.length === 0 ||
+            !sectionQuestionnaireMapForm.valid
+          "
+        >
+
+          {{ currentLanguageSet?.submit }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

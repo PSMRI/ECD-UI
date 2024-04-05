@@ -1,0 +1,85 @@
+.mainHeadingDiv {
+    margin-top: 15px;
+    margin-left: 30px;
+  }
+  
+  .mainHeading {
+    font-weight: 600;
+  }
+  .inner {
+    display: inline-block;
+  }
+  .innerCard {
+    height: auto;
+    margin-top: 5px;
+    margin-left: 15px;
+    margin-right: 15px;
+    max-width: 1160px;
+    width: 100%;
+    background-color: #f2f2f2;
+    border: 1px solid #4fa2d0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important; 
+    margin-bottom: 20px;
+  }
+  table {
+    width: 100%;
+    border-spacing: 0 8px !important;
+    border-collapse: separate !important;
+    background-color: #f2f2f2;
+    font-family: 'Lato', sans-serif;
+  }
+  
+  td.mat-cell {
+    border-bottom: 1px solid #4fa2d0;
+    border-top: 1px solid #4fa2d0;
+    background-color: white;
+    padding: 5px 15px 5px 15px;
+    /* text-align: justify; */
+  }
+  
+  th.mat-header-cell {
+    padding: 5px 15px 5px 15px;
+    color: #00071e;
+    font-size: 14px;
+    font-weight: 520;
+    /* text-align: center; */
+  }
+
+  .labelColor {
+    color: #4fa2d0 !important;
+    font-weight: 500;
+  }
+  
+  td.mat-cell:first-child {
+    border-left: 1px solid #4fa2d0;
+    background-color: white;
+  }
+  
+  td.mat-cell:last-child {
+    border-right: 1px solid #4fa2d0;
+    background-color: white;
+  }
+  mat-card {
+    max-width: 97%;
+    margin-left: 15px;
+    height: auto;
+  }
+  .mat-elevation-z8 {
+    box-shadow: none;
+  }
+
+  .align {
+    margin-right: 10px;
+    padding: 10px;
+  }
+  .styleButton{
+    background: #4FA2D0;
+    width: 150px;
+    height: 46px;
+     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+     border-radius: 10px !important;
+     /* float: right;
+     margin-right: 100px; */
+     color: #ffffff;
+  }

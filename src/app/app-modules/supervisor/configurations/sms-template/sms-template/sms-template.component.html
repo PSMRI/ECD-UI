@@ -1,0 +1,563 @@
+<div *ngIf="showTableFlag">
+<div class="row" style="margin:0px">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+  <h2 class="inner fontStyleHeading">{{ currentLanguageSet?.smsTemplate }}</h2>
+  <button
+    mat-raised-button
+    class="buttonColor inner createButton fontStyleButton"
+    (click)="showForm()"
+  >
+    {{ currentLanguageSet?.createNewSMSTemplate }}
+  </button>
+</div>
+</div>
+
+<mat-card class="innerCard">
+  <mat-card-content>
+    <div
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right"
+      *ngIf="this.templateList.length !== 0"
+    >
+    <mat-form-field
+      appearance="outline"
+      class="pull-right searchInput blueInput"
+      style="width: 400px;"
+    >
+      <mat-label class="labelColor">{{
+        currentLanguageSet?.inTableSearch
+      }}</mat-label>
+      <input
+        matInput
+        [(ngModel)]="searchTerm"
+        name="searchTerm"
+        placeholder=""
+        #filterTerm
+        (keyup)="filterSearchTerm(filterTerm.value)"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    </div>
+
+    <div class="mat-elevation-z8 responsiveTable" style="margin-top: 30px">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        aria-describedby="templateList"
+        matSort
+      >
+        <ng-container matColumnDef="sNo">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            style="border-bottom: none"
+          >
+            {{ currentLanguageSet?.sno }}
+          </th>
+          <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="templateName">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            style="border-bottom: none"
+          >
+            {{ currentLanguageSet?.templateName }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.smsTemplateName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="templateType">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            style="border-bottom: none"
+          >
+            {{ currentLanguageSet?.templateType }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element?.smsType?.smsType }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="template">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            style="border-bottom: none"
+          >
+            {{ currentLanguageSet?.template }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.smsTemplate }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="view">
+          <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+            {{ currentLanguageSet?.view }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon
+              class="cursorPointer"
+              matTooltip="{{ currentLanguageSet?.view }}"
+              (click)="view(element)"
+              >visibility</mat-icon
+            >
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef style="border-bottom: none">
+            {{ currentLanguageSet?.delete }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <button *ngIf="!element.deleted" mat-raised-button class="buttonColorRed full-width buttonWidth pull-right" type="button" (click)="ActivateDeactivate(element,true)">{{ currentLanguageSet?.deactivate }}</button>
+            <button *ngIf="element.deleted" [disabled]="element.deleted" mat-raised-button class="full-width buttonWidth pull-right" type="button" (click)="ActivateDeactivate(element,false)">{{ currentLanguageSet?.deactivated }}</button>  
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+      </table>
+      <div
+        class="pull-center fontStyle"
+        style="margin-top: 5px"
+        [hidden]="dataSource.data.length > 0"
+      >
+        <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+      </div>
+      <mat-paginator
+        #myPaginator
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageSize]="5"
+        showFirstLastButtons
+        aria-label="Select page of SMS Template list"
+      >
+      </mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>
+</div>
+
+<div *ngIf="!showTableFlag  && !viewTemplate">
+  <div class="row" style="margin:0px">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+  <h2 class="inner fontStyleHeading">{{ currentLanguageSet?.createSMSTemplate }}</h2>
+</div>
+</div>
+
+<mat-card class="innerCard">
+<mat-card-content>
+  <form class="row" [formGroup]="createSMSTemplateForm">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+      <mat-form-field
+        appearance="outline"
+        class="backgroundWhite fieldAlignment fontStyle"
+      >
+        <mat-label class="fontStyle">{{ currentLanguageSet?.templateName }}</mat-label>
+        <input
+          matInput
+          placeholder=""
+          id="templateName"
+          formControlName="templateName"
+          maxlength="40"
+          defaultNull
+          required
+        />
+        <mat-error *ngIf="createSMSTemplateForm.controls['templateName'].hasError('whitespace')">Please enter valid data</mat-error>            
+      </mat-form-field>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+      <mat-form-field
+        appearance="outline"
+        class="backgroundWhite fieldAlignment fontStyle"
+      >
+        <mat-label class="fontStyle">{{ currentLanguageSet?.smsType }}</mat-label>
+        <mat-select
+          [style.width]="'100%'"
+          placeholder=""
+          id="smsType"
+          defaultNull
+          formControlName="smsType"
+        >
+          <mat-option
+            *ngFor="let smsTypeValue of SMS_Types"
+            [value]="smsTypeValue.smsTypeID"
+            >{{ smsTypeValue.smsType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div
+      class="col-xs-12 col-lg-12 p-t-4 marginAlign"
+    >
+      <mat-form-field
+      appearance="outline"
+      class="backgroundWhite questionnaireOptionsAlign fontStyle"
+      [style.width]="'70%'"
+      >
+        <mat-label class="fontStyle">{{ currentLanguageSet?.smsTemplates }}</mat-label>
+        <textarea
+          matInput
+          placeholder=""
+          appSmsTemplateValidator
+          id="smsTemplate"
+          formControlName="smsTemplate"
+          defaultNull
+          minlength="10"
+          maxlength="500"
+          required
+        ></textarea>
+        <mat-error
+        *ngIf="
+        createSMSTemplateForm.controls.smsTemplate.errors
+              ?.['minlength']
+          "
+        >{{
+          currentLanguageSet?.pleaseProvideMinimumTenCharacter
+        }}</mat-error
+      >
+      <mat-error
+        *ngIf="
+        createSMSTemplateForm.controls.smsTemplate.errors
+              ?.['maxlength']
+          "
+        >{{
+          currentLanguageSet?.pleaseProvideMaximumFiveHundredCharacter
+        }}</mat-error
+      >
+      <mat-error *ngIf="createSMSTemplateForm.controls['smsTemplate'].hasError('whitespace')">Please enter valid data</mat-error>            
+      </mat-form-field>
+    </div>
+
+    <div
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right"
+      style="margin-top: 20px"
+    >
+      <button
+        *ngIf="!showParameters"
+        mat-raised-button
+        class="buttonColor full-width buttonWidth"
+        type="submit"
+        style="margin-right: 10px"
+        [disabled]="createSMSTemplateForm.invalid"
+        (click)="extractParameters(createSMSTemplateForm.controls.smsTemplate.value)"
+      >
+        {{ currentLanguageSet?.continue }}
+      </button>
+    </div>
+  </form>
+
+  <div class="clearfix"></div>
+
+  <form class="row" [formGroup]="createParamsForm" *ngIf="showParameters">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+    <mat-form-field
+    appearance="outline"
+    class="backgroundWhite fieldAlignment fontStyle"
+    >
+      <mat-label class="fontStyle">{{ currentLanguageSet?.selectParameter }}</mat-label>
+      <mat-select
+        style="width: 100%"
+        required
+        placeholder=""
+        id="parameter"
+        defaultNull
+        formControlName="parameter"
+        (selectionChange)="getSMSparameters()"
+      >
+        <mat-option *ngFor="let parameter of smsDataParam" [value]="parameter"
+          >{{ parameter }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+    <mat-form-field
+    appearance="outline"
+    class="backgroundWhite fieldAlignment fontStyle"
+    >
+      <mat-label class="fontStyle">{{ currentLanguageSet?.selectValueType }}</mat-label>
+      <mat-select
+        [style.width]="'100%'"
+        required
+        placeholder=""
+        id="parameterValueType"
+        defaultNull
+        formControlName="parameterValueType"
+        (selectionChange)="setValuesInDropdown(createParamsForm.controls.parameterValueType.value)"
+      >
+        <mat-option
+          *ngFor="let parameterValuesType of smsParameters"
+          [value]="parameterValuesType"
+          >{{ parameterValuesType.smsParameterType }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+    <mat-form-field
+    appearance="outline"
+    class="backgroundWhite fieldAlignment fontStyle"
+    >
+      <mat-label class="fontStyle">{{ currentLanguageSet?.selectValue }}</mat-label>
+      <mat-select
+        [style.width]="'100%'"
+        required
+        placeholder=""
+        id="parameterValue"
+        defaultNull
+        formControlName="parameterValue"
+      >
+        <mat-option
+          *ngFor="let parameterVals of selectedParameterValues"
+          [value]="parameterVals"
+          >{{ parameterVals.smsParameterName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+    <button
+      *ngIf="showParameters"
+      mat-raised-button
+      class="buttonColor full-width buttonWidth"
+      type="submit"
+      style="margin-right: 10px; float: right;"
+      [disabled]="!createParamsForm.valid"
+      (click)="add(createParamsForm.value)"
+    >
+      {{ currentLanguageSet?.added }}
+    </button>
+    </div>
+  </form>
+  <div class="mat-elevation-z8" style="margin-top: 30px" *ngIf="smsParamsData.data.length>0">
+    <table mat-table [dataSource]="smsParamsData" aria-describedby="paramaterValue">
+      <ng-container matColumnDef="sNo">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          style="border-bottom: none"
+        >
+          {{ currentLanguageSet?.sno }}
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="smsParameterName">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          style="border-bottom: none"
+        >
+          {{ currentLanguageSet?.parameter }}
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ element.smsParameterName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="smsParameterType">
+        <th
+        mat-header-cell
+        *matHeaderCellDef
+        style="border-bottom: none"
+      >
+          {{ currentLanguageSet?.valueType }}
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ element.smsParameterType }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="smsParameterValue">
+        <th
+        mat-header-cell
+        *matHeaderCellDef
+        style="border-bottom: none"
+      >
+          {{ currentLanguageSet?.value }}
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ element.smsParameterValue }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th
+        mat-header-cell
+        *matHeaderCellDef
+        style="border-bottom: none"
+      >
+          {{ currentLanguageSet?.action }}
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <mat-icon
+            class="cursorPointer"
+            matTooltip="{{ currentLanguageSet?.remove }}"
+            (click)="remove(element,i)"
+            >clear</mat-icon
+          >
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns1"></tr>
+    </table>
+  </div>
+
+  <form
+    class="row"
+    [formGroup]="createSMSTemplateForm"
+    *ngIf="showParameters"
+  >
+    <div
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right"
+      style="margin-top: 20px"
+    >
+      <button
+        mat-raised-button
+        class="buttonColorGreen full-width buttonWidth"
+        type="submit"
+        style="margin-right: 10px"
+        [disabled]="smsParamsData.data.length!==Parameters_count"
+        (click)="saveSMStemplate(createSMSTemplateForm.value)"
+      >
+        {{ currentLanguageSet?.save }}
+      </button>
+    </div>
+  </form>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <button
+      mat-raised-button
+      class="buttonColorRed full-width buttonWidth"
+      type="submit"
+      style="margin-right: 10px"
+      (click)="showTable()"
+    >
+      {{ currentLanguageSet?.back }}
+    </button>
+  </div>
+</mat-card-content>
+</mat-card>
+</div>
+
+
+<div [hidden]="!viewTemplate">
+  <div class="row" style="margin:0px">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+  <h2 class="inner fontStyleHeading">{{currentLanguageSet?.viewSMSTemplate}}</h2>
+</div>
+</div>
+
+<mat-card class="innerCard">
+<mat-card-content>
+  <form class="row" [formGroup]="viewSMSTemplateForm">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+      <mat-form-field
+        appearance="outline"
+        class="backgroundWhite fieldAlignment fontStyle"
+      >
+        <mat-label class="fontStyle">{{currentLanguageSet?.templateName}}</mat-label>
+        <input
+          matInput
+          placeholder=""
+          id="templateName"
+          formControlName="templateName"
+          appMobileNumber
+          defaultNull
+          required
+          readonly
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+      <mat-form-field
+        appearance="outline"
+        class="backgroundWhite fieldAlignment fontStyle"
+      >
+        <mat-label class="fontStyle">{{currentLanguageSet?.smsType}}</mat-label>
+        <input
+          [style.width]="'100%'"
+          matInput
+          placeholder=""
+          required
+          id="smsType"
+          defaultNull
+          formControlName="smsType"
+          readonly
+        />
+      </mat-form-field>
+    </div>
+
+    <div
+      class="col-xs-12 col-lg-12 p-t-4 marginAlign"
+    >
+      <mat-form-field
+      appearance="outline"
+      class="backgroundWhite questionnaireOptionsAlign fontStyle"
+      [style.width]="'70%'"
+      >
+        <mat-label class="fontStyle">{{currentLanguageSet?.smsTemplates}}</mat-label>
+        <textarea
+          matInput
+          placeholder=""
+          appSmsTemplateValidator
+          id="smsTemplate"
+          formControlName="smsTemplate"
+          defaultNull
+          minlength="10"
+          maxlength="500"
+          required
+          readonly
+        ></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="mat-elevation-z8" style="margin-top: 30px">
+    <table mat-table [dataSource]="viewSMSparameterTable" aria-describedby="parameter">
+        <ng-container matColumnDef="sNo">
+            <th mat-header-cell *matHeaderCellDef style="border-bottom: none">{{currentLanguageSet?.sno}}</th>
+            <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="smsParameterName">
+            <th mat-header-cell *matHeaderCellDef style="border-bottom: none"> {{currentLanguageSet?.parameter}} </th>
+            <td mat-cell *matCellDef="let element"> {{element.smsParameterName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="smsParameterType">
+            <th mat-header-cell *matHeaderCellDef style="border-bottom: none"> {{currentLanguageSet?.valueType}} </th>
+            <td mat-cell *matCellDef="let element"> {{element.smsParameterType}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="smsParameterValue">
+            <th mat-header-cell *matHeaderCellDef style="border-bottom: none"> {{currentLanguageSet?.value}} </th>
+            <td mat-cell *matCellDef="let element"> {{element.smsParameterValue}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+        <tr mat-row *matRowDef="let element; columns: displayedColumns2;"></tr>
+    </table>
+  </div>
+
+    <div
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right"
+      style="margin-top: 20px"
+    >
+      <button
+        mat-raised-button
+        class="buttonColorRed full-width buttonWidth"
+        type="submit"
+        style="margin-right: 10px"
+        (click)="onBack()"
+      >
+        {{currentLanguageSet?.back}}
+      </button>
+    </div>
+  </form>
+</mat-card-content>
+</mat-card>
+</div>

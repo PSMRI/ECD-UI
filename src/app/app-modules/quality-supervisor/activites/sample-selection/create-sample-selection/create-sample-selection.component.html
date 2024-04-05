@@ -1,0 +1,311 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+    <h2 class="mainHeading">
+      {{ currentLanguageSet?.createSampleConfiguration }}
+    </h2>
+  </div>
+
+  <mat-card class="innerCard">
+    <mat-card-content>
+      <form class="row" [formGroup]="createSampleConfigurationForm"
+        autocomplete="off"
+        style="margin-top: 10px"
+        *ngIf="!enableEdit"
+      >
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom">
+          <mat-form-field class="backgroundWhite" appearance="outline" id="cycleId" style="width:100%">
+            <mat-label> {{ currentLanguageSet?.Cycles }}</mat-label>
+            <mat-select
+              formControlName="cycleId"
+              (selectionChange)="setCycle(createSampleConfigurationForm.controls['cycleId'].value)"
+              required
+            >
+              <mat-option
+                *ngFor="let cycle of cycleList"
+                [value]="cycle.id"
+              >
+                {{ cycle.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="createSampleConfigurationForm.controls['cycleId'].errors?.['required']"
+            >
+            {{ currentLanguageSet?.cyclesRequired }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom">
+          <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
+            <mat-label> {{ currentLanguageSet?.fromDay }}</mat-label>
+            <input
+              matInput
+              placeholder=""
+              id="fromDay"
+              formControlName="fromDay"
+              appMobileNumber
+              type="number"
+              maxlength="0"
+              [min]="1"
+              [max]="30"
+              defaultNull
+              required
+            />
+      
+            <mat-error
+              *ngIf="createSampleConfigurationForm.controls['fromDay'].errors?.['required']"
+            >
+            {{ currentLanguageSet?.fromDayRequired }}</mat-error
+            >
+          </mat-form-field>
+          
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom">
+          <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
+            <mat-label>{{ currentLanguageSet?.toDay }}</mat-label>
+            <input
+              matInput
+              placeholder=""
+              id="toDay"
+              formControlName="toDay"
+              appMobileNumber
+              type="number"
+              maxlength="0"
+              [min]="1"
+              [max]="31"
+              defaultNull
+              required
+            />
+      
+            <mat-error
+              *ngIf="createSampleConfigurationForm.controls['toDay'].errors?.['required']"
+            >
+            {{ currentLanguageSet?.toDayRequired }}</mat-error
+            >
+            <mat-error
+              *ngIf="createSampleConfigurationForm.controls['toDay'].hasError('valueGreater')">
+              {{ currentLanguageSet?.toDayGreater}}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box  m-bottom">
+          <mat-form-field  class="backgroundWhite" appearance="outline" [style.width]="'100%'">
+            <mat-label>{{ currentLanguageSet?.sampleANC}}</mat-label>
+            <input
+            (input)="calculateMe(createSampleConfigurationForm.controls['pncSampleSize'].value ,
+            createSampleConfigurationForm.controls['ancSampleSize'].value )"
+              matInput
+              placeholder=""
+              id="ancSampleSize"
+              formControlName="ancSampleSize"
+              appMobileNumber
+              type="number"
+              maxlength="0"
+              [min]="0"
+              [max]="100"
+              defaultNull
+              required
+            />
+  
+      
+            <mat-error
+              *ngIf="createSampleConfigurationForm.controls['ancSampleSize'].errors?.['required']"
+            >
+            {{ currentLanguageSet?.sampleANCRequired}}</mat-error
+            >
+            <!-- <mat-error
+              *ngIf="createGradeConfigurationForm.controls['gradeMax'].hasError('valueGreater')">
+               Maximum value should be greater than minimum value</mat-error
+            > -->
+          </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box  m-bottom">
+          <mat-form-field  class="backgroundWhite" appearance="outline" [style.width]="'100%'">
+            <mat-label>{{ currentLanguageSet?.samplePnc}}</mat-label>
+            <input 
+             (input)="calculateMe(createSampleConfigurationForm.controls['pncSampleSize'].value ,
+             createSampleConfigurationForm.controls['ancSampleSize'].value )"
+              matInput
+              placeholder=""
+              id="pncSampleSize"
+              formControlName="pncSampleSize"
+              appMobileNumber
+              type="number"
+              maxlength="0"
+              [min]="0"
+              [max]="100"
+              defaultNull
+              required
+            />
+      
+            <mat-error
+              *ngIf="createSampleConfigurationForm.controls['pncSampleSize'].errors?.['required']"
+            >
+            {{ currentLanguageSet?.samplePNCRequired}}</mat-error
+            >
+            <!-- <mat-error
+              *ngIf="createGradeConfigurationForm.controls['gradeMax'].hasError('valueGreater')">
+               Maximum value should be greater than minimum value</mat-error
+            > -->
+          </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box  m-bottom">
+          <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
+            <mat-label>{{ currentLanguageSet?.totalSampleSize}}</mat-label>
+            <input
+              matInput
+              placeholder=""
+              id="totalSampleSize"
+              formControlName="totalSampleSize"
+              appMobileNumber
+              type="number"
+              [min]="1"
+              [max]="200"
+              defaultNull
+              required
+              readonly
+            />
+      
+            <mat-error
+              *ngIf="createSampleConfigurationForm.controls['totalSampleSize'].errors?.['required']"
+            >
+            {{ currentLanguageSet?.totalSampleSizeRequired}}</mat-error
+            >
+            <mat-error
+              *ngIf="createSampleConfigurationForm.controls['totalSampleSize'].hasError('min')"
+            >
+            {{ currentLanguageSet?.totalSampleSizeGreaterThanZero}}</mat-error
+            >
+            <!-- <mat-error
+              *ngIf="createGradeConfigurationForm.controls['gradeMax'].hasError('valueGreater')">
+               Maximum value should be greater than minimum value</mat-error
+            > -->
+          </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box fields-width  m-bottom">
+          <div class="col-sm-12 step-btn m-b-20"
+          >
+            <button style="margin-top: 15px;"
+              [disabled]="
+                !createSampleConfigurationForm.valid"
+              mat-raised-button
+              class="buttonColor full-width"
+              type="button"
+              (click)="addSample(createSampleConfigurationForm.value)"
+            >
+            {{ currentLanguageSet?.addCycle}}
+            </button>
+          </div>
+        </div>
+      </div>
+      
+       <!-- Table code -->
+        <div class="responsiveTable"
+       style="margin-top: 30px"
+       *ngIf="dataSource.data.length > 0 && !enableEdit"
+     >
+       <table mat-table [dataSource]="dataSource" aria-describedby="sampleList">
+         <ng-container matColumnDef="cycleName">
+           <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef>Cycle</th>
+           <td mat-cell *matCellDef="let element">{{ element.cycleName }}</td>
+         </ng-container>
+     
+         <ng-container matColumnDef="fromDay">
+           <th mat-header-cell style="border-bottom: none" *matHeaderCellDef>
+            {{ currentLanguageSet?.fromDay }}
+           </th>
+           <td mat-cell *matCellDef="let element">
+             {{ element.fromDay }}
+           </td>
+         </ng-container>
+     
+         <ng-container matColumnDef="toDay">
+           <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef>
+            {{ currentLanguageSet?.toDay }}
+           </th>
+           <td mat-cell *matCellDef="let element">
+             {{ element.toDay }}
+           </td>
+         </ng-container>
+
+         <ng-container matColumnDef="ancSampleSize">
+            <th mat-header-cell style="border-bottom: none" *matHeaderCellDef>
+              {{ currentLanguageSet?.sampleANC }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.ancSampleSize }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="pncSampleSize">
+            <th mat-header-cell style="border-bottom: none" *matHeaderCellDef>
+              {{ currentLanguageSet?.samplePnc }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.pncSampleSize }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalSampleSize">
+            <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef>
+              {{ currentLanguageSet?.totalSampleSize }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.totalSampleSize }}
+            </td>
+          </ng-container>
+
+         <ng-container matColumnDef="actions">
+           <th mat-header-cell style="border-bottom: none" *matHeaderCellDef>
+            {{ currentLanguageSet?.delete }}
+           </th>
+           <td mat-cell *matCellDef="let element"> 
+             <mat-icon
+               class="cursorPointer"
+               matTooltip="{{ currentLanguageSet?.delete }}"
+               (click)="removeGradeConfiguration(dataSource.data.indexOf(element))"
+               >delete</mat-icon
+             >
+           </td>
+         </ng-container>
+         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+       </table>
+       <mat-paginator
+         [pageSizeOptions]="[5, 10, 20]"
+         [pageSize]="5"
+         showFirstLastButtons
+         aria-label="Select page of Grade elements"
+       >
+       </mat-paginator>
+     </div> 
+     <!-- End of Table code-->
+
+
+      <div
+          class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn-toolbar pull-right"
+          style="margin-top: 20px; justify-content: right;"
+        >
+          <button
+            mat-raised-button
+            class="buttonColorRed full-width buttonWidth"
+            (click)="back()"
+            type="button"
+          >
+          {{ currentLanguageSet?.back }}
+          </button>
+          <button
+            mat-raised-button
+            class="buttonColorGreen full-width buttonWidth"
+            style="margin-left: 10px"
+            type="reset"
+            (click)="saveSample()"
+            [disabled]="dataSource.data.length === 0"
+          >
+          {{ currentLanguageSet?.submit }}
+          </button>
+      </div>
+    </form>
+    </mat-card-content>
+  </mat-card>

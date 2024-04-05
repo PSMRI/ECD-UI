@@ -1,0 +1,92 @@
+<mat-card
+  [ngClass]="
+    selectedRole === 'MO' ||
+    selectedRole === 'ANM' ||
+    selectedRole === 'Associate'
+      ? 'cardAlign'
+      : 'cardAlignSupervisor'
+  "
+>
+  <div>
+    <mat-icon
+      class="inner"
+      style="float: left; margin-top: -3px; color: #00071e"
+      >list</mat-icon
+    >
+  
+    <p
+      *ngIf="
+        selectedRole === 'ANM' ||
+        selectedRole === 'MO' ||
+        selectedRole === 'Associate' || selectedRole === 'Quality Auditor'
+      "
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 inner titleDisplay"
+    
+    >
+      {{ currentLanguageSet?.activityForThisWeek }}
+    </p>
+    <p
+      *ngIf="
+        selectedRole === 'Supervisor' || selectedRole === 'Quality Supervisor'
+      "
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 inner titleDisplay"
+    >
+      {{ currentLanguageSet?.activitiesAndConfigurations }}
+    </p>
+  </div>
+  <mat-divider
+    [inset]="true"
+    class="cardDivider"
+  ></mat-divider>
+
+  <div style="margin-top: 10px">
+    <ul
+      [ngClass]="
+        selectedRole === 'Supervisor' ? 'listStyle' : 'qualityListStyle'
+      "
+      *ngIf="
+        selectedRole === 'Supervisor' || selectedRole === 'Quality Supervisor' || selectedRole === 'Quality Auditor'
+      "
+    >
+      <li
+        *ngFor="let activity of activities"
+        class="fontStyle"
+        style="margin-top: 10px; padding-left: 7px"
+       
+      >
+        <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
+        <a
+          class="cursorPointer textColor"
+          tabindex="{0}"
+          (click)="openScreen(activity.value)"
+          >{{ activity.screen }}</a
+        >
+      </li>
+    </ul>
+
+    <!-- <li *ngFor="let activity of activities">
+        <a class="inner cursorPointer textColor" (click)="openScreen(activity.value)">
+          <mat-icon class="mat-icon">check_circle</mat-icon>
+          <u>{{ activity.screen }}</u>
+        </a>
+      </li> -->
+    <ul
+      *ngIf="
+        selectedRole === 'ANM' ||
+        selectedRole === 'MO' ||
+        selectedRole === 'Associate'
+      "
+    >
+      <li>
+        <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
+        <a
+          class="inner cursorPointer textColor fontStyle"
+          tabindex="{0}"
+          (click)="openScreen('outboundWorklist')"
+        >
+          <u>{{ currentLanguageSet?.outboundWorklist }}</u></a
+        >
+      </li>
+    </ul>
+  </div>
+</mat-card>

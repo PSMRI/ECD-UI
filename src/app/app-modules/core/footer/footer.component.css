@@ -1,0 +1,28 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  background-color: #003089;
+  color: #ffffff;
+  margin: 0px;
+}
+
+.inner {
+  display: inline-block;
+}
+
+/* footer {
+  background: #336cfb;
+  height: 30px;
+  padding: 6px;
+  color:  #FFFFFF;
+}
+
+.footer-text {
+  margin: 0px;
+}
+
+.spec {
+  margin-top: -6px;
+} */

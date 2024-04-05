@@ -1,0 +1,86 @@
+<div class="row" style="margin:0px">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+        <h2 class="inner mainHeading"> {{currentLanguageSet?.addCallSectionQuestionMapping}} </h2>
+    </div>
+</div>
+<mat-card class="innerCard fontStyle">
+    <form [formGroup]="callSectionQuestionaireMappingForm">
+        <mat-form-field class="backgroundWhite fontStyle" appearance="outline">
+            <mat-label>Call Type</mat-label>
+            <input matInput id="callType" placeholder="call Type" formControlName="callType" readonly />
+        </mat-form-field>
+    </form>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right" *ngIf="sectionMappedData.length !== 0">
+        <mat-form-field
+        appearance="outline"
+        class="pull-right searchInput blueInput"
+        style="width: 400px;"
+      >
+        <mat-label class="labelColor">{{
+          currentLanguageSet?.inTableSearch
+        }}</mat-label>
+        <input
+          matInput
+          [(ngModel)]="searchTerm"
+          name="searchTerm"
+          placeholder=""
+          #filterTerm
+          (keyup)="filterSearchTerm(filterTerm.value)"
+        />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div>
+        <table class="alignTable" mat-table [dataSource]="sectionsList">
+            <ng-container matColumnDef="sNo">
+                <th mat-header-cell *matHeaderCellDef>S.No.</th>
+                <td mat-cell *matCellDef="let element;"> {{ sectionsList.data.indexOf(element) + 1 }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="sectionName">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.sectionName}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.sectionName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="rank">
+                <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.rank}} </th>
+                <td mat-cell  *matCellDef="let element"> 
+                    <mat-form-field>
+                        <input matInput appMobileNumber placeholder="" type="number" min="1" [(ngModel)]="element.sectionRank" (change)="uncheckCheckBox(element)" name="sectionRank">
+                    </mat-form-field>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="checked">
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell  *matCellDef="let element"> 
+                    <mat-checkbox [(ngModel)]="element.isChecked" (change)="disableSumbit(element); checkUniqueRank()" [disabled]="element.sectionRank === null"></mat-checkbox>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+        </table>
+        <div
+        class="pull-center"
+        style="margin-top: 5px"
+        [hidden]="sectionsList.data.length > 0"
+        >
+            <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+        </div>
+
+        <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageSize]="5"
+        showFirstLastButtons
+      >
+      </mat-paginator>
+    </div>
+    
+    <div class="pull-right" style="margin-top: 25px;">
+        <button mat-raised-button style="margin: 5px;" class="buttonColorRed full-width buttonWidth" (click)="goBack()"> {{currentLanguageSet?.back}} </button>
+        <button mat-raised-button style="margin: 5px;" class="buttonColorGreen full-width buttonWidth" (click)="onSubmit()" [disabled]="!enableSubmit" > {{currentLanguageSet?.submit}} </button>
+    </div>
+</mat-card>

@@ -1,0 +1,36 @@
+<div class="row" style="margin:0px">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+    <h2 class="mainHeading">{{currentLanguageSet?.editSectionConfiguration}}</h2>
+    </div>
+</div>
+<mat-card class="innerCard">
+    <div>
+    <form class="fontStyle" [formGroup]="editsectionconfigurationform">
+        <div>
+            <mat-form-field class="backgroundWhite" appearance="outline">
+                <mat-label> {{currentLanguageSet?.sectionName}} </mat-label>
+                <input matInput id="sectionName" appTextareaWithCopyPaste formControlName="sectionName" value="sectionName" />
+                <mat-error *ngIf="editsectionconfigurationform.controls.sectionName?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error>
+                <mat-error *ngIf="editsectionconfigurationform.controls.sectionName?.errors?.['minlength']">{{ currentLanguageSet.shouldContainAtleast2Charc }} </mat-error>
+                <mat-error *ngIf="editsectionconfigurationform.controls.sectionName?.errors?.['maxlength']">{{ currentLanguageSet.shouldContain300CharOnly }}</mat-error>
+                <mat-error *ngIf="editsectionconfigurationform.controls['sectionName'].hasError('whitespace')">Please enter valid data</mat-error>            
+
+            </mat-form-field>
+            <br>
+            <mat-form-field class="backgroundWhite" [style.width]="'70%'" appearance="outline">
+                <mat-label> {{currentLanguageSet?.sectionDescription}} </mat-label>
+                <textarea matInput id="sectionDescription" appTextareaWithCopyPaste formControlName="sectionDescription" value="sectionDescription">
+                </textarea>
+                <mat-error *ngIf="editsectionconfigurationform.controls.sectionDescription?.errors?.['minlength']">{{ currentLanguageSet.shouldContainAtleast5Charc }} </mat-error>
+                <mat-error *ngIf="editsectionconfigurationform.controls.sectionDescription?.errors?.['maxlength']">{{ currentLanguageSet.shouldContain500CharOnly }} </mat-error>
+                <mat-error *ngIf="editsectionconfigurationform.controls.sectionDescription?.errors?.['nonWhitespace']">Please enter valid data</mat-error>            
+            </mat-form-field>
+        </div>
+    </form>
+    </div>
+
+    <div class="pull-right" style="margin-top: 25px;">
+        <button mat-raised-button style="margin: 5px;" class="buttonColorRed full-width buttonWidth" (click)="goBack()"> {{currentLanguageSet?.back}} </button>
+        <button mat-raised-button style="margin: 5px;" class="buttonColorGreen full-width buttonWidth" (click)="updateSectionConfiguration()" [disabled]="!editsectionconfigurationform.valid || !editsectionconfigurationform.dirty" > {{currentLanguageSet?.update}} </button>
+    </div>
+</mat-card>

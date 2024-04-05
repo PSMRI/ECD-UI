@@ -1,0 +1,41 @@
+::ng-deep .mat-dialog-container{
+    overflow: hidden;
+    padding: 0px !important;
+}
+ ::ng-deep .mat-dialog-title{
+    background-color:#ffb800;
+    padding: 24px;
+ }
+
+ ::ng-deep .mat-dialog-content {
+    margin: 0px;
+    overflow: hidden;
+    padding-top: 25px;
+    padding-bottom: 50px;
+
+ }
+ .fontStyle{
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    position: relative;
+ }
+ 
+ .inline {
+   display: inline-block;
+ }
+
+ .closeButton {
+   float: right; 
+   margin-top: -40px;
+   background: #E14646;
+   color: #ffffff;
+   position: absolute;
+   margin-left: 79%;
+   margin-top: -100px;
+ }
+
+ .fieldStyleDisabled {
+   cursor: not-allowed;
+   pointer-events: none;
+ }

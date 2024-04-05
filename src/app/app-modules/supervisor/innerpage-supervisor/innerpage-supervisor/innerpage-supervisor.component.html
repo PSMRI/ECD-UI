@@ -1,0 +1,77 @@
+<div class="mainContainer fontStyle">
+  <div class="inner">
+    <mat-card class="mainCard">
+      <div class="headerCard">
+        <button
+          mat-icon-button
+          class="arrowButton pull-left"
+          matTooltip="Back To Dashboard"
+          (click)="navigateToPrev()"
+        >
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <form [formGroup]="innerpageheaderForm" style="display: inline-block; width: 96%;">
+          <mat-form-field appearance="outline" class="dropdownAlignment blueInput" id="fieldBackground">
+            <mat-select
+              class="mat-select-blue"
+              formControlName="selectedActivity"
+              value="selectedActivity"
+              placeholder="Activities"
+              (selectionChange)="onSelectionChange($event)"
+            >
+              <mat-option value="dataUpload">ECD Data Upload</mat-option>
+              <mat-option value="callAllocation">Call Allocation</mat-option>
+              <mat-option value="callReallocation">Call Reallocation</mat-option>
+              <mat-option value="alerts">Alerts</mat-option>
+              <mat-option value="notifications">Notifications</mat-option>
+              <mat-option value="locationMessages">Location Messages</mat-option>
+              <mat-option value="forceLogout">Force Logout</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="dropdownAlignment blueInput" id="fieldBackground">
+            <mat-select
+              class="mat-select-blue"
+              formControlName="selectedReport"
+              value="selectedReport"
+              placeholder="Reports"
+              (selectionChange)="onSelectionChange($event)"
+            >
+              <mat-option value="reports">ECD Reports</mat-option>
+              <!-- <mat-option value="callDetailReport">Call Detail Report </mat-option>
+              <mat-option value="callSummaryReport">Call Summary Report</mat-option>
+              <mat-option value="BenificiaryReport">Benficiary Wise Report</mat-option> -->
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="dropdownAlignment blueInput" id="fieldBackground">
+            <mat-select
+              class="mat-select-blue"
+              formControlName="selectedConfiguration"
+              value="selectedConfiguration"
+              placeholder="Configuration"
+              (selectionChange)="onSelectionChange($event)"
+            >
+              <mat-option value="callConfiguration"
+                >Call Configuration</mat-option
+              >
+              <mat-option value="autoPreviewDialing">Predictive Dialer</mat-option>
+              <mat-option value="smsTemplate">SMS Template</mat-option>
+              <mat-option value="sectionConfiguration" >Section Configuration</mat-option>
+              <mat-option value="QuestionnaireConfiguration"
+                >Questionnaire Configuration</mat-option
+              >
+              <mat-option value="MapSectionQuestionnaire"
+                >Map Section Questionnaire</mat-option
+              >
+              <mat-option value="MapQuestionnaireConfiguration"
+                >Map Questionaire </mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </div>
+      <ng-template #dynamicContent></ng-template>
+    </mat-card>
+  </div>
+</div>

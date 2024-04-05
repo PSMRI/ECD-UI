@@ -1,0 +1,30 @@
+<div class="inner">
+    <div class="mainCard">
+        <mat-dialog-content>
+        <div mat-dialog-title>
+        <h2 class="headerCard inline subjectFont">
+        {{ dialogTitle }}
+        </h2>
+        <button class="inline closeButton" mat-icon-button aria-label="Close">
+            <mat-icon (click)="markAllAsRead(dialogContent)">close</mat-icon>
+        </button>
+        </div>
+            <div *ngFor="let content of dialogContent">
+            <mat-card *ngIf="dialogContent.length !== 0" [class]="content.state" class="messageCard">
+                <div class="inline">
+                    <h2 class="subjectFont">{{ content.notification.notification }}</h2>
+                    <div class="messageFont">
+                        {{ content.notification.notificationDesc }}
+                    </div>
+                </div>
+                <div class="inline deleteIcon" style="float: right;">
+                    <mat-icon (click)="deleteNotification(content.userNotificationMapID, dialogTitle)">delete</mat-icon>
+                </div>
+            </mat-card>
+            <mat-card *ngIf="dialogContent.length === 0">
+                No {{ dialogTitle }} Found
+            </mat-card>
+            </div>
+        </mat-dialog-content>
+    </div>
+</div>

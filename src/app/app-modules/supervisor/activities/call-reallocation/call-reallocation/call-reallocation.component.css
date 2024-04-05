@@ -1,0 +1,113 @@
+.inner {
+    display: inline-block;
+  }
+
+.dropdownAlignment {
+  max-width: 305px;
+  padding: 10px;
+  margin: 5px;
+  font-size: 12px !important;
+  width: 100%;
+}
+
+.mainCard {
+    /* height: 535px;
+    margin-top: 5px;
+    margin-left: 15px;
+    margin-right: 15px; */
+    height: auto;
+    width: 100%;
+    background-color: #F2F2F2;
+    border: 1px solid #4FA2D0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    margin: 10px 0px 15px 0px; 
+  }
+
+.full-width {
+    /* width: fit-content; */
+    /* height: fit-content; */
+    height: 40px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    /* font-size: 15px; */
+    color: #FFFFFF;
+    margin-top: 15px;
+    width: 100%;
+    max-width: 150px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+.full-width-allocate {
+    height: 30px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    /* font-size: 15px; */
+    color: #FFFFFF;
+    width: 100%;
+    max-width: 130px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    line-height: 20px;
+      /* border-radius: 16px;
+      background-color: rgb(110, 179, 244);
+      color: white;
+      float: right; */
+  }
+
+  table {
+    width: 98%;
+    border-collapse: collapse;
+    background-color: #FFFFFF !important;
+    font-family: 'Lato', sans-serif;
+    color: #00071E;
+  }
+  
+  th, td {
+    border: 1px solid #4FA2D0;
+    padding: 10px;
+    background-color: #FFFFFF !important;
+  }
+
+  h2 {
+    margin-top: 20px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    color: #00071E;
+    margin-left: 20px;
+  }
+
+  .cardAlign {
+    /* width: 95%;
+    max-width: 800px; */
+    width: 100%;
+    max-width: 1200px;
+    height: 150px;
+  }
+    
+.fontStyle {
+  font-family: 'Lato', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #00071E;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.mat-radio-button {
+  color: #4FA2D0;
+  font-weight: 700;
+  font-size: 17px;
+  font-family: "Lato", sans-serif;
+  font-size: 17px;
+}
+
+.mat-radio-outer-circle {
+  border-color: #4FA2D0 !important;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}

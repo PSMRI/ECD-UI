@@ -1,0 +1,59 @@
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    /* height: 100vh; */
+    width: 100%;
+  }
+  
+  .inner {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+  }
+  
+  .mainCard {
+    display: flex;
+    flex-direction: column;
+    width: 98%;
+    margin: 10px auto;
+    height: auto;
+  }
+  
+  .headerCard {
+    margin-top: -16px !important;
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+    align-items: center;
+    padding: 2px;
+    background-color: #ffc30b;
+    color: #ffffff;
+    height: 65px;
+    margin: -16px;
+    margin-bottom: 15px;
+  }
+  
+  .arrowButton {
+    margin-left: 10px;
+    background-color: #ffffff;
+    color: #4fa2d0;
+  }
+  
+  
+  @media (max-width: 767px) {
+    .headerCard {
+      height: 50px;
+      padding: 10px;
+    }
+  }
+  
+  mat-form-field {
+    color: #ffffff;
+  }
+  
+  mat-card {
+    margin-top: none;
+    height: auto;
+  }
+  

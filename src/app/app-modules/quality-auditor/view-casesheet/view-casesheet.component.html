@@ -1,0 +1,186 @@
+<div class="row" style="margin:0px">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+      <h2 class="mainHeading">
+        {{ currentLanguageSet?.casesheet }}
+        <button mat-raised-button style="margin: 5px; float:right" class="buttonColorRed full-width buttonWidth" (click)="backToQualityAudit()"> {{currentLanguageSet?.back}} </button>
+      </h2>
+    </div>
+    </div>
+    <mat-card class="innerCard">
+        <mat-card-content>
+           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 casesheetStyling fontStyle">
+            <h2 style="margin-top:-15px;">
+             <span class="caseSheetHeader">{{ currentLanguageSet?.beneficiaryDetails }}</span>
+            </h2>
+            <div class="table-responsive caseSheet-TableStyling">
+                <table class="table table-no-border casesheet-table" aria-describedby="beneficiaryDetailsTbl">
+                    <tbody>
+                        <tr>
+                            <th id="beneficiaryRegId"> {{ currentLanguageSet?.benRegID }} </th>
+                            <td> {{beneficiaryID}} </td>
+                            <th id="benCallId">{{ currentLanguageSet?.benCallID }}</th>
+                            <td> {{beneficiaryCaseSheetData?.benCallId}}  </td>
+                          </tr>
+                          <tr *ngIf = "!beneficiaryCaseSheetData?.childId">
+                            <th id="motherId">{{ currentLanguageSet?.motherID}}</th>
+                            <td> {{beneficiaryCaseSheetData?.motherId}}</td>
+                            <th id="motherName">{{ currentLanguageSet?.motherName}}</th>
+                            <td> {{beneficiaryCaseSheetData?.beneficiaryName}} </td>
+                          </tr>
+                          <tr *ngIf = "beneficiaryCaseSheetData?.childId">
+                            <th id="motherId">{{ currentLanguageSet?.motherID}}</th>
+                            <td> {{beneficiaryCaseSheetData?.motherId}} </td>
+                            <th id="childId">{{ currentLanguageSet?.childID}}</th>
+                            <td> {{beneficiaryCaseSheetData?.childId}} </td>
+                          </tr>
+                          <tr *ngIf = "beneficiaryCaseSheetData?.childId">
+                            <th id="childName">{{ currentLanguageSet?.childName}}</th>
+                            <td> {{beneficiaryCaseSheetData?.beneficiaryName}} </td>
+                              <th id="createdDate"> {{ currentLanguageSet?.createdDate }}</th>
+                              <td> {{beneficiaryCaseSheetData?.createdDate | date: 'MM/dd/yyyy' }} </td>
+                           </tr>
+                  
+                          <tr>
+                            <th id="gender">{{ currentLanguageSet?.gender}}</th>
+                            <td> {{beneficiaryCaseSheetData?.genderName}} </td>
+                            <th  *ngIf ="!beneficiaryCaseSheetData?.childId" id="husbandName">{{ currentLanguageSet?.husbandName}}</th>
+                            <td *ngIf ="!beneficiaryCaseSheetData?.childId"> {{beneficiaryCaseSheetData?.spouseName}} </td>
+                            <th *ngIf ="beneficiaryCaseSheetData?.childId"id="fatherName">{{ currentLanguageSet?.fatherName}}</th>
+                            <td *ngIf ="beneficiaryCaseSheetData?.childId"> {{beneficiaryCaseSheetData?.spouseName}} </td>
+                          </tr>
+                          
+                          <tr>
+                            <th id="phoneNo">{{ currentLanguageSet?.phoneNumber}}</th>
+                            <td> {{beneficiaryCaseSheetData?.phoneNo}} </td>
+                            <th id="phoneNoOfWhom">{{ currentLanguageSet?.whomPhoneNo}}</th>
+                            <td> {{beneficiaryCaseSheetData?.phoneNoOfWhom}}</td>
+                          </tr>
+                          <tr>
+                            <th id="altPhoneNo">{{ currentLanguageSet?.alternatePhoneNum}}</th>
+                            <td> {{beneficiaryCaseSheetData?.alternatePhoneNo}} </td>
+                            <th id="age" *ngIf ="!beneficiaryCaseSheetData?.childId">{{ currentLanguageSet?.age}}</th>
+                            <td *ngIf ="!beneficiaryCaseSheetData?.childId"> {{beneficiaryCaseSheetData?.age}}  </td>
+                            <th *ngIf="beneficiaryCaseSheetData?.childId" id="dob">{{ currentLanguageSet?.dob}}</th>
+                            <td *ngIf="beneficiaryCaseSheetData?.childId">{{beneficiaryCaseSheetData?.dateOfBirth | date: 'MM/dd/yyyy' }} </td>
+                          </tr>
+                          
+                          <tr *ngIf="!beneficiaryCaseSheetData?.childId">
+                            <th id="lmp">{{ currentLanguageSet?.lmp}}</th>
+                            <td> {{beneficiaryCaseSheetData?.lmp | date: 'MM/dd/yyyy'}} </td>
+                            <th id="edd">{{ currentLanguageSet?.edd}}</th>
+                            <td> {{beneficiaryCaseSheetData?.edd | date: 'MM/dd/yyyy'}}</td>
+                          </tr>
+                          <tr>
+                            <th id="address">{{ currentLanguageSet?.address}}</th>
+                            <td> {{beneficiaryCaseSheetData?.address}} </td>
+                            <th id="ashaName">{{ currentLanguageSet?.ashaName}}</th>
+                            <td> {{beneficiaryCaseSheetData?.ashaName}}</td>
+                          </tr>
+                          <tr>
+                            <th id="ashaPh">{{ currentLanguageSet?.ashaPhoneNum}}</th>
+                            <td> {{beneficiaryCaseSheetData?.ashaPh}} </td>
+                            <th id="anmName">{{ currentLanguageSet?.anmName}}</th>
+                            <td> {{beneficiaryCaseSheetData?.anmName}}</td>
+                          </tr>
+                          <tr>
+                            <th id="anmPh">{{ currentLanguageSet?.anmPhoneNum}}</th>
+                            <td> {{beneficiaryCaseSheetData?.anmPh}} </td>
+                            <th id="phcName">{{ currentLanguageSet?.phcName}}</th>
+                            <td> {{beneficiaryCaseSheetData?.anmPh}}</td>
+                          </tr>
+                          <tr>
+                            <th id="blockName">{{ currentLanguageSet?.healthBlock}}</th>
+                            <td> {{beneficiaryCaseSheetData?.anmPh}} </td>
+                            <th id="outboundCallType">{{ currentLanguageSet?.outboundCallType}}</th>
+                            <td> {{beneficiaryCaseSheetData?.outboundCallType}}</td>
+                          </tr>
+                          <tr  *ngIf = "!beneficiaryCaseSheetData?.childId">
+                            <th id="createdDate"> {{ currentLanguageSet?.createdDate }}</th>
+                            <td> {{beneficiaryCaseSheetData?.createdDate | date: 'MM/dd/yyyy' }} </td>
+                          </tr>
+                          
+                    </tbody>
+                    
+                  </table>
+              </div>
+           </div>
+           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 casesheetStyling  caseSheet-TableStyling fontStyle">
+            <h2 style="margin-top:-15px;">
+             <span class="caseSheetHeader">{{ currentLanguageSet?.questionnaireDetails }}</span>
+            </h2>
+            <table *ngIf="questionnaireCaseSheetData.length!== 0" class="table table-bordered questionaireTable" aria-describedby="beneficiaryDetailsTbl">
+                <thead>
+                    <tr>
+                      <th>Question</th>
+                      <th>Answer</th>
+                    </tr>
+                  </thead>
+                <tbody>
+                    <tr *ngFor="let questions of questionnaireCaseSheetData ">   
+                        <td> {{questions?.question}} </td>
+                        <td> {{questions?.answer}} </td>
+                      </tr>
+                </tbody> 
+              </table>
+              <div  style="text-align:center; font-size:16px" *ngIf="questionnaireCaseSheetData.length === 0" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 fontStyle">
+                No Data Found
+              </div>
+           </div>
+           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 casesheetStyling caseSheet-TableStyling fontStyle">
+            <h2 style="margin-top:-15px;">
+             <span class="caseSheetHeader">{{ currentLanguageSet?.callClosureDetails }}</span>
+            </h2>
+            <table class="table table-no-border casesheet-table" aria-describedby="beneficiaryDetailsTbl">
+                <tbody>
+                    <tr>
+                        <th id="isFurtherCallRequired"> {{ currentLanguageSet?.isFurtherCallRequired }}</th>
+                        <td *ngIf="beneficiaryCaseSheetData?.isFurtherCallRequired === true"> {{ currentLanguageSet?.yes }}</td>
+                        <td *ngIf="beneficiaryCaseSheetData?.isFurtherCallRequired === false"> {{ currentLanguageSet?.no }}</td>
+                        <th id="reasonForNoFurtherCalls">{{ currentLanguageSet?.reasonForNoFurtherCalls }}</th>
+                        <td>{{beneficiaryCaseSheetData?.reasonForNoFurtherCalls}} </td>
+                      </tr>
+                      <tr>
+                        <th id="isCallAnswered"> {{ currentLanguageSet?.isCallAnswered }}</th>
+                        <td *ngIf="beneficiaryCaseSheetData?.isCallAnswered === true"> {{ currentLanguageSet?.yes }}</td>
+                        <td *ngIf="beneficiaryCaseSheetData?.isCallAnswered === false"> {{ currentLanguageSet?.no }}</td>
+                        <th id="reasonForCallNotAnswered">{{ currentLanguageSet?.reasonForCallNotAnswered }}</th>
+                        <td>{{beneficiaryCaseSheetData?.reasonForCallNotAnswered}}</td>
+                      </tr>
+                      <tr>
+                        <th id="isCallVerified"> {{ currentLanguageSet?.isCallVerified }}</th>
+                        <td *ngIf="beneficiaryCaseSheetData?.isCallVerified === true"> {{ currentLanguageSet?.yes }} </td>
+                        <td *ngIf="beneficiaryCaseSheetData?.isCallVerified === false">{{ currentLanguageSet?.no }} </td>
+                        <th id="isCallDisconnected">{{ currentLanguageSet?.isCallDisconnected }}</th>
+                        <td *ngIf="beneficiaryCaseSheetData?.isCallDisconnected === true"> {{ currentLanguageSet?.yes }}</td>
+                        <td *ngIf="beneficiaryCaseSheetData?.isCallDisconnected === false"> {{ currentLanguageSet?.no }} </td>
+                      </tr>
+                      <tr>
+                        <th id="typeOfComplaint"> {{ currentLanguageSet?.typeOfComplaint }}</th>
+                        <td>{{beneficiaryCaseSheetData?.typeOfComplaint}} </td>
+                        <th id="complaintRemarks">{{ currentLanguageSet?.complaintRemarksCall }}</th>
+                        <td> {{beneficiaryCaseSheetData?.complaintRemarks}} </td>
+                      </tr>
+                      <tr>
+                        <th id="nextAttemptDate"> {{ currentLanguageSet?.nextAttemptDate }}</th>
+                        <td> {{beneficiaryCaseSheetData?.nextAttemptDate | date: 'MM/dd/yyyy'}} </td>
+                        <th id="callRemarks"> {{ currentLanguageSet?.callRemarks }}</th>
+                        <td> {{beneficiaryCaseSheetData?.callRemarks}} </td>
+                      </tr>
+                      <tr>
+                        <th id="sendAdvice">{{ currentLanguageSet?.sendAdvice }}</th>
+                        <td> {{beneficiaryCaseSheetData?.sendAdvice}} </td>
+                        <th id="isWrongNumber"> {{ currentLanguageSet?.isWrongNumber }}</th>
+                        <td> {{beneficiaryCaseSheetData?.isWrongNumber}} </td>
+                      </tr>
+                      <!-- <tr>
+                        <th id="createdDate"> {{ currentLanguageSet?.createdDate }}</th>
+                        <td> {{beneficiaryCaseSheetData?.createdDate | date: 'MM/dd/yyyy'}} </td>
+                      </tr> -->
+                </tbody>
+                
+              </table>
+           </div>
+                  
+               
+        </mat-card-content>
+      </mat-card>

@@ -1,0 +1,104 @@
+<!-- <div class="pull-right" style="margin-right: 15px">
+  <mat-slide-toggle (change)="toggleDarkTheme()" color="warn"
+    >Toggle to Dark Mode</mat-slide-toggle
+  >
+</div> -->
+<div class="mainContainer">
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 p-r-lg-0">
+      <mat-card>
+        <mat-card-title>
+          <div class="pull-right">
+            <p class="timeDisplay fontStyle">
+              <strong> {{ today | date : "MM/dd/yyyy - HH:mm:ss" }}</strong>
+            </p>
+          </div>
+          <div>
+            <img
+              src="assets/images/piramalFoundation.png"
+              style="width: 170px; height: 80px"
+              alt="Logo"
+            />
+          </div>
+        </mat-card-title>
+        <mat-card-content>
+          <form
+            [formGroup]="loginForm"
+            (ngSubmit)="loginForm.valid && onSubmit()"
+          >
+            <mat-form-field appearance="outline" class="blueInput fontStyle">
+              <mat-label class="labelStyle">{{ currentLanguageSet?.enterUserName }}</mat-label>
+              <input
+                matInput
+                allowText="usernameValidator"
+                placeholder=""
+                id="username"
+                formControlName="userName"
+                type="text"
+               
+              />
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline" class="blueInput fontStyle">
+              <mat-label class="labelStyle">{{ currentLanguageSet?.enterPassword }}</mat-label>
+              <input
+                matInput
+                [type]="hide ? 'password' : 'text'"
+                placeholder=""
+                formControlName="password"
+                id="password"
+              />
+              <button
+                mat-icon-button
+                matSuffix
+                (click)="hide = !hide"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide"
+                type="button"
+              >
+                <mat-icon>{{
+                  hide ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+            </mat-form-field>
+            <div class="pull-right">
+              <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
+              <span
+                class="cursorPointer forgotStyle"
+                style="margin-bottom: 10px;"
+                tabindex="{0}"
+                (click)="openForgotPassword()"
+              >
+                {{ currentLanguageSet?.forgotPassword }}</span
+              >
+            </div>
+            <button
+              mat-raised-button
+              class="loginButton full-width loginStyle"
+              [disabled]="
+                !(
+                  loginForm.controls.userName.value !== undefined &&
+                  loginForm.controls.userName.value !== null &&
+                  loginForm.controls.userName.value !== '' &&
+                  loginForm.controls.password.value !== undefined &&
+                  loginForm.controls.password.value !== null &&
+                  loginForm.controls.password.value !== ''
+                )
+              "
+              type="submit"
+            >
+              {{ currentLanguageSet?.login }}
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-xs-12 col-sm-6" style="margin-top: 100px;">
+      <img
+        src="assets/images/ECD_Image.png"
+        alt="ECD"
+        class="img-fluid imgECD"
+      />
+    </div>
+  </div>
+</div>

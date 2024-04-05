@@ -1,0 +1,41 @@
+<mat-card class="cardAlign">
+  <div>
+    <mat-icon
+      class="inner"
+      style="float: left; margin-top: -3px; color: #00071e"
+      >bar_chart</mat-icon
+    >
+    <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 inner titleDisplay">
+      {{ currentLanguageSet?.tenureWiseQualityRatings }}
+    </p>
+  </div>
+
+  <mat-divider
+    [inset]="true"
+    class="cardDivider"
+  ></mat-divider>
+  <div class="fieldStyle" style="margin-top: 10px;">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3" >
+      <mat-form-field
+        appearance="outline"
+        class="dropdownAlignment blueInput fontStyle"
+        [style.width]="'100%'"
+      >
+        <mat-label class="labelStyle">{{
+          currentLanguageSet?.agentFiler
+        }}</mat-label>
+        <mat-select
+          mdInput
+          class="mat-select-blue"
+          [(ngModel)]="agentRole"
+          (selectionChange)="getTenureQualityRatingsData()"
+        >
+          <mat-option *ngFor="let roles of roleList" [value]="roles.roleName">
+            {{ roles.roleName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      </div>
+</div>
+  <div id="mainTenureChart" class="chartAlign"></div>
+</mat-card>

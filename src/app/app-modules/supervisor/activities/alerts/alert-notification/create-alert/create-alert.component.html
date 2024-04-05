@@ -1,0 +1,238 @@
+<div class="row" style="margin:0px"> 
+  <div
+    class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+<h2 class="mainHeading">{{ currentLanguageSet?.createAlert }}</h2>
+  </div>
+</div>
+
+<mat-card class="innerCard">
+  <mat-card-content>
+    <form class="row" [formGroup]="createAlertNotificationForm" style="margin-top: 10px">
+    <!-- <div class="row"> -->
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+        <mat-form-field appearance="outline" class="backgroundWhite fieldAlignment fontStyle" style="width: 100%">
+          <mat-label class="fontStyle">{{ currentLanguageSet?.selectRoles }}</mat-label>
+          <mat-select
+            name="roleType"
+            [value]="roles"
+            formControlName="roleType"
+            required
+            (selectionChange)="getLocationsForAlert()"
+          >
+            <mat-option *ngFor="let type of roles" [value]="type.roleId">{{
+              type.roleName
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+        <mat-form-field appearance="outline" class="backgroundWhite fieldAlignment fontStyle" style="width: 100%" >
+          <mat-label class="fontStyle">{{ currentLanguageSet?.selectOffices }}</mat-label>
+          <mat-select
+            name="officeType"
+            [value]="offices"
+            formControlName="officeType"
+            multiple
+            required
+          >
+            <mat-option *ngFor="let item of locationData" [value]="item.pSAddMapID">{{
+              item.locationName
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+        <mat-form-field
+          appearance="outline"
+          class="backgroundWhite fieldAlignment fontStyle"
+          style="width: 300px; font-size: 12px !important;"
+        >
+          <mat-label class="fontStyle">{{ currentLanguageSet?.enterDateRange }}</mat-label>
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [min]="minDate">
+            <input
+              matStartDate
+              formControlName="start"
+              placeholder="{{ currentLanguageSet?.startDate }}"
+              required
+              (dateChange)="validateTime(range.controls.start.value, range.controls.end.value,createAlertNotificationForm.controls['startTime'].value,createAlertNotificationForm.controls['endTime'].value)"
+            />
+            <input
+            (dateChange)="validateTime(range.controls.start.value, range.controls.end.value,createAlertNotificationForm.controls['startTime'].value,createAlertNotificationForm.controls['endTime'].value)"
+              matEndDate
+              formControlName="end"
+              placeholder="{{ currentLanguageSet?.endDate }}"
+              required
+            />
+          </mat-date-range-input>
+          <mat-hint class="font-style">MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+
+          <mat-error
+            *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+            >{{ currentLanguageSet?.invalidStartDate }}</mat-error
+          >
+          <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">{{
+            currentLanguageSet?.invalidEndDate
+          }}</mat-error>
+        </mat-form-field>
+      </div>
+    <!-- </div> -->
+      <div class="row" style="margin-top: 15px;">
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-top: 10px;">
+      <mat-form-field class="backgroundWhite fieldAlignment fontStyle" appearance="outline" style="width: 100%; font-size: 11px !important;">
+        <mat-label class="fontStyle">Start Time</mat-label>
+        <input
+         (change)="validateTime(range.controls.start.value, range.controls.end.value,createAlertNotificationForm.controls['startTime'].value,createAlertNotificationForm.controls['endTime'].value)"
+          matInput
+          type="time"
+          placeholder="Start Time"
+          formControlName="startTime"
+          required
+          [(ngModel)]="Stime"
+        />
+        <mat-timepicker-toggle matSuffix [for]="startPicker"></mat-timepicker-toggle>
+        <mat-timepicker #startPicker></mat-timepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-top: 10px;">
+      <mat-form-field class="backgroundWhite fieldAlignment fontStyle"  appearance="outline" style="width: 100%; font-size: 11px !important;">
+        <mat-label class="fontStyle">End Time</mat-label>
+        <input
+         (change)="validateTime(range.controls.start.value, range.controls.end.value,createAlertNotificationForm.controls['startTime'].value,createAlertNotificationForm.controls['endTime'].value)"
+          matInput
+          type="time"
+          placeholder="End Time"
+          formControlName="endTime"
+          required
+          [(ngModel)]="Etime"
+        />
+        <mat-timepicker-toggle matSuffix [for]="endPicker"></mat-timepicker-toggle>
+        <mat-timepicker #endPicker></mat-timepicker>
+       
+        <!-- <mat-error *ngIf="createAlertNotificationForm.controls['endTime'].hasError('invalidTimeFlag')">Error</mat-error> -->
+        <mat-hint>
+          <span class="error_text " 
+          *ngIf="invalidTimeFlag && (Stime !== Etime)">
+                {{currentLanguageSet?.endTimeCannotBeLessThanStartTime}}
+          </span>
+          <span class="error_text" 
+                *ngIf="invalidTimeFlag && (Stime ===Etime)">
+                {{currentLanguageSet?.startTimeAndEndTimeCannotBeSame}}
+          </span>
+        </mat-hint>
+      </mat-form-field>
+    
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-5 box" style="margin-top: 10px;">
+      <mat-form-field  class="backgroundWhite fieldAlignment fontStyle" style="width: 100%" appearance="outline">
+        <mat-label class="fontStyle">{{ currentLanguageSet?.subject }}</mat-label>
+        <input
+          matInput
+          appInputField
+          #subject
+          defaultNull
+          minlength="5"
+          maxlength="100"
+          formControlName="subject" required
+        />
+        <mat-error
+          *ngIf="
+            createAlertNotificationForm.controls.subject.errors
+                      ?.['required']
+                  "
+        >
+          {{ currentLanguageSet?.subjectIsRequired }}</mat-error
+        >
+        <mat-error
+          *ngIf="
+            createAlertNotificationForm.controls.subject.errors
+                      ?.['minlength']
+                  "
+          >{{ currentLanguageSet?.subjectIsRequiredMin5Characters }}</mat-error
+        >
+        <mat-error
+          *ngIf="
+            createAlertNotificationForm.controls.subject.errors
+                      ?.['maxlength']
+                  "
+          >{{
+            currentLanguageSet?.pleaseProvideMaximumHundredCharacter
+          }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+      </div>
+
+      <div class="row" style="margin-top: 25px;">
+        <div class="col-xs-12  col-lg-12 p-t-4" >
+      <mat-form-field class="backgroundWhite questionnaireOptionsAlign fontStyle" [style.width]="'70%'" appearance="outline">
+        <mat-label class="fontStyle">{{ currentLanguageSet?.message }}</mat-label>
+        <textarea
+          style="height: 50px"
+          matInput
+          appTextarea
+          #message
+          minlength="5"
+          maxlength="300"
+          formControlName="message" required
+        ></textarea>
+        <mat-error
+          *ngIf="
+        createAlertNotificationForm.controls.message.errors
+                  ?.['required']
+              "
+        >
+          {{ currentLanguageSet?.messageIsRequired }}</mat-error
+        >
+        <mat-error
+          *ngIf="
+        createAlertNotificationForm.controls.message.errors
+                  ?.['minlength']
+              "
+          >{{ currentLanguageSet?.messageIsRequiredMin5Characters }}</mat-error
+        >
+        <mat-error
+          *ngIf="
+        createAlertNotificationForm.controls.message.errors
+                  ?.['maxlength']
+              "
+          >{{
+            currentLanguageSet?.pleaseProvideMaximumThreeHundredCharacter
+          }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+    </div>
+
+    <div
+    class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right"
+    style="margin-top: 20px"
+  >
+    <button
+      mat-raised-button
+      class="buttonColorRed full-width buttonWidth"
+      (click)="showTable()"
+      type="button"
+    >
+      {{ currentLanguageSet?.back }}
+    </button>
+    <button
+    mat-raised-button
+    color="accent"
+    class="buttonColorGreen full-width buttonWidth"
+    type="button"
+    (click)="saveAlertForm()"
+    [disabled]="createAlertNotificationForm.invalid || invalidTimeFlag===true "
+  >
+      {{ currentLanguageSet?.submit }}
+    </button>
+  </div>
+  </form>
+  </mat-card-content>
+</mat-card>

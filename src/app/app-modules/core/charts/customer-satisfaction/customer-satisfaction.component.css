@@ -1,0 +1,70 @@
+.cardAlign {
+  border-radius: 7px !important;
+
+  min-height: 410px;
+  background-color: #ffffff;
+  margin-top: 20px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.titleDisplay {
+  color: #00071e;
+  font-family: "Lato", sans-serif;
+
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.cardDivider {
+  border-top-color: #00071e;
+  border-width: 2px;
+}
+
+.chartAlign {
+  /* width: 300px; */
+  /* width: "100%"; */
+  width: 100%;
+  margin-top: -20px;
+ min-height: 275px;
+
+}
+
+.labelStyle {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  color: #4fa2d0;
+}
+
+::ng-deep .mat-select-blue .mat-select-value {
+  font-family: "Lato", sans-serif;
+  color: #4fa2d0 !important;
+  font-size: 16px;
+  font-weight: 700;
+ 
+}
+
+@media screen and (max-width: 540px) {
+  .dropdownAlignment {
+    font-size: 13px !important;
+    width: 100%;
+  }
+
+  
+}
+
+
+@media screen and (min-width: 600px) {
+  .dropdownAlignment {
+    max-width: 300px;
+    font-size: 13px !important;
+    width: 100%;
+  }
+}
+
+/* @media screen and (min-width: 120px) and (max-width: 1024px) {
+  .chartAlign {
+    width: 300px;
+    height: 300px;
+  }
+} */

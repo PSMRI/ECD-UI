@@ -1,0 +1,175 @@
+<div class="row" style="margin:0px"> 
+  <div
+    class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+<h2 class="mainHeading">{{ currentLanguageSet?.locationMessages }}</h2>
+  </div>
+</div>
+<mat-card class="innerCard" >
+  <!-- <div class="row"> -->
+    <form class="row" [formGroup]="createLocationForm" style="margin-top: 10px">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box">
+              <mat-form-field appearance="outline" class="backgroundWhite fieldAlignment fontStyle" style="width: 100%">
+                <mat-label class="fontStyle">{{currentLanguageSet?.selectOffices}}</mat-label>
+                <mat-select
+                 
+                  name="officeType"
+                  [value]="offices"
+                  formControlName="officeType"
+                >
+                  <mat-option *ngFor="let item of offices" [value]="item.pSAddMapID">{{
+                    item.locationName
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" >
+                    <mat-form-field class="backgroundWhite fieldAlignment fontStyle"
+          style="width: 300px; font-size: 12px !important;" appearance="outline">
+          <mat-label class="fontStyle">{{currentLanguageSet?.enterDateRange}}</mat-label>
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [min]="minDate">
+            <input
+            (dateChange)="validateTime(range.controls.start.value, range.controls.end.value,createLocationForm.controls['startTime'].value,createLocationForm.controls['endTime'].value)"
+              matStartDate
+              formControlName="start"
+             required 
+             placeholder="{{currentLanguageSet?.validFrom}}"
+            />
+            <input matEndDate required formControlName="end" placeholder="{{currentLanguageSet?.validTill}}"
+            (dateChange)="validateTime(range.controls.start.value, range.controls.end.value,createLocationForm.controls['startTime'].value,createLocationForm.controls['endTime'].value)"
+            />
+          </mat-date-range-input>
+          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+  
+          <mat-error
+          
+          *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+         
+            > {{ currentLanguageSet?.dateIsRequired }}</mat-error
+        >
+        </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" >
+          <mat-form-field  class="backgroundWhite fieldAlignment fontStyle" appearance="outline" style="width: 100%; font-size: 12px !important; margin-right: 10px;">
+            <mat-label class="fontStyle">Start Time</mat-label>
+            <input
+            (change)="validateTime(range.controls.start.value, range.controls.end.value,createLocationForm.controls['startTime'].value,createLocationForm.controls['endTime'].value)"
+              matInput
+              type="time"
+              placeholder="Start Time"
+              formControlName="startTime"
+              required
+              [(ngModel)]="Stime"
+            />
+            <mat-timepicker-toggle matSuffix [for]="picker"></mat-timepicker-toggle>
+            <mat-timepicker #picker></mat-timepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" >
+          <mat-form-field class="backgroundWhite fieldAlignment fontStyle"  appearance="outline" style="width: 100%; font-size: 12px !important;">
+            <mat-label class="fontStyle">End Time</mat-label>
+            <input
+              (change)="validateTime(range.controls.start.value, range.controls.end.value,createLocationForm.controls['startTime'].value,createLocationForm.controls['endTime'].value)"
+              matInput
+              type="time"
+              placeholder="End Time"
+              formControlName="endTime"
+              required
+              [(ngModel)]="Etime"
+            />
+            <mat-timepicker-toggle matSuffix [for]="picker"></mat-timepicker-toggle>
+            <mat-timepicker #picker></mat-timepicker>
+            <mat-hint>
+              <span class="error_text f-s-10 p-l-10" 
+              *ngIf="invalidTimeFlag && (Stime !== Etime)">
+                    {{currentLanguageSet?.endTimeCannotBeLessThanStartTime}}
+              </span>
+              <span class="error_text f-s-10 p-l-10" 
+                    *ngIf="invalidTimeFlag && (Stime ===Etime)">
+                    {{currentLanguageSet?.startTimeAndEndTimeCannotBeSame}}
+              </span>
+            </mat-hint>
+          </mat-form-field>
+        </div>
+        <!-- </div> -->
+
+       <div class="row"  style="margin-top: 15px;">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-6 box" style="margin-top: 10px;">
+          <mat-form-field class="backgroundWhite fieldAlignment fontStyle" style="width: 100%" appearance="outline">
+            <mat-label class="fontStyle">{{currentLanguageSet?.subject}}</mat-label>
+            <input matInput appInputField #subject  defaultNull minlength="5"  maxlength="100" formControlName="subject" >
+            <mat-error
+            *ngIf="
+            createLocationForm.controls.subject.errors
+                      ?.['required']
+                  "
+          >
+           {{ currentLanguageSet?.subjectIsRequired }}</mat-error
+          >
+          <mat-error
+            *ngIf="
+            createLocationForm.controls.subject.errors
+                      ?.['minlength']
+                  "
+            >{{ currentLanguageSet?.subjectIsRequiredMin5Characters }}</mat-error
+          >
+          <mat-error
+            *ngIf="
+            createLocationForm.controls.subject.errors
+                      ?.['maxlength']
+                  "
+            >{{
+              currentLanguageSet?.pleaseProvideMaximumHundredCharacter
+            }}</mat-error
+          >
+          <mat-hint align="end">{{ subject.value.length }} / 100</mat-hint>
+          </mat-form-field> 
+          </div>
+        <div class="col-xs-12  col-lg-12 p-t-4" style="margin-top: 25px;">
+        <mat-form-field class="backgroundWhite questionnaireOptionsAlign fontStyle" [style.width]="'70%'" appearance="outline" >
+          <mat-label class="fontStyle">{{currentLanguageSet?.message}}</mat-label>
+          <textarea
+           style="height: 50px"
+            matInput
+            appTextarea
+            #message
+            minlength="5"
+            maxlength="300"
+            formControlName="message"
+          ></textarea>
+          <mat-error
+      *ngIf="
+      createLocationForm.controls.message.errors
+                ?.['required']
+            "
+    >
+     {{ currentLanguageSet?.messageIsRequired }}</mat-error
+    >
+    <mat-error
+      *ngIf="
+      createLocationForm.controls.message.errors
+                ?.['minlength']
+            "
+      >{{ currentLanguageSet?.messageIsRequiredMin5Characters }}</mat-error
+    >
+    <mat-error
+      *ngIf="
+      createLocationForm.controls.message.errors
+                ?.['maxlength']
+            "
+      >{{
+        currentLanguageSet?.pleaseProvideMaximumThreeHundredCharacter
+      }}</mat-error
+    >
+    <mat-hint align="end">{{ message.value.length }} / 300</mat-hint>
+        </mat-form-field>
+        </div>
+        </div>
+              <div  class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right"
+              style="margin-top: 20px">
+                <button mat-raised-button color="primary" class="buttonColorRed full-width buttonWidth" type="button" (click)="showTable()">{{currentLanguageSet?.back}}</button>
+                <button mat-raised-button color="accent"class="buttonColorGreen full-width buttonWidth" type="button" (click)="saveLocationMessageForm()" [disabled]="createLocationForm.invalid || invalidTimeFlag === true">{{currentLanguageSet?.save}}</button>
+              </div>
+        </form>
+  </mat-card>

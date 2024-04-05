@@ -1,0 +1,20 @@
+.iframeButton {
+  z-index: 2;
+    /* float: right; */
+    top: -20px;
+    /* margin-top: -40px; */
+    background: #FFB800;
+    color: #ffffff;
+    /* position: absolute; */
+    /* margin-left: 79%; */
+    /* margin-top: -100px; */
+    /* width: 74px;
+    height: 75px; */
+  }
+  .czenrix-bar{
+    z-index: 1;
+    border: 1px solid black;
+    right: 10px;
+    position: absolute;
+    bottom: 0px;
+  }

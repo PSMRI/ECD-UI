@@ -1,0 +1,70 @@
+.inner {
+   display: flex;
+   flex-direction: row;
+   flex: 1;
+   width: 400px;
+   max-width: 100%;
+   height: auto;
+   max-height: fit-content;
+   }
+ 
+ 
+ .headerCard {
+     display: flex;
+     flex-wrap: wrap;
+     align-items: center;
+     padding: 28px;
+     background-color: #ffc30b;
+     color: #ffffff;
+     height: 68px;
+     margin: -30px;
+     width: 454px;
+     margin-top: -24px;
+   }
+ 
+   .mainCard {
+     display: flex;
+     flex-direction: column;
+     width: 100%;
+     /* margin: 10px auto; */
+     /* height: 400px; */
+     max-height: fit-content;
+   }
+ 
+   .inline {
+     display: inline-block;
+   }
+ 
+   .fontStyle {
+     font-family: 'Lato', sans-serif;
+     font-style: normal;
+     font-weight: 700;
+     font-size: 20px;
+     line-height: 24px;
+   }
+ 
+   .messageFont {
+     font-family: 'Lato', sans-serif;
+     font-style: normal;
+     font-weight: 400;
+     font-size: 14px;
+     line-height: 17px;
+   }
+ 
+   .closeButton {
+     float: right; 
+     margin-top: -40px;
+     background: #E14646;
+     color: #ffffff;
+     position: absolute;
+     /* margin-left: 79%;
+     margin-top: -100px; */
+   }
+ 
+   ::ng-deep .mat-dialog-content {
+      display: block;
+      margin: 0 -24px;
+      padding: 10px 20px;
+      /* max-height: 65vh; */
+      overflow: auto;
+   }

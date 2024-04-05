@@ -1,0 +1,181 @@
+.callStaticsCard {
+  border-radius: 7px !important;
+  height: 170px;
+  background-color: #ffffff;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.statisticsDivider {
+  border-top-color: #00071e;
+  border-width: 2px;
+}
+
+/* .timeDisplay {
+  color: black;
+  font-size: 20px;
+} */
+
+.callInnerCard {
+  border-radius: 50px !important;
+  height: 60px;
+  background-color: #4fa2d0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+ul {
+  list-style-type: none;
+  justify-content: center;
+}
+
+.inner {
+  display: inline-block;
+}
+
+.buttonStyle {
+  background-color: #4fa2d0;
+  color: #ffffff;
+  width: 206px;
+  min-height: 84px;
+  border: 4px solid #4fa2d0;
+  box-shadow: 5px 2px 9px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+  margin-left: 2px;
+}
+
+@media screen and (min-width: 1281px) {
+.buttonAlign {
+  justify-content: center;
+  margin-left: 15px !important
+}
+
+.titleAlignMob {
+  float: left;
+}
+}
+
+@media screen and (min-width: 540px) and (max-width: 1000px) {
+  .callStaticsCard {
+    border-radius: 7px !important;
+    height: 375px;
+    background-color: #ffffff;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .buttonStyle {
+    background-color: #4fa2d0;
+    color: #ffffff;
+    /* width: 180px; */
+
+    margin-top: 5px;
+    border: 4px solid #4fa2d0;
+    box-shadow: 5px 2px 9px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    margin-left: 2px;
+  }
+
+  .buttonAlign {
+    justify-content: center;
+  }
+
+  .titleAlignMob {
+    float: left;
+  }
+
+
+}
+
+@media screen and (max-width: 500px) {
+  .callStaticsCard {
+    border-radius: 7px !important;
+    height: 650px;
+    background-color: #ffffff;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .buttonStyle {
+    background-color: #4fa2d0;
+    color: #ffffff;
+    /* width: 180px; */
+
+    margin-top: 5px;
+    border: 4px solid #4fa2d0;
+    box-shadow: 5px 2px 9px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    margin-left: 2px;
+  }
+
+  .buttonAlign {
+    justify-content: center;
+  }
+
+
+}
+
+
+
+
+
+@media screen and (min-width: 1000px) and (max-width: 1280px) {
+  .callStaticsCard {
+    border-radius: 7px !important;
+    height: 290px;
+    background-color: #ffffff;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .buttonStyle {
+    background-color: #4fa2d0;
+    color: #ffffff;
+    /* width: 180px; */
+    margin-top: 5px;
+    border: 4px solid #4fa2d0;
+    box-shadow: 5px 2px 9px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    margin-left: 2px;
+  }
+
+  .buttonAlign {
+    justify-content: center;
+  }
+  .titleAlignMob {
+    float: left;
+  }
+
+  
+}
+
+.textColor {
+  color: #00071e;
+  font-weight: 500;
+}
+
+.titleDisplay {
+  color: #00071e;
+  font-family: "Lato", sans-serif;
+
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.fontStyle {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 27px;
+}
+
+.fontStyleTime {
+  font-family: "Lato", sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  margin-top: -10px;
+}
+
+

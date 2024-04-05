@@ -1,0 +1,118 @@
+  .example-full-width {
+    width: 100%;
+    margin-right: 10px;
+    padding: 10px;
+    }
+
+    .example-full-width-subject {
+    width: 70%;
+    margin-right: 10px;
+    padding: 10px;
+    }
+
+  .mat-raised-button{   
+    background-color: #4FA2D0;
+    margin-right: 10px;
+    
+  }
+
+  .align {
+    max-width: 320px;
+    margin-right: 10px;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .error_text{
+    font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+     color: red;
+     color: red;
+  }
+  .labelColor {
+    color: #4fa2d0 !important;
+    font-weight: 500;
+  }
+  .innerCard {
+    height: auto;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px; 
+    width: 99%;
+    background-color: #f2f2f2;
+    border: 1px solid #4fa2d0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    margin-bottom: 50px;
+  }
+  .headingFont{
+    font-size: 24px;
+    font-weight: 600;
+    font-family: 'Lato';
+    font-style: normal;
+    margin-left: 40px;
+   
+  }
+  
+  .buttonStyle{
+    background: #FF0000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    width: 100px;
+    left: 860px;
+    font-family: 'Lato';
+    font-style: normal;
+  }
+  .button-style{
+    background:  #239438;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px !important;
+    width: 100px;
+    left: 855px;
+    font-family: 'Lato';
+    font-style: normal;
+  }
+  .full-width {
+    height: 40px;
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+    margin-top: 15px;
+    width: 100%;
+    max-width: 150px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .fontStyle {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #00071e;
+  }
+  .mainHeadingDiv {
+    margin-top: 15px;
+    /* margin-left: 30px; */
+  }
+  
+  .mainHeading {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+  }
+  
+  .fieldAlignment {
+    /* max-width: 270px; */
+    /* padding: 7px; */
+    margin: 0px;
+    font-size: 13px;
+    width: 100%;
+  }
+  
+  .questionnaireOptionsAlign {
+    /* max-width: 270px; */
+    /* padding: 7px; */
+    margin: 0px;
+    font-size: 13px;
+    width: 100%;
+    line-height: 26px;
+  }

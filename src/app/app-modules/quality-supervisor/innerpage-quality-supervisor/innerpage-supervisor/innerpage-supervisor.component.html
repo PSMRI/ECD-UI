@@ -1,0 +1,53 @@
+<div class="mainContainer fontStyle">
+  <div class="inner">
+    <mat-card class="mainCard">
+      <div class="headerCard">
+        <div class="row" style="margin:0px">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-6 col-xl-4" style="display:flex">
+              <button
+              mat-icon-button
+              class="arrowButton pull-left"
+              matTooltip="Back To Dashboard"
+              (click)="navigateToPrev()"
+            >
+              <mat-icon>arrow_back</mat-icon>
+            </button>
+            <form style="width:100%" [formGroup]="innerpageQSHeaderForm">
+              <mat-form-field
+                appearance="outline"
+                class="dropdownAlignment blueInput"
+                id="fieldBackground"
+              >
+                <mat-select
+                  class="mat-select-blue"
+                  formControlName="selectedActivity"
+                  value="selectedActivity"
+                  placeholder="Activities"
+                  (selectionChange)="onSelectionChange($event)"
+                >
+                  <mat-option value="agentQualityAuditorMapping">Agent Quality Auditor Mapping</mat-option>
+                  <mat-option value="qualityAuditSectionConfiguration">Quality Audit Section Configuration</mat-option>
+                  <mat-option value="qualityAuditQuestionnaireConfiguration">Quality Audit Questionnaire Configuration</mat-option>
+                  <mat-option value="gradeConfiguration">Grade Configuration</mat-option>
+                  <mat-option value="sampleSelection">Sample Selection</mat-option>
+                  <mat-option value="reports">Reports</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+          
+          
+          
+          </div>
+         
+            
+          
+          
+  
+        </div>
+        
+        
+      </div>
+      <ng-template #dynamicContent></ng-template>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.iemr.ecdui</groupId>
+  <artifactId>ecd-ui</artifactId>
+  <version>1.0</version>
+  <name>ecd-ui</name>
+  <packaging>war</packaging>
+  <profiles>
+    <profile>
+      <id>dev</id>
+      <properties>
+        <old-api-url>10.208.122.38</old-api-url>
+        <old-cti-url>10.208.122.99</old-cti-url>
+        <new-api-url>10.208.122.38</new-api-url>
+        <new-cti-url>10.208.122.99</new-cti-url>
+        <environment>dev</environment>
+      </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+    <profile>
+      <id>uat</id>
+      <properties>
+        <old-api-url>10.208.122.38</old-api-url>
+        <old-cti-url>10.208.122.99</old-cti-url>
+        <new-api-url>deviemr.piramalswasthya.org</new-api-url>
+        <new-cti-url>helplines.piramalswasthya.org</new-cti-url>
+        <environment>uat</environment>
+      </properties>
+    </profile>
+    <profile>
+      <id>local</id>
+      <properties>
+        <old-api-url>10.208.122.38</old-api-url>
+        <old-cti-url>10.208.122.99</old-cti-url>
+        <new-api-url>localhost</new-api-url>
+        <new-cti-url>localhost</new-cti-url>
+        <environment>local</environment>
+      </properties>
+    </profile>
+    <profile>
+      <id>test</id>
+      <properties>
+        <old-api-url>10.208.122.38</old-api-url>
+        <old-cti-url>10.208.122.99</old-cti-url>
+        <new-api-url>10.208.122.32</new-api-url>
+        <new-cti-url>10.208.122.99</new-cti-url>
+        <environment>test</environment>
+      </properties>
+    </profile>
+    <profile>
+      <id>ci</id>
+      <properties>
+        <environment>ci</environment>
+      </properties>
+    </profile>
+  </profiles>
+
+  <!-- we could create individual properties similar to variables -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <final-name>ecdui-v1.0</final-name>
+    <hostname-dev>10.208.122.38</hostname-dev>
+    <port-dev>9990</port-dev>
+    <hostname-local>localhost</hostname-local>
+    <port-local>9990</port-local>
+    <hostname-test>10.208.122.32</hostname-test>
+    <port-test>9990</port-test>
+    <hostname-uat>deviemr.piramalswasthya.org</hostname-uat>
+    <port-uat>9990</port-uat>
+    <server-id>wildfly-${environment}</server-id>
+    <server-hostname>{hostname-${environment}}</server-hostname>
+    <server-port>{port-${environment}}</server-port>
+  </properties>
+
+  <!-- install the necessary node_modules & compile in prod mode -->
+  <build>
+    <finalName>ecd-ui-v1.0</finalName>
+    <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.3.1</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>dist</directory>
+              <!-- if any that needs to be included or excluded -->
+              <!-- using name in both would be a crime - pls avoid! -->
+              <followSymlinks>false</followSymlinks>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.1</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>npm-install</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>npm</executable>
+              <arguments>
+                <argument>install</argument>
+                <!-- use save-dev or save if you understand the consequences, else -->
+                <!-- please leave them alone & add appropriate npm dependencies in
+                  package.json -->
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>running-ng-build</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>npm</executable>
+              <arguments>
+                <argument>run</argument>
+                <argument>build-${environment}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- use following incase resources from other dirs -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>default-copy-resources</id>
+            <phase>prepare-package</phase>
+            <configuration>
+              <overwrite>true</overwrite>
+              <outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/WEB-INF/
+              </outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/dist</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.4.0</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <webResources>
+            <resource>
+              <!-- this is relative to the pom.xml directory -->
+              <directory>dist</directory>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>properties-updated 1</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <echo>replacing/updating urls ${project.basedir} 2</echo>
+                <replaceregexp match="${old-api-url}"
+                               replace="${new-api-url}" flags="ig">
+                  <fileset dir="${project.basedir}/dist"
+                           includes="main.*.bundle.js"/>
+                </replaceregexp>
+                <replaceregexp match="${old-cti-url}" replace="${new-cti-url}" flags="ig">
+                  <fileset dir="${project.basedir}/dist" includes="main.*.bundle.js"/>
+                </replaceregexp>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
