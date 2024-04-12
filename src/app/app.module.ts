@@ -36,26 +36,27 @@ import {
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { ConfirmationService } from './app-modules/services/confirmation/confirmation.service';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { UserLoginModule } from './app-modules/user-login/user-login.module';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
-import { BrowserModule } from '@angular/platform-browser';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
-import {MatLegacySlideToggleModule as MatSlideToggleModule} from '@angular/material/legacy-slide-toggle';
 import { DatePipe } from '@angular/common';
 import { TitleCasePipe } from '@angular/common';
 import { SharedModule } from './app-modules/shared/shared.module';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BackButtonDisableModule } from 'angular-disable-browser-back-button';
+import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserModule } from '@angular/platform-browser';
+import { MatCardModule } from '@angular/material/card';
+
 
 
 
@@ -73,7 +74,6 @@ import { BackButtonDisableModule } from 'angular-disable-browser-back-button';
     CoreModule,
     UserLoginModule,
     HttpClientModule,
-    MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -87,6 +87,7 @@ import { BackButtonDisableModule } from 'angular-disable-browser-back-button';
     MatPaginatorModule,
     MatSlideToggleModule,
     SharedModule,
+    MatCardModule,
     BackButtonDisableModule.forRoot({
       preserveScroll: true
     }),
@@ -100,6 +101,7 @@ import { BackButtonDisableModule } from 'angular-disable-browser-back-button';
       useClass: HttpInterceptorService,
       multi: true,
     },
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
     // HttpClient,
     // {
     //   provide: HTTP_INTERCEPTORS,
@@ -113,3 +115,4 @@ import { BackButtonDisableModule } from 'angular-disable-browser-back-button';
   exports:[SharedModule]
 })
 export class AppModule {}
+MatCardModule

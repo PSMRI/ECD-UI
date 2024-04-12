@@ -26,40 +26,44 @@
             [formGroup]="loginForm"
             (ngSubmit)="loginForm.valid && onSubmit()"
           >
-            <mat-form-field appearance="outline" class="blueInput fontStyle">
+             <mat-form-field appearance="outline" class="blueInput fontStyle">
               <mat-label class="labelStyle">{{ currentLanguageSet?.enterUserName }}</mat-label>
               <input
                 matInput
                 allowText="usernameValidator"
-                placeholder=""
                 id="username"
                 formControlName="userName"
                 type="text"
                
               />
+
             </mat-form-field>
             
-            <mat-form-field appearance="outline" class="blueInput fontStyle">
+            <mat-form-field appearance="outline" class="blueInput fontStyle mat_form_field_margin" style="margin-top: 30px;" >
               <mat-label class="labelStyle">{{ currentLanguageSet?.enterPassword }}</mat-label>
               <input
                 matInput
                 [type]="hide ? 'password' : 'text'"
-                placeholder=""
                 formControlName="password"
                 id="password"
               />
-              <button
+              <!-- <button
                 mat-icon-button
                 matSuffix
                 (click)="hide = !hide"
                 [attr.aria-label]="'Hide password'"
                 [attr.aria-pressed]="hide"
                 type="button"
-              >
-                <mat-icon>{{
+              > -->
+                <mat-icon  mat-icon-button
+                matSuffix
+                (click)="hide = !hide"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide"
+                type="button">{{
                   hide ? "visibility_off" : "visibility"
                 }}</mat-icon>
-              </button>
+              <!-- </button> -->
             </mat-form-field>
             <div class="pull-right">
               <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->

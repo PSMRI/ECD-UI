@@ -97,3 +97,9 @@ img {
     padding-top: 12px;
   }
 }
+
+.logout >>>.mat-icon-button {
+  width: 0px !important;
+  height: 0px !important;
+ 
+}

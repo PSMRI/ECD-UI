@@ -264,7 +264,7 @@ body .mat-select-arrow {
   height: 28px;
   color: transparent;
   border: 0;
-  margin: 0;
+  margin-top: 8px;
 }
 
 .dropdownAlignment > div {
@@ -299,4 +299,46 @@ body .mat-select-arrow {
 } */
 .changeOpacity span.mat-button-focus-overlay {
   opacity: 0 !important;
+}
+
+/* .mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 1em .75em 0.7em 0.75em !important;
+  margin-top: -2.25em !important;
+  position: relative;
+} */
+.mat-dialog-container {
+
+  background-color: #ffffff !important;
+}
+
+.mat-select-panel {
+  background-color: #ffffff !important;
+}
+
+/* .mat-icon-button {
+  width: 0px !important;
+  height: 0px !important;
+ 
+} */
+.mat-form-field {
+  font-size: inherit;
+  font-weight: 400;
+  line-height: 1.125;
+  letter-spacing: normal;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 1em 0;
+}
+.mat-form-field-label-wrapper {
+  top: -.84375em;
+  padding-top: .84375em;
+}
+.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-appearance-outline.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label {
+  transform: translateY(-1.59375em) scale(.75);
+  width: 133.3333333333%;
+}
+.mat-form-field-appearance-outline .mat-form-field-label {
+  top: 2.4em;
+  margin-top: -.25em;
 }
