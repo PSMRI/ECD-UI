@@ -24,10 +24,10 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-const ecdIP = 'http://192.168.45.70:8080/';
-const commonIP = 'http://192.168.45.70:8080/';
-const adminIP = 'http://192.168.45.70:8080/';
-const COMMON_API = `${commonIP}commonapi-v1.0/`;
+const ecdIP = 'http://183.82.107.186:8080/';
+const commonIP = 'http://183.82.107.186:8080/';
+const adminIP = 'http://183.82.107.186:8080/';
+const COMMON_API = `${commonIP}commonapi-ecd/`;
 const ADMIN_API = `${adminIP}adminapi-v1.0/`;
 const ECD_API = `${ecdIP}ecdapi-v1.0/`;
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 

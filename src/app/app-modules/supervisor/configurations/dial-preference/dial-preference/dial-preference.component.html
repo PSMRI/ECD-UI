@@ -107,16 +107,7 @@
                           element.value.previewWindowTime >=15 &&
                           element.value.previewWindowTime  <= 60)"
               (change)="updateAllCheckboxes($event, element.value); removeCheck(element)"
-              [disabled]="
-              !(
-                element.value.previewWindowTime !== null &&
-                element.value.previewWindowTime !== undefined &&
-                element.value.previewWindowTime !== '' &&
-                element.value.previewWindowTime >=15 &&
-                element.value.previewWindowTime  <= 60
-                
-              )
-            "
+             
             ></mat-checkbox>
             </td>
           </ng-container>
