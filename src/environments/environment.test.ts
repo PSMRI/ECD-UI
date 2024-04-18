@@ -21,10 +21,10 @@
 */
 
 
-const ecdIP = 'http://192.168.45.70:8080/';
-const commonIP = 'http://192.168.45.70/';
-const adminIP = 'http://192.168.45.70/';
-const COMMON_API = `${commonIP}commonapi-v1.0/`;
+const ecdIP = 'http://183.82.107.186:8080/';
+const commonIP = 'http://183.82.107.186:8080/';
+const adminIP = 'http://183.82.107.186:8080/';
+const COMMON_API = `${commonIP}commonapi-ecd/`;
 const ADMIN_API = `${adminIP}adminapi-v1.0/`;
 const ECD_API = `${ecdIP}ecdapi-v1.0/`;
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
@@ -183,7 +183,7 @@ export const environment = {
   getBeneficiaryCallHistoryUrl:`${ECD_API}callHistory/getBeneficiaryCallHistory`,
   getCallHistoryDetailsUrl:`${ECD_API}callHistory/getBeneficiaryCallDetails`,
   /**CTI Urls */
-  ctiUrl: `http://10.208.122.99/`,
+  ctiUrl: `http://192.168.45.55/`,
   ctiEventUrl: `bar/cti_handler.php?e=`,
   getLoginKeyUrl:`${COMMON_API}cti/getLoginKey`,
   getAgentsDataUrl: `${ECD_API}master/getAgentsByRoleId`,
