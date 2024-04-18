@@ -626,7 +626,8 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
       const step = this.filteredQuesData[stepIndex];
       for (const question of step.questionnaires) {
         if (question && question.questionType === 'Question') {
-          if (question.enabledQues !== false && (question.answer === null || question.answer === '' || question.answer === undefined)) {
+          // if (question.enabledQues !== false && (question.answer === null || question.answer === '' || question.answer === undefined)) {
+            if (question.enabledQues.length > 0 && (question.answer === null || question.answer === '' || question.answer === undefined)) {
             return false; 
           }
         }

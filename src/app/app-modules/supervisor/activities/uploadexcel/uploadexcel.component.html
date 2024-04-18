@@ -83,7 +83,8 @@
             <!-- </mat-form-field> -->
           </div>
             <div class="m-t-20">
-              <button *ngIf="file !== undefined && !fileContent && !inValidFileName && !error1 && !error2 && !invalid_file_flag" class="fileContent btn btn-primary" type="button" disabled>
+              
+              <button *ngIf="file !== undefined && fileContent !== undefined && !inValidFileName && !error1 && !error2 && !invalid_file_flag" class="fileContent btn btn-primary" type="button" disabled>
                 <span
                   class="spinner-border spinner-border-sm"
                   role="status"
