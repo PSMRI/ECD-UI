@@ -84,14 +84,14 @@
           </div>
             <div class="m-t-20">
               
-              <button *ngIf="file !== undefined && fileContent !== undefined && !inValidFileName && !error1 && !error2 && !invalid_file_flag" class="fileContent btn btn-primary" type="button" disabled>
+              <!-- <button *ngIf="file !== undefined && fileContent !== undefined && !inValidFileName && !error1 && !error2 && !invalid_file_flag" class="fileContent btn btn-primary" type="button" disabled>
                 <span
                   class="spinner-border spinner-border-sm"
                   role="status"
                   aria-hidden="true"
                 ></span>
                 Please wait file content is fetching
-              </button>
+              </button> -->
               <!-- <mat-spinner *ngIf="file != undefined && !fileContent && !inValidFileName && !error1 && !error2 && !invalid_file_flag" class="spinner-color"></mat-spinner> -->
               <label for="upload-file" class="alexcolor" style="display: block;" *ngIf="file !== undefined && fileContent" >Upload File Name: {{file.name}}</label>
               <label for="upload-file" class="alexcolor" *ngIf="file !== undefined && fileContent" >{{ currentLanguageSet?.uploadFile}}
