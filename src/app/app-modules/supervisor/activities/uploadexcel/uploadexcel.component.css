@@ -23,8 +23,12 @@
 
 .mat-raised-button {    
     background-color: #4FA2D0;
+    color: #FFFFFF;
     border-radius: 30px;
-    margin-right: 10px;
+}
+.mat-raised-button:disabled {    
+  background-color: #0000001f;
+  color: #00000042;
 }
 
 .alexcolor {
@@ -77,7 +81,7 @@
     float: right;
     /* top: 220px; */
 
-    background: #4FA2D0;
+    /* background: #4FA2D0; */
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
 }

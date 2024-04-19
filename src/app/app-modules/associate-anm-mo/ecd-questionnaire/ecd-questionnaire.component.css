@@ -165,7 +165,7 @@ li::marker {
 
   .error {
     margin: auto;
-    margin-top: -20px;
+    /* margin-top: -20px; */
     font-size: 15px;
   }
 

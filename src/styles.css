@@ -132,6 +132,12 @@ input.mat-input-element {
   color: #ffffff;
   border-radius: 10px !important;
 }
+.buttonColorRed:disabled {
+  font-family: 'Lato', sans-serif;
+  background-color: #0000001f !important;
+  color: #00000042 !important;
+  border-radius: 10px !important;
+}
 
 .buttonColorGreen {
   font-family: 'Lato', sans-serif;
@@ -142,7 +148,9 @@ input.mat-input-element {
 
 .buttonColorGreen:disabled {
   opacity: 0.7;
-   cursor: not-allowed
+   cursor: not-allowed;
+   background-color: #0000001f !important;
+color: #00000042 !important;
 }
 
 .buttonColorRedish:disabled {
@@ -157,7 +165,9 @@ input.mat-input-element {
 
 .buttonColor:disabled {
   opacity: 0.7;
-   cursor: not-allowed
+   cursor: not-allowed;
+   background-color: #0000001f !important;
+color: #00000042 !important;
 }
 
 .cursorPointer {
@@ -328,11 +338,11 @@ body .mat-select-arrow {
 }
 
 .mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 1em 0;
+  padding: 1.55em 0;
 }
 .mat-form-field-label-wrapper {
-  top: -.84375em;
-  padding-top: .84375em;
+  top: -.74375em;
+  padding-top: .84379em;
 }
 .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-appearance-outline.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label {
   transform: translateY(-1.59375em) scale(.75);
@@ -342,3 +352,18 @@ body .mat-select-arrow {
   top: 2.4em;
   margin-top: -.25em;
 }
+.mat-menu-item {
+  background-color: #ffff;
+}
+.mat-menu-content:not(:empty) {
+  padding-top: unset !important; 
+   padding-bottom: unset !important;
+}
+
+mat-card{
+  
+  background-color: #ffff !important;
+}
+
+
+

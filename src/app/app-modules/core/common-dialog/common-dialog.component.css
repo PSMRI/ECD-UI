@@ -87,3 +87,7 @@ mat-dialog-container {
 .latestHrpDetails{
   background: #ffc30b;
 }
+.pull-right >>> .mat-dialog-actions{
+  border-bottom: unset !important;
+  border-right: 10px !important;
+}
