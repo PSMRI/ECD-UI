@@ -184,7 +184,8 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
             item.value.previewWindowTime  <= 60)){
               item.get('selected')?.disable();
            }
-           else{
+           else if(item.value.previewWindowTime >=15 &&
+            item.value.previewWindowTime  <= 60){
             item.get('selected')?.enable();
            }
           });
@@ -315,7 +316,10 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
  * @param item
  */
   removeCheck(item: any) {
-  item.get('selected').enable();
+    if(item.value.previewWindowTime >=15 &&
+      item.value.previewWindowTime  <= 60){
+      item.get('selected')?.enable();
+     }
     if (item.value.previewWindowTime <= 0 || item.value.previewWindowTime > 60) {
       item.value.previewWindowTime = null;
       item.get('selected').disable();
