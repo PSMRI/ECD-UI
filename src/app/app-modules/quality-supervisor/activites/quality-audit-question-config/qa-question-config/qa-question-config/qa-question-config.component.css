@@ -88,7 +88,7 @@ th.mat-header-cell {
   padding: 5px 15px 5px 15px;
   color: #00071e;
   font-weight: 400;
-  text-align: center;
+  text-align: left;
 }
 
 td.mat-cell:first-child {
