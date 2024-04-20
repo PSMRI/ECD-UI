@@ -371,19 +371,21 @@ mat-card{
 }
 
 .mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline {
-  background-image: linear-gradient(to right, rgba(0, 0, 0, .42) 0%, rgba(0, 0, 0, .42) 33%, transparent 0%);
-  background-size: 4px 100%;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, .42) 0%, rgba(0, 0, 0, .42) 33%, transparent 0%) !important;
+  background-size: 4px 100% !important;
   background-repeat: repeat-x;
 }
 field-underline {
   background-position: 0;
   background-color: rgba(0, 0, 0, 0);
 }
-
 .mat-form-field-appearance-legacy .mat-form-field-underline {
-  background-color: #0000006b;
+  height: 1px !important;
 }
 
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+  background-color: #0000006b !important ;
+}
 .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline {
   color: #0000000f;
 }
@@ -392,7 +394,7 @@ field-underline {
   color: #000000de;
 }
 .mat-form-field-disabled {
-  color: #0000000f;
+  color: lightgray !important;
 }
 
 

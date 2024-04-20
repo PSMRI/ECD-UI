@@ -54,6 +54,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 
@@ -84,6 +85,7 @@ import { MatCardModule } from '@angular/material/card';
     MatSlideToggleModule,
     SharedModule,
     MatCardModule,
+    MatTooltipModule,
     BackButtonDisableModule.forRoot({
       preserveScroll: true
     }),
