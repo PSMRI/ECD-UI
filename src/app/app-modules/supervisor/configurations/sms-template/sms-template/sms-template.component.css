@@ -58,6 +58,9 @@ th.mat-header-cell {
     padding: 5px 15px 5px 15px;
   }
   
+mat-paginator {
+  background-color: hsl(0, 0%, 95%);
+}
 td.mat-cell {
     border-bottom: 1px solid #4fa2d0;
     border-top: 1px solid #4fa2d0;

@@ -371,8 +371,8 @@ mat-card{
 }
 
 .mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline {
-  background-image: linear-gradient(to right, rgba(0, 0, 0, .42) 0%, rgba(0, 0, 0, .42) 33%, transparent 0%) !important;
-  background-size: 4px 100% !important;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, .42) 0%, rgba(0, 0, 0, .42) 33%, transparent 0%);
+  background-size: 4px 100%;
   background-repeat: repeat-x;
 }
 field-underline {
@@ -380,11 +380,16 @@ field-underline {
   background-color: rgba(0, 0, 0, 0);
 }
 .mat-form-field-appearance-legacy .mat-form-field-underline {
-  height: 1px !important;
+  height: 1px;
 }
-
 .mat-form-field-appearance-legacy .mat-form-field-underline {
-  background-color: #0000006b !important ;
+  background-color: #0000006b;
+}
+.mat-form-field-appearance-standard .mat-form-field-underline {
+  background-color: #0000006b;
+}
+.mat-checkbox-disabled:not(.mat-checkbox-checked) .mat-checkbox-frame {
+  border-color: #b0b0b0;
 }
 .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline {
   color: #0000000f;

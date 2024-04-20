@@ -23,13 +23,13 @@
 
 import { Component, DoCheck, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { AgentMappingConfigurationComponent } from '../agent-mapping-configuration/agent-mapping-configuration.component';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-edit-agent',

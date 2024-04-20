@@ -23,7 +23,6 @@
 
 import { AfterViewInit, Component, DoCheck, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
@@ -31,6 +30,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { SmsTemplateService } from 'src/app/app-modules/services/smsTemplate/sms-template.service';
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-sms-template',

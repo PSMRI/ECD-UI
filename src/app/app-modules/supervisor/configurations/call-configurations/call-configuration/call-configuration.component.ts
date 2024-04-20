@@ -22,7 +22,6 @@
 
 
 import { Component, DoCheck, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { Router } from '@angular/router';
@@ -33,6 +32,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { CallSectionQuestionaireMappingComponent } from '../call-section-questionaire-mapping/call-section-questionaire-mapping.component';
 import { CreateCallConfigurationComponent } from '../create-call-configuration/create-call-configuration.component';
 import { EditCallConfigurationComponent } from '../edit-call-configuration/edit-call-configuration.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 /**
  * KA40094929

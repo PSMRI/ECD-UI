@@ -23,7 +23,6 @@
 
 import { AfterViewInit, Component, DoCheck, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { CreatequalitySectionConfigurationComponent } from 'src/app/app-modules/quality-supervisor/activites/qualityAudit-sectionConfiguration/createquality-section-configuration/createquality-section-configuration.component';
@@ -36,6 +35,7 @@ import { CreateAlertComponent } from './create-alert/create-alert.component';
 import { EditAlertComponent } from './edit-alert/edit-alert.component';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import * as moment from 'moment';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-alert-notification',

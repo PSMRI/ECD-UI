@@ -28,11 +28,11 @@ import { MasterService } from 'src/app/app-modules/services/masterService/master
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import * as FileSaver from 'file-saver';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import * as moment from 'moment';
 import { saveAs } from 'file-saver';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-supervisor-reports',

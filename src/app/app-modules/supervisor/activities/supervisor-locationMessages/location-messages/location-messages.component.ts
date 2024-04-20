@@ -29,11 +29,11 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { EditLocationMessageComponent } from '../edit-location-message/edit-location-message.component';
 import { CreateLocationMessageComponent } from '../create-location-message/create-location-message.component';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import * as moment from 'moment';
+import { MatPaginator } from '@angular/material/paginator';
 
 
 @Component({

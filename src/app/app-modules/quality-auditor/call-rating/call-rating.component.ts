@@ -24,7 +24,6 @@
 import { X } from '@angular/cdk/keycodes';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { ActivatedRoute } from '@angular/router';
@@ -32,6 +31,7 @@ import { ConfirmationService } from '../../services/confirmation/confirmation.se
 import { QualityAuditorService } from '../../services/quality-auditor/quality-auditor.service';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
 import { CallAuditComponent } from '../call-audit/call-audit/call-audit.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-call-rating',

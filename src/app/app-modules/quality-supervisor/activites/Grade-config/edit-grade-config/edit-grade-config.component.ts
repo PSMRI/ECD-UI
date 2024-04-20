@@ -27,9 +27,9 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { GradeConfigurationComponent } from '../grade-configuration/grade-configuration.component';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-edit-grade-config',

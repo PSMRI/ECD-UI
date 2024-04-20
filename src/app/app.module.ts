@@ -49,7 +49,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BrowserModule } from '@angular/platform-browser';
@@ -81,7 +80,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatDatepickerModule,
     ReactiveFormsModule,
     MatExpansionModule,
-    MatPaginatorModule,
     MatSlideToggleModule,
     SharedModule,
     MatCardModule,

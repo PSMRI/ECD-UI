@@ -3,10 +3,10 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { CreateQuestionMappingComponent } from '../create-question-mapping/create-question-mapping.component';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { EditQuestionMappingComponent } from '../edit-question-mapping/edit-question-mapping.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-map-questionaire-configuration',

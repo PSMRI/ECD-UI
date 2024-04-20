@@ -28,12 +28,12 @@ import { LoginserviceService } from 'src/app/app-modules/services/loginservice/l
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { EditNotificationComponent } from '../edit-notification/edit-notification.component';
 import { CreateNotificationComponent } from '../create-notification/create-notification.component';
 import * as moment from 'moment';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-supervisor-notification',

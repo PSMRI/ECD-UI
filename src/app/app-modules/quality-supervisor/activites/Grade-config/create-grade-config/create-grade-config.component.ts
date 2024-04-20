@@ -28,8 +28,8 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { GradeConfigurationComponent } from '../grade-configuration/grade-configuration.component';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
+import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'app-create-grade-config',
   templateUrl: './create-grade-config.component.html',

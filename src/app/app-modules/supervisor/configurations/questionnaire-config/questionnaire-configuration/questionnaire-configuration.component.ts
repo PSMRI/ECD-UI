@@ -22,7 +22,6 @@
 
 
 import { AfterViewInit, Component, DoCheck, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { Router } from '@angular/router';
@@ -31,6 +30,7 @@ import { LoginserviceService } from 'src/app/app-modules/services/loginservice/l
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { CreateQuestionnaireComponent } from '../create-questionnaire/create-questionnaire.component';
+import { MatPaginator } from '@angular/material/paginator';
 /**
  * DE40034072
  * 25-01-2023
