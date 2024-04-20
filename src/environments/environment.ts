@@ -148,7 +148,7 @@ export const environment = {
   getCallRecordingUrl: `${COMMON_API}call/getFilePathCTI`,
   updateQualityRatingsUrl: `${ECD_API}qualityAudit/call-reaudit`,
 
-  getAlertsAndNotificatonsUrl: `${COMMON_API}/notification/getAlertsAndNotificationDetail`,
+  getAlertsAndNotificatonsUrl: `${COMMON_API}notification/getAlertsAndNotificationDetail`,
   getAlertsAndNotificatonsCountUrl: `${COMMON_API}notification/getAlertsAndNotificationCount`,
   deleteAlertNotifLocMsgsUrl: `${COMMON_API}notification/markDelete`,
   changeNotificationStatusUrl: `${COMMON_API}notification/changeNotificationStatus`,
