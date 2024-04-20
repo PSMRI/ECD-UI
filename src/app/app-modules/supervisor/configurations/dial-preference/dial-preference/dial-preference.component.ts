@@ -315,10 +315,10 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
  * @param item
  */
   removeCheck(item: any) {
-    item.get('selected').enable();
+  item.get('selected').enable();
     if (item.value.previewWindowTime <= 0 || item.value.previewWindowTime > 60) {
       item.value.previewWindowTime = null;
-
+      item.get('selected').disable();
       let newIndexes: any;
       this.preferenceList.controls.forEach((sourceValue: any, index) => {
         if (
