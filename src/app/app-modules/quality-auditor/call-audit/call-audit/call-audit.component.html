@@ -3,367 +3,302 @@
     {{ currentLanguageSet?.callAudit }}
   </h2>
   <form [formGroup]="callAuditForm" class="fontStyle">
-    <mat-radio-group
-      aria-label="Select an option"
-      (click)="onRadioButtonChange()"
-      class="fontStyleRadio" 
-      formControlName="selectedRadioButton"
-    >
-      <mat-radio-button value="1" class="fontStyleRadio" >Cycle Wise</mat-radio-button>
-      <mat-radio-button value="2" class="fontStyleRadio" >Date Wise</mat-radio-button>
+    <mat-radio-group aria-label="Select an option" (click)="onRadioButtonChange()" class="fontStyleRadio"
+      formControlName="selectedRadioButton">
+      <mat-radio-button value="1" class="fontStyleRadio">Cycle Wise</mat-radio-button>
+      <mat-radio-button value="2" class="fontStyleRadio">Date Wise</mat-radio-button>
     </mat-radio-group>
-    </form>
+  </form>
 </div>
 
 <mat-card class="fontStyle innerCard">
   <form [formGroup]="cycleWiseForm" class="fontStyle" *ngIf="iscycleWiseChangeForm">
-      <mat-form-field id="fieldBox" appearance="outline" class="backgroundWhite dropdownAlignment fontStyle" >
-          <mat-label>Year</mat-label>
-          <mat-select formControlName="year" (selectionChange)="getMonths()">
-            <mat-option class="fontStyle" *ngFor="let year of years" [value]="year">{{year}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        
-        <mat-form-field id="fieldBox" appearance="outline" class="backgroundWhite dropdownAlignment fontStyle" >
-          <mat-label>Month</mat-label>
-          <mat-select formControlName="month">
-            <mat-option class="fontStyle" *ngFor="let month of months" [value]="month.id">{{month.month}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-      <mat-form-field id="fieldBox" appearance="outline" class="backgroundWhite dropdownAlignment fontStyle" >
-          <mat-label >{{ currentLanguageSet?.Cycles }}</mat-label>
-          <mat-select formControlName="cycle">
-              <mat-option class="fontStyle" *ngFor="let cycle of cycles" [value]="cycle.id">
-                  {{ cycle.name }}
-              </mat-option>
-          </mat-select>
-      </mat-form-field>
-
-      <mat-form-field id="fieldBox" appearance="outline" class="backgroundWhite dropdownAlignment fontStyle">
-          <mat-label>{{ currentLanguageSet?.role }}</mat-label>
-          <mat-select formControlName="role" (selectionChange)="getRoleId(); getAgentByRole()">
-              <mat-option *ngFor="let role of roles" [value]="role.roleName">
-                  {{role.roleName}}
-              </mat-option>
-          </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="backgroundWhite dropdownAlignment fontStyle">
-          <mat-label class="fontStyle">{{ currentLanguageSet?.agentName }}</mat-label>
-          <mat-select formControlName="agentId">
-              <mat-option class="fontStyle" *ngFor="let agent of agents" [value]="agent.userId">
-                {{ agent?.firstName | titlecase }} {{ agent?.lastName | titlecase }} {{ (agent?.agentId !== null && agent?.agentId !== undefined) ? ',' : '' }} {{ agent?.agentId }}
-              </mat-option>
-          </mat-select>
-      </mat-form-field>
-
-      <mat-form-field id="fieldBox" appearance="outline" class="backgroundWhite dropdownAlignment fontStyle">
-          <mat-label >{{ currentLanguageSet?.language }}</mat-label>
-          <mat-select formControlName="language">
-              <mat-option class="fontStyle" *ngFor="let language of languages" [value]="language.languageId">
-                  {{ language.languageName }}
-              </mat-option>
-          </mat-select>
-      </mat-form-field>
-
-      <mat-radio-group formControlName="isValid" aria-label="Select an option">
-          <mat-radio-button class="fontStyleValid" style="margin-right: 20px; margin-left: 50px;" value="true">{{ currentLanguageSet?.validCall }}</mat-radio-button>
-          <mat-radio-button class="fontStyle" style="margin-right: 20px; margin-left: 15px;" value="false">{{ currentLanguageSet?.inValidCall }}</mat-radio-button>
-      </mat-radio-group>
-
-      <button mat-raised-button class="buttonColor full-width buttonWidth" type="submit" 
-      [disabled]="!cycleWiseForm.valid" (click)="getQualityAudiotorWorklist()" >{{currentLanguageSet?.search}}
-      </button>
-      
-  </form>
-  <form [formGroup]="dateWiseForm" class="fontStyle" *ngIf=" !iscycleWiseChangeForm">
-      <mat-form-field
-      appearance="outline"
-      class="backgroundWhite dropdownAlignment fontStyle" 
-    >
-      <mat-label class="fontStyle">{{ currentLanguageSet?.enterDateRange }}</mat-label>
-      <mat-date-range-input  [rangePicker]="picker" [max]="today" >
-        <input
-          matStartDate
-          formControlName="start"
-          placeholder="{{ currentLanguageSet?.startDate }}"
-          (dateChange)="validateTime(dateWiseForm.controls.start.value, dateWiseForm.controls.end.value,dateWiseForm.controls['start'].value,dateWiseForm.controls['endTime'].value)"
-        />
-        <input
-        (dateChange)="validateTime(dateWiseForm.controls.start.value, dateWiseForm.controls.end.value,dateWiseForm.controls['start'].value,dateWiseForm.controls['endTime'].value)"
-          matEndDate
-          formControlName="end"
-          placeholder="{{ currentLanguageSet?.endDate }}"
-        />
-      </mat-date-range-input>
-      <mat-hint class="font-style">MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="picker"  
-      ></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
-
-      <mat-error
-        *ngIf="dateWiseForm.controls.start.hasError('matStartDateInvalid')"
-        >{{ currentLanguageSet?.invalidStartDate }}</mat-error
-      >
-      <mat-error *ngIf="dateWiseForm.controls.end.hasError('matEndDateInvalid')">{{
-        currentLanguageSet?.invalidEndDate
-      }}</mat-error>
+    <mat-form-field id="fieldBox" appearance="outline" class="backgroundWhite dropdownAlignment fontStyle">
+      <mat-label>Year</mat-label>
+      <mat-select formControlName="year" (selectionChange)="getMonths()">
+        <mat-option class="fontStyle" *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field id="fieldBox" appearance="outline" class="backgroundWhite dropdownAlignment fontStyle">
-        <mat-label>{{ currentLanguageSet?.role }}</mat-label>
-        <mat-select formControlName="role" (selectionChange)="getRoleId(); getAgentByRole()">
-            <mat-option *ngFor="let role of roles" [value]="role.roleName">
-                {{role.roleName}}
-            </mat-option>
-        </mat-select>
+      <mat-label>Month</mat-label>
+      <mat-select formControlName="month">
+        <mat-option class="fontStyle" *ngFor="let month of months" [value]="month.id">{{month.month}}</mat-option>
+      </mat-select>
     </mat-form-field>
+
+    <mat-form-field id="fieldBox" appearance="outline" class="backgroundWhite dropdownAlignment fontStyle">
+      <mat-label>{{ currentLanguageSet?.Cycles }}</mat-label>
+      <mat-select formControlName="cycle">
+        <mat-option class="fontStyle" *ngFor="let cycle of cycles" [value]="cycle.id">
+          {{ cycle.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field id="fieldBox" appearance="outline" class="backgroundWhite dropdownAlignment fontStyle">
+      <mat-label>{{ currentLanguageSet?.role }}</mat-label>
+      <mat-select formControlName="role" (selectionChange)="getRoleId(); getAgentByRole()">
+        <mat-option *ngFor="let role of roles" [value]="role.roleName">
+          {{role.roleName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <mat-form-field appearance="outline" class="backgroundWhite dropdownAlignment fontStyle">
       <mat-label class="fontStyle">{{ currentLanguageSet?.agentName }}</mat-label>
-      <mat-select formControlName="agentId" >
-          <mat-option class="fontStyle" *ngFor="let agent of agents" [value]="agent.userId" >
-            {{ agent?.firstName | titlecase }} {{ agent?.lastName | titlecase }} {{ (agent?.agentId !== null && agent?.agentId !== undefined) ? ',' : '' }} {{ agent?.agentId }}
-          </mat-option>
+      <mat-select formControlName="agentId">
+        <mat-option class="fontStyle" *ngFor="let agent of agents" [value]="agent.userId">
+          {{ agent?.firstName | titlecase }} {{ agent?.lastName | titlecase }} {{ (agent?.agentId !== null &&
+          agent?.agentId !== undefined) ? ',' : '' }} {{ agent?.agentId }}
+        </mat-option>
       </mat-select>
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="backgroundWhite dropdownAlignment fontStyle" >
-    <mat-label class="fontStyle">{{ currentLanguageSet?.phoneNumber}}</mat-label>
-    <input
-      matInput
-      placeholder=""
-      class="fontStyle"
-      id="phoneNo"
-      formControlName="phoneNo"
-      appMobileNumber
-      maxlength="10"
-      minlength="10"
-      defaultNull
-    />
-  </mat-form-field>
+    </mat-form-field>
 
     <mat-form-field id="fieldBox" appearance="outline" class="backgroundWhite dropdownAlignment fontStyle">
-        <mat-label >{{ currentLanguageSet?.language }}</mat-label>
-        <mat-select formControlName="language">
-            <mat-option class="fontStyle" *ngFor="let language of languages" [value]="language.languageId">
-                {{ language.languageName }}
-            </mat-option>
-        </mat-select>
+      <mat-label>{{ currentLanguageSet?.language }}</mat-label>
+      <mat-select formControlName="language">
+        <mat-option class="fontStyle" *ngFor="let language of languages" [value]="language.languageId">
+          {{ language.languageName }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-radio-group formControlName="isValid" aria-label="Select an option">
-        <mat-radio-button class="fontStyle" style="margin-right: 15px; margin-left: 50px;" value="true">{{ currentLanguageSet?.validCall }}</mat-radio-button>
-        <mat-radio-button class="fontStyle" style="margin-right: 20px; margin-left: 15px;" value="false">{{ currentLanguageSet?.inValidCall }}</mat-radio-button>
+      <mat-radio-button class="fontStyleValid" style="margin-right: 20px; margin-left: 50px;" value="true">{{
+        currentLanguageSet?.validCall }}</mat-radio-button>
+      <mat-radio-button class="fontStyle" style="margin-right: 20px; margin-left: 15px;" value="false">{{
+        currentLanguageSet?.inValidCall }}</mat-radio-button>
     </mat-radio-group>
-    
+
+    <button mat-raised-button class="buttonColor full-width buttonWidth" type="submit" [disabled]="!cycleWiseForm.valid"
+      (click)="getQualityAudiotorWorklist()">{{currentLanguageSet?.search}}
+    </button>
+
+  </form>
+  <form [formGroup]="dateWiseForm" class="fontStyle" *ngIf=" !iscycleWiseChangeForm">
+    <mat-form-field style="margin-bottom: 20px;" appearance="outline"
+      class="backgroundWhite dropdownAlignment fontStyle">
+      <mat-label class="fontStyle">{{ currentLanguageSet?.enterDateRange }}</mat-label>
+      <mat-date-range-input [rangePicker]="picker" [max]="today">
+        <input matStartDate formControlName="start" placeholder="{{ currentLanguageSet?.startDate }}"
+          (dateChange)="validateTime(dateWiseForm.controls.start.value, dateWiseForm.controls.end.value,dateWiseForm.controls['start'].value,dateWiseForm.controls['endTime'].value)" />
+        <input
+          (dateChange)="validateTime(dateWiseForm.controls.start.value, dateWiseForm.controls.end.value,dateWiseForm.controls['start'].value,dateWiseForm.controls['endTime'].value)"
+          matEndDate formControlName="end" placeholder="{{ currentLanguageSet?.endDate }}" />
+      </mat-date-range-input>
+      <mat-hint class="font-style">MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+
+      <mat-error *ngIf="dateWiseForm.controls.start.hasError('matStartDateInvalid')">{{
+        currentLanguageSet?.invalidStartDate }}</mat-error>
+      <mat-error *ngIf="dateWiseForm.controls.end.hasError('matEndDateInvalid')">{{
+        currentLanguageSet?.invalidEndDate
+        }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field style="margin-bottom: 20px;" id="fieldBox" appearance="outline"
+      class="backgroundWhite dropdownAlignment fontStyle">
+      <mat-label>{{ currentLanguageSet?.role }}</mat-label>
+      <mat-select formControlName="role" (selectionChange)="getRoleId(); getAgentByRole()">
+        <mat-option *ngFor="let role of roles" [value]="role.roleName">
+          {{role.roleName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="backgroundWhite dropdownAlignment fontStyle"
+      style="margin-bottom: 20px;">
+      <mat-label class="fontStyle">{{ currentLanguageSet?.agentName }}</mat-label>
+      <mat-select formControlName="agentId">
+        <mat-option class="fontStyle" *ngFor="let agent of agents" [value]="agent.userId">
+          {{ agent?.firstName | titlecase }} {{ agent?.lastName | titlecase }} {{ (agent?.agentId !== null &&
+          agent?.agentId !== undefined) ? ',' : '' }} {{ agent?.agentId }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="backgroundWhite dropdownAlignment fontStyle"
+      style="margin-bottom: 20px;">
+      <mat-label class="fontStyle">{{ currentLanguageSet?.phoneNumber}}</mat-label>
+      <input matInput placeholder="" class="fontStyle" id="phoneNo" formControlName="phoneNo" appMobileNumber
+        maxlength="10" minlength="10" defaultNull />
+    </mat-form-field>
+
+    <mat-form-field id="fieldBox" appearance="outline" class="backgroundWhite dropdownAlignment fontStyle"
+      style="margin-bottom: 20px;">
+      <mat-label>{{ currentLanguageSet?.language }}</mat-label>
+      <mat-select formControlName="language">
+        <mat-option class="fontStyle" *ngFor="let language of languages" [value]="language.languageId">
+          {{ language.languageName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-radio-group formControlName="isValid" aria-label="Select an option" style="margin-bottom: 20px;">
+      <mat-radio-button class="fontStyle" style="margin-right: 15px; margin-left: 50px;" value="true">{{
+        currentLanguageSet?.validCall }}</mat-radio-button>
+      <mat-radio-button class="fontStyle" style="margin-right: 20px; margin-left: 15px;" value="false">{{
+        currentLanguageSet?.inValidCall }}</mat-radio-button>
+    </mat-radio-group>
+
     <!-- <mat-checkbox style="margin-left: 25px;" formControlName="validCall" (change)="onCheckboxChange($event)"></mat-checkbox>
     <mat-label style="margin-right: 25px;" class="fontStyle">{{ currentLanguageSet?.validCall }}</mat-label>
 
     <mat-checkbox style="margin-left: 10px;" formControlName="inValidCall" (change)="onCheckboxChange($event)"></mat-checkbox>
     <mat-label style="margin-right: 10px;" class="fontStyle">{{ currentLanguageSet?.inValidCall }}</mat-label> -->
 
-    <button mat-raised-button class="buttonColor full-width buttonWidth" type="submit" 
-    [disabled]="!dateWiseForm.valid" (click)="getQualityAudiotorWorklist()" >{{currentLanguageSet?.search}}
+    <button mat-raised-button class="buttonColor full-width buttonWidth" type="submit" [disabled]="!dateWiseForm.valid"
+      (click)="getQualityAudiotorWorklist()">{{currentLanguageSet?.search}}
     </button>
-</form>
+  </form>
 
 
   <br>
 
   <div>
-      <div
-      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right"
-      *ngIf="callData.length !== 0"
-    >
-      <mat-form-field
-        appearance="outline"
-        id="filterBox"
-        class="pull-right searchInput blueInput"
-      >
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right" *ngIf="callData.length !== 0">
+      <mat-form-field appearance="outline" id="filterBox" class="pull-right searchInput blueInput">
         <mat-label class="labelColor">{{
           currentLanguageSet?.inTableSearch
-        }}</mat-label>
-        <input
-          matInput
-          [(ngModel)]="searchTerm"
-          name="searchTerm"
-          placeholder=""
-          #filterTerm
-          (keyup)="filterSearchTerm(filterTerm.value)"
-        />
+          }}</mat-label>
+        <input matInput [(ngModel)]="searchTerm" name="searchTerm" placeholder="" #filterTerm
+          (keyup)="filterSearchTerm(filterTerm.value)" />
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </div>
-    <div class="mat-elevation-z8 responsiveTable" style="margin-top: 30px" *ngIf="callAuditData.filteredData.length > 0 && !iscycleWiseChangeForm">
+    <div class="mat-elevation-z8 responsiveTable" style="margin-top: 30px"
+      *ngIf="callAuditData.filteredData.length > 0 && !iscycleWiseChangeForm">
       <table class="alignTable" mat-table [dataSource]="callAuditData">
-          <ng-container matColumnDef="sNo">
-              <th mat-header-cell *matHeaderCellDef>S.No.</th>
-              <td mat-cell *matCellDef="let element; let i = index"> {{ callAuditData.data.indexOf(element) + 1 }}</td>
-          </ng-container>
-  
-          <ng-container matColumnDef="beneficiaryId">
-              <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.beneficiaryId}} </th>
-              <td mat-cell *matCellDef="let element"> {{element.beneficiaryid}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="beneficiaryName">
-              <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.beneficiaryName}} </th>
-              <td mat-cell *matCellDef="let element"> {{element.beneficiaryname}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="phoneNumber">
-              <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.phoneNumber}} </th>
-              <td mat-cell *matCellDef="let element"> {{element.phoneNo}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="agentName">
-              <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.agentName}} </th>
-              <td mat-cell *matCellDef="let element"> {{element.agetname}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="callType">
-              <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.callType}} </th>
-              <td mat-cell *matCellDef="let element"> {{element.outboundCallType}} </td>
-          </ng-container>
-          <ng-container matColumnDef="casesheet">
-            <th mat-header-cell  *matHeaderCellDef style="padding-left: 20px;border-bottom: none">{{ currentLanguageSet?.casesheet }}</th>
-            <td mat-cell *matCellDef="let element" style="padding-left: 20px">
-              <mat-icon
-                matTooltip="View Casesheet"
-                class="mat-icon material-icons"
-                role="img"
-                aria-hidden="true"
-                (click)="viewCasheet(element)"
-                style="cursor: pointer">description</mat-icon>
-            </td>
-          </ng-container>
-          
-          <ng-container matColumnDef="action">
-              <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell  *matCellDef="let element"> 
-                  <button *ngIf="element.isCallAudited === null || element.isCallAudited === false"
-                  mat-raised-button
-                  class="buttonColor full-width" (click)="routeToAgentRating(element, 'callAudit')"
-                >
-                  {{ currentLanguageSet?.callAudit }}
-                </button>
-                <button *ngIf="element.isCallAudited === true"
-                mat-raised-button
-                class="buttonColor full-width" (click)="routeToAgentRating(element, 'callReAudit')"
-              >
-                {{ currentLanguageSet?.callReAudit }}
-              </button>
-              </td>
-          </ng-container>
-  
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
-          <div
-          class="pull-center"
-          style="margin-top: 5px"
-          [hidden]="callAuditData.data.length === 0"
-          >
-              <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
-          </div>
-      </table>
-      <div
-      class="pull-center"
-      style="margin-top: 5px"
-      [hidden]="callAuditData.data.length > 0"
-    >
-      <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
-    </div>
-  </div>
-  <div class="mat-elevation-z8 responsiveTable" style="margin-top: 30px" *ngIf="callAuditData.filteredData.length > 0 && iscycleWiseChangeForm">
-    <table class="alignTable" mat-table [dataSource]="callAuditData">
         <ng-container matColumnDef="sNo">
-            <th mat-header-cell *matHeaderCellDef>S.No.</th>
-            <td mat-cell *matCellDef="let element; let i = index"> {{ callAuditData.data.indexOf(element) + 1 }}</td>
+          <th mat-header-cell *matHeaderCellDef>S.No.</th>
+          <td mat-cell *matCellDef="let element; let i = index"> {{ callAuditData.data.indexOf(element) + 1 }}</td>
         </ng-container>
 
         <ng-container matColumnDef="beneficiaryId">
-            <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.beneficiaryId}} </th>
-            <td mat-cell *matCellDef="let element"> {{element.beneficiaryid}} </td>
+          <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.beneficiaryId}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.beneficiaryid}} </td>
         </ng-container>
 
         <ng-container matColumnDef="beneficiaryName">
-            <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.beneficiaryName}} </th>
-            <td mat-cell *matCellDef="let element"> {{element.beneficiaryname}} </td>
+          <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.beneficiaryName}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.beneficiaryname}} </td>
         </ng-container>
 
         <ng-container matColumnDef="phoneNumber">
-            <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.phoneNumber}} </th>
-            <td mat-cell *matCellDef="let element"> {{element.phoneNo}} </td>
+          <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.phoneNumber}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.phoneNo}} </td>
         </ng-container>
 
         <ng-container matColumnDef="agentName">
-            <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.agentName}} </th>
-            <td mat-cell *matCellDef="let element"> {{element.agetname}} </td>
+          <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.agentName}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.agetname}} </td>
         </ng-container>
 
         <ng-container matColumnDef="callType">
-            <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.callType}} </th>
-            <td mat-cell *matCellDef="let element"> {{element.outboundCallType}} </td>
+          <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.callType}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.outboundCallType}} </td>
         </ng-container>
         <ng-container matColumnDef="casesheet">
-          <th mat-header-cell  *matHeaderCellDef style="padding-left: 20px;border-bottom: none">{{ currentLanguageSet?.casesheet }}</th>
+          <th mat-header-cell *matHeaderCellDef style="padding-left: 20px;border-bottom: none">{{
+            currentLanguageSet?.casesheet }}</th>
           <td mat-cell *matCellDef="let element" style="padding-left: 20px">
-            <mat-icon
-              matTooltip="View Casesheet"
-              class="mat-icon material-icons"
-              role="img"
-              aria-hidden="true"
-              (click)="viewCasheet(element)"
-              style="cursor: pointer">description</mat-icon>
+            <mat-icon matTooltip="View Casesheet" class="mat-icon material-icons" role="img" aria-hidden="true"
+              (click)="viewCasheet(element)" style="cursor: pointer">description</mat-icon>
           </td>
         </ng-container>
-        
+
         <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell  *matCellDef="let element"> 
-                <button *ngIf="element.isCallAudited === null || element.isCallAudited === false"
-                mat-raised-button
-                class="buttonColor full-width" (click)="routeToAgentRating(element, 'callAudit')"
-              >
-                {{ currentLanguageSet?.callAudit }}
-              </button>
-              <button *ngIf="element.isCallAudited === true"
-              mat-raised-button
-              class="buttonColor full-width" (click)="routeToAgentRating(element, 'callReAudit')"
-            >
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button *ngIf="element.isCallAudited === null || element.isCallAudited === false" mat-raised-button
+              class="buttonColor full-width" (click)="routeToAgentRating(element, 'callAudit')">
+              {{ currentLanguageSet?.callAudit }}
+            </button>
+            <button *ngIf="element.isCallAudited === true" mat-raised-button class="buttonColor full-width"
+              (click)="routeToAgentRating(element, 'callReAudit')">
               {{ currentLanguageSet?.callReAudit }}
             </button>
-            </td>
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
-        <div
-        class="pull-center"
-        style="margin-top: 5px"
-        [hidden]="callAuditData.data.length === 0"
-        >
-            <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+        <div class="pull-center" style="margin-top: 5px" [hidden]="callAuditData.data.length === 0">
+          <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
         </div>
-    </table>
-    <div
-    class="pull-center"
-    style="margin-top: 5px"
-    [hidden]="callAuditData.data.length > 0"
-  >
-    <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
-  </div>
-</div>
-  <mat-paginator
-  [hidden]="callAuditData.data.length === 0"
-    #myPaginator
-    [pageSizeOptions]="[5, 10, 20]"
-    [pageSize]="5"
-    showFirstLastButtons
->
-</mat-paginator>
+      </table>
+      <div class="pull-center" style="margin-top: 5px" [hidden]="callAuditData.data.length > 0">
+        <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+      </div>
+    </div>
+    <div class="mat-elevation-z8 responsiveTable" style="margin-top: 30px"
+      *ngIf="callAuditData.filteredData.length > 0 && iscycleWiseChangeForm">
+      <table class="alignTable" mat-table [dataSource]="callAuditData">
+        <ng-container matColumnDef="sNo">
+          <th mat-header-cell *matHeaderCellDef>S.No.</th>
+          <td mat-cell *matCellDef="let element; let i = index"> {{ callAuditData.data.indexOf(element) + 1 }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="beneficiaryId">
+          <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.beneficiaryId}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.beneficiaryid}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="beneficiaryName">
+          <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.beneficiaryName}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.beneficiaryname}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="phoneNumber">
+          <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.phoneNumber}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.phoneNo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="agentName">
+          <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.agentName}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.agetname}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="callType">
+          <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.callType}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.outboundCallType}} </td>
+        </ng-container>
+        <ng-container matColumnDef="casesheet">
+          <th mat-header-cell *matHeaderCellDef style="padding-left: 20px;border-bottom: none">{{
+            currentLanguageSet?.casesheet }}</th>
+          <td mat-cell *matCellDef="let element" style="padding-left: 20px">
+            <mat-icon matTooltip="View Casesheet" class="mat-icon material-icons" role="img" aria-hidden="true"
+              (click)="viewCasheet(element)" style="cursor: pointer">description</mat-icon>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button *ngIf="element.isCallAudited === null || element.isCallAudited === false" mat-raised-button
+              class="buttonColor full-width" (click)="routeToAgentRating(element, 'callAudit')">
+              {{ currentLanguageSet?.callAudit }}
+            </button>
+            <button *ngIf="element.isCallAudited === true" mat-raised-button class="buttonColor full-width"
+              (click)="routeToAgentRating(element, 'callReAudit')">
+              {{ currentLanguageSet?.callReAudit }}
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+        <div class="pull-center" style="margin-top: 5px" [hidden]="callAuditData.data.length === 0">
+          <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+        </div>
+      </table>
+      <div class="pull-center" style="margin-top: 5px" [hidden]="callAuditData.data.length > 0">
+        <strong>{{ currentLanguageSet?.noRecordsFound }}</strong>
+      </div>
+    </div>
+    <mat-paginator [hidden]="callAuditData.data.length === 0" #myPaginator [pageSizeOptions]="[5, 10, 20]"
+      [pageSize]="5" showFirstLastButtons>
+    </mat-paginator>
   </div>
 
 </mat-card>

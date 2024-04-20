@@ -34,7 +34,6 @@ import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/materia
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { QualitySectionConfigurationComponent } from './activites/qualityAudit-sectionConfiguration/quality-section-configuration/quality-section-configuration.component';
 import { CreatequalitySectionConfigurationComponent } from './activites/qualityAudit-sectionConfiguration/createquality-section-configuration/createquality-section-configuration.component';
 import { EditQualitySectionConfigurationComponent } from './activites/qualityAudit-sectionConfiguration/edit-quality-section-configuration/edit-quality-section-configuration.component';
@@ -52,6 +51,7 @@ import { QaQuestionConfigComponent } from './activites/quality-audit-question-co
 import { CreateQaQuestionConfigComponent } from './activites/quality-audit-question-config/create-qa-question-config/create-qa-question-config/create-qa-question-config.component';
 import { TitleCasePipe } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({

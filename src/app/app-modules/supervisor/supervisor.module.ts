@@ -32,7 +32,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { CallConfigurationComponent } from './configurations/call-configurations/call-configuration/call-configuration.component';
 import { CreateCallConfigurationComponent } from './configurations/call-configurations/create-call-configuration/create-call-configuration.component';
 import { EditCallConfigurationComponent } from './configurations/call-configurations/edit-call-configuration/edit-call-configuration.component';
@@ -71,6 +70,7 @@ import { MapQuestionaireConfigurationComponent } from './configurations/question
 import { CreateQuestionMappingComponent } from './configurations/question-Mapping/create-question-mapping/create-question-mapping.component';
 import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
 import { EditQuestionMappingComponent } from './configurations/question-Mapping/edit-question-mapping/edit-question-mapping.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     InnerpageSupervisorComponent,

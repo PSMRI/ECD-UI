@@ -320,10 +320,9 @@ body .mat-select-arrow {
 
   background-color: #ffffff !important;
 }
-
 .mat-select-panel {
   background-color: #ffffff !important;
-}
+} 
 
 /* .mat-icon-button {
   width: 0px !important;
@@ -364,6 +363,38 @@ mat-card{
   
   background-color: #ffff !important;
 }
+
+
+.mat-error {
+  display: block;
+  color: #f44336;
+}
+
+.mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, .42) 0%, rgba(0, 0, 0, .42) 33%, transparent 0%);
+  background-size: 4px 100%;
+  background-repeat: repeat-x;
+}
+field-underline {
+  background-position: 0;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+  background-color: #0000006b;
+}
+
+.mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline {
+  color: #0000000f;
+}
+.mat-autocomplete-panel {
+  background: #fff;
+  color: #000000de;
+}
+.mat-form-field-disabled {
+  color: #0000000f;
+}
+
 
 
 

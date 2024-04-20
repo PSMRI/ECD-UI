@@ -83,7 +83,7 @@
             *ngFor="let agent of agentNameList"
             [value]="agent.userId"
           >
-          {{ agent?.firstName | titlecase }} {{ agent?.lastName | titlecase }} {{ (agent?.agentId !== null && agent?.agentId !== undefined) ? '-' : '' }} {{ agent?.agentId }}
+          {{ agent?.firstName | titlecase }} {{ agent?.lastName | titlecase }} {{ (agent?.agentId != null && agent?.agentId != undefined) ? '-' : '' }} {{ agent?.agentId }}
           </mat-option>
         </mat-select>
         <mat-error

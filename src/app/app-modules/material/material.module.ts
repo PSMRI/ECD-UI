@@ -142,6 +142,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
+    
   ],
 })
 export class MaterialModule {}
