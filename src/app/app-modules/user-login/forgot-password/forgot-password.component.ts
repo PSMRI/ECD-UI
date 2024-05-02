@@ -163,12 +163,12 @@ ngOnDestroy(): void {
   validateSecurityAnswers(){
     const questionAnswers: any[] = [];
     this.securityQues.forEach((question:any,i:any) => {
-        const answer = this.forgotpasswordform.get(`answer${i}`)!.value;
+        const answer = this.forgotpasswordform.get(`answer${i}`)?.value || ''; 
         questionAnswers.push({questionId: question.questionId, answer: answer});
     });
     const reqObj = { 
       SecurityQuesAns: questionAnswers,
-      userName: this.forgotpasswordform.get('userName')!.value
+      userName: this.forgotpasswordform.get('userName')?.value || ''
     }
     console.log(reqObj);
     this.loginService.validateAnswers(reqObj).subscribe((res:any) => {
