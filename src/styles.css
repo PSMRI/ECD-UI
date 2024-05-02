@@ -386,8 +386,8 @@ field-underline {
   background-color: #0000006b;
 }
 .mat-form-field-appearance-standard .mat-form-field-underline {
-  background-color: #0000006b;
-}
+ background-color: #0000006b;
+} 
 .mat-checkbox-disabled:not(.mat-checkbox-checked) .mat-checkbox-frame {
   border-color: #b0b0b0;
 }

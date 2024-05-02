@@ -50,7 +50,7 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
   previewWindowTimeFilled = false;
   userRoles: any;
   autoPreviewData: any[] = [];
-  selectedFlag: boolean = false;
+  selectedFlag = false;
   // dialPreferenceForm!: FormGroup;
   
   @ViewChild(MatSort) set matSort(ms: MatSort) {

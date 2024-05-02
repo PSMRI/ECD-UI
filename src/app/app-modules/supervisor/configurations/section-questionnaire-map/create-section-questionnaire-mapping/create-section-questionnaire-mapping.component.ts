@@ -249,9 +249,19 @@ export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoChe
               )){
                  item.get('selected')?.disable();
               }
-              else{
-               item.get('selected')?.enable();
-              }
+              
+                else if((
+                  item.value.rank !== null &&
+                  item.value.rank !== undefined &&
+                  item.value.rank !== ''
+                ) || (
+                  item.value.roleType !== null &&
+                  item.value.roleType !== undefined &&
+                  item.value.roleType !== ''
+                )){
+                  item.get('selected')?.enable();
+                 }
+              
              });
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
@@ -408,7 +418,7 @@ export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoChe
       item.value.rank !== null &&
       item.value.rank !== undefined &&
       item.value.rank !== ''
-    ) && (
+    ) || (
       item.value.roleType !== null &&
       item.value.roleType !== undefined &&
       item.value.roleType !== ''
@@ -417,7 +427,7 @@ export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoChe
     }
     if (item.value.rank <= 0 || item.value.rank > 10000) {
       item.value.rank = null;
-
+      item.get('selected').disable();
       let newIndexes: any;
       this.questionnaireList.controls.forEach((sourceValue: any, index) => {
         if (
