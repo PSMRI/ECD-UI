@@ -6,7 +6,6 @@
   height: 70px;
   color: #ffffff;
   overflow: hidden;
-  padding-top: 12px;
   padding-left: 12px;
   padding-right: 12px;
 }
@@ -97,3 +96,12 @@ img {
     padding-top: 12px;
   }
 }
+
+.logout >>>.mat-icon-button {
+  width: 0px !important;
+  height: 0px !important;
+ 
+}
+
+
+

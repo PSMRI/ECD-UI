@@ -26,7 +26,6 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTable as MatTable, MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
@@ -34,6 +33,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { QuestionnaireConfigurationComponent } from '../questionnaire-configuration/questionnaire-configuration.component';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
+import { MatPaginator } from '@angular/material/paginator';
 /**
  * DE40034072
  * 25-01-2023

@@ -5,7 +5,7 @@
 .headerCardSupervisor {
   border-radius: 40px !important;
   height: 55px;
-  background-color: #ffb800;
+  background-color: #ffb800 !important;
   color: #ffffff;
   margin-top: 20px;
   margin-left: 15px;
@@ -16,7 +16,7 @@
   .headerCard {
     border-radius: 40px !important;
     height: 100px;
-    background-color: #ffb800;
+    background-color: #ffb800 !important;
     color: #ffffff;
     margin-top: 20px;
     margin-left: 15px;
@@ -38,7 +38,7 @@
   .headerCard {
     border-radius: 40px !important;
     height: 70px;
-    background-color: #ffb800;
+    background-color: #ffb800 !important;
     color: #ffffff;
     margin-top: 20px;
     margin-left: 15px;
@@ -60,7 +60,7 @@
   .headerCard {
     border-radius: 40px !important;
     height: 55px;
-    background-color: #ffb800;
+    background-color: #ffb800 !important;
     color: #ffffff;
     margin-top: 20px;
     margin-left: 15px;

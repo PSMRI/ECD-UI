@@ -18,6 +18,7 @@
         id="fieldBackground"
         [style.width]="'70%'"
         class="fontStyle"
+        style="margin-bottom: 20px;"
       >
         <mat-label class="fontStyle">{{ currentLanguageSet?.questionnaire }}</mat-label>
         <textarea
@@ -61,6 +62,7 @@
         <mat-form-field 
           appearance="outline"
           [style.width]="'100%'" 
+          style="margin-bottom: 20px;"
           class="backgroundWhite fieldAlignment fontStyle">
             <mat-label class="fontStyle">{{ currentLanguageSet?.rank}}</mat-label>
             <input
@@ -83,7 +85,8 @@
       <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
         <mat-form-field
           appearance="outline"
-          [style.width]="'100%'" 
+          [style.width]="'100%'"
+          style="margin-bottom: 20px;"
           class="backgroundWhite fieldAlignment fontStyle">
           <mat-label class="fontStyle">{{ currentLanguageSet?.answerType }}</mat-label>
           <mat-select
@@ -110,6 +113,7 @@
         <mat-form-field
           appearance="outline"
           [style.width]="'100%'" 
+          style="margin-bottom: 20px;"
           class="backgroundWhite fieldAlignment fontStyle">
           <mat-label class="fontStyle">{{ currentLanguageSet?.sectionName}}</mat-label>
           <mat-select
@@ -133,7 +137,7 @@
           <mat-form-field
             appearance="outline"
             [style.width]="'100%'" 
-            class="backgroundWhite fieldAlignment fontStyle">
+            class="backgroundWhite fieldAlignment fontStyle" style="margin-bottom: 20px;">
             <mat-label class="fontStyle">{{ currentLanguageSet?.options }}</mat-label>
             <input
               matInput
@@ -148,7 +152,7 @@
           <mat-form-field 
           appearance="outline"
           [style.width]="'100%'" 
-          style="margin-left: 65px;"
+          style="margin-left: 65px; margin-bottom: 20px;"
           class="backgroundWhite fieldAlignment fontStyle">
             <mat-label class="fontStyle">{{ currentLanguageSet?.score }}</mat-label>
             <input
@@ -168,13 +172,16 @@
             />
         </mat-form-field>
         
-        <button type="button" *ngIf="j > 0 && j === newOption.controls.length - 1" [disabled]="newOption.controls.length === 1" mat-icon-button color="warn" (click)="removeOption(j)" matTooltip="Discard">
+        <button type="button"        style="margin-bottom: 20px;"
+        *ngIf="j > 0 && j === newOption.controls.length - 1" [disabled]="newOption.controls.length === 1" mat-icon-button color="warn" (click)="removeOption(j)" matTooltip="Discard">
           <mat-icon matSuffix>remove_circle</mat-icon>            
           </button>
-          <button type="button" *ngIf="j === newOption.controls.length - 1" mat-icon-button color="primary" (click)="addOption()" matTooltip="Add new option">
+          <button type="button"         style="margin-bottom: 20px;"
+          *ngIf="j === newOption.controls.length - 1" mat-icon-button color="primary" (click)="addOption()" matTooltip="Add new option">
           <mat-icon matSuffix>add_circle</mat-icon>
           </button>
-          <button type="button" *ngIf="j !== newOption.controls.length - 1" [disabled]="newOption.controls.length === 1" mat-icon-button color="warn" (click)="removeOption(j)" matTooltip="Discard">
+          <button type="button"         style="margin-bottom: 20px;"
+          *ngIf="j !== newOption.controls.length - 1" [disabled]="newOption.controls.length === 1" mat-icon-button color="warn" (click)="removeOption(j)" matTooltip="Discard">
           <mat-icon matSuffix>remove_circle</mat-icon>
          </button>
         </div>

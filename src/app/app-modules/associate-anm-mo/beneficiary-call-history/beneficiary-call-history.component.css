@@ -5,7 +5,7 @@
     margin-left: 15px;
     margin-right: 15px;
     width: 95%;
-    background-color: #f2f2f2;
+    background-color: #f2f2f2 !important;
     border: 1px solid #4fa2d0;
     margin-bottom: 20px;
   }

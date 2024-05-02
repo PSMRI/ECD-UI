@@ -21,10 +21,10 @@
 */
 
 
-const ecdIP = 'http://192.168.45.70:8080/';
-const commonIP = 'http://192.168.45.70/';
-const adminIP = 'http://192.168.45.70/';
-const COMMON_API = `${commonIP}commonapi-v1.0/`;
+const ecdIP = 'http://183.82.107.186:8080/';
+const commonIP = 'http://183.82.107.186:8080/';
+const adminIP = 'http://183.82.107.186:8080/';
+const COMMON_API = `${commonIP}commonapi-ecd/`;
 const ADMIN_API = `${adminIP}adminapi-v1.0/`;
 const ECD_API = `${ecdIP}ecdapi-v1.0/`;
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
@@ -39,10 +39,10 @@ export const environment = {
   getSecurityQuestionURL: `${COMMON_API}user/getsecurityquetions`,
   getLoginURL: `${COMMON_API}user/userAuthenticate`,
   userLogoutPreviousSessionUrl: `${COMMON_API}user/logOutUserFromConcurrentSession`,
-  setForgotPasswordURL: `${COMMON_API}/user/setForgetPassword`,
-  saveUserQuestionAns: `${COMMON_API}/user/saveUserSecurityQuesAns`,
-  validateSecQuesAnsURL: `${COMMON_API}/user/validateSecurityQuestionAndAnswer`,
-  forgotPasswordURL: `${COMMON_API}/user/forgetPassword`,
+  setForgotPasswordURL: `${COMMON_API}user/setForgetPassword`,
+  saveUserQuestionAns: `${COMMON_API}user/saveUserSecurityQuesAns`,
+  validateSecQuesAnsURL: `${COMMON_API}user/validateSecurityQuestionAndAnswer`,
+  forgotPasswordURL: `${COMMON_API}user/forgetPassword`,
   getSessionExistsURL: `${COMMON_API}user/getLoginResponse`,
   logoutUrl: `${COMMON_API}user/userLogout`,
   getLanguageList: `${COMMON_API}beneficiary/getLanguageList`,
@@ -145,7 +145,7 @@ export const environment = {
   getCallRecordingUrl: `${COMMON_API}call/getFilePathCTI`,
   updateQualityRatingsUrl: `${ECD_API}qualityAudit/call-reaudit`,
 
-  getAlertsAndNotificatonsUrl: `${COMMON_API}/notification/getAlertsAndNotificationDetail`,
+  getAlertsAndNotificatonsUrl: `${COMMON_API}notification/getAlertsAndNotificationDetail`,
   getAlertsAndNotificatonsCountUrl: `${COMMON_API}notification/getAlertsAndNotificationCount`,
   deleteAlertNotifLocMsgsUrl: `${COMMON_API}notification/markDelete`,
   changeNotificationStatusUrl: `${COMMON_API}notification/changeNotificationStatus`,
@@ -183,7 +183,7 @@ export const environment = {
   getBeneficiaryCallHistoryUrl:`${ECD_API}callHistory/getBeneficiaryCallHistory`,
   getCallHistoryDetailsUrl:`${ECD_API}callHistory/getBeneficiaryCallDetails`,
   /**CTI Urls */
-  ctiUrl: `http://10.208.122.99/`,
+  ctiUrl: `http://192.168.45.55/`,
   ctiEventUrl: `bar/cti_handler.php?e=`,
   getLoginKeyUrl:`${COMMON_API}cti/getLoginKey`,
   getAgentsDataUrl: `${ECD_API}master/getAgentsByRoleId`,

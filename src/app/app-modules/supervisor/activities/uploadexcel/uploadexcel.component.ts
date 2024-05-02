@@ -50,7 +50,7 @@ export class UploadexcelComponent implements OnInit {
   inValidFileName = false;
   uploadDataSection = true;
   uploadTemplateSection = false;
-  fileContent: any='';
+  fileContent: any;
   valid_file_extensions =  ['xls', 'xlsx', 'xlsm', 'xlsb'];
   selectedFile: any = null;
 
@@ -315,7 +315,7 @@ export class UploadexcelComponent implements OnInit {
   uploadTemplate(){
     this.uploadTemplateSection = true;
     this.uploadDataSection = false;
-    this.file=null;
+    this.file=undefined;
     this.error1=false;
     this.error2=false;
     this.inValidFileName=false;

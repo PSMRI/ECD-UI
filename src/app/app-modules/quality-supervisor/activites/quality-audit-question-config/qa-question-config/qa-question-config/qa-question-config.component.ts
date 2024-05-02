@@ -22,7 +22,6 @@
 
 
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
@@ -30,6 +29,7 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { CreateQaQuestionConfigComponent } from '../../create-qa-question-config/create-qa-question-config/create-qa-question-config.component';
 import { EditQaConfigComponent } from '../../edit-qa-question-config/edit-qa-config/edit-qa-config.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-qa-question-config',

@@ -179,17 +179,6 @@
                 formControlName="selected"
                 [checked]="element.value.selected === true"
                 (change)="addQuestionnaire($event, element.value)"
-                [disabled]="
-                  !(
-                    element.value.rank !== null &&
-                    element.value.rank !== undefined &&
-                    element.value.rank !== ''
-                  ) ||  !(
-                    element.value.roleType !== null &&
-                    element.value.roleType !== undefined &&
-                    element.value.roleType !== ''
-                  )
-                "
                 [required]="
                  ( element.value.rank !== null &&
                   element.value.rank !== undefined &&

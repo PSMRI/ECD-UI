@@ -22,7 +22,6 @@
 
 
 import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
@@ -38,6 +37,7 @@ import { BeneficiaryCallHistoryComponent } from '../beneficiary-call-history/ben
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { CtiService } from '../../services/cti/cti.service';
 import { map, Subscription, timer } from 'rxjs';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-outbound-worklist',

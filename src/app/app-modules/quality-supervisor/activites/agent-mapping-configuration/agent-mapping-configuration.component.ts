@@ -22,7 +22,6 @@
 
 
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
@@ -31,6 +30,7 @@ import { CreateAgentComponent } from '../create-agent/create-agent.component';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import { EditAgentComponent } from '../edit-agent/edit-agent.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-agent-mapping-configuration',

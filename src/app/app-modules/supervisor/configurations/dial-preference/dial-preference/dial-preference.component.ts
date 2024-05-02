@@ -23,12 +23,12 @@
 
 import { AfterViewInit, Component, DoCheck, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-dial-preference',
@@ -40,7 +40,7 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
 
   @Input()
   public data: any;
-  sectionsData = new MatTableDataSource();
+  sectionsData =  new MatTableDataSource<any>
   displayedColumns: string[] = ['sNo', 'roleName', 'agentName', 'previewWindowTime', 'selected'];
   isChecked: any;
   masterCheckbox = false;
@@ -50,6 +50,7 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
   previewWindowTimeFilled = false;
   userRoles: any;
   autoPreviewData: any[] = [];
+  selectedFlag = false;
   // dialPreferenceForm!: FormGroup;
   
   @ViewChild(MatSort) set matSort(ms: MatSort) {
@@ -173,7 +174,21 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
           });
           console.log("Preference Data", this.preferenceList);
           this.sectionsData.data = this.preferenceList.controls;
-          // this.checkPreviewWindowTime();
+          console.log("this.sectionsData.data", this.sectionsData.data);
+          this.sectionsData.data.forEach((item: any)=>{
+           if(!(
+            item.value.previewWindowTime !== null &&
+            item.value.previewWindowTime !== undefined &&
+            item.value.previewWindowTime !== '' &&
+            item.value.previewWindowTime >=15 &&
+            item.value.previewWindowTime  <= 60)){
+              item.get('selected')?.disable();
+           }
+           else if(item.value.previewWindowTime >=15 &&
+            item.value.previewWindowTime  <= 60){
+            item.get('selected')?.enable();
+           }
+          });
           this.sectionsData.paginator = this.paginator;
           this.sectionsData.sort = this.sort;
         }
@@ -301,9 +316,13 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
  * @param item
  */
   removeCheck(item: any) {
+    if(item.value.previewWindowTime >=15 &&
+      item.value.previewWindowTime  <= 60){
+      item.get('selected')?.enable();
+     }
     if (item.value.previewWindowTime <= 0 || item.value.previewWindowTime > 60) {
       item.value.previewWindowTime = null;
-
+      item.get('selected').disable();
       let newIndexes: any;
       this.preferenceList.controls.forEach((sourceValue: any, index) => {
         if (
@@ -417,5 +436,10 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
         }
       });
     }
+  }
+  enableCheckBox(index: number){
+    this.sectionsData.data.forEach((item: any)=>{
+    item.at(index).get('selected').enable();
+    });
   }
 }

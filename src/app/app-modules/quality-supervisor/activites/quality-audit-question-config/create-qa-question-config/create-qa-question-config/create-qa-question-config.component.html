@@ -17,6 +17,7 @@
           appearance="outline"
           id="fieldBackground"
           [style.width]="'70%'"
+          style="margin-bottom: 20px;"
           class="fontStyle"
         >
           <mat-label class="fontStyle">{{ currentLanguageSet?.questionnaire }}</mat-label>
@@ -59,7 +60,8 @@
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
           <mat-form-field 
             appearance="outline"
-            [style.width]="'100%'" 
+            [style.width]="'100%'"
+            style="margin-bottom: 20px;" 
             class="backgroundWhite fieldAlignment fontStyle">
               <mat-label class="fontStyle">{{ currentLanguageSet?.rank}}</mat-label>
               <input
@@ -84,6 +86,7 @@
           <mat-form-field
             appearance="outline"
             [style.width]="'100%'" 
+            style="margin-bottom: 20px;"
             class="backgroundWhite fieldAlignment fontStyle">
             <mat-label class="fontStyle">{{ currentLanguageSet?.answerType }}</mat-label>
             <mat-select
@@ -110,6 +113,7 @@
           <mat-form-field
             appearance="outline"
             [style.width]="'100%'" 
+            style="margin-bottom: 20px;"
             class="backgroundWhite fieldAlignment fontStyle">
             <mat-label class="fontStyle">{{ currentLanguageSet?.sectionName}}</mat-label>
             <mat-select
@@ -127,31 +131,35 @@
           </mat-form-field>
         </div>
 
-        <div class=" row col-xs-12 col-sm-12 col-md-12 col-lg-12" formArrayName="newOption">
-          <div  *ngFor="let option of newOption.controls; let j = index" [formGroupName]="j">
-            <mat-form-field
-              appearance="outline"
-              [style.width]="'100%'" 
-              class="backgroundWhite fieldAlignment fontStyle">
-              <mat-label class="fontStyle">{{ currentLanguageSet?.options }}</mat-label>
-              <input
-               appTextareaWithCopyPaste
-                matInput
-                defaultNull
-                class="fontStyle"
-                placeholder="{{ currentLanguageSet?.options }} {{ j+1 }}"
-                formControlName="option"
-                required
-              />
+        <div class=" col-12" formArrayName="newOption">
+          <div  *ngFor="let option of newOption.controls; let j = index" [formGroupName]="j" class="row">
+               <div class="col-3">
+                <mat-form-field
+                  appearance="outline"
+                  [style.width]="'100%'" 
+                  style="margin-bottom: 20px;"
+                  class="backgroundWhite fieldAlignment fontStyle">
+                  <mat-label class="fontStyle">{{ currentLanguageSet?.options }}</mat-label>
+                  <input
+                   appTextareaWithCopyPaste
+                    matInput
+                    defaultNull
+                    class="fontStyle"
+                    placeholder="{{ currentLanguageSet?.options }} {{ j+1 }}"
+                    formControlName="option"
+                    required
+                  />
+        
+                  <mat-error *ngIf="option.hasError('whitespace')">Please enter valid data</mat-error>            
     
-              <mat-error *ngIf="option.hasError('whitespace')">Please enter valid data</mat-error>            
-
-            </mat-form-field>
-
+                </mat-form-field></div>
+               <div class="col-3">
+                
             <mat-form-field 
             appearance="outline"
             [style.width]="'100%'" 
             style="margin-left: 65px;"
+            style="margin-bottom: 20px;"
             class="backgroundWhite fieldAlignment fontStyle">
               <mat-label class="fontStyle">{{ currentLanguageSet?.score }}</mat-label>
               <input
@@ -170,6 +178,11 @@
               [disabled]="!isOptionFilled"
               />
           </mat-form-field>
+               </div>
+
+            <div class="col-3">
+            
+
 
           <button type="button" *ngIf="j > 0 && j === newOption.controls.length - 1" [disabled]="newOption.controls.length === 1" mat-icon-button color="warn" (click)="removeOption(j)" matTooltip="Discard">
             <mat-icon matSuffix>remove_circle</mat-icon>            
@@ -180,6 +193,7 @@
             <button type="button" *ngIf="j !== newOption.controls.length - 1" [disabled]="newOption.controls.length === 1" mat-icon-button color="warn" (click)="removeOption(j)" matTooltip="Discard">
             <mat-icon matSuffix>remove_circle</mat-icon>
            </button>
+           </div>
           </div>
         </div>
 

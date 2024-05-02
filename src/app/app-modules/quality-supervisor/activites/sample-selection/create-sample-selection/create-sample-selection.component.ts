@@ -26,11 +26,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { SampleSelectionConfigurationComponent } from '../sample-selection-configuration/sample-selection-configuration.component';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { NumberFormatStyle } from '@angular/common';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-create-sample-selection',

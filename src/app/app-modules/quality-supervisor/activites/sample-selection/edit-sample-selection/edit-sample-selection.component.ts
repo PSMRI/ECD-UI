@@ -28,8 +28,8 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SampleSelectionConfigurationComponent } from '../sample-selection-configuration/sample-selection-configuration.component';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-edit-sample-selection',

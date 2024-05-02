@@ -23,7 +23,6 @@
 
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { endOfMonth, startOfMonth } from 'date-fns';
@@ -36,6 +35,7 @@ import { CallRatingComponent } from '../../call-rating/call-rating.component';
 import { ViewCasesheetComponent } from '../../view-casesheet/view-casesheet.component';
 import * as moment from 'moment';
 import { tr } from 'date-fns/locale';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-call-audit',

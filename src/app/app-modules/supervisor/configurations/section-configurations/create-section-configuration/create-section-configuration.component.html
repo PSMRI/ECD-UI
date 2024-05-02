@@ -7,7 +7,7 @@
     <div>
     <form class="fontStyle" [formGroup]="sectionconfigurationform">
         <div>
-            <mat-form-field class="backgroundWhite fontStyle" appearance="outline">
+            <mat-form-field class="backgroundWhite fontStyle" appearance="outline" style="margin-bottom: 50px;">
                 <mat-label> {{currentLanguageSet?.sectionName}} </mat-label>
                 <input matInput id="sectionName" appTextareaWithCopyPaste formControlName="sectionName" name="sectionName" value="sectionName" />
                     <mat-error *ngIf="sectionconfigurationform.controls.sectionName?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error>

@@ -32,7 +32,7 @@
                   {{option.questionnaire}}
                 </mat-option>
               </mat-autocomplete>
-                <mat-error style="margin-top: 20px;" *ngIf="createQuestionaireMappingForm.controls ['parentQuestion'].errors?.['required']">
+                <mat-error  *ngIf="createQuestionaireMappingForm.controls ['parentQuestion'].errors?.['required']">
                 Parent Question is Required</mat-error>
               </mat-form-field>
           </div>
@@ -49,7 +49,7 @@
                   </mat-option>
                 </mat-select>
                 
-                <mat-error style="margin-top:20px"
+                <mat-error
                   *ngIf="createQuestionaireMappingForm.controls['answerType'].errors?.['required']">
                   Answer Type is Required
                   </mat-error>
@@ -75,7 +75,7 @@
                   {{option.questionnaire}}
                 </mat-option>
               </mat-autocomplete>
-                <mat-error style="margin-top: 20px;" *ngIf="createQuestionaireMappingForm.controls ['childQuestion'].errors?.['required']">
+                <mat-error  *ngIf="createQuestionaireMappingForm.controls ['childQuestion'].errors?.['required']">
                 Child Question is Required</mat-error>
               </mat-form-field>
           </div>

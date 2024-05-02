@@ -27,10 +27,10 @@ import { CreateGradeConfigComponent } from '../create-grade-config/create-grade-
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import { EditGradeConfigComponent } from '../edit-grade-config/edit-grade-config.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-grade-configuration',

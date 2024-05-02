@@ -15,7 +15,7 @@ mat-expansion-panel {
     margin-left: 5px;
     margin-right: 5px;
     width: 99%;
-    background-color: #f2f2f2;
+    background-color: #f2f2f2 !important;
     border: 1px solid #4fa2d0;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
     border-radius: 10px !important;
@@ -165,7 +165,7 @@ li::marker {
 
   .error {
     margin: auto;
-    margin-top: -20px;
+    /* margin-top: -20px; */
     font-size: 15px;
   }
 

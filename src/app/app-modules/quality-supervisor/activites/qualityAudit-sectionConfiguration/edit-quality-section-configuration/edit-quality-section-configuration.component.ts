@@ -23,12 +23,12 @@
 
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormControl} from '@angular/forms';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { QualitySectionConfigurationComponent } from '../quality-section-configuration/quality-section-configuration.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-edit-quality-section-configuration',

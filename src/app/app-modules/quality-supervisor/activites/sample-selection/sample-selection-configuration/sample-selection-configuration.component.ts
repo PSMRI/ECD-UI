@@ -27,10 +27,10 @@ import { CreateSampleSelectionComponent } from '../create-sample-selection/creat
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import { EditSampleSelectionComponent } from '../edit-sample-selection/edit-sample-selection.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-sample-selection-configuration',
