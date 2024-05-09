@@ -116,6 +116,7 @@
               <executable>npm</executable>
               <arguments>
                 <argument>install</argument>
+                <argument>--legacy-peer-deps</argument>
                 <!-- use save-dev or save if you understand the consequences, else -->
                 <!-- please leave them alone & add appropriate npm dependencies in
                   package.json -->
