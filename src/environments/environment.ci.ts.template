@@ -85,7 +85,6 @@ export const environment = {
   publishAlertURL: `${COMMON_API}alerts/publishAlerts`,
   publishNotificationURL: `${COMMON_API}notifications/publishNotifications`,
   publishLocationMessagesURL: `${COMMON_API}locationMessages/publishLocationMessage`,
-  getDateWiseAuditorWorklistUrl:  `${ECD_API}qualityAudit/getQualityAuditorWorklistDatewise`,
 
   saveQuestionnaireSectionMappingUrl: `${ECD_API}Questionnaire/mapQuestionnairesAndSection`,
   updateQuestionnaireSectionMappingUrl: `${ECD_API}Questionnaire/editQuestionnaireSectionMap`,
@@ -102,7 +101,7 @@ export const environment = {
   fetchDialPreferenceUrl: `${ECD_API}autoPreviewDialing/getDialPreference`,
 
   getLocationsURL: `${COMMON_API}user/getLocationsByProviderID`,
-  
+
   /**Quality Supervisor Urls */
   getCentreOverallQualityRatingUrl: `${ECD_API}charts/getCentreOverallQualityRating/`,
   getSkillSetQualityRatingUrl: `${ECD_API}charts/getActorWiseQualityRatings/`,
@@ -132,6 +131,7 @@ export const environment = {
 
   /**Quality Auditor Urls */
   getAuditorWorklistUrl: `${ECD_API}qualityAudit/getQualityAuditorWorklist`,
+  getDateWiseAuditorWorklistUrl:  `${ECD_API}qualityAudit/getQualityAuditorWorklistDatewise`,
   getLanguageMasterUrl:  `${ECD_API}master/getLanguage`, 
   getLanguageMasterByUserIdUrl:  `${ECD_API}master/getLanguageByUserId/`, 
   getQualityAuditGradesByPsmIdUrl: `${ECD_API}qualityAudit/getQualityAuditGradesByPSMID/`,
@@ -220,7 +220,8 @@ export const environment = {
 
   /** Gender Master */
   getGenderMasterUrl:`${ECD_API}master/getGender`,
- // Reports 
+  
+// Reports 
 downloadCumulativeReportURL:`${ECD_API}ecdReportController/getECDCumulativeDistrictReport`,
 downloadCallDetailReportURL:`${ECD_API}ecdReportController/getECDCallDetailsReport`,
 downloadCallSummaryReportURL:`${ECD_API}ecdReportController/getECDCallSummaryReport`,
@@ -243,5 +244,4 @@ downloadBabyDeathReportURL:`${ECD_API}ecdReportController/getECDBabyDeathReport`
 downloadNotConnectedReportURL:`${ECD_API}ecdReportController/getECDNotConnectedPhonelistDiffformatReport`,
 downloadJsyReportURL: `${ECD_API}ecdReportController/getECDJSYRelatedComplaintsReport`,
 downloadMiscarriageReportURL:`${ECD_API}ecdReportController/getECDMiscarriageReport`,
-
 };
