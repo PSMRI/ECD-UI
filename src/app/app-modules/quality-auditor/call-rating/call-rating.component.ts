@@ -386,7 +386,10 @@ export class CallRatingComponent implements OnInit{
     this.qualityAuditorService.saveCallRatings(reqObj).subscribe((res: any) => {
       if(res && res.response){
         this.confirmationService.openDialog(this.currentLanguageSet.successfullyCallRated, 'success');
-        this.qualityAuditorService.loadComponent(CallAuditComponent, {data:this.data});
+        const data:any = {};
+        data.paginator = this.data.data.paginator;
+        data.sort = this.data.data.sort;
+        this.qualityAuditorService.loadComponent(CallAuditComponent, {data:data});
         this.qualityAuditorService.showForm = this.showCallAuditForm;
       } else if(res.statusCode !== 200) {
         this.confirmationService.openDialog(res.errorMessage, 'error');
@@ -455,7 +458,10 @@ export class CallRatingComponent implements OnInit{
     this.qualityAuditorService.updateCallRatings(reqObj).subscribe((res: any) => {
       if(res && res.response){
         this.confirmationService.openDialog(this.currentLanguageSet.successfullyCallRatingUpdated, 'success');
-        this.qualityAuditorService.loadComponent(CallAuditComponent, {data:this.data});
+        const data:any = {};
+        data.paginator = this.data.data.paginator;
+        data.sort = this.data.data.sort;
+        this.qualityAuditorService.loadComponent(CallAuditComponent, {data:data});
         this.qualityAuditorService.showForm = this.showCallAuditForm;
       } else if(res.statusCode !== 200) {
         this.confirmationService.openDialog(res.errorMessage, 'error');
