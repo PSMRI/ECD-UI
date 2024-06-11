@@ -292,10 +292,17 @@ else{
 
         this.benRegistrationForm.controls.lmpDate.setValue(lDate);
 
-        let eDate = new Date(viewDetails.edd);
-        eDate = new Date(eDate.getTime() + eDate.getTimezoneOffset() * 60000)
-
-        this.benRegistrationForm.controls.edd.setValue(eDate);
+        // let eDate = new Date(viewDetails.edd);
+        // eDate = new Date(eDate.getTime() + eDate.getTimezoneOffset() * 60000)
+        // this.benRegistrationForm.controls.edd.setValue(eDate);
+        
+        // Calculate EDD based on LMP Date
+        const eddDate = new Date(lDate);
+        eddDate.setDate(eddDate.getDate() + 7); // Add 7 days
+        eddDate.setMonth(eddDate.getMonth() + 9); // Add 9 months
+        console.log("EDD FORM VALUE FIRST", this.benRegistrationForm);
+        this.benRegistrationForm.controls.edd.setValue(eddDate);
+        console.log("EDD PATCHING VALUE", eddDate);
       }
       else {
         let dobDate = new Date(viewDetails.dob);
@@ -748,6 +755,7 @@ console.log(reqObj);
         eddDate.setMonth(this.benRegistrationForm.controls.lmpDate.value.getMonth() + 9);
         this.benRegistrationForm.patchValue({ edd: eddDate })
       } else {
+        console.log("EDD VALUE", this.benRegistrationForm.controls.edd.value);
         this.benRegistrationForm.patchValue({ edd: null })
       }
     }
