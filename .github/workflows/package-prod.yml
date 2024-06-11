@@ -45,4 +45,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ECD-UI
-        path: target/ecd-ui-next.war
+        path: dist/ecd-ui-next/ecd-ui-next.war

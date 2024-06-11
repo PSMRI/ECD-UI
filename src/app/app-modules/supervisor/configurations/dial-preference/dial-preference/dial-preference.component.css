@@ -136,3 +136,6 @@ label {
   color: #00071e;
   /* border-color: black !important; */
 }
+tr.mat-row, tr.mat-footer-row {
+  height: 70px;
+}

@@ -7,10 +7,12 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build-prod": "node --max_old_space_size=7000 ./node_modules/@angular/cli/bin/ng build --configuration production",
-    "build-ci": "./scripts/ci-prebuild.js && node --max_old_space_size=7000 ./node_modules/@angular/cli/bin/ng build --configuration ci",
     "lint": "ng lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build-dev": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --configuration=development --aot",
+    "build-prod": "node --max_old_space_size=7000 ./node_modules/@angular/cli/bin/ng build --configuration=production --aot",
+    "build-ci": "chmod +x ./scripts/*.js && ./scripts/ci-prebuild.js && node --max_old_space_size=7000 ./node_modules/@angular/cli/bin/ng build --configuration=ci --aot",
+    "build-test": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --configuration=test --aot"
   },
   "lint-staged": {
     "src/**/*.{ts,css,html}": [
