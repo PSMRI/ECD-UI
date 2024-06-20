@@ -97,6 +97,7 @@
           questionnaireTypeTitle !== null &&
           questionnaireTypeTitle !== undefined
         "
+        style="margin-bottom: 30px;"
       >
         <mat-form-field
           appearance="outline"
@@ -115,7 +116,7 @@
             maxlength="500"
             required
           ></textarea>
-          <mat-error style="margin-top: -5px;"
+          <mat-error style="margin: -5px 0px 5px opx;"
             *ngIf="
                 createQuestionnaireForm.controls.questionnaire.errors
                   ?.['required']
@@ -124,7 +125,7 @@
             {{ questionnaireTypeTitle }}
             {{ currentLanguageSet?.isRequired }}</mat-error
           >
-          <mat-error style="margin-top: -5px;"
+          <mat-error style="margin: -5px 0px 5px opx;"
             *ngIf="
                 createQuestionnaireForm.controls.questionnaire.errors
                   ?.['minlength']
@@ -133,7 +134,7 @@
               currentLanguageSet?.pleaseProvideMinimumTenCharacter
             }}</mat-error
           >
-          <mat-error style="margin-top: -5px;"
+          <mat-error style="margin: -5px 0px 5px opx;"
             *ngIf="
                 createQuestionnaireForm.controls.questionnaire.errors
                   ?.['maxlength']
