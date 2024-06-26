@@ -401,6 +401,13 @@ field-underline {
 .mat-form-field-disabled {
   color: lightgray !important;
 }
+.mat-select-panel {
+  min-width: calc(100% + 22px) !important;
+  margin: 10px 0px 0px 5px !important;
+}
+.mat-form-field-hint-wrapper {
+  margin-top: 4px !important;
+}
 
 
 

@@ -144,3 +144,8 @@ label {
   }
 }
 
+.Arrow-select >>> .mat-select-arrow {
+ 
+  margin-top: -5px !important;
+}
+
