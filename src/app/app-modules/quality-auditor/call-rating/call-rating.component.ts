@@ -22,7 +22,7 @@
 
 
 import { X } from '@angular/cdk/keycodes';
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
@@ -38,7 +38,7 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './call-rating.component.html',
   styleUrls: ['./call-rating.component.css']
 })
-export class CallRatingComponent implements OnInit, AfterViewInit {
+export class CallRatingComponent implements OnInit{
 
   @Input()
   public data: any;
@@ -69,12 +69,6 @@ export class CallRatingComponent implements OnInit, AfterViewInit {
   totalScore = 0; // Variable to store the total score
   finalScorePercentage = 0;
 
-  ngAfterViewInit() {
-    this.callAuditData.paginator = this.paginator;
-    this.callAuditData.sort = this.sort;
-  }
-
-
   ratingQuestions: any = [];
 
   constructor(
@@ -92,13 +86,6 @@ export class CallRatingComponent implements OnInit, AfterViewInit {
       this.benCallId = this.routedData.benCallID;
       this.auditType = this.data.type;
     }
-    // if(this.auditType === "callAudit"){
-    // this.getSectionQuestions();
-    // this.filterQuestions();
-    // }
-    // else{
-    // this.getBenCallRatings();
-    // }
     this.getSectionQuestions();
     this.getCallRecording();
   }
@@ -399,7 +386,10 @@ export class CallRatingComponent implements OnInit, AfterViewInit {
     this.qualityAuditorService.saveCallRatings(reqObj).subscribe((res: any) => {
       if(res && res.response){
         this.confirmationService.openDialog(this.currentLanguageSet.successfullyCallRated, 'success');
-        this.qualityAuditorService.loadComponent(CallAuditComponent, null);
+        const data:any = {};
+        data.paginator = this.data.data.paginator;
+        data.sort = this.data.data.sort;
+        this.qualityAuditorService.loadComponent(CallAuditComponent, {data:data});
         this.qualityAuditorService.showForm = this.showCallAuditForm;
       } else if(res.statusCode !== 200) {
         this.confirmationService.openDialog(res.errorMessage, 'error');
@@ -468,7 +458,10 @@ export class CallRatingComponent implements OnInit, AfterViewInit {
     this.qualityAuditorService.updateCallRatings(reqObj).subscribe((res: any) => {
       if(res && res.response){
         this.confirmationService.openDialog(this.currentLanguageSet.successfullyCallRatingUpdated, 'success');
-        this.qualityAuditorService.loadComponent(CallAuditComponent, null);
+        const data:any = {};
+        data.paginator = this.data.data.paginator;
+        data.sort = this.data.data.sort;
+        this.qualityAuditorService.loadComponent(CallAuditComponent, {data:data});
         this.qualityAuditorService.showForm = this.showCallAuditForm;
       } else if(res.statusCode !== 200) {
         this.confirmationService.openDialog(res.errorMessage, 'error');
@@ -484,8 +477,10 @@ export class CallRatingComponent implements OnInit, AfterViewInit {
   }
 
   backToQualityAudit(){
-    this.qualityAuditorService.loadComponent(CallAuditComponent, null);
+    const data:any = {};
+    data.paginator = this.data.data.paginator;
+    data.sort = this.data.data.sort;
+    this.qualityAuditorService.loadComponent(CallAuditComponent, {data:data});
     this.qualityAuditorService.showForm = this.showCallAuditForm;
-
   }
 }

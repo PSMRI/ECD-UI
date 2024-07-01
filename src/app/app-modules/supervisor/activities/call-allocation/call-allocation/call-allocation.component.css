@@ -159,3 +159,7 @@
 .form-group {
   margin-bottom: 10px;
 }
+.mat-select-panel-wrap {
+  margin-left: 20px !important;
+}
+

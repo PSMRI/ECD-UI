@@ -3,10 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.iemr.ecdui</groupId>
-  <artifactId>ecd-ui</artifactId>
+  <groupId>com.iemr.ecd-ui-next</groupId>
+  <artifactId>ecd-ui-next</artifactId>
   <version>1.0</version>
-  <name>ecd-ui</name>
+  <name>ecd-ui-next</name>
   <packaging>war</packaging>
   <profiles>
     <profile>
@@ -63,7 +63,7 @@
   <!-- we could create individual properties similar to variables -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <final-name>ecdui-v1.0</final-name>
+    <final-name>ecd-ui-next-v1.0</final-name>
     <hostname-dev>10.208.122.38</hostname-dev>
     <port-dev>9990</port-dev>
     <hostname-local>localhost</hostname-local>
@@ -79,7 +79,7 @@
 
   <!-- install the necessary node_modules & compile in prod mode -->
   <build>
-    <finalName>ecd-ui-v1.0</finalName>
+    <finalName>ecd-ui-next-v1.0</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
@@ -116,6 +116,7 @@
               <executable>npm</executable>
               <arguments>
                 <argument>install</argument>
+                <argument>--legacy-peer-deps</argument>
                 <!-- use save-dev or save if you understand the consequences, else -->
                 <!-- please leave them alone & add appropriate npm dependencies in
                   package.json -->

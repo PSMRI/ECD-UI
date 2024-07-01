@@ -21,7 +21,7 @@
 */
 
 
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
@@ -42,7 +42,11 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './call-audit.component.html',
   styleUrls: ['./call-audit.component.css']
 })
-export class CallAuditComponent implements OnInit, AfterViewInit {
+export class CallAuditComponent implements OnInit {
+  
+  @Input()
+  public data: any;
+
   currentLanguageSet: any;
   selectedRoute: any;
   roles: any = [];
@@ -82,11 +86,9 @@ export class CallAuditComponent implements OnInit, AfterViewInit {
   selectedFormValue: any = [];
   selectedDateFormValue: any = [];
   today = new Date();
-
-  ngAfterViewInit() {
-    this.callAuditData.paginator = this.paginator;
-    this.callAuditData.sort = this.sort;
-  }
+  lastPageIndex:any;
+  lastLength:any;
+  lastPageSize:any;
 
   constructor(
     private fb: FormBuilder,
@@ -122,9 +124,17 @@ export class CallAuditComponent implements OnInit, AfterViewInit {
     year: ['', Validators.required],
     cycle: ['', Validators.required]
   });
-
   ngOnInit(): void {
-   
+   if(this.data){
+    setTimeout(()=>this.callAuditData.paginator = this.data.data.paginator);
+    setTimeout(()=>this.callAuditData.sort = this.data.sort);
+    this.lastLength = this.data.data.paginator.length;
+    this.lastPageIndex = this.data.data.paginator.pageIndex;
+    this.lastPageSize = this.data.data.paginator.pageSize;
+  }else{
+    this.callAuditData.paginator = this.paginator;
+    this.callAuditData.sort = this.sort;
+  }
     this.getSelectedLanguage();
     this.getRoleMasters();
     this.getCyclesMaster();
@@ -313,19 +323,22 @@ export class CallAuditComponent implements OnInit, AfterViewInit {
   }
   
   routeToAgentRating(data: any, auditType: string){
+    data.paginator= this.paginator;
+    data.sort = this.sort;
     this.qualityAuditorService.loadComponent(CallRatingComponent, {data: data, type: auditType});
     console.log("route required", data)
   }
 
-  filterSearchTerm(searchTerm?: string) {
-    if (!searchTerm) {
+  filterSearchTerm(searchTerm: any) {
+    if (!searchTerm && !this.data) {
       this.callAuditData.data = this.callData;
       this.callAuditData.paginator = this.paginator;
       this.callAuditData.sort = this.sort;
+    }else if (!searchTerm && this.data) {
+        this.callAuditData.data = this.callData;
+        this.callAuditData.paginator = this.data.data.paginator;
+        this.callAuditData.sort = this.data.data.sort;
     } else {
-      this.callAuditData.data = [];
-      this.callAuditData.paginator = this.paginator;
-      this.callAuditData.sort = this.sort;
       this.callData.forEach((item: any) => {
         for (const key in item) {
           if (
@@ -345,6 +358,13 @@ export class CallAuditComponent implements OnInit, AfterViewInit {
         }
       });
     }
+  }
+  onSearchClicked(){
+    this.paginator.firstPage();
+    this.lastLength = null;
+    this.lastPageIndex = null;
+    this.lastPageSize = null;
+    this.getQualityAudiotorWorklist();
   }
 
   getQualityAudiotorWorklist(){
@@ -432,16 +452,27 @@ export class CallAuditComponent implements OnInit, AfterViewInit {
      );
   }
 
-  refresh(res: any){
+  refresh(res: any) {
     this.changeDetectorRefs.detectChanges();
     this.callData = res;
     this.callAuditData.data = res;
-    this.callAuditData.paginator = this.paginator;
+    if(this.lastLength && this.lastPageIndex && this.lastPageSize){
+      this.paginator.length = this.lastLength;
+      this.paginator.pageSize = this.lastPageSize;
+      this.paginator.pageIndex = this.lastPageIndex;
+      this.callAuditData.paginator = this.paginator;
+    }else{
+      this.callAuditData.paginator = this.paginator;
+      this.callAuditData.sort = this.sort;
+    }
+   
   }
   viewCasheet(element:any){
     const reqObj={
       benCallId:element.benCallID,
-      beneficiaryId:element.beneficiaryid
+      beneficiaryId:element.beneficiaryid,
+      paginator: this.paginator,
+      sort: this.sort,
     }
     this.qualityAuditorService.loadComponent(
       ViewCasesheetComponent,
@@ -477,7 +508,7 @@ export class CallAuditComponent implements OnInit, AfterViewInit {
       }
     }
   }
-  onRadioButtonChange(){
+  onRadioButtonChange(){   
     if(this.callAuditForm.controls['selectedRadioButton'].value === '1') {
       // this.selectedRadioButtonChange = true;
       this.iscycleWiseChangeForm = false;

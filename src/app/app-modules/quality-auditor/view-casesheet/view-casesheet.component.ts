@@ -61,8 +61,11 @@ export class ViewCasesheetComponent implements OnInit, DoCheck {
       this.currentLanguageSet = this.setLanguageService.languageData;
   }
   backToQualityAudit(){
-    this.qualityAuditorService.loadComponent(CallAuditComponent, null);
-
+    const data:any = {};
+    data.paginator = this.data.paginator;
+    data.sort = this.data.sort;
+    this.qualityAuditorService.loadComponent(CallAuditComponent, {data:data});
+    this.qualityAuditorService.showForm = false;
   }
 
 }

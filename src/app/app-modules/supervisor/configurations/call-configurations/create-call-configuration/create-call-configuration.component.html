@@ -60,7 +60,7 @@
                 <!-- <mat-error *ngIf="createcallconfigurationform.controls.noOfAttempts?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error> -->
             </mat-form-field>
             
-            <mat-form-field class="backgroundWhite" appearance="outline" *ngIf="enableNextCallAttempt" >
+            <mat-form-field class="backgroundWhite" appearance="outline" *ngIf="enableNextCallAttempt" style="margin-top: 15px;" >
                 <mat-label> {{currentLanguageSet?.nextCallAttemptPeriod}} </mat-label>
                 <input matInput id="nextCallAttempt" type="number" min="0" formControlName="nextCallAttempt" (input)="enableSubmitOnFill()" required />
                 <mat-error *ngIf="createcallconfigurationform.controls.nextCallAttempt?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error>

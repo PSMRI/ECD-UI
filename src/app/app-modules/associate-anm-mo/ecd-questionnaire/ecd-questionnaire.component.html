@@ -729,9 +729,9 @@
                   </div>
                 </mat-card-content>
                 <div style="display: flex; justify-content: center;">
-                  <button matStepperPrevious style="margin-right: 5px;" mat-raised-button class="buttonColor full-width buttonWidth" 
+                  <button style="margin-right: 5px;" mat-raised-button class="buttonColor full-width buttonWidth" 
                   [disabled]="stepper.selectedIndex === 0" (click)="goBack()">Previous</button>
-                  <button matStepperNext style="margin-right: 5px;" mat-raised-button class="buttonColor full-width buttonWidth" 
+                  <button  style="margin-right: 5px;" mat-raised-button class="buttonColor full-width buttonWidth" 
                   [disabled]="stepper.selectedIndex === stepper.steps.length - 1" 
                   (click)="goForward(stepper.selectedIndex)">Next</button>
                 </div>

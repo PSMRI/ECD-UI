@@ -337,7 +337,7 @@ body .mat-select-arrow {
 }
 
 .mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 1.55em 0;
+  padding: 1.31em 0;
 }
 .mat-form-field-label-wrapper {
   top: -.74375em;
@@ -400,6 +400,13 @@ field-underline {
 }
 .mat-form-field-disabled {
   color: lightgray !important;
+}
+.mat-select-panel {
+  min-width: calc(100% + 22px) !important;
+  margin: 10px 0px 0px 5px !important;
+}
+.mat-form-field-hint-wrapper {
+  margin-top: 4px !important;
 }
 
 
