@@ -10,7 +10,7 @@
             <mat-card-content>
                 <form [formGroup]="callClosureForm" autocomplete="off" style="margin-top: 10px">
                     <div class="row" style="margin-bottom: 20px;">
-                        <div style="padding: 10px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                        <div style="padding: 10px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-6 box m-bottom">
                             <mat-label class="radio-button-styling" id="No-Further-Call-Required"><b>{{currentLanguageSet?.noFurtherCallRequired}}</b></mat-label>
                             <mat-radio-group required id="reasonOfCallNotRequired" formControlName="isFurtherCallRequired"
                                 aria-label="No-Further-Call-Required"
@@ -69,8 +69,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div [hidden]="showVerifiedFields === false" style="padding: 8px; margin-left: -170px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <mat-label style="margin-left: 175px;" class="radio-button-styling" id="isCallVerified">{{currentLanguageSet?.callVerified}}
+                        <div [hidden]="showVerifiedFields === false" style="padding: 8px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                            <mat-label  class="radio-button-styling" id="isCallVerified">{{currentLanguageSet?.callVerified}}
                             </mat-label>
                             <mat-radio-group (change)="checkIsNextAttempt(callClosureForm.controls['isCallAnswered'].value,
                             callClosureForm.controls['isCallVerified'].value,callClosureForm.controls['isCallDisconnected'].value)" [required]="showVerifiedFields" id="isCallVerified" formControlName="isCallVerified"
@@ -91,7 +91,7 @@
                                 <mat-radio-button class="m-10" value="No">{{currentLanguageSet?.no}}</mat-radio-button>
                             </mat-radio-group>
                         </div>
-                        <div [hidden]="showVerifiedFields === false" style="padding: 8px; margin-left: -137px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                        <div [hidden]="showVerifiedFields === false" style="padding: 8px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
                             <mat-label class="radio-button-styling" id="isWrongNumber">{{currentLanguageSet?.isWrongNumber}}
                             </mat-label>
                             <mat-radio-group [required]="showVerifiedFields" id="isWrongNumber" formControlName="isWrongNumber"
