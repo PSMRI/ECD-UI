@@ -21,9 +21,9 @@
 */
 
 
-const ecdIP = 'http://amritwprdev.piramalswasthya.org:8080/';
-const commonIP = 'http://amritwprdev.piramalswasthya.org:8080/';
-const adminIP = 'http://amritwprdev.piramalswasthya.org:8080/';
+const ecdIP = 'https://amritwprdev.piramalswasthya.org/';
+const commonIP = 'https://amritwprdev.piramalswasthya.org/';
+const adminIP = 'https://amritwprdev.piramalswasthya.org/';
 const COMMON_API = `${commonIP}commonapi-ecd/`;
 const ADMIN_API = `${adminIP}adminapi-v1.0/`;
 const ECD_API = `${ecdIP}ecdapi-v1.0/`;
