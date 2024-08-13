@@ -138,16 +138,22 @@
           }}</mat-error>
         </mat-form-field>
 
+        <div  style="display: flex; align-items: center; padding: 30px;"  *ngIf="selectedRoleName !== undefined && selectedRoleName !== null && selectedRoleName !=='Associate'" class="m-t-50 col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+          <mat-checkbox labelPosition="after" formControlName="isStickyAgent" >{{currentLanguageSet?.stickyAgentRecords}}</mat-checkbox>
+        </div>
+        <div style="display: flex; justify-content: right;">
         <button
-          mat-raised-button
-          class="buttonColor full-width buttonWidth"
-          type="submit"
-          style="margin: 20px"
-          [disabled]="isSubmitDisabled || !callReallocationForm.valid"
-          (click)="onSubmit()"
-        >
-          {{ currentLanguageSet?.submit }}
-        </button>
+        mat-raised-button
+        class="buttonColor full-width buttonWidth"
+        type="submit"
+        style="float: right; margin: 20px;"
+        [disabled]="isSubmitDisabled || !callReallocationForm.valid"
+        (click)="onSubmit()"
+      >
+        {{ currentLanguageSet?.submit }}
+      </button>
+      </div>
+       
       </div>
     </div>
   </form>

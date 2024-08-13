@@ -457,5 +457,6 @@
   "reasonForNoFurtherCalls":"Reason For No FurtherCalls",
   "nextAttemptDate":"Next Attempt Date",
   "childID":"Child ID",
-  "isFatalQues": "Fatal Questionnaire"
+  "isFatalQues": "Fatal Questionnaire",
+  "stickyAgentRecords" : "Sticky Agent Records"
 }

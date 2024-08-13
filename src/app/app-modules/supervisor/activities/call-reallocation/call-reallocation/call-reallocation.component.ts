@@ -68,6 +68,7 @@ export class CallReallocationComponent implements OnInit, DoCheck {
   agentRoles:any;
   maxDate = new Date();
 
+
   recordData = [
     {
       id: 1,
@@ -141,6 +142,7 @@ export class CallReallocationComponent implements OnInit, DoCheck {
     agentName: new FormControl('', [Validators.required]),
     recordType: new FormControl('', [Validators.required]),
     phoneNoType: new FormControl('', [Validators.required]),
+    isStickyAgent: new FormControl(false)
   });
 
   callReallocateForm = new FormGroup({
@@ -218,7 +220,11 @@ export class CallReallocationComponent implements OnInit, DoCheck {
   }
 
   setAgentRoleName(roleName:any) {
-this.selectedRoleName = roleName;
+    this.selectedRoleName = roleName;
+
+    if(this.selectedRoleName !== undefined && this.selectedRoleName !== null && this.selectedRoleName.toLowerCase() === 'associate') {
+       this.callReallocationForm.patchValue({isStickyAgent : false});
+      }    
   }
 
   onSubmit() {
@@ -244,7 +250,8 @@ this.selectedRoleName = roleName;
       "psmId": sessionStorage.getItem('providerServiceMapID'),
       "createdBy": sessionStorage.getItem("userName"),
       "tdate": toDate,
-      "fdate": fromDate
+      "fdate": fromDate,
+      "isStickyAgent" : this.callReallocationForm.controls.isStickyAgent.value
     };
     this.supervisorService.getAllocatedCounts(reqObj).subscribe((res: any) =>
     {
@@ -319,7 +326,8 @@ this.selectedRoleName = roleName;
       "psmId": sessionStorage.getItem('providerServiceMapID'),
       "createdBy": sessionStorage.getItem("userName"),
       "tdate": toDate,
-      "fdate": fromDate
+      "fdate": fromDate,
+      "isStickyAgent" : this.callReallocationForm.controls.isStickyAgent.value
     };
     this.supervisorService.updateReallocateCalls(reqObj).subscribe((res: any) =>
     {
@@ -372,7 +380,8 @@ this.selectedRoleName = roleName;
       "createdBy": sessionStorage.getItem("userName"),
       "isIntroductory": this.selectedRoleName.toLowerCase() === 'associate' ? true : false,
       "tdate": toDate,
-      "fdate": fromDate
+      "fdate": fromDate,
+      "isStickyAgent" : this.callReallocationForm.controls.isStickyAgent.value
     };
     this.supervisorService.deleteReallocatedCalls(reqObj).subscribe((res: any) =>
     {
@@ -401,9 +410,12 @@ this.selectedRoleName = roleName;
     this.reallocateEnabled = false;
     this.unallocateEnabled = false;
     this.enableAgentAllocation = false;
+    this.selectedRoleName = null;
     this.callReallocationForm.reset();
     this.callReallocateForm.reset();
     this.range.reset();
+
+    this.callReallocationForm.patchValue({isStickyAgent : false});
   }
 enableUnallocateReallocateButton() {
   if(this.callReallocateForm.controls.numericValue.value !== null && parseInt(this.callReallocateForm.controls.numericValue.value) > 0 && parseInt(this.callReallocateForm.controls.numericValue.value) <= this.currentMaxAllocatedRecords) {
