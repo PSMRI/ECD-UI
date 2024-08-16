@@ -32,6 +32,9 @@ import { QualityAuditorService } from '../../services/quality-auditor/quality-au
 import { SetLanguageService } from '../../services/set-language/set-language.service';
 import { CallAuditComponent } from '../call-audit/call-audit/call-audit.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { ViewCasesheetComponent } from '../view-casesheet/view-casesheet.component';
+import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
+
 
 @Component({
   selector: 'app-call-rating',
@@ -59,6 +62,7 @@ export class CallRatingComponent implements OnInit{
   grades: any;
   finalGrade: any;
   benCallId: any;
+  beneficiaryId: any;
   auditType: any;
   filteredRatingQuestions: any = [];
   audioResponse: any = " ";
@@ -75,7 +79,8 @@ export class CallRatingComponent implements OnInit{
     private setLanguageService: SetLanguageService,
     private fb: FormBuilder,
     private qualityAuditorService: QualityAuditorService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -84,6 +89,7 @@ export class CallRatingComponent implements OnInit{
     if(this.data !== undefined && this.data !== null){
       this.routedData = this.data.data;
       this.benCallId = this.routedData.benCallID;
+      this.beneficiaryId = this.routedData.beneficiaryid;
       this.auditType = this.data.type;
     }
     this.getSectionQuestions();
@@ -482,5 +488,18 @@ export class CallRatingComponent implements OnInit{
     data.sort = this.data.data.sort;
     this.qualityAuditorService.loadComponent(CallAuditComponent, {data:data});
     this.qualityAuditorService.showForm = this.showCallAuditForm;
+  }
+
+
+  viewCasheet(){
+  
+    this.dialog.open(ViewCasesheetComponent,{
+      width: "900px",
+      disableClose: true ,
+      data: {  
+        benCallId : this.benCallId,
+        beneficiaryId : this.beneficiaryId
+      }
+    });
   }
 }

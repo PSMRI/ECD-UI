@@ -1,8 +1,19 @@
-import { Component, DoCheck, Input, OnInit } from '@angular/core';
+import { Component, DoCheck, Input, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { QualityAuditorService } from '../../services/quality-auditor/quality-auditor.service';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
 import { CallAuditComponent } from '../call-audit/call-audit/call-audit.component';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { Inject } from '@angular/core';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+} from '@angular/material/legacy-dialog';
+
+import { SpinnerService } from '../../services/spinnerService/spinner.service';
+
 
 @Component({
   selector: 'app-view-casesheet',
@@ -10,15 +21,20 @@ import { CallAuditComponent } from '../call-audit/call-audit/call-audit.componen
   styleUrls: ['./view-casesheet.component.css']
 })
 export class ViewCasesheetComponent implements OnInit, DoCheck {
-  @Input() data:any
   currentLanguageSet: any;
   beneficiaryCaseSheetData:any;
   questionnaireCaseSheetData:any;
   beneficiaryID:any;
+
+  @ViewChild('content', { static: false }) content!: ElementRef;
+
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<ViewCasesheetComponent>,
     private setLanguageService: SetLanguageService,
     private qualityAuditorService: QualityAuditorService,
     private confirmationService: ConfirmationService,
+    private spinnerService: SpinnerService
   ) { }
 
   getCaseSheetData(benCallID:any){
@@ -60,12 +76,35 @@ export class ViewCasesheetComponent implements OnInit, DoCheck {
     )
       this.currentLanguageSet = this.setLanguageService.languageData;
   }
-  backToQualityAudit(){
-    const data:any = {};
-    data.paginator = this.data.paginator;
-    data.sort = this.data.sort;
-    this.qualityAuditorService.loadComponent(CallAuditComponent, {data:data});
-    this.qualityAuditorService.showForm = false;
+
+
+   generatePDF() {
+    this.spinnerService.setLoading(true);
+    const data = this.content.nativeElement;
+    html2canvas(data, { scale: 1.5 }).then(canvas => {
+       const imgWidth = 212;
+       const pageHeight = 297;
+       const imgHeight = canvas.height * imgWidth / canvas.width;
+       let heightLeft = imgHeight;
+       const pdf = new jsPDF('p', 'mm', 'a4');
+       let position = 0;
+       pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
+       heightLeft -= pageHeight;
+       while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+       }
+       const pdfOutput = pdf.output('blob');
+       const blobUrl = URL.createObjectURL(pdfOutput);
+       this.spinnerService.setLoading(false);
+       const newWindow = window.open(blobUrl);
+       if (newWindow) {
+          newWindow.focus();
+       }
+    });
   }
+
 
 }

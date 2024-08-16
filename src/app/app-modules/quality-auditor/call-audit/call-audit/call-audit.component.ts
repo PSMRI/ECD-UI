@@ -36,6 +36,7 @@ import { ViewCasesheetComponent } from '../../view-casesheet/view-casesheet.comp
 import * as moment from 'moment';
 import { tr } from 'date-fns/locale';
 import { MatPaginator } from '@angular/material/paginator';
+import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'app-call-audit',
@@ -97,6 +98,7 @@ export class CallAuditComponent implements OnInit {
     private masterService: MasterService,
     private confirmationService: ConfirmationService,
     private changeDetectorRefs: ChangeDetectorRef,
+    public dialog: MatDialog
   ) { }
 
   callAuditForm = this.fb.group({
@@ -468,16 +470,17 @@ export class CallAuditComponent implements OnInit {
    
   }
   viewCasheet(element:any){
-    const reqObj={
-      benCallId:element.benCallID,
-      beneficiaryId:element.beneficiaryid,
-      paginator: this.paginator,
-      sort: this.sort,
-    }
-    this.qualityAuditorService.loadComponent(
-      ViewCasesheetComponent,
-      reqObj
-    );
+ 
+
+    this.dialog.open(ViewCasesheetComponent,{
+      width: "900px",
+      disableClose: true ,
+      data: {  
+        
+        benCallId : element.benCallID,
+        beneficiaryId : element.beneficiaryid
+      }
+    });
   }
   invalidTimeFlag = false;
   validateTime(start_date: any, end_date: any, start_time: any, end_time: any) {
