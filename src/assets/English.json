@@ -461,5 +461,9 @@
   "nextAttemptDate":"Next Attempt Date",
   "childID":"Child ID",
   "isFatalQues": "Fatal Questionnaire",
-  "stickyAgentRecords" : "Sticky Agent Records"
+  "stickyAgentRecords" : "Sticky Agent Records",
+  "close" : "close",
+  "openAsPdf" : "Open As PDF",
+  "viewCasesheet" : "View Case Sheet",
+  "isCallWrongNumber": "Is Wrong Number"
 }

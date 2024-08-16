@@ -25,6 +25,10 @@
     </audio>
   </div>
 
+  <div style="float: right;">
+    <button mat-raised-button class="buttonColorRed full-width buttonWidth" (click)="viewCasheet()">{{currentLanguageSet?.viewCasesheet}} </button>
+  </div>
+
 
   <div *ngFor="let section of filteredRatingQuestions">
     <h2 style="margin-top: 25px" class="mainHeading">
