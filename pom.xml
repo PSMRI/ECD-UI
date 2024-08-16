@@ -6,7 +6,7 @@
   <groupId>com.iemr.ecd-ui</groupId>
   <artifactId>ecd-ui</artifactId>
   <version>1.0</version>
-  <name>ecd-ui</name>
+  <name>ecd-ui-next</name>
   <packaging>war</packaging>
   <profiles>
     <profile>
