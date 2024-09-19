@@ -40,10 +40,10 @@ jobs:
         npm run build
 
     - name: Create WAR file
-      run: jar -cvf ecd-ui-next.war -C dist .     
+      run: jar -cvf ecd-ui.war -C dist .     
 
     - name: Upload WAR file as artifact
       uses: actions/upload-artifact@v2
       with:
         name: ECD-UI
-        path: ecd-ui-next.war
+        path: ecd-ui.war
