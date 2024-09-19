@@ -24,7 +24,7 @@
               {
                 "glob": "**/*",
                 "input": "WEB-INF",
-                "output": "/WEB-INF"
+                "output": "WEB-INF"
               }
             ],
             "styles": [
