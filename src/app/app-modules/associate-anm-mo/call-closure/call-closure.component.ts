@@ -81,6 +81,7 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
     isCallVerified: [''],
     isCallDisconnected: [''],
     isWrongNumber: [''],
+    phoneNumber: [null],
     isStickyAgentRequired: false,
     complaintId: [''],
     typeOfComplaint: [''],
@@ -88,6 +89,7 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
     // nextAttemptTime: [''],
     complaintRemarks: [''],
     callRemarks: [''],
+    preferredLanguage: [null],
     sendAdvice: [null],
     altPhoneNo: [null, [Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
     iVRFeedbackRequired: false
@@ -95,6 +97,11 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
   );
   isCallVerifiedStatus: any;
   isWrongNumberStatus : any;
+  languages: any = [];
+  enableCallDisconnectAndFurtherCall= false;
+  enableWrongNumber = false;
+  enablePreferredLanguage = false;
+  enablePhoneNumber = false;
   constructor(
     private setLanguageService: SetLanguageService,
     private fb: FormBuilder,
@@ -136,6 +143,7 @@ private sms_service: SmsTemplateService,
     this.getComplaints();
     this.getCallTypes();
     this.isStickyAgentValid();
+    this.getLanguageMaster();
 
     this.associateAnmMoService.openCompFlag$.subscribe((responseComp) => {
       if (responseComp !== null && responseComp === "Call Closed") {
@@ -152,7 +160,14 @@ private sms_service: SmsTemplateService,
         this.disableIVRFeedback = true
         this.barMinimized = true;
         this.isCorrectDateAndTime = true;
-          this.callClosureForm.reset();
+        this.enableCallDisconnectAndFurtherCall = false;
+        this.enableWrongNumber = false;
+        this.enablePhoneNumber = false;
+        this.clearPhoneNoValidator();
+        this.clearPreferredLanguageValidator();
+        this.clearIsFurtherCallValidator();
+        this.enablePreferredLanguage = false;
+        this.callClosureForm.reset();
       }
       
   });
@@ -327,6 +342,7 @@ private sms_service: SmsTemplateService,
       reasonForCallNotAnswered: formData.reasonForCallNotAnswered, 
       isCallDisconnected: (formData.isCallDisconnected==="Yes")?true:false,
       isWrongNumber: this.isWrongNumberStatus,
+      correctPhoneNumber: formData.phoneNumber,
       typeOfComplaint: (formData.typeOfComplaint !== null && formData.typeOfComplaint !== undefined && formData.typeOfComplaint !== "") ? formData.typeOfComplaint : null,
       complaintRemarks: (formData.complaintRemarks !== null && formData.complaintRemarks !== undefined && formData.complaintRemarks !== "") ? formData.complaintRemarks : null,
       nextAttemptDate: (formData.nextAttemptDate !== null && formData.nextAttemptDate !== undefined && formData.nextAttemptDate !== "") ? formData.nextAttemptDate : null,
@@ -340,6 +356,7 @@ private sms_service: SmsTemplateService,
       createdBy: sessionStorage.getItem("userName"),
       modifiedBy: sessionStorage.getItem("userName"),
       complaintId: (formData.complaintId !== null && formData.complaintId !== undefined && formData.complaintId !== "") ? formData.complaintId : null,
+      preferredLanguage: formData.preferredLanguage
     };
     const commonReqobj = {
       benCallID: this.associateAnmMoService.callDetailId,
@@ -378,6 +395,13 @@ private sms_service: SmsTemplateService,
             this.showCallAnswerNoDropdown=false;
             this.showVerifiedFields = false;
             this.showDetails = false;
+            this.enableCallDisconnectAndFurtherCall = false;
+            this.enableWrongNumber = false;
+            this.enablePhoneNumber = false;
+            this.clearPhoneNoValidator();
+            this.clearPreferredLanguageValidator();
+            this.clearIsFurtherCallValidator();
+            this.enablePreferredLanguage = false;
             this.disableIVRFeedback = true;
             this.resetSessions();
             this.resetForm();
@@ -448,28 +472,45 @@ private sms_service: SmsTemplateService,
     this.callClosureForm.reset();
   }
   selectedReasonOfNoFutherCall(value: any) {
+    const isDisconnect = this.callClosureForm.controls["isCallDisconnected"].value;
     if (value === 'No') {
       this.showDetails = true
-    
-      
+      this.clearPreferredLanguageValidator();
+      this.callClosureForm.controls['preferredLanguage'].reset();
+      this.enablePreferredLanguage = false;
       this.callClosureForm.controls['reasonForNoFurtherCallsId'].reset();
       this.callClosureForm.controls['reasonForNoFurtherCalls'].reset();
+      const reasonForNoFurtherCallsIdControl = this.callClosureForm.get('reasonForNoFurtherCallsId');
+      reasonForNoFurtherCallsIdControl?.setValidators([Validators.required]);
+      reasonForNoFurtherCallsIdControl?.updateValueAndValidity();
       this.callClosureForm.controls['nextAttemptDate'].reset();
       this.callClosureForm.controls['nextAttemptDate'].disable();
       // this.callClosureForm.addControl('reasonForNoFurtherCallsId', this.fb.control('', Validators.required));
       // this.callClosureForm.addControl('reasonForNoFurtherCalls', this.fb.control('', Validators.required));
     }
     else {
-      this.showDetails = false  
-      this.callClosureForm.controls['nextAttemptDate'].enable();
+      
       
       
       // this.callClosureForm.removeControl('reasonForNoFurtherCallsId'); 
       // this.callClosureForm.removeControl('reasonForNoFurtherCalls'); 
+      this.showDetails = false  
+      if(this.selectedRole !== undefined && this.selectedRole !== null && this.selectedRole.toLowerCase() === "associate") {
+      const preferredLanguageControl = this.callClosureForm.get('preferredLanguage');
+      preferredLanguageControl?.setValidators([Validators.required]);
+      preferredLanguageControl?.updateValueAndValidity();
+      }
+      this.enablePreferredLanguage = true;
       this.callClosureForm.controls['reasonForNoFurtherCallsId'].reset();
       this.callClosureForm.controls['reasonForNoFurtherCalls'].reset();
       this.callClosureForm.controls['reasonForNoFurtherCallsId'].setValue(0);
       this.callClosureForm.controls['reasonForNoFurtherCalls'].setValue('');
+
+      this.clearIsFurtherCallValidator();
+
+      if(isDisconnect === 'Yes') {
+        this.callClosureForm.controls['nextAttemptDate'].enable();
+      }
     }
 
   }
@@ -478,6 +519,14 @@ private sms_service: SmsTemplateService,
       this.showCallAnswerNoDropdown = true;
       this.showVerifiedFields = false;
       this.disableIVRFeedback = true;
+      this.enableCallDisconnectAndFurtherCall = false;
+      this.enableWrongNumber = false;
+      this.showDetails = false;
+      this.enablePhoneNumber = false;
+      this.clearPreferredLanguageValidator();
+      this.clearPhoneNoValidator();
+      this.clearIsFurtherCallValidator();
+      this.enablePreferredLanguage = false;
       for(let i=0; i<this.callTypes.length;i++){
         if(this.callTypes[i].callGroupType === "Not Answered"){
           this.callTypeId=this.callTypes[i].callTypeID;
@@ -489,7 +538,14 @@ private sms_service: SmsTemplateService,
       this.callClosureForm.controls['reasonForCallNotAnswered'].reset();
       this.callClosureForm.controls['iVRFeedbackRequired'].reset();
       this.callClosureForm.controls['isCallVerified'].reset();
+      this.callClosureForm.controls['isCallDisconnected'].reset();
       this.callClosureForm.controls['isWrongNumber'].reset();
+      this.callClosureForm.controls['nextAttemptDate'].enable();
+      this.callClosureForm.controls['isFurtherCallRequired'].reset();
+      this.callClosureForm.controls['reasonForNoFurtherCallsId'].reset();
+      this.callClosureForm.controls['preferredLanguage'].reset();
+      this.callClosureForm.controls['phoneNumber'].reset();
+
     }
     else {
       this.showCallAnswerNoDropdown = false
@@ -711,15 +767,112 @@ private sms_service: SmsTemplateService,
 
   }
 
-  checkIsNextAttempt(callAnswered:string, callVerified:string, callDisconnected:string ){
-   if(callAnswered === "Yes" && callVerified === "Yes" && callDisconnected === "No"){
+  onCallverified(callVerified:string) {
+    this.callClosureForm.controls['isCallDisconnected'].reset();
+    this.callClosureForm.controls['isWrongNumber'].reset();
+    this.callClosureForm.controls['isFurtherCallRequired'].reset();
+    this.callClosureForm.controls['reasonForNoFurtherCallsId'].reset();
+    this.callClosureForm.controls['nextAttemptDate'].enable();
+    this.callClosureForm.controls['preferredLanguage'].reset();
+    this.callClosureForm.controls['phoneNumber'].reset();
+    this.showDetails = false;
+    this.enablePhoneNumber = false;
+    this.clearPreferredLanguageValidator();
+    this.clearIsFurtherCallValidator();
+    this.clearPhoneNoValidator();
+    this.enablePreferredLanguage = false;
+    if(callVerified === "Yes") {
+      this.enableCallDisconnectAndFurtherCall = true;
+      this.enableWrongNumber = false;
+    }
+    else {
+      this.enableCallDisconnectAndFurtherCall = false;
+      this.enableWrongNumber = true;
+    }
+
+
+  }
+
+  checkIsNextAttempt(callDisconnected:string ){
+   const isFurtherCall = this.callClosureForm.controls["isFurtherCallRequired"].value;
+   if(callDisconnected === "No"){
     this.callClosureForm.controls['nextAttemptDate'].disable();
     this.callClosureForm.controls['nextAttemptDate'].reset();
    }
-   else{
+   else if(isFurtherCall === "Yes") {
     this.callClosureForm.controls['nextAttemptDate'].enable();
     this.isNextAttempt = true;
+    }
+   
+  }
+
+  onWrongNumberChange(wrongNumber:string ){
+  
+    this.callClosureForm.controls['phoneNumber'].reset();
+    if(wrongNumber === "No"){
+     this.enablePhoneNumber = false;
+     this.clearPhoneNoValidator();
+    }
+    else {
+      this.enablePhoneNumber = true;
+      const phoneNumberControl = this.callClosureForm.get('phoneNumber');
+      phoneNumberControl?.setValidators([Validators.required]);
+      phoneNumberControl?.updateValueAndValidity();
+     }
+    
    }
+
+  getLanguageMaster(){
+    let agentLanguages: any[] = [];
+    if(this.selectedRole !== undefined && this.selectedRole !== null && (this.selectedRole.toLowerCase() === "associate" || this.selectedRole.toLowerCase() === "anm")) {
+    const userId = sessionStorage.getItem('userId');
+    this.masterService.getLanguageMasterByUserId(userId).subscribe((response: any) => {
+      if(response && response.length > 0){
+        this.languages = response;
+        agentLanguages = response;
+      }else {
+        this.confirmationService.openDialog(this.currentLanguageSet.noLanguagesFound, 'error');
+      }
+    },
+    (err: any) => {
+      this.confirmationService.openDialog(err.error, 'error');
+    }
+    );
+  }
+  if(this.selectedRole !== undefined && this.selectedRole !== null && this.selectedRole.toLowerCase() === "anm") {
+    this.masterService.getLanguageMaster().subscribe((response: any) => {
+      if(response && response.length > 0){
+        this.languages = [];
+        this.languages = response.filter(
+          (lang: any) => !agentLanguages.some(agentLang => agentLang.languageName?.toLowerCase() === lang.languageName?.toLowerCase())
+         );
+      }else {
+        this.confirmationService.openDialog(this.currentLanguageSet.noLanguagesFound, 'error');
+      }
+    },
+    (err: any) => {
+      this.confirmationService.openDialog(err.error, 'error');
+    }
+    );
+  }
+  }
+
+  clearPhoneNoValidator() {
+    const phoneNumberontrol = this.callClosureForm.get('phoneNumber');
+    phoneNumberontrol?.clearValidators();
+    phoneNumberontrol?.updateValueAndValidity();
+  }
+
+  clearPreferredLanguageValidator() {
+    const preferredLanguageControl = this.callClosureForm.get('preferredLanguage');
+    preferredLanguageControl?.clearValidators();
+    preferredLanguageControl?.updateValueAndValidity();
+  }
+
+  clearIsFurtherCallValidator() {
+    const reasonForNoFurtherCallsIdControl = this.callClosureForm.get('reasonForNoFurtherCallsId');
+    reasonForNoFurtherCallsIdControl?.clearValidators();
+    reasonForNoFurtherCallsIdControl?.updateValueAndValidity();
   }
 }
 export interface gradeMapping {

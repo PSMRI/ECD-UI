@@ -465,5 +465,7 @@
   "close" : "close",
   "openAsPdf" : "Open As PDF",
   "viewCasesheet" : "View Case Sheet",
-  "isCallWrongNumber": "Is Wrong Number"
+  "isCallWrongNumber": "Is Wrong Number",
+  "preferredLanguage" : "Preferred Language",
+  "enterCorrectPhoneNumber": "Enter Correct Phone Number"
 }

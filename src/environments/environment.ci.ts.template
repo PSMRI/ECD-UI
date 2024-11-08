@@ -49,6 +49,7 @@ export const environment = {
   createCallConfigurationUrl: `${ECD_API}callConfiguration/create`,
   updateCallConfigurationUrl: `${ECD_API}callConfiguration/update`,
   getUnallocatedCallsUrl: `${ECD_API}callAllocation/getEligibleRecordsInfo`,
+  getLowRiskRecordsByLanguageUrl: `${ECD_API}callAllocation/getEligibleRecordsLanguageInfo`,
   getAllocateCallsUrl: `${ECD_API}callAllocation/allocateCalls`,
   deleteReallocationUrl: `${ECD_API}callAllocation/moveToBin`,
   getAllocatedCountUrl: `${ECD_API}callAllocation/getAllocatedCallCountUser`,
@@ -152,6 +153,7 @@ export const environment = {
   getMappedCycleURL:`${ECD_API}sampleSelectionConfiguration/getByPSMId`,
   updateCycleConfigurationURL:`${ECD_API}sampleSelectionConfiguration/update`,
   getAgentMastersUrl:`${ECD_API}master/getAgentsByRoleId`,
+  getAgentMasterByRoleIdAndLanguageUrl:`${ECD_API}master/getAgentsByRoleIdAndPreferredLanguage`,
   getCaseSheetDataURL:`${ECD_API}qualityAudit/getBeneficiaryCasesheet`,
   /** Associate-anm-mo Urls */
   getAgentAuditScoreUrl: `${ECD_API}autoPreviewDialing/getRatingsByUserIdAndPsmId`,

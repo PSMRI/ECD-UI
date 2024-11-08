@@ -21,6 +21,7 @@
 */
 
 
+import { P } from '@angular/cdk/keycodes';
 import { Component, DoCheck, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
@@ -101,6 +102,8 @@ export class CallReallocationComponent implements OnInit, DoCheck {
   selectedRoleName: any;
   agentArr: any = [];
   isDisableUnallocateButton = true;
+  enableLanguage = false;
+  languages : any = [];
   
   constructor(
     private supervisorService: SupervisorService,
@@ -114,6 +117,8 @@ export class CallReallocationComponent implements OnInit, DoCheck {
     this.range.valueChanges.subscribe(() => {
       this.checkSubmitDisabledButton();
     });
+
+    this.getLanguageMaster();
   }
 
   ngDoCheck(){
@@ -139,6 +144,7 @@ export class CallReallocationComponent implements OnInit, DoCheck {
   callReallocationForm = new FormGroup({
     selectedRadioButton: new FormControl('', [Validators.required]),
     agentTypes: new FormControl('', [Validators.required]),
+    preferredLanguage: new FormControl(null),
     agentName: new FormControl('', [Validators.required]),
     recordType: new FormControl('', [Validators.required]),
     phoneNoType: new FormControl('', [Validators.required]),
@@ -174,15 +180,21 @@ export class CallReallocationComponent implements OnInit, DoCheck {
     this.agentRoles= event.value;
     this.checkSubmitDisabledButton();
 
+    const selectedRole = this.rolesArr.find((values: any) => values.roleId === this.agentRoles);
+    
     this.agentNames = [];
     this.allocatesTo = [];
     this.callReallocationForm.controls.agentName.patchValue(null);
+
+    if(selectedRole !== undefined && selectedRole !== null && selectedRole.roleName !== undefined && selectedRole.roleName !== null && selectedRole.roleName.toLowerCase() !== "anm" ) {
+
     this.masterService.getAgentMasterByRoleId(this.agentRoles).subscribe((response:any)=>{
       if(response){
         this.agentNames = response;
         this.allocatesTo = response;
       }
     })
+  }
 
   }
 
@@ -220,11 +232,23 @@ export class CallReallocationComponent implements OnInit, DoCheck {
   }
 
   setAgentRoleName(roleName:any) {
+    this.enableLanguage = false;
     this.selectedRoleName = roleName;
 
     if(this.selectedRoleName !== undefined && this.selectedRoleName !== null && this.selectedRoleName.toLowerCase() === 'associate') {
        this.callReallocationForm.patchValue({isStickyAgent : false});
-      }    
+      }   
+      
+    if(this.selectedRoleName !== undefined && this.selectedRoleName !== null && this.selectedRoleName.toLowerCase() === 'anm') {
+        this.enableLanguage = true;
+        this.callReallocationForm.controls["preferredLanguage"].addValidators(Validators.required);
+       }   
+       else {
+        this.callReallocationForm.controls["preferredLanguage"].clearValidators();
+        this.callReallocationForm.controls["preferredLanguage"].patchValue(null);
+       }
+
+    
   }
 
   onSubmit() {
@@ -251,7 +275,8 @@ export class CallReallocationComponent implements OnInit, DoCheck {
       "createdBy": sessionStorage.getItem("userName"),
       "tdate": toDate,
       "fdate": fromDate,
-      "isStickyAgent" : this.callReallocationForm.controls.isStickyAgent.value
+      "isStickyAgent" : this.callReallocationForm.controls.isStickyAgent.value,
+      "preferredLanguage": this.callReallocationForm.controls.preferredLanguage.value
     };
     this.supervisorService.getAllocatedCounts(reqObj).subscribe((res: any) =>
     {
@@ -327,16 +352,15 @@ export class CallReallocationComponent implements OnInit, DoCheck {
       "createdBy": sessionStorage.getItem("userName"),
       "tdate": toDate,
       "fdate": fromDate,
-      "isStickyAgent" : this.callReallocationForm.controls.isStickyAgent.value
+      "isStickyAgent" : this.callReallocationForm.controls.isStickyAgent.value,
+      "preferredLanguage": this.callReallocationForm.controls.preferredLanguage.value
     };
     this.supervisorService.updateReallocateCalls(reqObj).subscribe((res: any) =>
     {
         if(res && res.response !== null) {
           this.isSubmitDisabled = false;
           this.confirmationService.openDialog(res.response, `success`);
-          // this.confirmationService.openDialog(this.currentLanguageSet.callsReallocatedSuccessfully, `success`);
-          this.callReallocateForm.reset();
-          this.enableAgentAllocation = false;
+          this.resetReallocateForm();
           // this.selectedRoleName = null;
         }
         else {
@@ -381,16 +405,14 @@ export class CallReallocationComponent implements OnInit, DoCheck {
       "isIntroductory": this.selectedRoleName.toLowerCase() === 'associate' ? true : false,
       "tdate": toDate,
       "fdate": fromDate,
-      "isStickyAgent" : this.callReallocationForm.controls.isStickyAgent.value
+      "isStickyAgent" : this.callReallocationForm.controls.isStickyAgent.value,
+      "preferredLanguage": this.callReallocationForm.controls.preferredLanguage.value
     };
     this.supervisorService.deleteReallocatedCalls(reqObj).subscribe((res: any) =>
     {
         if(res && res.response !== null) {
           this.confirmationService.openDialog(res.response, `success`);
-          // this.confirmationService.openDialog(this.currentLanguageSet.recordsDeletedSuccessfully, `success`);
-          this.callReallocateForm.reset();
-          this.enableAgentAllocation = false;
-          this.isDisableUnallocateButton = true;
+          this.resetReallocateForm();
           // this.selectedRoleName = null;
         } 
         else {
@@ -414,6 +436,8 @@ export class CallReallocationComponent implements OnInit, DoCheck {
     this.callReallocationForm.reset();
     this.callReallocateForm.reset();
     this.range.reset();
+    this.enableLanguage = false;
+    this.callReallocationForm.controls["preferredLanguage"].clearValidators();
 
     this.callReallocationForm.patchValue({isStickyAgent : false});
   }
@@ -425,6 +449,47 @@ enableUnallocateReallocateButton() {
   {
     this.isDisableUnallocateButton = true
   }
+}
+
+getLanguageMaster(){
+   
+  this.masterService.getLanguageMaster().subscribe((response: any) => {
+    if(response && response.length > 0){
+      this.languages = response;
+    }else {
+      this.confirmationService.openDialog(this.currentLanguageSet.noLanguagesFound, 'error');
+    }
+  },
+  (err: any) => {
+    this.confirmationService.openDialog(err.error, 'error');
+  }
+  );
+}
+
+onSelectionOfLanguage() {
+  this.agentRoles= this.callReallocationForm.controls.agentTypes.value;
+  const selectedLanguage = this.callReallocationForm.controls.preferredLanguage.value;
+  this.checkSubmitDisabledButton();
+
+  
+  this.agentNames = [];
+  this.allocatesTo = [];
+  this.callReallocationForm.controls.agentName.patchValue(null);
+
+  this.masterService.getAgentMasterByRoleIdAndLanguage(this.agentRoles,selectedLanguage).subscribe((response:any)=>{
+    if(response){
+      this.agentNames = response;
+      this.allocatesTo = response;
+    }
+  })
+
+
+}
+
+resetReallocateForm() {
+  this.callReallocateForm.reset();
+  this.enableAgentAllocation = false;
+  this.isDisableUnallocateButton = true;
 }
 
 }

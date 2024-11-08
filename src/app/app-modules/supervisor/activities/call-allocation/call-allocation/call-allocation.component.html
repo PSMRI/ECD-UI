@@ -225,6 +225,15 @@
                 </mat-select>
               </mat-form-field>
 
+              <mat-form-field *ngIf="enableLanguage" appearance="outline" class="dropdownAllocateAlignment fontStyle">
+                <mat-label class="fontStyle">{{ currentLanguageSet?.preferredLanguage }}</mat-label>
+                <mat-select formControlName="preferredLanguage" (selectionChange)="onClickOfAgentType()">
+                  <mat-option *ngFor="let language of languages" [value]="language.languageName">
+                    {{ language.languageName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
               <mat-form-field appearance="outline" class="dropdownAllocateAlignment fontStyle">
                 <mat-label class="fontStyle">{{ currentLanguageSet?.allocateTo }}</mat-label>
                 <mat-select
@@ -256,10 +265,11 @@
                   required
                 />
               </mat-form-field>
-
+              <br>
+          <div style="float: right;">
               <button
                 mat-raised-button
-                class="buttonColor full-width buttonWidth"
+                class="buttonColor full-width buttonWidthForAllocate"
                 style="margin: 5px"
                 type="submit"
                 [disabled]="isAllocateDisabled"
@@ -267,6 +277,7 @@
               >
                 {{ currentLanguageSet?.allocate }}
               </button>
+            </div>
             </div>
           </div>
         </mat-card>

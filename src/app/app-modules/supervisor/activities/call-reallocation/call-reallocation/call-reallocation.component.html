@@ -29,7 +29,7 @@
             currentLanguageSet?.role
           }}</mat-label>
           <mat-select
-            (selectionChange)="onClickOfRoles($event)"
+          (selectionChange)="onClickOfRoles($event);resetReallocateForm()"
             formControlName="agentTypes"
             required
           >
@@ -43,6 +43,15 @@
           </mat-select>
         </mat-form-field>
 
+        <mat-form-field *ngIf="enableLanguage" appearance="outline"  class="dropdownAlignment fontStyle">
+          <mat-label class="fontStyle">{{ currentLanguageSet?.preferredLanguage }}</mat-label>
+          <mat-select formControlName="preferredLanguage" (selectionChange)="onSelectionOfLanguage();resetReallocateForm()">
+            <mat-option *ngFor="let language of languages" [value]="language.languageName">
+              {{ language.languageName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
         <mat-form-field
           appearance="outline"
           id="fieldBackground"
@@ -52,7 +61,7 @@
             currentLanguageSet?.agentName
           }}</mat-label>
           <mat-select
-            (selectionChange)="onClickOfAgents($event)"
+            (selectionChange)="onClickOfAgents($event);resetReallocateForm()"
             formControlName="agentName"
             required
           >
@@ -71,7 +80,7 @@
             currentLanguageSet?.recordType
           }}</mat-label>
           <mat-select
-            (selectionChange)="onClickOfRecordType($event)"
+            (selectionChange)="onClickOfRecordType($event);resetReallocateForm()"
             formControlName="recordType"
             required
           >
@@ -92,7 +101,7 @@
             currentLanguageSet?.phoneNumberType
           }}</mat-label>
           <mat-select
-            (selectionChange)="onClickOfPhoneNoType($event)"
+            (selectionChange)="onClickOfPhoneNoType($event);resetReallocateForm()"
             formControlName="phoneNoType"
             required
           >
@@ -115,11 +124,13 @@
               matStartDate
               formControlName="start"
               placeholder="{{ currentLanguageSet?.startDate }}"
+              (dateChange)="resetReallocateForm()"
             />
             <input
               matEndDate
               formControlName="end"
               placeholder="{{ currentLanguageSet?.endDate }}"
+              (dateChange)="resetReallocateForm()"
             />
           </mat-date-range-input>
           <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
@@ -139,7 +150,7 @@
         </mat-form-field>
 
         <div  style="display: flex; align-items: center; padding: 30px;"  *ngIf="selectedRoleName !== undefined && selectedRoleName !== null && selectedRoleName !=='Associate'" class="m-t-50 col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-          <mat-checkbox labelPosition="after" formControlName="isStickyAgent" >{{currentLanguageSet?.stickyAgentRecords}}</mat-checkbox>
+          <mat-checkbox labelPosition="after" formControlName="isStickyAgent" (change)="resetReallocateForm()" >{{currentLanguageSet?.stickyAgentRecords}}</mat-checkbox>
         </div>
         <div style="display: flex; justify-content: right;">
         <button
