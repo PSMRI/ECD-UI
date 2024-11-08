@@ -31,11 +31,10 @@ The Early Childhood Development (ECD) Initiative by the Ministry of Health and F
 
 This microservice is built using Java and the Spring Boot framework, with MySQL as the underlying database. Before building the ECD module, ensure you have the following prerequisites:
 
-- JDK 1.8
-- Maven
-- NPM / YARN
-- Spring Boot V2
-- MySQL
+* JDK 17
+* Maven 
+* Nodejs v18.10.0
+* MySQL
 
 ### Installation
 
