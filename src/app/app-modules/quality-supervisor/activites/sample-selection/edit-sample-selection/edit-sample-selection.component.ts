@@ -30,6 +30,7 @@ import { SampleSelectionConfigurationComponent } from '../sample-selection-confi
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-edit-sample-selection',
@@ -67,6 +68,7 @@ export class EditSampleSelectionComponent implements OnInit {
     private fb: FormBuilder,
     private confirmationService: ConfirmationService,
     private qualitysupervisorService: QualitySupervisorService,
+    readonly sessionstorage:SessionStorageService,
     private masterService:MasterService
   ) { }
   
@@ -183,7 +185,7 @@ export class EditSampleSelectionComponent implements OnInit {
 
   }
   getCycles() {  
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getCyclesMaster(psmId).subscribe(
       (response: any) => {
         if (response) {
@@ -247,9 +249,9 @@ export class EditSampleSelectionComponent implements OnInit {
       pncSampleSize: editValue.pncSampleSize,
       totalSampleSize: editValue.totalSampleSize,
       deleted: false,
-      createdBy: sessionStorage.getItem('userName'),
-      modifiedBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      createdBy: this.sessionstorage.userName,
+      modifiedBy: this.sessionstorage.userName,
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
     const checkFromMainList = this.checkDuplicateRangeFromMainList(reqObj)
     console.log(reqObj);

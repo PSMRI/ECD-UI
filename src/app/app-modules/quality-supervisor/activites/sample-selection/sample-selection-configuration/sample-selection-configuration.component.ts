@@ -31,6 +31,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import { EditSampleSelectionComponent } from '../edit-sample-selection/edit-sample-selection.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-sample-selection-configuration',
@@ -60,6 +61,7 @@ export class SampleSelectionConfigurationComponent implements OnInit, AfterViewI
     private setLanguageService: SetLanguageService,
     private confirmationService: ConfirmationService,
     private loginService: LoginserviceService,
+    readonly sessionstorage:SessionStorageService,
   ) { }
 
   getSelectedLanguage() {
@@ -101,7 +103,7 @@ export class SampleSelectionConfigurationComponent implements OnInit, AfterViewI
   }
   getSampleList() {  
     const reqObj: any = {
-      providerServiceMapID: sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
     };
     this.qualitySupervisorService.getCycleMappedData(reqObj).subscribe(
       (response: any) => {
@@ -166,9 +168,9 @@ export class SampleSelectionConfigurationComponent implements OnInit, AfterViewI
               ancSampleSize: tableValue.ancSampleSize,
               pncSampleSize: tableValue.pncSampleSize,
               totalSampleSize: tableValue.totalSampleSize,
-              createdBy: sessionStorage.getItem('userName'),
-              modifiedBy: sessionStorage.getItem('userName'),
-              psmId: sessionStorage.getItem('providerServiceMapID'),
+              createdBy: this.sessionstorage.userName,
+              modifiedBy: this.sessionstorage.userName,
+              psmId: this.sessionstorage.getItem('providerServiceMapID'),
               deleted: type === 'activate' ? 'false' : 'true',
             };
 

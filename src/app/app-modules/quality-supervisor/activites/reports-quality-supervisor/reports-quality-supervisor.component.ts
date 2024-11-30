@@ -29,6 +29,7 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import * as FileSaver from 'file-saver';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-reports-quality-supervisor',
@@ -48,7 +49,7 @@ export class ReportsQualitySupervisorComponent implements OnInit, AfterViewInit 
   reportsData: any = [];
   today:any;
   constructor(private setLanguageService: SetLanguageService,private fb: FormBuilder,
-    private qualitySupervisorService: QualitySupervisorService) { }
+    readonly sessionstorage:SessionStorageService, private qualitySupervisorService: QualitySupervisorService) { }
 
   reportsForm = this.fb.group({
     startDate: ['',Validators.required],
@@ -82,7 +83,7 @@ export class ReportsQualitySupervisorComponent implements OnInit, AfterViewInit 
     const reqObj = {
       startDate: this.reportsForm.controls.startDate.value,
       endDate: this.reportsForm.controls.endDate.value,
-      providerServiceMapId: sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapId: this.sessionstorage.getItem('providerServiceMapID'),
     }
     this.qualitySupervisorService.qualityReportDownload(reqObj).subscribe((res:any)=>{
       if(res !== undefined && res !== null && res.statusCode === 200){

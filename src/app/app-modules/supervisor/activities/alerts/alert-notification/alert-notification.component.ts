@@ -36,6 +36,7 @@ import { EditAlertComponent } from './edit-alert/edit-alert.component';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-alert-notification',
@@ -81,7 +82,7 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
   roleId: any;
   allRoleIDs: any = [];
 
-  constructor(private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService , private masterService: MasterService,) { }
+  constructor(readonly sessionstorage:SessionStorageService,private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService , private masterService: MasterService,) { }
 
   ngOnInit(): void {
     this.getSelectedLanguage();
@@ -89,7 +90,7 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
     this.getRolesForAlert();
     // this.alertDataSource.data = this.alertData;
     
-    this.uname = sessionStorage.getItem("userName");
+    this.uname = this.sessionstorage.userName;
   }
 
   alertNotificationForm = this.fb.group({
@@ -123,7 +124,7 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
     const validStartDate = moment(startDate).format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
     const validEndDate = moment(endDate).endOf('day').format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');    
     const reqObj = {
-      providerServiceMapID : sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapID : this.sessionstorage.getItem('providerServiceMapID'),
       notificationTypeID : this.communicationTypeId,
       roleIDs : this.allRoleIDs,
       validEndDate : validEndDate ,
@@ -154,7 +155,7 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
 
   getNotificationType(){
     const reqObj = {
-      providerServiceMapID : sessionStorage.getItem('providerServiceMapID')
+      providerServiceMapID : this.sessionstorage.getItem('providerServiceMapID')
   } 
     this.supervisorService.getNotificationType(reqObj).subscribe((res:any)=>{
       if(res.statusCode === 200){
@@ -168,7 +169,7 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
     })
   }
   getRolesForAlert(){
-    const  providerServiceMapId = sessionStorage.getItem('providerServiceMapID');
+    const  providerServiceMapId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getRoleMaster(providerServiceMapId).subscribe((res:any)=>{
       if (res.length !== 0) {
         this.roles = res.filter((item : any) => {
@@ -240,7 +241,7 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
       .subscribe((response) => {
         if (response) {
           const reqObj: any = {
-            providerServiceMapID : sessionStorage.getItem('providerServiceMapID'),
+            providerServiceMapID : this.sessionstorage.getItem('providerServiceMapID'),
             notificationTypeID: this.communicationTypeId,
             notificationID: element.notificationID ,
             roleID: element.roleID,
@@ -249,7 +250,7 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
             notification: element.notification,
             notificationDesc: element.notificationDesc,
             deleted: type === 'activate' ? 'false' : 'true',
-            modifiedBy: sessionStorage.getItem('userName'),
+            modifiedBy: this.sessionstorage.userName,
           };
 
           this.supervisorService.saveEditAlert(reqObj).subscribe(
@@ -287,8 +288,8 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
   //  onPublish(){
   //   // this.canEdit = false;
   //   let reqObj= {
-  //     providerServiceMapId: sessionStorage.getItem('providerServiceMapID'),
-  //     modifiedBy: sessionStorage.getItem('userName'),
+  //     providerServiceMapId: this.sessionstorage.getItem('providerServiceMapID'),
+  //     modifiedBy: this.sessionstorage.userName,
   //   }
   //   this.supervisorService.publishAlert(reqObj).subscribe((res:any)=>{
   //   if(res.data !== undefined && res.data !== null){
@@ -301,7 +302,7 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
 
    getOfficesForAlert(){
     const reqObj = { 
-      providerServiceMapId: sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapId: this.sessionstorage.getItem('providerServiceMapID'),
       roleID: this.roleID
      }
     this.supervisorService.getOffices(reqObj).subscribe((res:any)=>{
