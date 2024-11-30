@@ -27,13 +27,15 @@
 const ecdIP = 'https://amritwprdev.piramalswasthya.org/';
 const commonIP = 'https://amritwprdev.piramalswasthya.org/';
 const adminIP = 'https://amritwprdev.piramalswasthya.org/';
-const COMMON_API = `${commonIP}commonapi-ecd/`;
-const ADMIN_API = `${adminIP}adminapi-v1.0/`;
-const ECD_API = `${ecdIP}ecdapi-v1.0/`;
+const COMMON_API = `${commonIP}commonapi-ecd-jwt/`;
+const ADMIN_API = `${adminIP}adminapi-v3.0.0/`;
+const ECD_API = `${ecdIP}ecdapi-v3.0.0/`;
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
+import { keys } from './enckey';
 
 export const environment = {
   production: false,
+  encKey: keys.dev,
   ioturl: `${biologicalScreeningDeviceAPI}`,
   extendSessionUrl: `${ECD_API}common/extend/redisSession`,
   language: 'English',

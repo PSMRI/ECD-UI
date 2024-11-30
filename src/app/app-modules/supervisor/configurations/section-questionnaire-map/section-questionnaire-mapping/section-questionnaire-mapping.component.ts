@@ -30,6 +30,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { CreateSectionQuestionnaireMappingComponent } from '../create-section-questionnaire-mapping/create-section-questionnaire-mapping.component';
 import { EditSectionQuestionnaireMappingComponent } from '../edit-section-questionnaire-mapping/edit-section-questionnaire-mapping.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 /**
  * DE40034072
  * 02-02-2023
@@ -59,6 +60,7 @@ export class SectionQuestionnaireMappingComponent implements OnInit, DoCheck, Af
   constructor(
     private setLanguageService: SetLanguageService,
     private confirmationService: ConfirmationService,
+    readonly sessionstorage:SessionStorageService,
     private supervisorService: SupervisorService
   ) {}
 
@@ -89,7 +91,7 @@ export class SectionQuestionnaireMappingComponent implements OnInit, DoCheck, Af
   getSectionQuestionnairesMapDetails() {
     let quesData: any = null;
 
-    const providerServiceMapID = sessionStorage.getItem('providerServiceMapID');
+    const providerServiceMapID = this.sessionstorage.getItem('providerServiceMapID');
     this.supervisorService
       .getSectionQuestionnaireMap(providerServiceMapID)
       .subscribe(
@@ -176,7 +178,7 @@ export class SectionQuestionnaireMappingComponent implements OnInit, DoCheck, Af
         console.log(response);
         if (response) {
           tableValue.deleted = type === 'activate' ? false : true;
-          tableValue.modifiedBy= sessionStorage.getItem('userName')
+          tableValue.modifiedBy= this.sessionstorage.userName
           const reqObj: any = {
             id: tableValue.id,
             questionId: tableValue.questionid,
@@ -184,10 +186,10 @@ export class SectionQuestionnaireMappingComponent implements OnInit, DoCheck, Af
             // sectionName: tableValue.sectionName,
             rank: tableValue.sectionQuestionRank,
             role: tableValue.role,
-            createdBy: sessionStorage.getItem('userName'),
-            modifiedBy: sessionStorage.getItem('userName'),
+            createdBy: this.sessionstorage.userName,
+            modifiedBy: this.sessionstorage.userName,
             deleted: type === 'activate' ? false : true,
-            psmId: sessionStorage.getItem('providerServiceMapID')
+            psmId: this.sessionstorage.getItem('providerServiceMapID')
            
           };
 

@@ -1,3 +1,3 @@
 <jboss-web>
-  <context-root>/ecd</context-root>
+  <context-root>/ecd-wasa</context-root>
 </jboss-web>

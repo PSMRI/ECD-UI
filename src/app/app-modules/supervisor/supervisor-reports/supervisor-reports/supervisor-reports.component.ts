@@ -33,6 +33,7 @@ import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/materia
 import * as moment from 'moment';
 import { saveAs } from 'file-saver';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-supervisor-reports',
@@ -62,6 +63,7 @@ export class SupervisorReportsComponent implements OnInit, DoCheck, AfterViewIni
     private fb: FormBuilder,
     private masterService: MasterService,
     private confirmationService: ConfirmationService,
+    readonly sessionstorage:SessionStorageService,
     private supervisorService: SupervisorService
   ) { }
   reportForm = this.fb.group({
@@ -147,7 +149,7 @@ export class SupervisorReportsComponent implements OnInit, DoCheck, AfterViewIni
       this.currentLanguageSet = this.setLanguageService.languageData;
   }
   getRoles() {
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getRoleMaster(psmId).subscribe(
       (response: any) => {
         if (response) {
@@ -222,7 +224,7 @@ export class SupervisorReportsComponent implements OnInit, DoCheck, AfterViewIni
       role:formData.roleName,
       agentId:(formData.agentId !== undefined) ? formData.agentId : null,
       fileName:report.value,
-      psmId:sessionStorage.getItem('providerServiceMapID'),
+      psmId:this.sessionstorage.getItem('providerServiceMapID'),
     };
     console.log(reqObj);
     if(report.value==="cumulative_report"){

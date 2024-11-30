@@ -26,6 +26,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-set-security-questions',
@@ -51,14 +52,20 @@ export class SetSecurityQuestionsComponent implements OnInit {
   
 
  
-  constructor(public loginService: LoginserviceService, private router : Router,private fb: FormBuilder,private confirmationService: ConfirmationService,) { }
+  constructor(
+    public loginService: LoginserviceService, 
+    private router : Router,
+    private fb: FormBuilder,
+    private confirmationService: ConfirmationService,
+    readonly sessionstorage:SessionStorageService,
+  ) { }
 
   ngOnInit(): void {
   this.getSecurityQuestions();
   this.filteredQuestions = this.questions;
   this.filteredQuestions2 = this.questions;
   this.filteredQuestions3 = this.questions;
-  this.uname = sessionStorage.getItem("userName");
+  this.uname = this.sessionstorage.userName;
   }
   
  getSecurityQuestions(){
@@ -103,21 +110,21 @@ questionForm = this.fb.group({
 setSecurityQuestions(){
   this.dataArray = [
     {
-      'userID': sessionStorage.getItem('userId'),
+      'userID': this.sessionstorage.userID,
       'questionID': this.questionForm.controls.question1.value,
       'answers': ((this.questionForm.controls.answer1.value !== null && this.questionForm.controls.answer1.value !== undefined) ? this.questionForm.controls.answer1.value.trim() : ''),
       'mobileNumber': '1234567890',
       'createdBy': this.uname
     },
     {
-      'userID': sessionStorage.getItem('userId'),
+      'userID': this.sessionstorage.userID,
       'questionID': this.questionForm.controls.question2.value,
       'answers': ((this.questionForm.controls.answer2.value !== null && this.questionForm.controls.answer2.value !== undefined) ? this.questionForm.controls.answer2.value.trim() : ''),
       'mobileNumber': '1234567890',
       'createdBy': this.uname
     },
     {
-      'userID': sessionStorage.getItem('userId'),
+      'userID': this.sessionstorage.userID,
       'questionID': this.questionForm.controls.question3.value,
       'answers': ((this.questionForm.controls.answer3.value !== null && this.questionForm.controls.answer3.value !== undefined) ? this.questionForm.controls.answer3.value.trim() : ''),
       'mobileNumber': '1234567890',

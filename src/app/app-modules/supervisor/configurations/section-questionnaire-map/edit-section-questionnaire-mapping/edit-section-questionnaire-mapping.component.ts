@@ -27,6 +27,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 import { SectionQuestionnaireMappingComponent } from '../section-questionnaire-mapping/section-questionnaire-mapping.component';
 /**
  * DE40034072
@@ -50,6 +51,7 @@ export class EditSectionQuestionnaireMappingComponent implements OnInit, DoCheck
     private confirmationService: ConfirmationService,
     private setLanguageService: SetLanguageService,
     private supervisorService: SupervisorService,
+    readonly sessionstorage:SessionStorageService,
     private masterService: MasterService
   ) {}
 
@@ -178,10 +180,10 @@ export class EditSectionQuestionnaireMappingComponent implements OnInit, DoCheck
       // ].value,
       rank: editValue.sectionQuestionRank,
       roles: editValue.roleType,
-      createdBy: sessionStorage.getItem('userName'),
-      modifiedBy: sessionStorage.getItem('userName'),
+      createdBy: this.sessionstorage.userName,
+      modifiedBy: this.sessionstorage.userName,
       deleted: false,
-      psmId: sessionStorage.getItem('providerServiceMapID')
+      psmId: this.sessionstorage.getItem('providerServiceMapID')
     };
     console.log('reole',this.editQuestionnaireSectionMappingForm.controls.roleType.value);
     const isDuplicateFromMainList =
@@ -245,7 +247,7 @@ export class EditSectionQuestionnaireMappingComponent implements OnInit, DoCheck
     return isDuplicate;
   }
   getRolesForQuestionare(){
-    const  providerServiceMapId = sessionStorage.getItem('providerServiceMapID');
+    const  providerServiceMapId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getRoleMaster(providerServiceMapId).subscribe((res:any)=>{
       if(res){
         res.filter((role: any) => {
