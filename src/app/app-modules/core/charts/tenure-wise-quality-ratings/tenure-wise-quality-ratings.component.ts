@@ -29,6 +29,7 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { ajax, css } from "jquery";
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-tenure-wise-quality-ratings',
@@ -51,12 +52,13 @@ export class TenureWiseQualityRatingsComponent implements OnInit, DoCheck {
     private setLanguageService: SetLanguageService,
     private qualitySupervisorService: QualitySupervisorService,
     private confirmationService: ConfirmationService,
+    readonly sessionstorage:SessionStorageService,
     private masterService: MasterService
   ) {}
 
   ngOnInit(): void {
     this.getSelectedLanguage();
-    this.psmId = sessionStorage.getItem('providerServiceMapID');
+    this.psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.getRoleMaster();
     this.agentRole = "ANM"
     this.getTenureQualityRatingsData();
@@ -103,7 +105,7 @@ export class TenureWiseQualityRatingsComponent implements OnInit, DoCheck {
     this.qualityRatingData = [];
     this.setTenureQualityRatingData(this.qualityRatingData);
 
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
 
     this.qualitySupervisorService
       .getTenureWiseQualityRatingsData(psmId, this.agentRole)

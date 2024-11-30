@@ -31,6 +31,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import { EditGradeConfigComponent } from '../edit-grade-config/edit-grade-config.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-grade-configuration',
@@ -57,6 +58,7 @@ export class GradeConfigurationComponent implements OnInit, AfterViewInit {
     private setLanguageService: SetLanguageService,
     private confirmationService: ConfirmationService,
     private loginService: LoginserviceService,
+    readonly sessionstorage:SessionStorageService,
   ) { }
 
   getSelectedLanguage() {
@@ -94,7 +96,7 @@ export class GradeConfigurationComponent implements OnInit, AfterViewInit {
   getGrades() {
 
     const reqObj: any = {
-      providerServiceMapID: sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
     };
     this.qualitySupervisorService.getGradesMappedData(reqObj).subscribe(
       (response: any) => {
@@ -166,9 +168,9 @@ export class GradeConfigurationComponent implements OnInit, AfterViewInit {
               grade: tableValue.grade,
               minValue: tableValue.minValue,
               maxValue: tableValue.maxValue,
-              createdBy: sessionStorage.getItem('userName'),
-              modifiedBy: sessionStorage.getItem('userName'),
-              psmId: sessionStorage.getItem('providerServiceMapID'),
+              createdBy: this.sessionstorage.userName,
+              modifiedBy: this.sessionstorage.userName,
+              psmId: this.sessionstorage.getItem('providerServiceMapID'),
               deleted: type === 'activate' ? 'false' : 'true'
             };
 

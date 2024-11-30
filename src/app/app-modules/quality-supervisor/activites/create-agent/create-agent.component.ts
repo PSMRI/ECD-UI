@@ -31,6 +31,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { AgentMappingConfigurationComponent } from '../agent-mapping-configuration/agent-mapping-configuration.component';
 import { TitleCasePipe } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 @Component({
   selector: 'app-create-agent',
   templateUrl: './create-agent.component.html',
@@ -58,6 +59,7 @@ export class CreateAgentComponent implements OnInit, DoCheck {
     private qualitysupervisorService: QualitySupervisorService,
     private masterService: MasterService,
     private setLanguageService: SetLanguageService,
+    readonly sessionstorage:SessionStorageService,
     private titlecasePipe:TitleCasePipe
   ) { }
 
@@ -90,7 +92,7 @@ export class CreateAgentComponent implements OnInit, DoCheck {
   //     },
   //   ];
 
-  //   let psmId = sessionStorage.getItem('providerServiceMapID');
+  //   let psmId = this.sessionstorage.getItem('providerServiceMapID');
 
   //   this.masterService.getAuditorMaster(psmId).subscribe(
   //     (response: any) => {
@@ -106,7 +108,7 @@ export class CreateAgentComponent implements OnInit, DoCheck {
   //   );
   // }
   getRoles() {
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getRoleMaster(psmId).subscribe(
       (response: any) => {
         if (response) {
@@ -290,8 +292,8 @@ export class CreateAgentComponent implements OnInit, DoCheck {
       qualityAuditorName: formData.qualityAuditorName,
       roleName: formData.roleName,
       agentNames: this.selectedAgentlist,
-      createdBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      createdBy: this.sessionstorage.userName,
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
     console.log(reqObj);
     // this.openConfirmatoryDialog();

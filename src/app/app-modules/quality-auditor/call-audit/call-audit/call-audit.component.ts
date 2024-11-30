@@ -36,6 +36,7 @@ import { ViewCasesheetComponent } from '../../view-casesheet/view-casesheet.comp
 import * as moment from 'moment';
 import { tr } from 'date-fns/locale';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 
 @Component({
@@ -98,6 +99,7 @@ export class CallAuditComponent implements OnInit {
     private masterService: MasterService,
     private confirmationService: ConfirmationService,
     private changeDetectorRefs: ChangeDetectorRef,
+    readonly sessionstorage:SessionStorageService,
     public dialog: MatDialog
   ) { }
 
@@ -201,7 +203,7 @@ export class CallAuditComponent implements OnInit {
   }
   
   getRoleMasters(){
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getRoleMaster(psmId).subscribe((res: any) => {
       if(res && res.length > 0){
         res.filter((role: any) => {
@@ -220,7 +222,7 @@ export class CallAuditComponent implements OnInit {
   }
 
   getCyclesMaster(){
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getCyclesMaster(psmId).subscribe((res: any) => {
       if(res && res.length > 0){
         this.cycles = res;
@@ -235,7 +237,7 @@ export class CallAuditComponent implements OnInit {
   }
 
   getLanguageMaster(){
-    const userId = sessionStorage.getItem('userId');
+    const userId = this.sessionstorage.userID;
     this.masterService.getLanguageMasterByUserId(userId).subscribe((res: any) => {
       if(res && res.length > 0){
         this.languages = res;
@@ -372,7 +374,7 @@ export class CallAuditComponent implements OnInit {
   getQualityAudiotorWorklist(){
     if(this.callAuditForm.controls['selectedRadioButton'].value === '1'){
       const reqObj = {
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
       languageId: this.cycleWiseForm.controls.language.value,
       agentId: this.cycleWiseForm.controls.agentId.value,
       roleId: this.cycleWiseForm.controls.roleId.value,
@@ -417,7 +419,7 @@ export class CallAuditComponent implements OnInit {
     const fromDate =  moment(this.dateWiseForm.controls.start.value).format('YYYY-MM-DDThh:mm:ssZ');
     const toDate =  moment(this.dateWiseForm.controls.end.value).format('YYYY-MM-DDThh:mm:ssZ');   
     const reqObj = {
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
       languageId: this.dateWiseForm.controls.language.value,
       agentId: this.dateWiseForm.controls.agentId.value,
       roleId: this.dateWiseForm.controls.roleId.value,
