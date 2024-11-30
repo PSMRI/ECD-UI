@@ -26,6 +26,7 @@ import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALO
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { CoreService } from 'src/app/app-modules/services/core/core.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-open-alerts-notification-locationmessages',
@@ -47,6 +48,7 @@ export class OpenAlertsNotificationLocationmessagesComponent implements OnInit, 
     @Inject(MAT_DIALOG_DATA) public data: any,
     private coreService: CoreService,
     private setLanguageService: SetLanguageService,
+    readonly sessionstorage:SessionStorageService,
     private confirmationService: ConfirmationService,
   ) {}
 
@@ -72,10 +74,10 @@ export class OpenAlertsNotificationLocationmessagesComponent implements OnInit, 
 
   getdialogData(){
     const reqObj = {
-      userID: sessionStorage.getItem('userId'),
-      roleID: sessionStorage.getItem('roleId'),
+      userID: this.sessionstorage.userID,
+      roleID: this.sessionstorage.getItem('roleId'),
       notificationTypeID: this.notificationIdType,
-      providerServiceMapID: sessionStorage.getItem('providerServiceMapID')
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID')
   }
   this.coreService.getAlertsNotifications(reqObj).subscribe((res: any) => {
     if(res.statusCode === 200){
@@ -170,10 +172,10 @@ export class OpenAlertsNotificationLocationmessagesComponent implements OnInit, 
 
   reInitialize() {
     this.coreService.getAlertsNotifications({
-        userID: sessionStorage.getItem('userId'),
-        roleID: sessionStorage.getItem('roleId'),
+        userID: this.sessionstorage.userID,
+        roleID: this.sessionstorage.getItem('roleId'),
         notificationTypeID: this.data.notificationTypeID,
-        providerServiceMapID: sessionStorage.getItem('providerServiceMapID')
+        providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID')
     }).subscribe((response: any) => {
       console.log(response.data, "notification messages refreshed response");
       this.dialogData = response.data;

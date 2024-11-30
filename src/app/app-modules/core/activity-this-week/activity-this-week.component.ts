@@ -24,6 +24,7 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
 import { Router } from '@angular/router';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 /**
  * DE40034072
@@ -140,19 +141,20 @@ export class ActivityThisWeekComponent implements OnInit, DoCheck {
 
   constructor(
     private setLanguageService: SetLanguageService,
+    readonly sessionstorage:SessionStorageService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.getSelectedLanguage();
-    this.selectedRole = sessionStorage.getItem('role');
+    this.selectedRole = this.sessionstorage.getItem('role');
     console.log(this.selectedRole);
     this.setActivities();
   }
 
   ngDoCheck() {
     this.getSelectedLanguage();
-    this.selectedRole = sessionStorage.getItem('role');
+    this.selectedRole = this.sessionstorage.getItem('role');
     this.setActivities();
   }
 

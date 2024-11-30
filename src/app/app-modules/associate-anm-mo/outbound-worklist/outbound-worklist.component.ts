@@ -38,6 +38,8 @@ import { LoginserviceService } from '../../services/loginservice/loginservice.se
 import { CtiService } from '../../services/cti/cti.service';
 import { map, Subscription, timer } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+
 
 @Component({
   selector: 'app-outbound-worklist',
@@ -70,6 +72,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
     private router: Router,
     private associateAnmMoService: AssociateAnmMoService,
     private loginService: LoginserviceService,
+    readonly sessionstorage:SessionStorageService,
     private ctiService: CtiService
   ) { }
 
@@ -86,7 +89,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
       if( response !== undefined){
         this.agentStatus = response;
           if((this.agentStatus === "FREE" || this.agentStatus === "READY")  ) {
-          if(this.isAutoPreviewDial && this.associateAnmMoService.isStartAutoPreviewDial  && this.dataSource.data.length > 0 && !this.associateAnmMoService.autoDialing  && sessionStorage.getItem("onCall") === "false" && this.previewWindowTime !== null && this.previewWindowTime !== undefined) {
+          if(this.isAutoPreviewDial && this.associateAnmMoService.isStartAutoPreviewDial  && this.dataSource.data.length > 0 && !this.associateAnmMoService.autoDialing  && this.sessionstorage.getItem("onCall") === "false" && this.previewWindowTime !== null && this.previewWindowTime !== undefined) {
           this.isChecked = true;
           const previewTime = this.previewWindowTime * 1000;
           
@@ -148,7 +151,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
   getOutBoundWorklistCalls() {
     
     const reqObj: any = {
-      userId: sessionStorage.getItem('userId'),
+      userId: this.sessionstorage.userID,
     };
     if(this.activeMother === true){
       this.dataSource.sort=null
@@ -281,9 +284,9 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
 
   getAutoPreviewDialing() {
   
-     const userId = sessionStorage.getItem('userId');
-     const psmId = sessionStorage.getItem('providerServiceMapID');
-     const roleId = sessionStorage.getItem('roleId');
+     const userId = this.sessionstorage.userID;
+     const psmId = this.sessionstorage.getItem('providerServiceMapID');
+     const roleId = this.sessionstorage.getItem('roleId');
     
     this.associateAnmMoService.getAutoPreviewDialing(userId, roleId, psmId).subscribe(
       (response:any) => {
@@ -364,7 +367,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
       if (this.loginService.agentId === undefined) {
         this.confirmationService.openDialog(this.currentLanguageSet.agentIdNotAvailable, 'error')
       } else {
-        if (sessionStorage.getItem('agentIp') === undefined) {
+        if (this.sessionstorage.getItem('agentIp') === undefined) {
           const reqObjs={
             "agent_id" : this.loginService.agentId
           }
@@ -373,7 +376,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
           .subscribe(
             (response: any) => {
             
-                sessionStorage.setItem('agentIp', response.data.agent_ip);
+                this.sessionstorage.setItem('agentIp', response.data.agent_ip);
                 
                this.ctiService
                   .callBeneficiaryManual(this.loginService.agentId, phNo)
@@ -387,7 +390,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
                   
                       if (response.data.status === "SUCCESS") {
   
-                        sessionStorage.setItem("onCall", "true");
+                        this.sessionstorage.setItem("onCall", "true");
                         this.associateAnmMoService.setBenRegistartionComp(true);
                       }
                       else {
@@ -420,7 +423,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
           
               if (response.data.status === "SUCCESS") {
 
-                sessionStorage.setItem("onCall", "true");
+                this.sessionstorage.setItem("onCall", "true");
                 this.associateAnmMoService.setBenRegistartionComp(true);
               }
             },

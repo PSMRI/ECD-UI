@@ -34,6 +34,8 @@ import { SetLanguageService } from '../../services/set-language/set-language.ser
 import { BeneficiaryCallHistoryComponent } from '../beneficiary-call-history/beneficiary-call-history.component';
 import { CallClosureComponent } from '../call-closure/call-closure.component';
 import { HighRiskReasonsComponent } from '../high-risk-reasons/high-risk-reasons.component';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+
 
 @Component({
   selector: 'app-ecd-questionnaire',
@@ -88,6 +90,7 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
     public dialog: MatDialog,
     private masterService: MasterService,
     private changeDetectorRefs: ChangeDetectorRef,
+    readonly sessionstorage:SessionStorageService,
 
   ) { }
 
@@ -138,7 +141,7 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getSelectedLanguage();
-    this.role = sessionStorage.getItem('role')
+    this.role = this.sessionstorage.getItem('role')
     this.associateAnmMoService.loadEcdQuestionnaireData$.subscribe(res => {
       if(res === true){
         if(this.associateAnmMoService.selectedBenDetails){
@@ -433,9 +436,9 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
   // }
 
    getEcdQuestionaire(){
-     const psmId = sessionStorage.getItem('providerServiceMapID');
+     const psmId = this.sessionstorage.getItem('providerServiceMapID');
      const callType = this.benData.outboundCallType;
-     const role = sessionStorage.getItem('role');
+     const role = this.sessionstorage.getItem('role');
      this.associateAnmMoService.fetchBeneficiaryQuestionnaire( psmId,callType,role).subscribe((res: any) => {
        if(res && res.length > 0){
          this.filterEcdQuestionnaire(res);
@@ -818,8 +821,8 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
       ecdCallType: this.benData.outboundCallType,
       benCallId: this.associateAnmMoService.callDetailId,
       questionnaireResponse: saveQuestionsData,
-      psmId: sessionStorage.getItem('providerServiceMapID'),
-      createdBy: sessionStorage.getItem('userName')
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
+      createdBy: this.sessionstorage.userName
     }
     this.associateAnmMoService.saveQuestionnaireResponse(reqObj).subscribe((res: any) => {
       if(res){

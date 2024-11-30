@@ -29,6 +29,7 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { ajax, css } from "jquery";
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 /**
  * DE40034072
  * 10-02-2023
@@ -53,13 +54,14 @@ export class SkillsetWiseQualityRatingChartComponent implements OnInit, DoCheck 
     private setLanguageService: SetLanguageService,
     private qualitySupervisorService: QualitySupervisorService,
     private confirmationService: ConfirmationService,
+    readonly sessionstorage:SessionStorageService,
     private masterService: MasterService
   ) {}
 
   ngOnInit(): void {
     this.getSelectedLanguage();
     this.getMonthForCurrentYear();
-    this.psmId = sessionStorage.getItem('providerServiceMapID');
+    this.psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.agentRole = 'ANM';
     this.month = new Date().toLocaleString('default', { month: 'long' });
     this.getRoleMaster();

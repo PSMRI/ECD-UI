@@ -30,6 +30,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import * as moment from 'moment';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-ben-registration',
@@ -88,6 +89,7 @@ import * as moment from 'moment';
     private setLanguageService: SetLanguageService,
     private masterService:MasterService,
     private loginService: LoginserviceService,
+    readonly sessionstorage:SessionStorageService,
 
  ) { 
  }
@@ -142,7 +144,7 @@ else{
       } 
     })
     
-    this.selectedRole = sessionStorage.getItem('role');
+    this.selectedRole = this.sessionstorage.getItem('role');
    
   this.minimumDate = new Date();
   this.minimumDate.setDate(this.maxDate.getDate()-1000);
@@ -158,7 +160,7 @@ else{
 
   ngDoCheck() {
     this.getSelectedLanguage();
-    this.selectedRole = sessionStorage.getItem('role');
+    this.selectedRole = this.sessionstorage.getItem('role');
   }
   genderMaster() {
     this.masterService.getGenderMaster().subscribe(
@@ -466,7 +468,7 @@ else{
         //  "blockID" : this.benRegistrationForm.controls.blockID.value,
         //  "districtBranchID" : this.benRegistrationForm.controls.districtBranchID.value,
          "addressLine1" : (this.benRegistrationForm.controls.address.value !== undefined && this.benRegistrationForm.controls.address.value !== null && this.benRegistrationForm.controls.address.value !== "") ? this.benRegistrationForm.controls.address.value : undefined,
-         "createdBy" : sessionStorage.getItem("userName")
+         "createdBy" : this.sessionstorage.userName
     };
 
     const phoneDetails = [];
@@ -474,7 +476,7 @@ else{
 
       const phnReq = {
         "phoneNo" : this.benRegistrationForm.controls.phoneNo.value,
-        "createdBy" : sessionStorage.getItem("userName")
+        "createdBy" : this.sessionstorage.userName
       }
       phoneDetails.push(phnReq);
     }
@@ -483,7 +485,7 @@ else{
 
       const altPhnReq = {
         "phoneNo" : this.benRegistrationForm.controls.alternatePhoneNo.value,
-        "createdBy" : sessionStorage.getItem("userName")
+        "createdBy" : this.sessionstorage.userName
       }
       phoneDetails.push(altPhnReq);
     }
@@ -516,8 +518,8 @@ else{
       "anmPh":this.benRegistrationForm.controls.anmPhoneNo.value,
       "phcName" : this.benRegistrationForm.controls.phcName.value,
       "blockName": this.benRegistrationForm.controls.healthBlock.value,
-      "providerServiceMapID": sessionStorage.getItem('providerServiceMapID'),
-      "createdBy": sessionStorage.getItem("userName")
+      "providerServiceMapID": this.sessionstorage.getItem('providerServiceMapID'),
+      "createdBy": this.sessionstorage.userName
     };
 
 
@@ -528,7 +530,7 @@ else{
       if(response !== null && response.response && response.response.BenRegId !== undefined && response.response.BenRegId !== null) {
         const benRegId = response.response.BenRegId;
         const benId = response.response.BeneficiaryId;
-        sessionStorage.setItem('beneficiaryRegId', benRegId);
+        this.sessionstorage.setItem('beneficiaryRegId', benRegId);
         this.associateAnmMoService.selectedBenDetails.childName = this.benRegistrationForm.controls.childName.value,
         this.associateAnmMoService.selectedBenDetails.motherName = this.benRegistrationForm.controls.motherName.value,
         this.associateAnmMoService.selectedBenDetails.spouseName = this.benRegistrationForm.controls.husbandName.value,
@@ -616,8 +618,8 @@ else{
       // "blockID" : this.benRegistrationForm.controls.blockID.value,
       // "districtBranchID" : this.benRegistrationForm.controls.districtBranchID.value,
       "addressLine1" : (this.benRegistrationForm.controls.address.value !== undefined && this.benRegistrationForm.controls.address.value !== null && this.benRegistrationForm.controls.address.value !== "") ? this.benRegistrationForm.controls.address.value : undefined,
-      "createdBy" : sessionStorage.getItem("userName"),
-      "modifiedBy" : sessionStorage.getItem("userName")
+      "createdBy" : this.sessionstorage.userName,
+      "modifiedBy" : this.sessionstorage.userName
  };
 
  const phoneDetails = [];
@@ -627,8 +629,8 @@ else{
     "parentBenRegID": benRegId,
     "beneficiaryRegID": benRegId,
      "phoneNo" : this.benRegistrationForm.controls.phoneNo.value,
-     "modifiedBy": sessionStorage.getItem("userName"),
-     "createdBy" : sessionStorage.getItem("userName")
+     "modifiedBy": this.sessionstorage.userName,
+     "createdBy" : this.sessionstorage.userName
    }
    phoneDetails.push(phnReq);
  }
@@ -639,8 +641,8 @@ else{
     "parentBenRegID": benRegId,
     "beneficiaryRegID": benRegId,
      "phoneNo" : this.benRegistrationForm.controls.alternatePhoneNo.value,
-     "modifiedBy": sessionStorage.getItem("userName"),
-     "createdBy" : sessionStorage.getItem("userName")
+     "modifiedBy": this.sessionstorage.userName,
+     "createdBy" : this.sessionstorage.userName
    }
    phoneDetails.push(altPhnReq);
  }
@@ -680,9 +682,9 @@ else{
    "anmPh":this.benRegistrationForm.controls.anmPhoneNo.value,
    "phcName" : this.benRegistrationForm.controls.phcName.value,
    "blockName": this.benRegistrationForm.controls.healthBlock.value,
-   "providerServiceMapID": sessionStorage.getItem('providerServiceMapID'),
-   "createdBy": sessionStorage.getItem("userName"),
-   "modifiedBy": sessionStorage.getItem("userName")
+   "providerServiceMapID": this.sessionstorage.getItem('providerServiceMapID'),
+   "createdBy": this.sessionstorage.userName,
+   "modifiedBy": this.sessionstorage.userName
  };
 
 console.log(reqObj);

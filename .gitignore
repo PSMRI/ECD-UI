@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /bazel-out
+/environments/enckey.ts``
 
 # Node
 /node_modules

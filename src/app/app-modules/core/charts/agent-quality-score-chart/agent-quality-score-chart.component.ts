@@ -29,6 +29,7 @@ import { MasterService } from 'src/app/app-modules/services/masterService/master
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from '../../../services/set-language/set-language.service';
 import { ajax, css } from "jquery";
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 /**
  * DE40034072
@@ -53,6 +54,7 @@ export class AgentQualityScoreChartComponent implements OnInit, DoCheck {
     private setLanguageService: SetLanguageService,
     private qualitySupervisorService: QualitySupervisorService,
     private confirmationService: ConfirmationService,
+    readonly sessionstorage:SessionStorageService,
     private masterService: MasterService
   ) {}
 
@@ -115,7 +117,7 @@ export class AgentQualityScoreChartComponent implements OnInit, DoCheck {
   getAgentQualityScoreData() {
     this.qualityGradeData = [];
     this.setAgentGradeData(this.qualityGradeData);
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
     const month = (this.month !== null && this.month !== undefined) ? this.month : null;
 
     this.qualitySupervisorService
