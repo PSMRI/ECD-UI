@@ -29,6 +29,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { CallConfigurationComponent } from '../call-configuration/call-configuration.component';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 /**
  * KA40094929
@@ -67,6 +68,7 @@ export class EditCallConfigurationComponent implements OnInit, DoCheck {
     private confirmationService: ConfirmationService,
     private setLanguageService: SetLanguageService,
     private route: ActivatedRoute,
+    readonly sessionstorage:SessionStorageService,
     private supervisorService: SupervisorService
 
   ) { }
@@ -395,9 +397,9 @@ export class EditCallConfigurationComponent implements OnInit, DoCheck {
       noOfAttempts: this.editcallconfigurationform.controls.noOfAttempts.value,
       nextAttemptPeriod: this.editcallconfigurationform.controls.nextCallAttempt.value,
       deleted: false,
-      createdBy: sessionStorage.getItem('userName'),
-      modifiedBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      createdBy: this.sessionstorage.userName,
+      modifiedBy: this.sessionstorage.userName,
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
     }));
     const reqObj = dataArray;
     console.log("reqObj", reqObj)

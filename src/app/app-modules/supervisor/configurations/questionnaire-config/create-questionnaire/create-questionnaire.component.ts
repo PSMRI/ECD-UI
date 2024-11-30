@@ -34,6 +34,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { QuestionnaireConfigurationComponent } from '../questionnaire-configuration/questionnaire-configuration.component';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 /**
  * DE40034072
  * 25-01-2023
@@ -80,6 +81,7 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
     private confirmationService: ConfirmationService,
     private setLanguageService: SetLanguageService,
     private supervisorService: SupervisorService,
+    readonly sessionstorage:SessionStorageService,
     private masterService: MasterService
   ) {}
 
@@ -423,9 +425,9 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
         "id": null,
         "options": value.trim(),
         "questionId": this.editQuestionnaireForm.controls['questionnaireId'].value,
-        "psmId": sessionStorage.getItem('providerServiceMapID'),
+        "psmId": this.sessionstorage.getItem('providerServiceMapID'),
         "deleted": false,
-        "createdBy": sessionStorage.getItem("userName"),
+        "createdBy": this.sessionstorage.userName,
       };
       this.finalOptionList.push(optionObj);
       this.editQuestionnaireForm.markAsDirty();
@@ -473,8 +475,8 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
           : null,
       questionnaireValues: this.enableOption === true ? this.finalOptionList : null,
       options: this.enableOption === true ? this.optionList : null,
-      createdBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID')
+      createdBy: this.sessionstorage.userName,
+      psmId: this.sessionstorage.getItem('providerServiceMapID')
     };
 
     const isDuplicate = this.checkDuplicateValues(questionnaireObj);
@@ -563,8 +565,8 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
     console.log(this.dataSource.data);
     // let reqObj: any = {
     //   questionnaireDetail: this.dataSource.data,
-    //   createdBy: sessionStorage.getItem('userName'),
-    //   psmId: sessionStorage.getItem('providerServiceMapID'),
+    //   createdBy: this.sessionstorage.userName,
+    //   psmId: this.sessionstorage.getItem('providerServiceMapID'),
     // };
     this.supervisorService.saveQuestionnaire(this.dataSource.data).subscribe(
       (response: any) => {
@@ -649,10 +651,10 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
             "id": null,
         "options": optionVal,
         "questionId": editValue.questionnaireId,
-        "psmId": sessionStorage.getItem('providerServiceMapID'),
+        "psmId": this.sessionstorage.getItem('providerServiceMapID'),
         "deleted": false,
-        "createdBy": sessionStorage.getItem("userName"),
-        //  "modifiedBy": sessionStorage.getItem("userName"),
+        "createdBy": this.sessionstorage.userName,
+        //  "modifiedBy": this.sessionstorage.userName,
        
           };
           optionReq.push(req);
@@ -663,7 +665,7 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
         if(this.optionList.length > 0 && !(this.optionList.includes(newQuestionOptionValue.options))) {
      
             newQuestionOptionValue.deleted = true;
-            newQuestionOptionValue.modifiedBy = sessionStorage.getItem("userName");
+            newQuestionOptionValue.modifiedBy = this.sessionstorage.userName;
             optionReq.push(newQuestionOptionValue);
         }
     
@@ -673,7 +675,7 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
         this.selectedQuestionnaireList.questionnaireValues.filter((newQuestionOptionValue:any) => {
          
               newQuestionOptionValue.deleted = true;
-              newQuestionOptionValue.modifiedBy = sessionStorage.getItem("userName");
+              newQuestionOptionValue.modifiedBy = this.sessionstorage.userName;
               optionReq.push(newQuestionOptionValue);
            
         });
@@ -695,9 +697,9 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
       answerType: editValue.answerType,
       questionnaireValues: optionReq,
       deleted: false,
-      createdBy: sessionStorage.getItem('userName'),
-      modifiedBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      createdBy: this.sessionstorage.userName,
+      modifiedBy: this.sessionstorage.userName,
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
 
     const isDuplicateFromMainList =

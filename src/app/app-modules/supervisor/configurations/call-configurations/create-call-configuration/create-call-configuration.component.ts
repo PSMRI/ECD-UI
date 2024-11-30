@@ -29,6 +29,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { CallConfigurationComponent } from '../call-configuration/call-configuration.component';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 /**
  * KA40094929
@@ -71,7 +72,7 @@ export class CreateCallConfigurationComponent implements OnInit, DoCheck, OnDest
     private confirmationService: ConfirmationService,
     private setLanguageService: SetLanguageService,
     private supervisorService: SupervisorService,
-
+    readonly sessionstorage:SessionStorageService,
   ) { }
 
   createcallconfigurationform = this.fb.group({
@@ -191,8 +192,8 @@ export class CreateCallConfigurationComponent implements OnInit, DoCheck, OnDest
       configTerms: this.createcallconfigurationform.controls.configTerms.value,
       noOfAttempts: this.createcallconfigurationform.controls.noOfAttempts.value ? (this.createcallconfigurationform.controls.noOfAttempts.value) : 0,
       nextAttemptPeriod: this.createcallconfigurationform.controls.nextCallAttempt.value,
-      createdBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      createdBy: this.sessionstorage.userName,
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
     }));
     const reqObj = dataArray;
     console.log("reqObj", reqObj)

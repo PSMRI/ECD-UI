@@ -32,6 +32,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { SectionQuestionnaireMappingComponent } from '../section-questionnaire-mapping/section-questionnaire-mapping.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 /**
  * DE40034072
  * 02-02-2023
@@ -94,6 +95,7 @@ export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoChe
     private setLanguageService: SetLanguageService,
     private supervisorService: SupervisorService,
     private fb: FormBuilder,
+    readonly sessionstorage:SessionStorageService,
     private masterService: MasterService
   ) {}
 
@@ -161,7 +163,7 @@ export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoChe
   getSectionMaster() {
 
 
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
 
     this.masterService.getSectionMaster(psmId).subscribe(
       (response: any) => {
@@ -185,7 +187,7 @@ export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoChe
    * @param sectionId
    */
   getUnMappedQuestionnaireMaster(sectionId: any) {
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.questionnaireList.controls = [];
     this.quesDupList.controls = [];
     this.dataSource.data.filter((quesValues: any) => {
@@ -567,8 +569,8 @@ export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoChe
       questionIds: this.selectedQuestionnaires,
       sectionId: this.sectionQuestionnaireMapForm.controls['sectionid'].value,
       // sectionName:this.sectionQuestionnaireMapForm.controls['sectionName'].value,
-      createdBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      createdBy: this.sessionstorage.userName,
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
   
     this.supervisorService.saveQuestionnaireSectionMapping(reqObj).subscribe(
@@ -648,7 +650,7 @@ export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoChe
   }
 
   getRolesForQuestionare(){
-    const  providerServiceMapId = sessionStorage.getItem('providerServiceMapID');
+    const  providerServiceMapId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getRoleMaster(providerServiceMapId).subscribe((res:any)=>{
       if(res){
         res.filter((role: any) => {

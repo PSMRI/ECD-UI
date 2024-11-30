@@ -30,6 +30,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { CreateSectionConfigurationComponent } from '../create-section-configuration/create-section-configuration.component';
 import { EditSectionConfigurationComponent } from '../edit-section-configuration/edit-section-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 /**
  * KA40094929
@@ -63,6 +64,7 @@ export class SectionConfigurationComponent implements OnInit, DoCheck, AfterView
     private supervisorService: SupervisorService,
     private setLanguageService: SetLanguageService,
     private confirmationService: ConfirmationService,
+    readonly sessionstorage:SessionStorageService,
     
   ) { }
 
@@ -84,7 +86,7 @@ export class SectionConfigurationComponent implements OnInit, DoCheck, AfterView
   }
 
   getSectionConfigurations(){
-    const reqObj = sessionStorage.getItem('providerServiceMapID');
+    const reqObj = this.sessionstorage.getItem('providerServiceMapID');
     this.supervisorService.getSectionConfigurations(reqObj).subscribe((res: any) => {
       if(res && res.length > 0){
           this.sectionList = res;
@@ -134,8 +136,8 @@ export class SectionConfigurationComponent implements OnInit, DoCheck, AfterView
           sectionId: element.sectionId,
           sectionName: element.sectionName,
           sectionDesc: element.sectionDesc,
-          createdBy: sessionStorage.getItem('userName'),
-          psmId: sessionStorage.getItem('providerServiceMapID'),
+          createdBy: this.sessionstorage.userName,
+          psmId: this.sessionstorage.getItem('providerServiceMapID'),
           deleted: status === 'activate' ? false : true
         }
         this.supervisorService.updateSectionConfiguration(reqObj).subscribe((res: any) => {
@@ -162,7 +164,7 @@ export class SectionConfigurationComponent implements OnInit, DoCheck, AfterView
 
   getMappedSections(){
     this.mappedSectionsData = [];
-   const psmId = sessionStorage.getItem('providerServiceMapID');
+   const psmId = this.sessionstorage.getItem('providerServiceMapID');
    const callConfigId = 0; 
    this.supervisorService.getMappedSections(psmId, callConfigId).subscribe((res: any) => {
        if(res && res.length > 0 ){
