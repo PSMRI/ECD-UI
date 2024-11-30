@@ -294,7 +294,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       ) {
         /** setting session variables */
         sessionStorage.setItem('authenticationToken', loginDataResponse.key);
-        const tkn = loginDataResponse.Jwttoken;
+        let tkn = loginDataResponse.Jwttoken;
         this.cookieService.set('Jwttoken', tkn );
         sessionStorage.setItem(
           'isAuthenticated',
