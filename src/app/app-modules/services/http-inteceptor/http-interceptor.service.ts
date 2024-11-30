@@ -39,6 +39,8 @@ import { ConfirmationService } from '../confirmation/confirmation.service';
 import { environment } from 'src/environments/environment';
 import { SetLanguageService } from '../set-language/set-language.service';
 import { throwError } from 'rxjs/internal/observable/throwError';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
@@ -51,7 +53,9 @@ export class HttpInterceptorService implements HttpInterceptor {
     private router: Router,
     private confirmationService: ConfirmationService,
     private http: HttpClient,
-    private setLanguageService: SetLanguageService
+    readonly sessionstorage:SessionStorageService,
+    private setLanguageService: SetLanguageService,
+    private cookieService: CookieService,
   ) {}
 
   intercept(
@@ -59,14 +63,17 @@ export class HttpInterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const key: any = sessionStorage.getItem('authenticationToken');
+    const tkn:any = this.cookieService.get('Jwttoken');
     let modifiedReq = null;
     if (key !== undefined && key !== null) {
       modifiedReq = req.clone({
-        headers: req.headers.set('Authorization', key),
+        headers: req.headers.set('Authorization', key)
+        .set('Jwttoken', tkn),
       });
     } else {
       modifiedReq = req.clone({
-        headers: req.headers.set('Authorization', ''),
+        headers: req.headers.set('Authorization', '')
+        .set('Jwttoken', tkn),
       });
     }
     return next.handle(modifiedReq).pipe(

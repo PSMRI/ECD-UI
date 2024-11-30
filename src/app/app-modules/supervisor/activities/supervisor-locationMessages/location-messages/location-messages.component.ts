@@ -34,7 +34,7 @@ import { CreateLocationMessageComponent } from '../create-location-message/creat
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
-
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-location-messages',
@@ -66,13 +66,19 @@ export class LocationMessagesComponent implements OnInit, DoCheck, AfterViewInit
 
 
 
-  constructor(private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService,  private masterService: MasterService) { }
+  constructor(
+    private fb: FormBuilder,
+    private setLanguageService: SetLanguageService,
+    private supervisorService: SupervisorService,
+    private confirmationService: ConfirmationService,  
+    readonly sessionstorage:SessionStorageService,
+    private masterService: MasterService) { }
 
   ngOnInit(): void {
     this.getSelectedLanguage();
     this.getNotificationType();
     this.getOfficesForAlert();
-    this.uname = sessionStorage.getItem("userName");
+    this.uname = this.sessionstorage.userName;
     // this.getRolesForAlert();
 
 // this.dataSource.data = this.locationData;
@@ -93,7 +99,7 @@ export class LocationMessagesComponent implements OnInit, DoCheck, AfterViewInit
     const validStartDate = moment(startDate).format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
     const validEndDate = moment(endDate).endOf('day').format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');    
     const reqObj = {
-      providerServiceMapID: sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
       notificationTypeID: this.communicationTypeId,
       workingLocationIDs:this.allOfficeIDs,
       validStartDate : validStartDate,
@@ -168,7 +174,7 @@ export class LocationMessagesComponent implements OnInit, DoCheck, AfterViewInit
       .subscribe((response) => {
         if (response) {
           const reqObj: any = {
-            providerServiceMapID : sessionStorage.getItem('providerServiceMapID'),
+            providerServiceMapID : this.sessionstorage.getItem('providerServiceMapID'),
             notificationTypeID: this.communicationTypeId,
             notificationID: element.notificationID ,
             validFrom : element.validFrom,
@@ -176,7 +182,7 @@ export class LocationMessagesComponent implements OnInit, DoCheck, AfterViewInit
             notification: element.notification,
             notificationDesc: element.notificationDesc,
             deleted: type === 'activate' ? 'false' : 'true',
-            modifiedBy: sessionStorage.getItem('userName'),
+            modifiedBy: this.sessionstorage.userName,
           };
 
               this.supervisorService.saveEditAlert(reqObj).subscribe(
@@ -211,7 +217,7 @@ export class LocationMessagesComponent implements OnInit, DoCheck, AfterViewInit
 }
 getNotificationType(){
   const reqObj = {
-    providerServiceMapID : sessionStorage.getItem('providerServiceMapID')
+    providerServiceMapID : this.sessionstorage.getItem('providerServiceMapID')
 } 
   this.supervisorService.getNotificationType(reqObj).subscribe((res:any)=>{
     if(res.statusCode === 200){
@@ -235,8 +241,8 @@ getNotificationType(){
 
   // onPublish(){
   //   let reqObj= {
-  //     providerServiceMapId: sessionStorage.getItem('providerServiceMapID'),
-  //     modifiedBy: sessionStorage.getItem('userName'),
+  //     providerServiceMapId: this.sessionstorage.getItem('providerServiceMapID'),
+  //     modifiedBy: this.sessionstorage.userName,
   //   }
   //   this.supervisorService.publishLocationMessages(reqObj).subscribe((res:any)=>{
   //   if(res.data !== undefined && res.data !== null){
@@ -248,7 +254,7 @@ getNotificationType(){
   //  }
   //  getOfficesForAlert(){
   //   let reqObj = { 
-  //     providerServiceMapId: sessionStorage.getItem('providerServiceMapID'),
+  //     providerServiceMapId: this.sessionstorage.getItem('providerServiceMapID'),
   //     roleID: this.roleID
   //    }
   //   this.supervisorService.getOffices(reqObj).subscribe((res:any)=>{
@@ -258,7 +264,7 @@ getNotificationType(){
   //   })
   //  }
    getOfficesForAlert(){
-    const  providerServiceMapId = sessionStorage.getItem('providerServiceMapID');
+    const  providerServiceMapId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getOfficeMasterData(providerServiceMapId).subscribe((res:any)=>{
       if(res !== undefined && res.data !== undefined){
         this.offices = res.data.filter((item : any) => {

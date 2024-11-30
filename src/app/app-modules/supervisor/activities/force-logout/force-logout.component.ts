@@ -27,6 +27,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { environment } from 'src/environments/environment';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-force-logout',
@@ -37,7 +38,7 @@ export class ForceLogoutComponent implements OnInit {
   currentLanguageSet: any;
   languageData: any;
 
-  constructor(private setLanguageService: SetLanguageService,private fb: FormBuilder,private supervisorService: SupervisorService,private confirmationService: ConfirmationService) { }
+  constructor(readonly sessionstorage:SessionStorageService,private setLanguageService: SetLanguageService,private fb: FormBuilder,private supervisorService: SupervisorService,private confirmationService: ConfirmationService) { }
 
   kickoutForm = this.fb.group({
     userName: ['',Validators.required]
@@ -54,7 +55,7 @@ export class ForceLogoutComponent implements OnInit {
 
   kickoutUsername(){
    const reqObj = {
-    providerServiceMapID: sessionStorage.getItem('providerServiceMapID'),
+    providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
     userName : this.kickoutForm.controls.userName.value,
    }
    this.supervisorService.getUserLogout(reqObj).subscribe((res:any)=>{

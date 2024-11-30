@@ -31,6 +31,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { CallConfigurationComponent } from '../call-configuration/call-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 /**
  * KA40094929
@@ -66,6 +67,7 @@ export class CallSectionQuestionaireMappingComponent implements OnInit, AfterVie
     private setLanguageService: SetLanguageService,
     private confirmationService: ConfirmationService,
     private changeDetectorRefs: ChangeDetectorRef,
+    readonly sessionstorage:SessionStorageService,
 
   ) { }
 
@@ -135,7 +137,7 @@ export class CallSectionQuestionaireMappingComponent implements OnInit, AfterVie
   
    getSectionMasters(){
      this.sectionMasters = [];
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.supervisorService.getSectionConfigurations(psmId).subscribe((res: any) => {
       if(res && res.length > 0){
           res.filter((item: any) => {
@@ -159,7 +161,7 @@ export class CallSectionQuestionaireMappingComponent implements OnInit, AfterVie
    getAddedSections(){
      let addedSectionsData = [];
      this.sectionMappedData = [];
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
     const callConfigId = this.callSectionQuestionaireMappingForm.controls.callConfigId.value; 
     this.supervisorService.getMappedSections(psmId, callConfigId).subscribe((res: any) => {
       if(res){
@@ -293,16 +295,16 @@ export class CallSectionQuestionaireMappingComponent implements OnInit, AfterVie
       sectionRank: value.sectionRank,
       isChecked: value.isChecked,
       callConfigId: this.callSectionQuestionaireMappingForm.controls.callConfigId.value,
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
       deleted: (value.isChecked === true) ? false : true,
-      createdBy: sessionStorage.getItem('userName'),
-      modifiedBy: (value.id !== undefined && value.id !== null) ? sessionStorage.getItem('userName') : null,
+      createdBy: this.sessionstorage.userName,
+      modifiedBy: (value.id !== undefined && value.id !== null) ? this.sessionstorage.userName : null,
     }));
     const reqObj = { 
       callConfigId: this.callSectionQuestionaireMappingForm.controls.callConfigId.value,
       outboundCallType: this.callSectionQuestionaireMappingForm.controls.callType.value,
-      psmId: sessionStorage.getItem('providerServiceMapID'),
-      createdBy: sessionStorage.getItem('userName'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
+      createdBy: this.sessionstorage.userName,
       sections: sections
     }
     console.log('reqObj for section mapping', reqObj)

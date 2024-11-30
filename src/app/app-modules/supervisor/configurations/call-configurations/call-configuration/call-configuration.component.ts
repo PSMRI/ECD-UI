@@ -33,6 +33,7 @@ import { CallSectionQuestionaireMappingComponent } from '../call-section-questio
 import { CreateCallConfigurationComponent } from '../create-call-configuration/create-call-configuration.component';
 import { EditCallConfigurationComponent } from '../edit-call-configuration/edit-call-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 /**
  * KA40094929
@@ -68,6 +69,7 @@ export class CallConfigurationComponent implements OnInit, DoCheck {
     private router: Router,
     private supervisorService: SupervisorService,
     private setLanguageService: SetLanguageService,
+    readonly sessionstorage:SessionStorageService,
     private confirmationService: ConfirmationService
   ) { }
 
@@ -116,7 +118,7 @@ export class CallConfigurationComponent implements OnInit, DoCheck {
 
   getCallConfigurations(){
     this.callConfigList = [];
-    const reqObj = sessionStorage.getItem("providerServiceMapID");
+    const reqObj = this.sessionstorage.getItem("providerServiceMapID");
     this.supervisorService.getCallConfigurations(reqObj).subscribe((res: any) => {
       if(res && res.length > 0){
         this.filterConfigData(res);
@@ -194,9 +196,9 @@ export class CallConfigurationComponent implements OnInit, DoCheck {
         const dataArray = [...element.configurations].map(element => ({
           ...element,
           deleted: true,
-          createdBy: sessionStorage.getItem('userName'),
-          modifiedBy: sessionStorage.getItem('userName'),
-          psmId: sessionStorage.getItem('providerServiceMapID'),
+          createdBy: this.sessionstorage.userName,
+          modifiedBy: this.sessionstorage.userName,
+          psmId: this.sessionstorage.getItem('providerServiceMapID'),
         }));
         const reqObj = dataArray;
         console.log("reqObj", reqObj)

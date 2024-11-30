@@ -32,6 +32,7 @@ import { LocationMessagesComponent } from '../location-messages/location-message
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-create-location-message',
@@ -64,13 +65,13 @@ export class CreateLocationMessageComponent implements OnInit, DoCheck {
 
   Stime = '';
   Etime = '';
-  constructor(private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService,private masterService: MasterService) { }
+  constructor( readonly sessionstorage:SessionStorageService,private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService,private masterService: MasterService) { }
 
   ngOnInit(): void {
     this.getSelectedLanguage();
     this.getOfficesForAlert();
     this.getNotificationType();
-    this.uname = sessionStorage.getItem("userName");
+    this.uname = this.sessionstorage.userName;
   }
    
     createLocationForm = this.fb.group({
@@ -92,7 +93,7 @@ export class CreateLocationMessageComponent implements OnInit, DoCheck {
   }
 
    getOfficesForAlert(){
-    const providerServiceMapId = sessionStorage.getItem('providerServiceMapID');
+    const providerServiceMapId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getOfficeMasterData(providerServiceMapId).subscribe((res:any)=>{
       if(res !== undefined && res.data !== undefined){
         this.offices = res.data;
@@ -183,7 +184,7 @@ export class CreateLocationMessageComponent implements OnInit, DoCheck {
       notification: this.createLocationForm.controls.subject.value,
       notificationDesc: this.createLocationForm.controls.message.value,
       notificationTypeID : this.communicationTypeId,
-      providerServiceMapID: sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
       workingLocationID : this.createLocationForm.controls.officeType.value,
       validFrom: new Date(
         startDate.valueOf() - 1 * startDate.getTimezoneOffset() * 60 * 1000
@@ -227,7 +228,7 @@ export class CreateLocationMessageComponent implements OnInit, DoCheck {
   }
   getNotificationType(){
     const reqObj = {
-      providerServiceMapID : sessionStorage.getItem('providerServiceMapID')
+      providerServiceMapID : this.sessionstorage.getItem('providerServiceMapID')
   } 
     this.supervisorService.getNotificationType(reqObj).subscribe((res:any)=>{
       if(res.statusCode === 200){

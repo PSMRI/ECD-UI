@@ -28,6 +28,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 
 @Component({
@@ -106,6 +107,7 @@ export class CallReallocationComponent implements OnInit, DoCheck {
     private supervisorService: SupervisorService,
     private confirmationService: ConfirmationService,
     private setLanguageService: SetLanguageService,
+    readonly sessionstorage:SessionStorageService,
     private masterService: MasterService) { }
 
   ngOnInit(): void {
@@ -151,8 +153,8 @@ export class CallReallocationComponent implements OnInit, DoCheck {
   });
 
   getMasterData() {
-    const psmId = sessionStorage.getItem('providerServiceMapID');
-    // var psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
+    // var psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getRoleMaster(psmId).subscribe((res:any)=>{
       if(res){
         this.agentList = res;
@@ -247,8 +249,8 @@ export class CallReallocationComponent implements OnInit, DoCheck {
       "roleName": this.selectedRoleName,
       "recordType": this.callReallocationForm.controls.recordType.value,
       "phoneNoType": this.callReallocationForm.controls.phoneNoType.value,
-      "psmId": sessionStorage.getItem('providerServiceMapID'),
-      "createdBy": sessionStorage.getItem("userName"),
+      "psmId": this.sessionstorage.getItem('providerServiceMapID'),
+      "createdBy": this.sessionstorage.userName,
       "tdate": toDate,
       "fdate": fromDate,
       "isStickyAgent" : this.callReallocationForm.controls.isStickyAgent.value
@@ -306,9 +308,9 @@ export class CallReallocationComponent implements OnInit, DoCheck {
     const fromDate =  moment(this.range.controls.start.value).format('YYYY-MM-DDThh:mm:ssZ');
     const toDate =  moment(this.range.controls.end.value).format('YYYY-MM-DDThh:mm:ssZ');
 
-    const userIdString = sessionStorage.getItem('userId');
-    const roleIdString = sessionStorage.getItem('roleId');
-    const psmIdString = sessionStorage.getItem('providerServiceMapID');
+    const userIdString = this.sessionstorage.userID;
+    const roleIdString = this.sessionstorage.getItem('roleId');
+    const psmIdString = this.sessionstorage.getItem('providerServiceMapID');
 
   
 
@@ -323,8 +325,8 @@ export class CallReallocationComponent implements OnInit, DoCheck {
       "roleName": this.selectedRoleName,
       "recordType": this.callReallocationForm.controls.recordType.value,
       "phoneNoType": this.callReallocationForm.controls.phoneNoType.value,
-      "psmId": sessionStorage.getItem('providerServiceMapID'),
-      "createdBy": sessionStorage.getItem("userName"),
+      "psmId": this.sessionstorage.getItem('providerServiceMapID'),
+      "createdBy": this.sessionstorage.userName,
       "tdate": toDate,
       "fdate": fromDate,
       "isStickyAgent" : this.callReallocationForm.controls.isStickyAgent.value
@@ -376,8 +378,8 @@ export class CallReallocationComponent implements OnInit, DoCheck {
       "roleName": this.selectedRoleName,
       "recordType": this.callReallocationForm.controls.recordType.value,
       "phoneNoType": this.callReallocationForm.controls.phoneNoType.value,
-      "psmId": sessionStorage.getItem('providerServiceMapID'),
-      "createdBy": sessionStorage.getItem("userName"),
+      "psmId": this.sessionstorage.getItem('providerServiceMapID'),
+      "createdBy": this.sessionstorage.userName,
       "isIntroductory": this.selectedRoleName.toLowerCase() === 'associate' ? true : false,
       "tdate": toDate,
       "fdate": fromDate,

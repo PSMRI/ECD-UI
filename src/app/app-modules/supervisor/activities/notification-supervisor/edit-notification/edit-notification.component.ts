@@ -31,6 +31,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { SupervisorNotificationComponent } from '../supervisor-notification/supervisor-notification.component';
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-edit-notification',
@@ -70,7 +71,7 @@ export class EditNotificationComponent implements OnInit, DoCheck {
   Stime = '';
   Etime = '';
 
-  constructor(private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService) { }
+  constructor(readonly sessionstorage:SessionStorageService,private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     let startDate = new Date(this.data.validFrom);
@@ -90,7 +91,7 @@ export class EditNotificationComponent implements OnInit, DoCheck {
 
     this.getSelectedLanguage();
     this.getNotificationType();
-    this.uname = sessionStorage.getItem("userName");
+    this.uname = this.sessionstorage.userName;
     this.range.controls.start.setValue(startDate);
     this.range.controls.end.setValue(endDate);
     this.editNotifyForm.controls.startTime.patchValue(startTime);
@@ -119,7 +120,7 @@ export class EditNotificationComponent implements OnInit, DoCheck {
 
   getRolesForAlert(){
     const reqObj = { 
-      providerServiceMapId: sessionStorage.getItem('providerServiceMapID')
+      providerServiceMapId: this.sessionstorage.getItem('providerServiceMapID')
      }
     this.supervisorService.getRoles(reqObj).subscribe((res:any)=>{
       if(res.data !== undefined && res.data !== null &&  res.statusCode === 200 ){
@@ -130,7 +131,7 @@ export class EditNotificationComponent implements OnInit, DoCheck {
    }
    getNotificationType(){
     const reqObj = {
-      providerServiceMapID : sessionStorage.getItem('providerServiceMapID')
+      providerServiceMapID : this.sessionstorage.getItem('providerServiceMapID')
   } 
     this.supervisorService.getNotificationType(reqObj).subscribe((res:any)=>{
       if(res.statusCode === 200){
@@ -145,7 +146,7 @@ export class EditNotificationComponent implements OnInit, DoCheck {
   }
    getOfficesForAlert(){
     const reqObj = { 
-      providerServiceMapId: sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapId: this.sessionstorage.getItem('providerServiceMapID'),
       roleID: this.roleID
      }
     this.supervisorService.getOffices(reqObj).subscribe((res:any)=>{
@@ -230,7 +231,7 @@ export class EditNotificationComponent implements OnInit, DoCheck {
       // validTill += 'T' + endTime + ':00Z';
 
     const reqObj = {
-      providerServiceMapID: sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
       notificationTypeID:this.communicationTypeId,
       roleID: this.data.role.RoleID,
       notificationID:this.data.notificationID,

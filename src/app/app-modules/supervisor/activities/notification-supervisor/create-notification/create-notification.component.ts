@@ -32,6 +32,7 @@ import { SupervisorNotificationComponent } from '../supervisor-notification/supe
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
 
 @Component({
   selector: 'app-create-notification',
@@ -69,14 +70,14 @@ export class CreateNotificationComponent implements OnInit, DoCheck {
   Stime = '';
   Etime = '';
 
-  constructor(private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService,private masterService: MasterService) { }
+  constructor(readonly sessionstorage:SessionStorageService, private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService,private masterService: MasterService) { }
 
   ngOnInit(): void {
     this.getSelectedLanguage();
     this.getNotificationType();
     this.getRolesForAlert();
     this.getLocationsForAlert();
-    this.uname = sessionStorage.getItem("userName");
+    this.uname = this.sessionstorage.userName;
   }
 
   createAlertForm = this.fb.group({
@@ -97,7 +98,7 @@ export class CreateNotificationComponent implements OnInit, DoCheck {
   }
 
   getRolesForAlert(){
-    const  providerServiceMapId = sessionStorage.getItem('providerServiceMapID');
+    const  providerServiceMapId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getRoleMaster(providerServiceMapId).subscribe((res:any)=>{
       if(res){
         res.filter((role: any) => {
@@ -109,7 +110,7 @@ export class CreateNotificationComponent implements OnInit, DoCheck {
     })
    }
    getOfficesForAlert(){
-    const providerServiceMapId = sessionStorage.getItem('providerServiceMapID');
+    const providerServiceMapId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getOfficesMaster(providerServiceMapId).subscribe((res:any)=>{
       if(res){
         this.offices = res;
@@ -118,7 +119,7 @@ export class CreateNotificationComponent implements OnInit, DoCheck {
    }
 
    getLocationsForAlert() {
-    const providerServiceMapID = sessionStorage.getItem('providerServiceMapID');
+    const providerServiceMapID = this.sessionstorage.getItem('providerServiceMapID');
     const roleID = this.createAlertForm.controls.roleType.value;
     this.masterService.getLocationsMaster(providerServiceMapID, roleID).subscribe((res: any) => {
       if (res !== undefined && res.data !== undefined) {
@@ -129,7 +130,7 @@ export class CreateNotificationComponent implements OnInit, DoCheck {
 
    getNotificationType(){
     const reqObj = {
-      providerServiceMapID : sessionStorage.getItem('providerServiceMapID')
+      providerServiceMapID : this.sessionstorage.getItem('providerServiceMapID')
   } 
     this.supervisorService.getNotificationType(reqObj).subscribe((res:any)=>{
       if(res.statusCode === 200){
@@ -216,7 +217,7 @@ export class CreateNotificationComponent implements OnInit, DoCheck {
             notification: this.createAlertForm.controls.subject.value,
             notificationDesc: this.createAlertForm.controls.message.value,
             notificationTypeID : this.communicationTypeId,
-            providerServiceMapID: sessionStorage.getItem('providerServiceMapID'),
+            providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
             roleID : this.createAlertForm.controls.roleType.value,
             workingLocationID : workLocationId[i],
             validFrom: new Date(
