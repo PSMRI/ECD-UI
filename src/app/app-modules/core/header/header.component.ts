@@ -110,7 +110,7 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
     this.loginService.enableRoleFlag$.subscribe((response) => {
       if (response) {
         setTimeout(() => {
-          let userRolesString:any = this.sessionstorage.getItem('userRoles');
+          const userRolesString:any = this.sessionstorage.getItem('userRoles');
           if (userRolesString !== null) {
             this.roles = JSON.parse(userRolesString);
             this.getLanguageList();
@@ -122,8 +122,8 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
   }
 
   ngDoCheck(){
-    let isAuth = sessionStorage.getItem("isAuthenticated");
-    if(isAuth == 'true'){
+    const isAuth = sessionStorage.getItem("isAuthenticated");
+    if(isAuth === 'true'){
       this.isAuthenticated = true;
     }else{
       this.isAuthenticated = false;
@@ -164,7 +164,7 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
   refreshLogin(){
     this.auth.getUserDetails().subscribe((res: any) => {
       // console.log(">>>>>>", res);
-      if (res.statusCode == '200') {
+      if (res.statusCode === '200') {
         if (res.data.previlegeObj && res.data.previlegeObj[0]) {
           this.cookieService.set('Jwttoken', res.data.Jwttoken);
           delete res.data.Jwttoken;

@@ -42,7 +42,7 @@
     "jspdf": "^2.5.1",
     "moment": "^2.29.4",
     "ng-cryptostore": "^16.0.0",
-    "ngx-cookie-service": "^18.0.0",
+    "ngx-cookie-service": "^16.1.0",
     "ngx-material-timepicker": "^13.1.1",
     "rxjs": "^7.5.7",
     "rxjs-compat": "^6.6.7",
