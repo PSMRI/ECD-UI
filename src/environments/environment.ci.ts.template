@@ -24,11 +24,11 @@ const COMMON_API = '<%= COMMON_API_BASE %>';
 const ADMIN_API = '<%= ADMIN_API_BASE %>';
 const ECD_API = '<%= ECD_API_BASE %>';
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`;
-import { keys } from './enckey';
+const sessionStorageEncKey = '<%= SESSION_STORAGE_ENC_KEY %>';
 
 export const environment = {
   production: true,
-  encKey: keys.dev,
+  encKey: sessionStorageEncKey,
   ioturl: `${biologicalScreeningDeviceAPI}`,
   extendSessionUrl: `${ECD_API}common/extend/redisSession`,
   language: 'English',

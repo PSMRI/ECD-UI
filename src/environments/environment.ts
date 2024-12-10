@@ -30,12 +30,12 @@ const adminIP = 'https://amritwprdev.piramalswasthya.org/';
 const COMMON_API = `${commonIP}commonapi-ecd-jwt/`;
 const ADMIN_API = `${adminIP}adminapi-v3.0.0/`;
 const ECD_API = `${ecdIP}ecdapi-v3.0.0/`;
-const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
-import { keys } from './enckey';
+const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`;
+const sessionStorageEncKey = '<%= SESSION_STORAGE_ENC_KEY %>';
 
 export const environment = {
   production: false,
-  encKey: keys.dev,
+  encKey: sessionStorageEncKey,
   ioturl: `${biologicalScreeningDeviceAPI}`,
   extendSessionUrl: `${ECD_API}common/extend/redisSession`,
   language: 'English',
