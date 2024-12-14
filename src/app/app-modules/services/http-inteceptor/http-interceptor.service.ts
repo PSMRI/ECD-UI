@@ -39,7 +39,7 @@ import { ConfirmationService } from '../confirmation/confirmation.service';
 import { environment } from 'src/environments/environment';
 import { SetLanguageService } from '../set-language/set-language.service';
 import { throwError } from 'rxjs/internal/observable/throwError';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({

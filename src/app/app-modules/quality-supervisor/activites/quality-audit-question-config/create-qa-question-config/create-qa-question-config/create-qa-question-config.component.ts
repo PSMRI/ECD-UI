@@ -30,7 +30,7 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { QaQuestionConfigComponent } from '../../qa-question-config/qa-question-config/qa-question-config.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-create-qa-question-config',
@@ -267,7 +267,7 @@ export class CreateQaQuestionConfigComponent implements OnInit, DoCheck {
       options: options,
       scores: scores,
       isFatalQues: addData.isFatalQues,
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
     const checkTableList = this.checkDuplicateRank(sectionObj);

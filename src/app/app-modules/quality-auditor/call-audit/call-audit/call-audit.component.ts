@@ -36,7 +36,7 @@ import { ViewCasesheetComponent } from '../../view-casesheet/view-casesheet.comp
 import * as moment from 'moment';
 import { tr } from 'date-fns/locale';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 
 @Component({
@@ -237,7 +237,7 @@ export class CallAuditComponent implements OnInit {
   }
 
   getLanguageMaster(){
-    const userId = this.sessionstorage.userID;
+    const userId = this.sessionstorage.getItem('userID');
     this.masterService.getLanguageMasterByUserId(userId).subscribe((res: any) => {
       if(res && res.length > 0){
         this.languages = res;

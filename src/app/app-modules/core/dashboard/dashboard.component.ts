@@ -35,7 +35,7 @@ import { AssociateAnmMoService } from '../../services/associate-anm-mo/associate
 import { MasterService } from '../../services/masterService/master.service';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
 import { SupervisorService } from '../../services/supervisor/supervisor.service';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072
  * 18-01-2023
@@ -195,7 +195,7 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
 
   getALertsNotifLocMessages(){
     const reqObj = {
-      userID: this.sessionstorage.userID,
+      userID: this.sessionstorage.getItem('userID'),
       roleID: this.sessionstorage.getItem('roleId'),
       providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID')
     }
@@ -249,7 +249,7 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
 
   openDialogcomponent(notificationData: any, dialogTitle: any, notificationTypeID: any){
     const reqObj = {
-      userID: this.sessionstorage.userID,
+      userID: this.sessionstorage.getItem('userID'),
       roleID: this.sessionstorage.getItem('roleId'),
       notificationTypeID: notificationTypeID,
       providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID')
@@ -294,7 +294,7 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
 
   getdialogData(dialogTitle: any, notificationTypeID: any){
     const reqObj = {
-      userID: this.sessionstorage.userID,
+      userID: this.sessionstorage.getItem('userID'),
       roleID: this.sessionstorage.getItem('roleId'),
       notificationTypeID: notificationTypeID,
       providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID')

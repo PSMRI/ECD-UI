@@ -31,7 +31,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { CallConfigurationComponent } from '../call-configuration/call-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 /**
  * KA40094929
@@ -297,14 +297,14 @@ export class CallSectionQuestionaireMappingComponent implements OnInit, AfterVie
       callConfigId: this.callSectionQuestionaireMappingForm.controls.callConfigId.value,
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
       deleted: (value.isChecked === true) ? false : true,
-      createdBy: this.sessionstorage.userName,
-      modifiedBy: (value.id !== undefined && value.id !== null) ? this.sessionstorage.userName : null,
+      createdBy: this.sessionstorage.getItem('userName'),
+      modifiedBy: (value.id !== undefined && value.id !== null) ? this.sessionstorage.getItem('userName') : null,
     }));
     const reqObj = { 
       callConfigId: this.callSectionQuestionaireMappingForm.controls.callConfigId.value,
       outboundCallType: this.callSectionQuestionaireMappingForm.controls.callType.value,
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       sections: sections
     }
     console.log('reqObj for section mapping', reqObj)

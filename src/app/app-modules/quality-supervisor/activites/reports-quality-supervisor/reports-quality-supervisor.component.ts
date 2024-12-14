@@ -29,7 +29,7 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import * as FileSaver from 'file-saver';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-reports-quality-supervisor',

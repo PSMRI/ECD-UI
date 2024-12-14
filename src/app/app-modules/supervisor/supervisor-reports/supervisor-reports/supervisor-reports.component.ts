@@ -33,7 +33,7 @@ import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/materia
 import * as moment from 'moment';
 import { saveAs } from 'file-saver';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-supervisor-reports',

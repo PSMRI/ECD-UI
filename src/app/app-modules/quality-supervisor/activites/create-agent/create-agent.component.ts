@@ -31,7 +31,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { AgentMappingConfigurationComponent } from '../agent-mapping-configuration/agent-mapping-configuration.component';
 import { TitleCasePipe } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 @Component({
   selector: 'app-create-agent',
   templateUrl: './create-agent.component.html',
@@ -292,7 +292,7 @@ export class CreateAgentComponent implements OnInit, DoCheck {
       qualityAuditorName: formData.qualityAuditorName,
       roleName: formData.roleName,
       agentNames: this.selectedAgentlist,
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
     console.log(reqObj);

@@ -26,7 +26,7 @@ import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALO
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { CoreService } from 'src/app/app-modules/services/core/core.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-open-alerts-notification-locationmessages',
@@ -74,7 +74,7 @@ export class OpenAlertsNotificationLocationmessagesComponent implements OnInit, 
 
   getdialogData(){
     const reqObj = {
-      userID: this.sessionstorage.userID,
+      userID: this.sessionstorage.getItem('userID'),
       roleID: this.sessionstorage.getItem('roleId'),
       notificationTypeID: this.notificationIdType,
       providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID')
@@ -172,7 +172,7 @@ export class OpenAlertsNotificationLocationmessagesComponent implements OnInit, 
 
   reInitialize() {
     this.coreService.getAlertsNotifications({
-        userID: this.sessionstorage.userID,
+        userID: this.sessionstorage.getItem('userID'),
         roleID: this.sessionstorage.getItem('roleId'),
         notificationTypeID: this.data.notificationTypeID,
         providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID')

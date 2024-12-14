@@ -30,7 +30,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { CreateSectionQuestionnaireMappingComponent } from '../create-section-questionnaire-mapping/create-section-questionnaire-mapping.component';
 import { EditSectionQuestionnaireMappingComponent } from '../edit-section-questionnaire-mapping/edit-section-questionnaire-mapping.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072
  * 02-02-2023
@@ -178,7 +178,7 @@ export class SectionQuestionnaireMappingComponent implements OnInit, DoCheck, Af
         console.log(response);
         if (response) {
           tableValue.deleted = type === 'activate' ? false : true;
-          tableValue.modifiedBy= this.sessionstorage.userName
+          tableValue.modifiedBy= this.sessionstorage.getItem('userName')
           const reqObj: any = {
             id: tableValue.id,
             questionId: tableValue.questionid,
@@ -186,8 +186,8 @@ export class SectionQuestionnaireMappingComponent implements OnInit, DoCheck, Af
             // sectionName: tableValue.sectionName,
             rank: tableValue.sectionQuestionRank,
             role: tableValue.role,
-            createdBy: this.sessionstorage.userName,
-            modifiedBy: this.sessionstorage.userName,
+            createdBy: this.sessionstorage.getItem('userName'),
+            modifiedBy: this.sessionstorage.getItem('userName'),
             deleted: type === 'activate' ? false : true,
             psmId: this.sessionstorage.getItem('providerServiceMapID')
            

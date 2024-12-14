@@ -27,7 +27,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { SectionQuestionnaireMappingComponent } from '../section-questionnaire-mapping/section-questionnaire-mapping.component';
 /**
  * DE40034072
@@ -180,8 +180,8 @@ export class EditSectionQuestionnaireMappingComponent implements OnInit, DoCheck
       // ].value,
       rank: editValue.sectionQuestionRank,
       roles: editValue.roleType,
-      createdBy: this.sessionstorage.userName,
-      modifiedBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
+      modifiedBy: this.sessionstorage.getItem('userName'),
       deleted: false,
       psmId: this.sessionstorage.getItem('providerServiceMapID')
     };

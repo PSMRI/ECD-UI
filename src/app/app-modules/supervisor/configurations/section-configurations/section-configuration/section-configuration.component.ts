@@ -30,7 +30,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { CreateSectionConfigurationComponent } from '../create-section-configuration/create-section-configuration.component';
 import { EditSectionConfigurationComponent } from '../edit-section-configuration/edit-section-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 /**
  * KA40094929
@@ -136,7 +136,7 @@ export class SectionConfigurationComponent implements OnInit, DoCheck, AfterView
           sectionId: element.sectionId,
           sectionName: element.sectionName,
           sectionDesc: element.sectionDesc,
-          createdBy: this.sessionstorage.userName,
+          createdBy: this.sessionstorage.getItem('userName'),
           psmId: this.sessionstorage.getItem('providerServiceMapID'),
           deleted: status === 'activate' ? false : true
         }

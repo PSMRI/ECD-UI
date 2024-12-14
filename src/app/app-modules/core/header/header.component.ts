@@ -33,7 +33,7 @@ import { LoginserviceService } from '../../services/loginservice/loginservice.se
 import { SetLanguageService } from '../../services/set-language/set-language.service';
 import { QualityAuditorService } from '../../services/quality-auditor/quality-auditor.service';
 import { CookieService } from 'ngx-cookie-service';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { AuthService } from "../../services/auth.service";
 
 @Component({
@@ -129,7 +129,7 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
       this.isAuthenticated = false;
     }
     //this.isAuthenticated = this.sessionstorage.getItem("isAuthenticated") === "true" ? true : false;
-    this.userName = (this.sessionstorage.userName !== null && this.sessionstorage.userName !== undefined) ? this.sessionstorage.userName: null;
+    this.userName = (this.sessionstorage.getItem('userName') !== null && this.sessionstorage.getItem('userName') !== undefined) ? this.sessionstorage.getItem('userName'): null;
     const role = this.sessionstorage.getItem("role");
     if(role !== null && role !== undefined && role !== ""){
     this.headersForm.controls.selectRole.patchValue(role);
@@ -171,9 +171,9 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
           this.sessionstorage.setItem('loginDataResponse', JSON.stringify(res.data));
           this.sessionstorage.setItem('key', res.key);
           // this.sessionstorage.setItem('designation', this.designation);
-          this.sessionstorage.userID=res.userID;
-          this.sessionstorage.userName=res.userName;
-          this.sessionstorage.username=res.userName;
+          this.sessionstorage.setItem('userID', res.userID);
+          this.sessionstorage.setItem('userName', res.userName);
+          this.sessionstorage.setItem('username', res.userName);
         } else {
           this.confirmationService.openDialog('Seems you are logged in from somewhere else, Logout from there & try back in.', 'error');
         }

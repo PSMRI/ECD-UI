@@ -31,7 +31,7 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { NumberFormatStyle } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-create-sample-selection',
@@ -202,7 +202,7 @@ export class CreateSampleSelectionComponent implements OnInit, DoCheck {
       ancSampleSize:formData.ancSampleSize,
       pncSampleSize:formData.pncSampleSize,
       totalSampleSize:formData.totalSampleSize,
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
       const checkfromBufferList = this.checkDuplicateRange(sampleObj);

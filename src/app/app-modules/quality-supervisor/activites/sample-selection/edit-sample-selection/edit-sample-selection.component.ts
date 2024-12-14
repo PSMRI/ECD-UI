@@ -30,7 +30,7 @@ import { SampleSelectionConfigurationComponent } from '../sample-selection-confi
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-edit-sample-selection',
@@ -249,8 +249,8 @@ export class EditSampleSelectionComponent implements OnInit {
       pncSampleSize: editValue.pncSampleSize,
       totalSampleSize: editValue.totalSampleSize,
       deleted: false,
-      createdBy: this.sessionstorage.userName,
-      modifiedBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
+      modifiedBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
     const checkFromMainList = this.checkDuplicateRangeFromMainList(reqObj)

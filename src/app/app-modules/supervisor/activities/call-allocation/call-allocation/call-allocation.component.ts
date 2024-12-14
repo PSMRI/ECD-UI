@@ -29,7 +29,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 
 @Component({
@@ -343,7 +343,7 @@ this.callAllocationForm.controls.allocateTo.patchValue(null);
       "recordType": this.callAllocationForm.controls.recordType.value,
       "phoneNoType": this.callAllocationForm.controls.phoneNoType.value,
       "psmId": this.sessionstorage.getItem('providerServiceMapID'),
-      "createdBy": this.sessionstorage.userName,
+      "createdBy": this.sessionstorage.getItem('userName'),
       "isIntroductory": this.isIntroductory,
       "tdate": toDate,
       "fdate": fromDate

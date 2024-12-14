@@ -30,7 +30,7 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-role-selection',

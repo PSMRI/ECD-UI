@@ -7,7 +7,7 @@ import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/materia
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { EditQuestionMappingComponent } from '../edit-question-mapping/edit-question-mapping.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-map-questionaire-configuration',
@@ -188,10 +188,10 @@ export class MapQuestionaireConfigurationComponent implements OnInit, DoCheck, A
           parentQuestionId: element.parentQuestionId,
           answer:element.answer,
           childQuestionId: element.childQuestionId,
-          createdBy: this.sessionstorage.userName,
+          createdBy: this.sessionstorage.getItem('userName'),
           psmId: this.sessionstorage.getItem('providerServiceMapID'),
           deleted: status === 'activate' ? false : true,
-          modifiedBy: this.sessionstorage.userName,
+          modifiedBy: this.sessionstorage.getItem('userName'),
         }
 
         console.log("vaibhav",reqObj)

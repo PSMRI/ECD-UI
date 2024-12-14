@@ -30,7 +30,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { CreateQaQuestionConfigComponent } from '../../create-qa-question-config/create-qa-question-config/create-qa-question-config.component';
 import { EditQaConfigComponent } from '../../edit-qa-question-config/edit-qa-config/edit-qa-config.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-qa-question-config',
@@ -203,10 +203,10 @@ export class QaQuestionConfigComponent implements OnInit, AfterViewInit {
             questionnaire: tableValue.question,
             questionRank: tableValue.questionRank,
             answerType: tableValue.answerType,
-            createdBy: this.sessionstorage.userName,
+            createdBy: this.sessionstorage.getItem('userName'),
             psmId: this.sessionstorage.getItem('providerServiceMapID'),
             deleted: type === 'activate' ? false : true,
-            modifiedBy: this.sessionstorage.userName,
+            modifiedBy: this.sessionstorage.getItem('userName'),
           };
 
           this.qualitysupervisorService.updateQuestionConfiguration(reqObj).subscribe(

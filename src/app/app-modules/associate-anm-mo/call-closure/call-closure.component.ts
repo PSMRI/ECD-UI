@@ -37,7 +37,7 @@ import { MasterService } from '../../services/masterService/master.service';
 import { AgentsInnerpageComponent } from '../agents-innerpage/agents-innerpage.component';
 import { SpinnerService } from '../../services/spinnerService/spinner.service';
 import { Subscription, map, timer } from 'rxjs';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-call-closure',
@@ -311,7 +311,7 @@ private sms_service: SmsTemplateService,
       obCallId: this.associateAnmMoService.selectedBenDetails.obCallId,
       motherId :this.associateAnmMoService.selectedBenDetails.mctsidNo?this.associateAnmMoService.selectedBenDetails.mctsidNo:this.associateAnmMoService.selectedBenDetails.motherId,
       childId:this.associateAnmMoService.selectedBenDetails.mctsidNoChildId?this.associateAnmMoService.selectedBenDetails.mctsidNoChildId:null,
-      userId: this.sessionstorage.userID,
+      userId: this.sessionstorage.getItem('userID'),
       agentId: this.loginService.agentId,
       role: this.sessionstorage.getItem('role'),
       phoneNo: this.sessionstorage.getItem("benPhoneNo"),
@@ -339,8 +339,8 @@ private sms_service: SmsTemplateService,
       isHrp: this.associateAnmMoService.isMother?this.associateAnmMoService.isHighRiskPregnancy:false,
       isHrni: (this.associateAnmMoService.isMother === false)?this.associateAnmMoService.isHighRiskInfant:false,
       deleted: false,
-      createdBy: this.sessionstorage.userName,
-      modifiedBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
+      modifiedBy: this.sessionstorage.getItem('userName'),
       complaintId: (formData.complaintId !== null && formData.complaintId !== undefined && formData.complaintId !== "") ? formData.complaintId : null,
     };
     const commonReqobj = {
@@ -350,7 +350,7 @@ private sms_service: SmsTemplateService,
       callTypeID: this.callTypeId,
       emergencyType: 0,
       agentIPAddress: this.sessionstorage.getItem("agentIp"),
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       isFollowupRequired: false,
       fitToBlock: false,
       endCall: true,
@@ -596,7 +596,7 @@ private sms_service: SmsTemplateService,
                       sms_Advice: smsAdvice,
                       phoneNo: phoneNo,
                       // beneficiaryRegID: generated_ben_id,
-                      createdBy: this.sessionstorage.userName,
+                      createdBy: this.sessionstorage.getItem('userName'),
                       is1097: false,
                       providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
                       smsTemplateID: sms_template_id,

@@ -24,7 +24,7 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
 import { Router } from '@angular/router';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 /**
  * DE40034072

@@ -30,7 +30,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import * as moment from 'moment';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-ben-registration',
@@ -468,7 +468,7 @@ else{
         //  "blockID" : this.benRegistrationForm.controls.blockID.value,
         //  "districtBranchID" : this.benRegistrationForm.controls.districtBranchID.value,
          "addressLine1" : (this.benRegistrationForm.controls.address.value !== undefined && this.benRegistrationForm.controls.address.value !== null && this.benRegistrationForm.controls.address.value !== "") ? this.benRegistrationForm.controls.address.value : undefined,
-         "createdBy" : this.sessionstorage.userName
+         "createdBy" : this.sessionstorage.getItem('userName')
     };
 
     const phoneDetails = [];
@@ -476,7 +476,7 @@ else{
 
       const phnReq = {
         "phoneNo" : this.benRegistrationForm.controls.phoneNo.value,
-        "createdBy" : this.sessionstorage.userName
+        "createdBy" : this.sessionstorage.getItem('userName')
       }
       phoneDetails.push(phnReq);
     }
@@ -485,7 +485,7 @@ else{
 
       const altPhnReq = {
         "phoneNo" : this.benRegistrationForm.controls.alternatePhoneNo.value,
-        "createdBy" : this.sessionstorage.userName
+        "createdBy" : this.sessionstorage.getItem('userName')
       }
       phoneDetails.push(altPhnReq);
     }
@@ -519,7 +519,7 @@ else{
       "phcName" : this.benRegistrationForm.controls.phcName.value,
       "blockName": this.benRegistrationForm.controls.healthBlock.value,
       "providerServiceMapID": this.sessionstorage.getItem('providerServiceMapID'),
-      "createdBy": this.sessionstorage.userName
+      "createdBy": this.sessionstorage.getItem('userName')
     };
 
 
@@ -618,8 +618,8 @@ else{
       // "blockID" : this.benRegistrationForm.controls.blockID.value,
       // "districtBranchID" : this.benRegistrationForm.controls.districtBranchID.value,
       "addressLine1" : (this.benRegistrationForm.controls.address.value !== undefined && this.benRegistrationForm.controls.address.value !== null && this.benRegistrationForm.controls.address.value !== "") ? this.benRegistrationForm.controls.address.value : undefined,
-      "createdBy" : this.sessionstorage.userName,
-      "modifiedBy" : this.sessionstorage.userName
+      "createdBy" : this.sessionstorage.getItem('userName'),
+      "modifiedBy" : this.sessionstorage.getItem('userName')
  };
 
  const phoneDetails = [];
@@ -629,8 +629,8 @@ else{
     "parentBenRegID": benRegId,
     "beneficiaryRegID": benRegId,
      "phoneNo" : this.benRegistrationForm.controls.phoneNo.value,
-     "modifiedBy": this.sessionstorage.userName,
-     "createdBy" : this.sessionstorage.userName
+     "modifiedBy": this.sessionstorage.getItem('userName'),
+     "createdBy" : this.sessionstorage.getItem('userName')
    }
    phoneDetails.push(phnReq);
  }
@@ -641,8 +641,8 @@ else{
     "parentBenRegID": benRegId,
     "beneficiaryRegID": benRegId,
      "phoneNo" : this.benRegistrationForm.controls.alternatePhoneNo.value,
-     "modifiedBy": this.sessionstorage.userName,
-     "createdBy" : this.sessionstorage.userName
+     "modifiedBy": this.sessionstorage.getItem('userName'),
+     "createdBy" : this.sessionstorage.getItem('userName')
    }
    phoneDetails.push(altPhnReq);
  }
@@ -683,8 +683,8 @@ else{
    "phcName" : this.benRegistrationForm.controls.phcName.value,
    "blockName": this.benRegistrationForm.controls.healthBlock.value,
    "providerServiceMapID": this.sessionstorage.getItem('providerServiceMapID'),
-   "createdBy": this.sessionstorage.userName,
-   "modifiedBy": this.sessionstorage.userName
+   "createdBy": this.sessionstorage.getItem('userName'),
+   "modifiedBy": this.sessionstorage.getItem('userName')
  };
 
 console.log(reqObj);

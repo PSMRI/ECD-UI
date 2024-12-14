@@ -31,7 +31,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import { EditAgentComponent } from '../edit-agent/edit-agent.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-agent-mapping-configuration',
@@ -175,8 +175,8 @@ export class AgentMappingConfigurationComponent implements OnInit, AfterViewInit
               qualityAuditorName: tableValue.qualityAuditorName,
               roleName: tableValue.roleName,
               agentName: tableValue.agentName,
-              modifiedBy: this.sessionstorage.userName,
-              createdBy: this.sessionstorage.userName,
+              modifiedBy: this.sessionstorage.getItem('userName'),
+              createdBy: this.sessionstorage.getItem('userName'),
               psmId: this.sessionstorage.getItem('providerServiceMapID'),
               agentIds:agentIds,
               agentNames:agentNames,

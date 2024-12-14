@@ -29,7 +29,7 @@ import { SetLanguageService } from '../../services/set-language/set-language.ser
 import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072
  * 02-03-2023
@@ -74,7 +74,7 @@ export class RatingComponent implements OnInit, DoCheck {
    * For fetching agent's latest audit score and grade
    */
   getAgentRatingScore() {
-     const userId = this.sessionstorage.userID;
+     const userId = this.sessionstorage.getItem('userID');
     // let userId = 2002;
     const psmId = this.sessionstorage.getItem('providerServiceMapID');
     

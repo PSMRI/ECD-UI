@@ -38,7 +38,7 @@ import { LoginserviceService } from '../../services/loginservice/loginservice.se
 import { CtiService } from '../../services/cti/cti.service';
 import { map, Subscription, timer } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 
 @Component({
@@ -151,7 +151,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
   getOutBoundWorklistCalls() {
     
     const reqObj: any = {
-      userId: this.sessionstorage.userID,
+      userId: this.sessionstorage.getItem('userID'),
     };
     if(this.activeMother === true){
       this.dataSource.sort=null
@@ -284,7 +284,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
 
   getAutoPreviewDialing() {
   
-     const userId = this.sessionstorage.userID;
+     const userId = this.sessionstorage.getItem('userID');
      const psmId = this.sessionstorage.getItem('providerServiceMapID');
      const roleId = this.sessionstorage.getItem('roleId');
     

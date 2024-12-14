@@ -31,7 +31,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { CreatequalitySectionConfigurationComponent } from '../createquality-section-configuration/createquality-section-configuration.component';
 import { EditQualitySectionConfigurationComponent } from '../edit-quality-section-configuration/edit-quality-section-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-quality-section-configuration',
@@ -201,10 +201,10 @@ export class QualitySectionConfigurationComponent implements OnInit, AfterViewIn
               sectionName: tableValue.sectionName,
               sectionDesc: tableValue.sectionDesc,
               rank: tableValue.rank,
-              createdBy: this.sessionstorage.userName,
+              createdBy: this.sessionstorage.getItem('userName'),
               psmId: this.sessionstorage.getItem('providerServiceMapID'),
               deleted: type === 'activate' ? false : true,
-              modifiedBy: this.sessionstorage.userName,
+              modifiedBy: this.sessionstorage.getItem('userName'),
             };
   
             this.qualitySupervisorService.updateSectionConfiguration(reqObj).subscribe(

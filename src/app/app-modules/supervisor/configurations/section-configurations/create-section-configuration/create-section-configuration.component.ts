@@ -30,7 +30,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { SectionConfigurationComponent } from '../section-configuration/section-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 /**
  * KA40094929
@@ -133,7 +133,7 @@ export class CreateSectionConfigurationComponent implements OnInit, AfterViewIni
   createSectionConfiguration(){
     const dataArray = [...this.addSection.data].map(element => ({
       ...element,
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID')
     }));
     const reqObj = dataArray;

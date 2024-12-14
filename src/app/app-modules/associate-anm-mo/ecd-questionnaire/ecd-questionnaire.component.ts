@@ -34,7 +34,7 @@ import { SetLanguageService } from '../../services/set-language/set-language.ser
 import { BeneficiaryCallHistoryComponent } from '../beneficiary-call-history/beneficiary-call-history.component';
 import { CallClosureComponent } from '../call-closure/call-closure.component';
 import { HighRiskReasonsComponent } from '../high-risk-reasons/high-risk-reasons.component';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 
 @Component({
@@ -822,7 +822,7 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
       benCallId: this.associateAnmMoService.callDetailId,
       questionnaireResponse: saveQuestionsData,
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
-      createdBy: this.sessionstorage.userName
+      createdBy: this.sessionstorage.getItem('userName')
     }
     this.associateAnmMoService.saveQuestionnaireResponse(reqObj).subscribe((res: any) => {
       if(res){

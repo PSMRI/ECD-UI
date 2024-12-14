@@ -26,7 +26,7 @@ import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { SectionConfigurationComponent } from '../section-configuration/section-configuration.component';
 
 /**
@@ -113,9 +113,9 @@ export class EditSectionConfigurationComponent implements OnInit, DoCheck {
       sectionId: this.editsectionconfigurationform.controls.sectionId.value,
       sectionName: this.editsectionconfigurationform.controls.sectionName.value,
       sectionDesc: this.editsectionconfigurationform.controls.sectionDescription.value,
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
-      modifiedBy: this.sessionstorage.userName,
+      modifiedBy: this.sessionstorage.getItem('userName'),
       deleted: false
     }
     this.supervisorService.updateSectionConfiguration(reqObj).subscribe((res: any) => {

@@ -32,7 +32,7 @@ import { CtiService } from '../../services/cti/cti.service';
 import { DOCUMENT } from '@angular/common';
 import * as moment from 'moment';
 import * as CryptoJS from 'crypto-js';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { CookieService } from 'ngx-cookie-service';
 /**
  * DE40034072 - 12-01-2022
@@ -300,14 +300,14 @@ export class LoginComponent implements OnInit, OnDestroy {
           'isAuthenticated',
           loginDataResponse.isAuthenticated
         );
-        this.sessionstorage.userName = loginDataResponse.userName;
+        this.sessionstorage.setItem('userName', loginDataResponse.userName);
         this.sessionstorage.setItem('onCall', 'false');
         this.sessionstorage.setItem(
           'providerServiceMapID',
           loginDataResponse.previlegeObj[0].providerServiceMapID
         );
         this.sessionstorage.setItem('userRoles',JSON.stringify(servicePrivileges[0].roles));
-        this.sessionstorage.userID = loginDataResponse.userID;
+        this.sessionstorage.setItem('userID', loginDataResponse.userID);
         this.loginService.setEnableRole();
         this.router.navigate(['/role-selection']);
 
@@ -342,7 +342,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           'isAuthenticated',
           loginDataResponse.isAuthenticated
         );
-        this.sessionstorage.userName = loginDataResponse.userName;
+        this.sessionstorage.setItem('userName', loginDataResponse.userName);
         sessionStorage.setItem('userId', loginDataResponse.userID);
         this.sessionstorage.setItem('onCall', 'false');
         this.sessionstorage.setItem(
@@ -362,7 +362,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         'isAuthenticated',
         loginDataResponse.isAuthenticated
       );
-      this.sessionstorage.userName = loginDataResponse.userName;
+      this.sessionstorage.setItem('userName', loginDataResponse.userName);
       this.sessionstorage.setItem('onCall', "false");
       this.sessionstorage.setItem(
         'providerServiceMapID',

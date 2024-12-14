@@ -29,7 +29,7 @@ import { MasterService } from 'src/app/app-modules/services/masterService/master
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from '../../../services/set-language/set-language.service';
 import { ajax, css } from "jquery";
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072
  * 10-02-2023

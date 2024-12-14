@@ -34,7 +34,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { QuestionnaireConfigurationComponent } from '../questionnaire-configuration/questionnaire-configuration.component';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072
  * 25-01-2023
@@ -427,7 +427,7 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
         "questionId": this.editQuestionnaireForm.controls['questionnaireId'].value,
         "psmId": this.sessionstorage.getItem('providerServiceMapID'),
         "deleted": false,
-        "createdBy": this.sessionstorage.userName,
+        "createdBy": this.sessionstorage.getItem('userName'),
       };
       this.finalOptionList.push(optionObj);
       this.editQuestionnaireForm.markAsDirty();
@@ -475,7 +475,7 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
           : null,
       questionnaireValues: this.enableOption === true ? this.finalOptionList : null,
       options: this.enableOption === true ? this.optionList : null,
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID')
     };
 
@@ -565,7 +565,7 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
     console.log(this.dataSource.data);
     // let reqObj: any = {
     //   questionnaireDetail: this.dataSource.data,
-    //   createdBy: this.sessionstorage.userName,
+    //   createdBy: this.sessionstorage.getItem('userName'),
     //   psmId: this.sessionstorage.getItem('providerServiceMapID'),
     // };
     this.supervisorService.saveQuestionnaire(this.dataSource.data).subscribe(
@@ -653,8 +653,8 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
         "questionId": editValue.questionnaireId,
         "psmId": this.sessionstorage.getItem('providerServiceMapID'),
         "deleted": false,
-        "createdBy": this.sessionstorage.userName,
-        //  "modifiedBy": this.sessionstorage.userName,
+        "createdBy": this.sessionstorage.getItem('userName'),
+        //  "modifiedBy": this.sessionstorage.getItem('userName'),
        
           };
           optionReq.push(req);
@@ -665,7 +665,7 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
         if(this.optionList.length > 0 && !(this.optionList.includes(newQuestionOptionValue.options))) {
      
             newQuestionOptionValue.deleted = true;
-            newQuestionOptionValue.modifiedBy = this.sessionstorage.userName;
+            newQuestionOptionValue.modifiedBy = this.sessionstorage.getItem('userName');
             optionReq.push(newQuestionOptionValue);
         }
     
@@ -675,7 +675,7 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
         this.selectedQuestionnaireList.questionnaireValues.filter((newQuestionOptionValue:any) => {
          
               newQuestionOptionValue.deleted = true;
-              newQuestionOptionValue.modifiedBy = this.sessionstorage.userName;
+              newQuestionOptionValue.modifiedBy = this.sessionstorage.getItem('userName');
               optionReq.push(newQuestionOptionValue);
            
         });
@@ -697,8 +697,8 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
       answerType: editValue.answerType,
       questionnaireValues: optionReq,
       deleted: false,
-      createdBy: this.sessionstorage.userName,
-      modifiedBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
+      modifiedBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
 

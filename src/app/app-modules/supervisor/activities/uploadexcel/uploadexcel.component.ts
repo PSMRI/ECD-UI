@@ -30,7 +30,7 @@ import { saveAs } from 'file-saver';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import * as FileSaver from 'file-saver';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 @Component({
   selector: 'app-uploadexcel',
   templateUrl: './uploadexcel.component.html',
@@ -109,8 +109,8 @@ export class UploadexcelComponent implements OnInit {
     const file: File = this.fileList[0];
     const requestData = {
       providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
-      userID: this.sessionstorage.userID,
-      createdBy: this.sessionstorage.userName,
+      userID: this.sessionstorage.getItem('userID'),
+      createdBy: this.sessionstorage.getItem('userName'),
       fieldFor: this.fileTypeID,
       fileName: this.file !== undefined ? this.file.name : "",
       fileExtension:
@@ -333,8 +333,8 @@ export class UploadexcelComponent implements OnInit {
     const file: File = this.fileList[0];
     const requestData = {
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
-      // userID: this.sessionstorage.userID,
-      createdBy: this.sessionstorage.userName,
+      // userID: this.sessionstorage.getItem('userID'),
+      createdBy: this.sessionstorage.getItem('userName'),
       fileType: this.fileTypeID,
       fileName: this.file !== undefined ? this.file.name : "",
       // fileExtension: this.file !== undefined ? "." + this.file.name.split(".")[1] : "",

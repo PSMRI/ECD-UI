@@ -34,7 +34,7 @@ import { CreateNotificationComponent } from '../create-notification/create-notif
 import * as moment from 'moment';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-supervisor-notification',
@@ -79,7 +79,7 @@ export class SupervisorNotificationComponent implements OnInit, DoCheck, AfterVi
     this.getSelectedLanguage();
     this.getNotificationType();
     this.getRolesForAlert();
-    this.uname = this.sessionstorage.userName;
+    this.uname = this.sessionstorage.getItem('userName');
     // this.getRolesForAlert();
   }
 
@@ -216,7 +216,7 @@ export class SupervisorNotificationComponent implements OnInit, DoCheck, AfterVi
             notification: element.notification,
             notificationDesc: element.notificationDesc,
             deleted: type === 'activate' ? 'false' : 'true',
-            modifiedBy: this.sessionstorage.userName,
+            modifiedBy: this.sessionstorage.getItem('userName'),
           };
 
           this.supervisorService.saveEditAlert(reqObj).subscribe(
@@ -252,7 +252,7 @@ export class SupervisorNotificationComponent implements OnInit, DoCheck, AfterVi
   // onPublish(){
   //   let reqObj= {
   //     providerServiceMapId: this.sessionstorage.getItem('providerServiceMapID'),
-  //     modifiedBy: this.sessionstorage.userName,
+  //     modifiedBy: this.sessionstorage.getItem('userName'),
   //   }
   //   this.supervisorService.publishNotification(reqObj).subscribe((res:any)=>{
   //   if(res.data !== undefined && res.data !== null){

@@ -30,7 +30,7 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 @Component({
   selector: 'app-create-grade-config',
   templateUrl: './create-grade-config.component.html',
@@ -188,7 +188,7 @@ export class CreateGradeConfigComponent implements OnInit, DoCheck {
       grade: formData.grade,
       minValue: formData.minValue,
       maxValue: formData.maxValue,
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID')
     };
     const checkfromBufferList = this.checkDuplicateRange(gradeObj);

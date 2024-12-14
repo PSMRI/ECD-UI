@@ -33,7 +33,7 @@ import { LoginserviceService } from '../../services/loginservice/loginservice.se
 import { DomSanitizer } from '@angular/platform-browser';
 import { AssociateAnmMoService } from '../../services/associate-anm-mo/associate-anm-mo.service';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-agents-innerpage',
@@ -288,13 +288,13 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
           
           const reqObj = {
             obCallId: this.associateAnmMoService.selectedBenDetails.obCallId,
-            callReceivedUserId: this.sessionstorage.userID,
+            callReceivedUserId: this.sessionstorage.getItem('userID'),
             beneficiaryRegId: this.associateAnmMoService.selectedBenDetails.beneficiaryRegId,
             calledServiceId: this.sessionstorage.getItem('providerServiceMapID'),
             psmId: this.sessionstorage.getItem('providerServiceMapID'),
             subCategory: this.associateAnmMoService.selectedBenDetails.ecdCallType,
             callId: eventData[2],
-            createdBy: this.sessionstorage.userName,
+            createdBy: this.sessionstorage.getItem('userName'),
             agentId: this.loginService.agentId,
             receivedRoleName: this.sessionstorage.getItem('role'),
             phoneNo: phNo,
@@ -486,7 +486,7 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
       obCallId: this.associateAnmMoService.selectedBenDetails.obCallId,
       motherId :this.associateAnmMoService.selectedBenDetails.mctsidNo?this.associateAnmMoService.selectedBenDetails.mctsidNo:this.associateAnmMoService.selectedBenDetails.motherId,
       childId:this.associateAnmMoService.selectedBenDetails.mctsidNoChildId?this.associateAnmMoService.selectedBenDetails.mctsidNoChildId:null,
-      userId: this.sessionstorage.userID,
+      userId: this.sessionstorage.getItem('userID'),
       agentId: this.loginService.agentId,
       role: this.sessionstorage.getItem('role'),
       phoneNo: this.sessionstorage.getItem("benPhoneNo"),
@@ -513,8 +513,8 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
       isHrp: this.associateAnmMoService.isMother?this.associateAnmMoService.isHighRiskPregnancy:false,
       isHrni: (this.associateAnmMoService.isMother === false)?this.associateAnmMoService.isHighRiskInfant:false,
       deleted: false,
-      createdBy: this.sessionstorage.userName,
-      modifiedBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
+      modifiedBy: this.sessionstorage.getItem('userName'),
       complaintId: null,
       isWrongNumber: false
     };
@@ -525,7 +525,7 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
       callTypeID: this.callTypeId,
       emergencyType: 0,
       agentIPAddress: this.sessionstorage.getItem("agentIp"),
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       isFollowupRequired: false,
       fitToBlock: false,
       endCall: true,

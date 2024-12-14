@@ -30,7 +30,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { QaQuestionConfigComponent } from '../../qa-question-config/qa-question-config/qa-question-config.component';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-edit-qa-config',
@@ -269,8 +269,8 @@ export class EditQaConfigComponent implements OnInit, DoCheck {
       sectionRank: editValueData.sectionRank,
       deleted: false,
       isFatalQues: editValueData.isFatalQues,
-      createdBy: this.sessionstorage.userName,
-      modifiedBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
+      modifiedBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
       options: optionValue,
       scores: scores

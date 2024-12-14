@@ -32,7 +32,7 @@ import { AlertNotificationComponent } from '../alert-notification.component';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-create-alert',
@@ -85,7 +85,7 @@ export class CreateAlertComponent implements OnInit, DoCheck {
   ngOnInit(): void {
     this.getSelectedLanguage();
     this.getNotificationType();
-    this.uname = this.sessionstorage.userName;
+    this.uname = this.sessionstorage.getItem('userName');
     this.getRolesForAlert();
     this.getLocationsForAlert();
   }

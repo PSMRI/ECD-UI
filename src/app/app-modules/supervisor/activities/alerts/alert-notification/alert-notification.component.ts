@@ -36,7 +36,7 @@ import { EditAlertComponent } from './edit-alert/edit-alert.component';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-alert-notification',
@@ -90,7 +90,7 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
     this.getRolesForAlert();
     // this.alertDataSource.data = this.alertData;
     
-    this.uname = this.sessionstorage.userName;
+    this.uname = this.sessionstorage.getItem('userName');
   }
 
   alertNotificationForm = this.fb.group({
@@ -250,7 +250,7 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
             notification: element.notification,
             notificationDesc: element.notificationDesc,
             deleted: type === 'activate' ? 'false' : 'true',
-            modifiedBy: this.sessionstorage.userName,
+            modifiedBy: this.sessionstorage.getItem('userName'),
           };
 
           this.supervisorService.saveEditAlert(reqObj).subscribe(
@@ -289,7 +289,7 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
   //   // this.canEdit = false;
   //   let reqObj= {
   //     providerServiceMapId: this.sessionstorage.getItem('providerServiceMapID'),
-  //     modifiedBy: this.sessionstorage.userName,
+  //     modifiedBy: this.sessionstorage.getItem('userName'),
   //   }
   //   this.supervisorService.publishAlert(reqObj).subscribe((res:any)=>{
   //   if(res.data !== undefined && res.data !== null){

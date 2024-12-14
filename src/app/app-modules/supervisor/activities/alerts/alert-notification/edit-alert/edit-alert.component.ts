@@ -31,7 +31,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { AlertNotificationComponent } from '../alert-notification.component';
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-edit-alert',
@@ -90,7 +90,7 @@ export class EditAlertComponent implements OnInit, DoCheck {
 
     this.getSelectedLanguage();
     this.getNotificationType();
-    this.uname = this.sessionstorage.userName;
+    this.uname = this.sessionstorage.getItem('userName');
     this.range.controls.start.setValue(startDate);
     this.range.controls.end.setValue(endDate);
     this.editAlertForm.controls.startTime.patchValue(startTime);

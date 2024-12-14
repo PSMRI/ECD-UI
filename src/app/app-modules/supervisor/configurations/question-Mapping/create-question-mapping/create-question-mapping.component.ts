@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { MapQuestionaireConfigurationComponent } from '../map-questionaire-configuration/map-questionaire-configuration.component';
 @Component({
   selector: 'app-create-question-mapping',
@@ -208,7 +208,7 @@ filterChildQuestionsList(createQuestionaireMappingForm:any){
       parentQuestionId: this.selectedParentId,
       answer: this.createQuestionaireMappingForm.controls.answerType.value,
       childQuestionId: this.selectedChildId,
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
 

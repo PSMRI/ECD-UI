@@ -29,7 +29,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { CallConfigurationComponent } from '../call-configuration/call-configuration.component';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 /**
  * KA40094929
@@ -192,7 +192,7 @@ export class CreateCallConfigurationComponent implements OnInit, DoCheck, OnDest
       configTerms: this.createcallconfigurationform.controls.configTerms.value,
       noOfAttempts: this.createcallconfigurationform.controls.noOfAttempts.value ? (this.createcallconfigurationform.controls.noOfAttempts.value) : 0,
       nextAttemptPeriod: this.createcallconfigurationform.controls.nextCallAttempt.value,
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
     }));
     const reqObj = dataArray;

@@ -33,7 +33,7 @@ import { CallSectionQuestionaireMappingComponent } from '../call-section-questio
 import { CreateCallConfigurationComponent } from '../create-call-configuration/create-call-configuration.component';
 import { EditCallConfigurationComponent } from '../edit-call-configuration/edit-call-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 /**
  * KA40094929
@@ -196,8 +196,8 @@ export class CallConfigurationComponent implements OnInit, DoCheck {
         const dataArray = [...element.configurations].map(element => ({
           ...element,
           deleted: true,
-          createdBy: this.sessionstorage.userName,
-          modifiedBy: this.sessionstorage.userName,
+          createdBy: this.sessionstorage.getItem('userName'),
+          modifiedBy: this.sessionstorage.getItem('userName'),
           psmId: this.sessionstorage.getItem('providerServiceMapID'),
         }));
         const reqObj = dataArray;

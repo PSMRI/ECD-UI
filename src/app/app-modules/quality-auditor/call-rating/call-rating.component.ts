@@ -33,7 +33,7 @@ import { SetLanguageService } from '../../services/set-language/set-language.ser
 import { CallAuditComponent } from '../call-audit/call-audit/call-audit.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { ViewCasesheetComponent } from '../view-casesheet/view-casesheet.component';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 
 
@@ -382,8 +382,8 @@ export class CallRatingComponent implements OnInit{
             ecdCallType: this.routedData.outboundCallType,
             agentId: this.routedData.agentid,
             benCallId: this.routedData.benCallID,
-            qualityAuditorId: this.sessionstorage.userID,
-            createdBy: this.sessionstorage.userName,
+            qualityAuditorId: this.sessionstorage.getItem('userID'),
+            createdBy: this.sessionstorage.getItem('userName'),
             psmId: this.sessionstorage.getItem('providerServiceMapID'),
           };
           reqObj.push(obj);
@@ -431,11 +431,11 @@ export class CallRatingComponent implements OnInit{
             ecdCallType: this.routedData.outboundCallType,
             agentId: this.routedData.agentid,
             benCallId: this.routedData.benCallID,
-            qualityAuditorId: this.sessionstorage.userID,
+            qualityAuditorId: this.sessionstorage.getItem('userID'),
             psmId: this.sessionstorage.getItem('providerServiceMapID'),
             deleted: false,
-            modifiedBy: this.sessionstorage.userName,
-            createdBy: this.sessionstorage.userName,
+            modifiedBy: this.sessionstorage.getItem('userName'),
+            createdBy: this.sessionstorage.getItem('userName'),
           };
           quesObj.push(obj)
         }
@@ -450,11 +450,11 @@ export class CallRatingComponent implements OnInit{
       callRemarks: this.callRemarks ? this.callRemarks: null,
       agentId: this.routedData.agentid,
       benCallId: this.routedData.benCallID,
-      qualityAuditorId: this.sessionstorage.userID,      
+      qualityAuditorId: this.sessionstorage.getItem('userID'),      
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
       deleted: false,
-      modifiedBy: this.sessionstorage.userName,
-      createdBy: this.sessionstorage.userName,
+      modifiedBy: this.sessionstorage.getItem('userName'),
+      createdBy: this.sessionstorage.getItem('userName'),
     }
 
     const reqObj = {

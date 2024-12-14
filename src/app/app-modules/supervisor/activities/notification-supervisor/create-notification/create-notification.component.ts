@@ -32,7 +32,7 @@ import { SupervisorNotificationComponent } from '../supervisor-notification/supe
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-create-notification',
@@ -77,7 +77,7 @@ export class CreateNotificationComponent implements OnInit, DoCheck {
     this.getNotificationType();
     this.getRolesForAlert();
     this.getLocationsForAlert();
-    this.uname = this.sessionstorage.userName;
+    this.uname = this.sessionstorage.getItem('userName');
   }
 
   createAlertForm = this.fb.group({

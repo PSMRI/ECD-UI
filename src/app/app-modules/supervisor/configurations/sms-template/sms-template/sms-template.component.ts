@@ -31,7 +31,7 @@ import { SmsTemplateService } from 'src/app/app-modules/services/smsTemplate/sms
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-sms-template',
@@ -234,7 +234,7 @@ export class SmsTemplateComponent implements OnInit, DoCheck, AfterViewInit {
 
   ActivateDeactivate(object: { deleted: any; modifiedBy: any; }, flag: any) {
     object.deleted = flag;
-    object.modifiedBy = this.sessionstorage.userName,
+    object.modifiedBy = this.sessionstorage.getItem('userName'),
     this.smsTemplateService.updateSMStemplate(object).subscribe(
       (response) => {
         if (response) {
@@ -351,8 +351,8 @@ export class SmsTemplateComponent implements OnInit, DoCheck, AfterViewInit {
   add(form_values: any) {
     if (form_values !== undefined && form_values !== null) {
     const reqObj:any = {
-      'createdBy': this.sessionstorage.userName,
-      'modifiedBy': this.sessionstorage.userName,
+      'createdBy': this.sessionstorage.getItem('userName'),
+      'modifiedBy': this.sessionstorage.getItem('userName'),
       'smsParameterName': form_values.parameter,
       'smsParameterType': form_values.parameterValue.smsParameterType,
       'smsParameterID': form_values.parameterValue.smsParameterID,
@@ -413,7 +413,7 @@ export class SmsTemplateComponent implements OnInit, DoCheck, AfterViewInit {
 
   saveSMStemplate(form_values: any) {
     const requestObject = {
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       providerServiceMapID: this.providerServiceMapID,
       smsParameterMaps: this.smsParameterMaps,
       smsTemplate: (form_values.smsTemplate !== undefined && form_values.smsTemplate !== null) ? form_values.smsTemplate.trim() : null ,

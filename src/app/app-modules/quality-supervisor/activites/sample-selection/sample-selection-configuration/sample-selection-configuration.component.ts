@@ -31,7 +31,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import { EditSampleSelectionComponent } from '../edit-sample-selection/edit-sample-selection.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-sample-selection-configuration',
@@ -168,8 +168,8 @@ export class SampleSelectionConfigurationComponent implements OnInit, AfterViewI
               ancSampleSize: tableValue.ancSampleSize,
               pncSampleSize: tableValue.pncSampleSize,
               totalSampleSize: tableValue.totalSampleSize,
-              createdBy: this.sessionstorage.userName,
-              modifiedBy: this.sessionstorage.userName,
+              createdBy: this.sessionstorage.getItem('userName'),
+              modifiedBy: this.sessionstorage.getItem('userName'),
               psmId: this.sessionstorage.getItem('providerServiceMapID'),
               deleted: type === 'activate' ? 'false' : 'true',
             };

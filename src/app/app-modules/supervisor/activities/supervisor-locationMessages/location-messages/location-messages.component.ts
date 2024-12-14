@@ -34,7 +34,7 @@ import { CreateLocationMessageComponent } from '../create-location-message/creat
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-location-messages',
@@ -78,7 +78,7 @@ export class LocationMessagesComponent implements OnInit, DoCheck, AfterViewInit
     this.getSelectedLanguage();
     this.getNotificationType();
     this.getOfficesForAlert();
-    this.uname = this.sessionstorage.userName;
+    this.uname = this.sessionstorage.getItem('userName');
     // this.getRolesForAlert();
 
 // this.dataSource.data = this.locationData;
@@ -182,7 +182,7 @@ export class LocationMessagesComponent implements OnInit, DoCheck, AfterViewInit
             notification: element.notification,
             notificationDesc: element.notificationDesc,
             deleted: type === 'activate' ? 'false' : 'true',
-            modifiedBy: this.sessionstorage.userName,
+            modifiedBy: this.sessionstorage.getItem('userName'),
           };
 
               this.supervisorService.saveEditAlert(reqObj).subscribe(
@@ -242,7 +242,7 @@ getNotificationType(){
   // onPublish(){
   //   let reqObj= {
   //     providerServiceMapId: this.sessionstorage.getItem('providerServiceMapID'),
-  //     modifiedBy: this.sessionstorage.userName,
+  //     modifiedBy: this.sessionstorage.getItem('userName'),
   //   }
   //   this.supervisorService.publishLocationMessages(reqObj).subscribe((res:any)=>{
   //   if(res.data !== undefined && res.data !== null){

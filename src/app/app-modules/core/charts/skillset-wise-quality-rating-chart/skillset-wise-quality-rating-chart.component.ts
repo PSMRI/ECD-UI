@@ -29,7 +29,7 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { ajax, css } from "jquery";
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072
  * 10-02-2023

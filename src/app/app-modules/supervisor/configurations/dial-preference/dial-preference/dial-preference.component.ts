@@ -29,7 +29,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-dial-preference',
@@ -252,7 +252,7 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
           userId: element.userId,
           isDialPreference: true,
           previewWindowTime: element.previewWindowTime,
-          createdBy: this.sessionstorage.userName,
+          createdBy: this.sessionstorage.getItem('userName'),
           psmId: this.sessionstorage.getItem('providerServiceMapID'),
         };
       this.supervisorService.saveDialPreference(reqObj).subscribe((res:any)=>{
@@ -290,7 +290,7 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
       userId: element.userId,
       isDialPreference: false,
       previewWindowTime: null,
-      createdBy: this.sessionstorage.userName,
+      createdBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
       };
     this.supervisorService.saveDialPreference(reqObj).subscribe((res:any)=>{

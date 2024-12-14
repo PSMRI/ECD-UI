@@ -31,7 +31,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { CreateQuestionnaireComponent } from '../create-questionnaire/create-questionnaire.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { SessionStorageService } from 'src/app/app-modules/services/core/session-storage.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072
  * 25-01-2023
@@ -225,8 +225,8 @@ export class QuestionnaireConfigurationComponent implements OnInit, DoCheck, Aft
               answerType: tableValue.answerType,
               questionnaireValues: tableValue.questionnaireValues,
               deleted: type === 'activate' ? 'false' : 'true',
-              createdBy: this.sessionstorage.userName,
-              modifiedBy: this.sessionstorage.userName,
+              createdBy: this.sessionstorage.getItem('userName'),
+              modifiedBy: this.sessionstorage.getItem('userName'),
               psmId: this.sessionstorage.getItem('providerServiceMapID')
             };
 
