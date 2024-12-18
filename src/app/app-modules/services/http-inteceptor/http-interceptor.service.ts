@@ -40,7 +40,6 @@ import { environment } from 'src/environments/environment';
 import { SetLanguageService } from '../set-language/set-language.service';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
-import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
@@ -55,7 +54,6 @@ export class HttpInterceptorService implements HttpInterceptor {
     private http: HttpClient,
     readonly sessionstorage:SessionStorageService,
     private setLanguageService: SetLanguageService,
-    private cookieService: CookieService,
   ) {}
 
   intercept(
@@ -63,17 +61,14 @@ export class HttpInterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const key: any = sessionStorage.getItem('authenticationToken');
-    const tkn:any = this.cookieService.get('Jwttoken');
     let modifiedReq = null;
     if (key !== undefined && key !== null) {
       modifiedReq = req.clone({
-        headers: req.headers.set('Authorization', key)
-        .set('Jwttoken', tkn),
+        headers: req.headers.set('Authorization', key),
       });
     } else {
       modifiedReq = req.clone({
-        headers: req.headers.set('Authorization', '')
-        .set('Jwttoken', tkn),
+        headers: req.headers.set('Authorization', ''),
       });
     }
     return next.handle(modifiedReq).pipe(

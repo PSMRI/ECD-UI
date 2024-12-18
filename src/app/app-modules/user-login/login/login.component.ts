@@ -33,7 +33,6 @@ import { DOCUMENT } from '@angular/common';
 import * as moment from 'moment';
 import * as CryptoJS from 'crypto-js';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
-import { CookieService } from 'ngx-cookie-service';
 /**
  * DE40034072 - 12-01-2022
  */
@@ -71,7 +70,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2, 
     readonly sessionstorage:SessionStorageService,
-    private cookieService: CookieService,
   ) {
     this._keySize = 256;
       this._ivSize = 128;
@@ -294,8 +292,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       ) {
         /** setting session variables */
         sessionStorage.setItem('authenticationToken', loginDataResponse.key);
-        const tkn = loginDataResponse.Jwttoken;
-        this.cookieService.set('Jwttoken', tkn );
         sessionStorage.setItem(
           'isAuthenticated',
           loginDataResponse.isAuthenticated
