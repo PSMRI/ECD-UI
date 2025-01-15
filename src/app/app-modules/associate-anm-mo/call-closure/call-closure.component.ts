@@ -163,7 +163,6 @@ private sms_service: SmsTemplateService,
         this.enableCallDisconnectAndFurtherCall = false;
         this.enableWrongNumber = false;
         this.enablePhoneNumber = false;
-        this.clearPhoneNoValidator();
         this.clearPreferredLanguageValidator();
         this.clearIsFurtherCallValidator();
         this.enablePreferredLanguage = false;
@@ -398,7 +397,6 @@ private sms_service: SmsTemplateService,
             this.enableCallDisconnectAndFurtherCall = false;
             this.enableWrongNumber = false;
             this.enablePhoneNumber = false;
-            this.clearPhoneNoValidator();
             this.clearPreferredLanguageValidator();
             this.clearIsFurtherCallValidator();
             this.enablePreferredLanguage = false;
@@ -524,7 +522,6 @@ private sms_service: SmsTemplateService,
       this.showDetails = false;
       this.enablePhoneNumber = false;
       this.clearPreferredLanguageValidator();
-      this.clearPhoneNoValidator();
       this.clearIsFurtherCallValidator();
       this.enablePreferredLanguage = false;
       for(let i=0; i<this.callTypes.length;i++){
@@ -779,7 +776,6 @@ private sms_service: SmsTemplateService,
     this.enablePhoneNumber = false;
     this.clearPreferredLanguageValidator();
     this.clearIsFurtherCallValidator();
-    this.clearPhoneNoValidator();
     this.enablePreferredLanguage = false;
     if(callVerified === "Yes") {
       this.enableCallDisconnectAndFurtherCall = true;
@@ -811,13 +807,9 @@ private sms_service: SmsTemplateService,
     this.callClosureForm.controls['phoneNumber'].reset();
     if(wrongNumber === "No"){
      this.enablePhoneNumber = false;
-     this.clearPhoneNoValidator();
     }
     else {
       this.enablePhoneNumber = true;
-      const phoneNumberControl = this.callClosureForm.get('phoneNumber');
-      phoneNumberControl?.setValidators([Validators.required]);
-      phoneNumberControl?.updateValueAndValidity();
      }
     
    }
