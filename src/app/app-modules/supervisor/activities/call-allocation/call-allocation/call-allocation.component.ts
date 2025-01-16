@@ -56,6 +56,8 @@ export class CallAllocationComponent implements OnInit, DoCheck {
   currentLanguageSet: any;
   languageData: any;
   rolesArr:any[] = [];
+  languages: any = [];
+  enableLanguage = false;
 
   recordData = [
     {
@@ -107,6 +109,7 @@ export class CallAllocationComponent implements OnInit, DoCheck {
       this.checkSubmitDisabledButton();
     });
     this.getMasterData();
+    this.getLanguageMaster();
   }
 
   ngDoCheck(){
@@ -133,6 +136,7 @@ export class CallAllocationComponent implements OnInit, DoCheck {
     recordType: new FormControl('', [Validators.required]),
     phoneNoType: new FormControl('', [Validators.required]),
     agentType: new FormControl('', [Validators.required]),
+    preferredLanguage: new FormControl(null, [Validators.required]),
     allocateTo: new FormControl('', [Validators.required]),
     numericValue: new FormControl('', [Validators.required]),
   });
@@ -153,17 +157,39 @@ export class CallAllocationComponent implements OnInit, DoCheck {
 
   onClickOfAgentType() {
     const agentTypeValue =  this.callAllocationForm.controls["agentType"].value;
+    const selectedLanguage = this.callAllocationForm.controls["preferredLanguage"].value;
     this.checkAllocateDisabledButton();
-   
+    this.allocatesTo = [];
+    this.callAllocationForm.controls.allocateTo.patchValue(null);
+    if(this.enableLanguage) {
+          
+         const recordType= this.callAllocationForm.controls.recordType.value;
+         const phoneNoType= this.callAllocationForm.controls.phoneNoType.value;
+         const psmId= sessionStorage.getItem('providerServiceMapID');
+         const fromDate =  moment(this.range.controls.start.value).format('YYYY-MM-DDThh:mm:ssZ');
+         const toDate =  moment(this.range.controls.end.value).format('YYYY-MM-DDThh:mm:ssZ');
 
-   
-this.allocatesTo = [];
-this.callAllocationForm.controls.allocateTo.patchValue(null);
-    this.masterService.getAgentMasterByRoleId(agentTypeValue).subscribe((response:any)=>{
-      if(response){
-        this.allocatesTo = response;
-      }
-    })
+          this.supervisorService.getLowRiskRecordsByLanguage(psmId, phoneNoType, recordType, fromDate, toDate, selectedLanguage).subscribe((resp:any)=>{ 
+            if(resp){
+              this.callAllocationForm.controls.numericValue.patchValue(resp.totalLowRiskRecord);
+              this.allocateNoOfRecords = resp.totalLowRiskRecord;
+
+          this.masterService.getAgentMasterByRoleIdAndLanguage(agentTypeValue,selectedLanguage).subscribe((response:any)=>{
+          if(response){
+              this.allocatesTo = response;
+            }
+          });
+        }
+        });
+
+    } else {
+
+          this.masterService.getAgentMasterByRoleId(agentTypeValue).subscribe((response:any)=>{
+            if(response){
+              this.allocatesTo = response;
+            }
+          })
+  }
 
   }
 
@@ -210,12 +236,15 @@ this.callAllocationForm.controls.allocateTo.patchValue(null);
       numValue = false;
      }
 
-  
-    if (this.callAllocationForm.controls.agentType.value !== null && this.callAllocationForm.controls.allocateTo.value !== null && numValue) {
+
+    if ((!this.enableLanguage  || (this.enableLanguage && this.callAllocationForm.controls.preferredLanguage.value !== null )) && this.callAllocationForm.controls.agentType.value !== null && this.callAllocationForm.controls.allocateTo.value !== null && this.callAllocationForm.controls.allocateTo.value.length > 0  && numValue) {
       this.isAllocateDisabled = false;
-    } else {
+    }
+    else {
       this.isAllocateDisabled = true;
     }
+
+
 
   }
 
@@ -270,6 +299,8 @@ this.callAllocationForm.controls.allocateTo.patchValue(null);
     this.currentMaxAllocatedRecords = noOfRecords;
     this.enableAgentAllocation = true;
     this.isSubmitDisabled = false;
+    this.callAllocationForm.controls["preferredLanguage"].patchValue(null);
+    this.enableLanguage = false;
     this.resetInnerAllocateForm();
 
     if(value === 'introductory') {
@@ -290,10 +321,10 @@ this.callAllocationForm.controls.allocateTo.patchValue(null);
         if (values.roleName.toLowerCase() === "anm") {
             this.rolesArr.push(values);
             this.callAllocationForm.controls["agentType"].patchValue(values.roleId);
-            this.onClickOfAgentType();
             this.setSelectedRoleName(values.roleName);
         }
       });
+      this.enableLanguage = true;
     }
     else {
       this.roles.filter((values:any) => {
@@ -344,7 +375,8 @@ this.callAllocationForm.controls.allocateTo.patchValue(null);
       "createdBy": sessionStorage.getItem("userName"),
       "isIntroductory": this.isIntroductory,
       "tdate": toDate,
-      "fdate": fromDate
+      "fdate": fromDate,
+      "preferredLanguage": this.callAllocationForm.controls.preferredLanguage.value
     };
 
 
@@ -358,9 +390,10 @@ this.callAllocationForm.controls.allocateTo.patchValue(null);
         this.callAllocationForm.reset();
         this.range.reset();
         this.enableAgentAllocation = false;
-        this.isSubmitDisabled = false;
+        this.isSubmitDisabled = true;
         this.selectedRoleName = null;
         this.recordsData = [];
+        this.enableLanguage = false;
       
       } 
       else {
@@ -374,5 +407,21 @@ this.callAllocationForm.controls.allocateTo.patchValue(null);
       this.confirmationService.openDialog(err.title + err.detail, 'error')
     });
   
+  }
+
+
+  getLanguageMaster(){
+   
+    this.masterService.getLanguageMaster().subscribe((response: any) => {
+      if(response && response.length > 0){
+        this.languages = response;
+      }else {
+        this.confirmationService.openDialog(this.currentLanguageSet.noLanguagesFound, 'error');
+      }
+    },
+    (err: any) => {
+      this.confirmationService.openDialog(err.error, 'error');
+    }
+    );
   }
 }

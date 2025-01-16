@@ -514,7 +514,8 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
       createdBy: sessionStorage.getItem("userName"),
       modifiedBy: sessionStorage.getItem("userName"),
       complaintId: null,
-      isWrongNumber: false
+      isWrongNumber: false,
+      preferredLanguage: null
     };
     const commonReqobj = {
       benCallID: this.associateAnmMoService.callDetailId,
