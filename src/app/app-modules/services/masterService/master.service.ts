@@ -140,4 +140,8 @@ export class MasterService {
     return this.http.get(environment.getGenderMasterUrl);
   }
 
+  getAgentMasterByRoleIdAndLanguage(roleId : any,language : any){
+      return this.http.get(environment.getAgentMasterByRoleIdAndLanguageUrl + "/" + roleId + "/" + language);
+  }
+
 }

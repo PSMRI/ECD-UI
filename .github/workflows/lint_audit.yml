@@ -1,0 +1,12 @@
+name: ESLint and NPM Audit
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  lint-and-audit:
+    uses: PSMRI/.github/.github/workflows/lint_audit.yml@main
+

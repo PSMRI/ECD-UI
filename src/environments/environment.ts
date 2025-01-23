@@ -24,12 +24,12 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-const ecdIP = 'https://amritwprdev.piramalswasthya.org/';
-const commonIP = 'https://amritwprdev.piramalswasthya.org/';
-const adminIP = 'https://amritwprdev.piramalswasthya.org/';
-const COMMON_API = `${commonIP}commonapi-ecd-jwt/`;
-const ADMIN_API = `${adminIP}adminapi-v3.0.0/`;
-const ECD_API = `${ecdIP}ecdapi-v3.0.0/`;
+const ecdIP = 'http://amritwprdev.piramalswasthya.org:8080/';
+const commonIP = 'http://amritwprdev.piramalswasthya.org:8080/';
+const adminIP = 'http://amritwprdev.piramalswasthya.org:8080/';
+const COMMON_API = `${commonIP}commonapi-ecd/`;
+const ADMIN_API = `${adminIP}adminapi-v1.0/`;
+const ECD_API = `${ecdIP}ecdapi-v1.0/`;
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`;
 const sessionStorageEncKey = '';
 
@@ -58,6 +58,7 @@ export const environment = {
   createCallConfigurationUrl: `${ECD_API}callConfiguration/create`,
   updateCallConfigurationUrl: `${ECD_API}callConfiguration/update`,
   getUnallocatedCallsUrl: `${ECD_API}callAllocation/getEligibleRecordsInfo`,
+  getLowRiskRecordsByLanguageUrl: `${ECD_API}callAllocation/getEligibleRecordsLanguageInfo`,
   getAllocateCallsUrl: `${ECD_API}callAllocation/allocateCalls`,
   deleteReallocationUrl: `${ECD_API}callAllocation/moveToBin`,
   getAllocatedCountUrl: `${ECD_API}callAllocation/getAllocatedCallCountUser`,
@@ -161,6 +162,7 @@ export const environment = {
   getMappedCycleURL:`${ECD_API}sampleSelectionConfiguration/getByPSMId`,
   updateCycleConfigurationURL:`${ECD_API}sampleSelectionConfiguration/update`,
   getAgentMastersUrl:`${ECD_API}master/getAgentsByRoleId`,
+  getAgentMasterByRoleIdAndLanguageUrl:`${ECD_API}master/getAgentsByRoleIdAndPreferredLanguage`,
   getCaseSheetDataURL:`${ECD_API}qualityAudit/getBeneficiaryCasesheet`,
   /** Associate-anm-mo Urls */
   getAgentAuditScoreUrl: `${ECD_API}autoPreviewDialing/getRatingsByUserIdAndPsmId`,
