@@ -24,13 +24,13 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-const ecdIP = 'http://amritwprdev.piramalswasthya.org:8080/';
-const commonIP = 'http://amritwprdev.piramalswasthya.org:8080/';
-const adminIP = 'http://amritwprdev.piramalswasthya.org:8080/';
-const COMMON_API = `${commonIP}commonapi-ecd/`;
-const ADMIN_API = `${adminIP}adminapi-v1.0/`;
-const ECD_API = `${ecdIP}ecdapi-v1.0/`;
-const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`;
+const ecdIP = 'http://localhost/';
+const commonIP = 'http://localhost';
+const adminIP = 'http://localhost';
+const COMMON_API = `${commonIP}:8083/`;
+const ADMIN_API = `${adminIP}:8082/`;
+const ECD_API = `${ecdIP}:8084/`;
+const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
 const sessionStorageEncKey = '';
 
 export const environment = {
@@ -190,7 +190,7 @@ export const environment = {
   getBeneficiaryCallHistoryUrl:`${ECD_API}callHistory/getBeneficiaryCallHistory`,
   getCallHistoryDetailsUrl:`${ECD_API}callHistory/getBeneficiaryCallDetails`,
   /**CTI Urls */
-  ctiUrl: `http://10.208.122.99/`,
+  ctiUrl: `http://192.168.45.55/`,
   ctiEventUrl: `bar/cti_handler.php?e=`,
   getLoginKeyUrl:`${COMMON_API}cti/getLoginKey`,
   getAgentsDataUrl: `${ECD_API}master/getAgentsByRoleId`,

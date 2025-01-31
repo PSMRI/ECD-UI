@@ -43,4 +43,5 @@ testem.log
 Thumbs.db
 /.vscode
 src/environments/environment.ci.ts
+src/environments/environment.ts
 target
