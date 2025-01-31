@@ -30,6 +30,7 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { QaQuestionConfigComponent } from '../../qa-question-config/qa-question-config/qa-question-config.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-create-qa-question-config',
@@ -63,6 +64,7 @@ export class CreateQaQuestionConfigComponent implements OnInit, DoCheck {
     private qualitysupervisorService: QualitySupervisorService,
     private masterService: MasterService,
     private setLanguageService: SetLanguageService,
+    readonly sessionstorage:SessionStorageService,
   ) { }
 
   ngOnInit(): void {
@@ -203,7 +205,7 @@ export class CreateQaQuestionConfigComponent implements OnInit, DoCheck {
         }
       });
       const reqObj: any = {
-        psmId: sessionStorage.getItem('providerServiceMapID'),
+        psmId: this.sessionstorage.getItem('providerServiceMapID'),
       };
 
     this.qualitysupervisorService.getAuditSectionMap(reqObj.psmId).subscribe(
@@ -265,8 +267,8 @@ export class CreateQaQuestionConfigComponent implements OnInit, DoCheck {
       options: options,
       scores: scores,
       isFatalQues: addData.isFatalQues,
-      createdBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      createdBy: this.sessionstorage.getItem('userName'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
     const checkTableList = this.checkDuplicateRank(sectionObj);
     if(checkTableList === false){
@@ -288,7 +290,7 @@ export class CreateQaQuestionConfigComponent implements OnInit, DoCheck {
 
   getQuestionnaires() {
     this.qaQuestionnaireConfigList = [];
-    const psmId= sessionStorage.getItem('providerServiceMapID');
+    const psmId= this.sessionstorage.getItem('providerServiceMapID');
     this.qualitysupervisorService.getQuestionnaireData(psmId).subscribe(
       (response: any) => {
         if (response) {

@@ -29,6 +29,7 @@ import { MasterService } from 'src/app/app-modules/services/masterService/master
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from '../../../services/set-language/set-language.service';
 import { ajax, css } from "jquery";
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072
  * 10-02-2023
@@ -48,6 +49,7 @@ export class CustomerSatisfactionComponent implements OnInit, DoCheck {
     private setLanguageService: SetLanguageService,
     private qualitySupervisorService: QualitySupervisorService,
     private confirmationService: ConfirmationService,
+    readonly sessionstorage:SessionStorageService,
     private masterService: MasterService
   ) {}
 
@@ -85,7 +87,7 @@ export class CustomerSatisfactionComponent implements OnInit, DoCheck {
     this.customerSatisfactionData = [];
     this.setCustomerSatisfactionData(this.customerSatisfactionData);
 
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
 
     this.qualitySupervisorService
       .getCustomerSatisfactionData(this.frequency, psmId)

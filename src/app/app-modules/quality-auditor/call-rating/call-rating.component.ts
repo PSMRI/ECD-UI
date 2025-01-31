@@ -33,6 +33,7 @@ import { SetLanguageService } from '../../services/set-language/set-language.ser
 import { CallAuditComponent } from '../call-audit/call-audit/call-audit.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { ViewCasesheetComponent } from '../view-casesheet/view-casesheet.component';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 
 
@@ -80,6 +81,7 @@ export class CallRatingComponent implements OnInit{
     private fb: FormBuilder,
     private qualityAuditorService: QualityAuditorService,
     private confirmationService: ConfirmationService,
+    readonly sessionstorage:SessionStorageService,
     public dialog: MatDialog
   ) { }
 
@@ -124,7 +126,7 @@ export class CallRatingComponent implements OnInit{
 
   }
   getQualityGrades(){
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.qualityAuditorService.getQualityAuditGrades(psmId).subscribe((res: any) => {
       if(res && res.length > 0){
         this.grades = res;
@@ -161,7 +163,7 @@ export class CallRatingComponent implements OnInit{
   }
 
   getSectionQuestions(){
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.qualityAuditorService.getQuesSecForCallRatings(psmId).subscribe((res: any) => {
       if(res && res.length > 0){
         this.ratingQuestions = res;
@@ -380,9 +382,9 @@ export class CallRatingComponent implements OnInit{
             ecdCallType: this.routedData.outboundCallType,
             agentId: this.routedData.agentid,
             benCallId: this.routedData.benCallID,
-            qualityAuditorId: sessionStorage.getItem('userId'),
-            createdBy: sessionStorage.getItem('userName'),
-            psmId: sessionStorage.getItem('providerServiceMapID'),
+            qualityAuditorId: this.sessionstorage.getItem('userID'),
+            createdBy: this.sessionstorage.getItem('userName'),
+            psmId: this.sessionstorage.getItem('providerServiceMapID'),
           };
           reqObj.push(obj);
         }
@@ -429,11 +431,11 @@ export class CallRatingComponent implements OnInit{
             ecdCallType: this.routedData.outboundCallType,
             agentId: this.routedData.agentid,
             benCallId: this.routedData.benCallID,
-            qualityAuditorId: sessionStorage.getItem('userId'),
-            psmId: sessionStorage.getItem('providerServiceMapID'),
+            qualityAuditorId: this.sessionstorage.getItem('userID'),
+            psmId: this.sessionstorage.getItem('providerServiceMapID'),
             deleted: false,
-            modifiedBy: sessionStorage.getItem('userName'),
-            createdBy: sessionStorage.getItem('userName'),
+            modifiedBy: this.sessionstorage.getItem('userName'),
+            createdBy: this.sessionstorage.getItem('userName'),
           };
           quesObj.push(obj)
         }
@@ -448,11 +450,11 @@ export class CallRatingComponent implements OnInit{
       callRemarks: this.callRemarks ? this.callRemarks: null,
       agentId: this.routedData.agentid,
       benCallId: this.routedData.benCallID,
-      qualityAuditorId: sessionStorage.getItem('userId'),      
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      qualityAuditorId: this.sessionstorage.getItem('userID'),      
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
       deleted: false,
-      modifiedBy: sessionStorage.getItem('userName'),
-      createdBy: sessionStorage.getItem('userName'),
+      modifiedBy: this.sessionstorage.getItem('userName'),
+      createdBy: this.sessionstorage.getItem('userName'),
     }
 
     const reqObj = {

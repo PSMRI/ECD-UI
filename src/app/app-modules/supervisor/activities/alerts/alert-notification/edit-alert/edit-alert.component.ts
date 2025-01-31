@@ -31,6 +31,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { AlertNotificationComponent } from '../alert-notification.component';
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-edit-alert',
@@ -68,7 +69,7 @@ export class EditAlertComponent implements OnInit, DoCheck {
   Stime = '';
   Etime = '';
 
-  constructor(private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService) { }
+  constructor(readonly sessionstorage:SessionStorageService,private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
 
@@ -89,7 +90,7 @@ export class EditAlertComponent implements OnInit, DoCheck {
 
     this.getSelectedLanguage();
     this.getNotificationType();
-    this.uname = sessionStorage.getItem("userName");
+    this.uname = this.sessionstorage.getItem('userName');
     this.range.controls.start.setValue(startDate);
     this.range.controls.end.setValue(endDate);
     this.editAlertForm.controls.startTime.patchValue(startTime);
@@ -117,7 +118,7 @@ export class EditAlertComponent implements OnInit, DoCheck {
 
   getRolesForAlert(){
     // let reqObj = { 
-    //   providerServiceMapId: sessionStorage.getItem('providerServiceMapID')
+    //   providerServiceMapId: this.sessionstorage.getItem('providerServiceMapID')
     //  }
     this.supervisorService.getRole().subscribe((res:any)=>{
       if(res.data !== undefined && res.data !== null &&  res.statusCode === 200 ){
@@ -144,7 +145,7 @@ export class EditAlertComponent implements OnInit, DoCheck {
 
    getOfficesForAlert(){
     const reqObj = { 
-      providerServiceMapId: sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapId: this.sessionstorage.getItem('providerServiceMapID'),
       roleID: this.roleID
      }
     this.supervisorService.getOffices(reqObj).subscribe((res:any)=>{
@@ -218,7 +219,7 @@ export class EditAlertComponent implements OnInit, DoCheck {
    endDate.setMilliseconds(0);
         
     const reqObj = {
-      providerServiceMapID: sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
       notificationTypeID: this.communicationTypeId,
       roleID: this.data.role.RoleID,
       notificationID: this.data.notificationID,
@@ -254,7 +255,7 @@ export class EditAlertComponent implements OnInit, DoCheck {
   }
   getNotificationType(){
     const reqObj = {
-      providerServiceMapID : sessionStorage.getItem('providerServiceMapID')
+      providerServiceMapID : this.sessionstorage.getItem('providerServiceMapID')
   } 
     this.supervisorService.getNotificationType(reqObj).subscribe((res:any)=>{
       if(res.statusCode === 200){

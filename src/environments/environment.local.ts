@@ -31,9 +31,11 @@ const COMMON_API = `${commonIP}:8083/`;
 const ADMIN_API = `${adminIP}:8082/`;
 const ECD_API = `${ecdIP}:8084/`;
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
+const sessionStorageEncKey = '';
 
 export const environment = {
   production: false,
+  encKey: sessionStorageEncKey,
   ioturl: `${biologicalScreeningDeviceAPI}`,
   extendSessionUrl: `${ECD_API}common/extend/redisSession`,
   language: 'English',

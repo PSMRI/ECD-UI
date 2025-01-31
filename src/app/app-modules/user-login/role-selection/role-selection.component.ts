@@ -30,6 +30,7 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-role-selection',
@@ -44,17 +45,18 @@ export class RoleSelectionComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    readonly sessionstorage:SessionStorageService,
     private loginService: LoginserviceService
   ) {}
 
   ngOnInit(): void {
     // this.userRoles = this.loginService.userPrivileges
-    sessionStorage.setItem('role', "");
-    const userRolesString = sessionStorage.getItem('userRoles');
+    this.sessionstorage.setItem('role', "");
+    const userRolesString = this.sessionstorage.getItem('userRoles');
     if (userRolesString !== null) {
       this.userRoles = JSON.parse(userRolesString);
     }
-    // this.userRoles = sessionStorage.getItem('userRoles');
+    // this.userRoles = this.sessionstorage.getItem('userRoles');
     console.log('userPrivileges', this.userRoles);
   }
 
@@ -73,8 +75,8 @@ export class RoleSelectionComponent implements OnInit {
     if (this.selectedIndex === i) {
       this.isSelected = !this.isSelected;
     }
-    sessionStorage.setItem('role', role);
-    sessionStorage.setItem('roleId', roleId);
+    this.sessionstorage.setItem('role', role);
+    this.sessionstorage.setItem('roleId', roleId);
     this.router.navigate(['/dashboard']);
   }
 }

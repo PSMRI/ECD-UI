@@ -33,6 +33,7 @@ import { LoginserviceService } from '../../services/loginservice/loginservice.se
 import { DomSanitizer } from '@angular/platform-browser';
 import { AssociateAnmMoService } from '../../services/associate-anm-mo/associate-anm-mo.service';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-agents-innerpage',
@@ -77,6 +78,7 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
     private ctiService: CtiService,
     private loginService: LoginserviceService,
     public sanitizer: DomSanitizer,
+    readonly sessionstorage:SessionStorageService,
     private setLanguageService: SetLanguageService,
   ) { }
 
@@ -97,7 +99,7 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
     this.getSelectedLanguage();
     this.addListener();
     this.isEnableComp = "Outbound Worklist";
-    this.roleId = sessionStorage.getItem('roleId');
+    this.roleId = this.sessionstorage.getItem('roleId');
     // this.associateAnmMoService.setContainer(this.container);
     this.route.queryParams.subscribe((params: any) => {
       if(params !== undefined && params !==null){
@@ -151,9 +153,9 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
   
    
 
-    this.benPhoneNo = sessionStorage.getItem("benPhoneNo");
-    this.callId = sessionStorage.getItem("callId");
-    // sessionStorage.setItem("onCall", "true");
+    this.benPhoneNo = this.sessionstorage.getItem("benPhoneNo");
+    this.callId = this.sessionstorage.getItem("callId");
+    // this.sessionstorage.setItem("onCall", "true");
 
 
     this.timeRemaining = this.ctiService.wrapupTime;
@@ -286,15 +288,15 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
           
           const reqObj = {
             obCallId: this.associateAnmMoService.selectedBenDetails.obCallId,
-            callReceivedUserId: sessionStorage.getItem('userId'),
+            callReceivedUserId: this.sessionstorage.getItem('userID'),
             beneficiaryRegId: this.associateAnmMoService.selectedBenDetails.beneficiaryRegId,
-            calledServiceId: sessionStorage.getItem('providerServiceMapID'),
-            psmId: sessionStorage.getItem('providerServiceMapID'),
+            calledServiceId: this.sessionstorage.getItem('providerServiceMapID'),
+            psmId: this.sessionstorage.getItem('providerServiceMapID'),
             subCategory: this.associateAnmMoService.selectedBenDetails.ecdCallType,
             callId: eventData[2],
-            createdBy: sessionStorage.getItem("userName"),
+            createdBy: this.sessionstorage.getItem('userName'),
             agentId: this.loginService.agentId,
-            receivedRoleName: sessionStorage.getItem('role'),
+            receivedRoleName: this.sessionstorage.getItem('role'),
             phoneNo: phNo,
             isMother: this.associateAnmMoService.isMother,
           };
@@ -307,13 +309,13 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
               if(response && response.response) {
               this.associateAnmMoService.callDetailId = response.response.benCallId;
 
-              sessionStorage.setItem("onCall", "true");
+              this.sessionstorage.setItem("onCall", "true");
               this.callId = eventData[2];
-              sessionStorage.setItem("benPhoneNo", eventData[1]);
-              sessionStorage.setItem("callId",  eventData[2]);
+              this.sessionstorage.setItem("benPhoneNo", eventData[1]);
+              this.sessionstorage.setItem("callId",  eventData[2]);
       
-              this.benPhoneNo = sessionStorage.getItem("benPhoneNo");
-              this.callId = sessionStorage.getItem("callId");
+              this.benPhoneNo = this.sessionstorage.getItem("benPhoneNo");
+              this.callId = this.sessionstorage.getItem("callId");
               
        
               this.associateAnmMoService.setLoadDetailsInReg(true);
@@ -341,13 +343,13 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
           "transfer event received, routing to inner page agent and then from their route to call screen"
         );
        
-        sessionStorage.setItem("onCall", "true");
+        this.sessionstorage.setItem("onCall", "true");
         this.callId = eventData[2];
-        sessionStorage.setItem("benPhoneNo", this.eventSpiltData[1]);
-        sessionStorage.setItem("callId",  this.eventSpiltData[2]);
+        this.sessionstorage.setItem("benPhoneNo", this.eventSpiltData[1]);
+        this.sessionstorage.setItem("callId",  this.eventSpiltData[2]);
 
-        this.benPhoneNo = sessionStorage.getItem("benPhoneNo");
-        this.callId = sessionStorage.getItem("callId");
+        this.benPhoneNo = this.sessionstorage.getItem("benPhoneNo");
+        this.callId = this.sessionstorage.getItem("callId");
         this.associateAnmMoService.setOpenComp("Call Closed");
         // this.associateAnmMoService.loadComponent(
         //   OutboundWorklistComponent,
@@ -484,15 +486,15 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
       obCallId: this.associateAnmMoService.selectedBenDetails.obCallId,
       motherId :this.associateAnmMoService.selectedBenDetails.mctsidNo?this.associateAnmMoService.selectedBenDetails.mctsidNo:this.associateAnmMoService.selectedBenDetails.motherId,
       childId:this.associateAnmMoService.selectedBenDetails.mctsidNoChildId?this.associateAnmMoService.selectedBenDetails.mctsidNoChildId:null,
-      userId: sessionStorage.getItem('userId'),
+      userId: this.sessionstorage.getItem('userID'),
       agentId: this.loginService.agentId,
-      role: sessionStorage.getItem('role'),
-      phoneNo: sessionStorage.getItem("benPhoneNo"),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      role: this.sessionstorage.getItem('role'),
+      phoneNo: this.sessionstorage.getItem("benPhoneNo"),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
       ecdCallType:this.associateAnmMoService.selectedBenDetails.outboundCallType,
-      callId: sessionStorage.getItem("callId"),
+      callId: this.sessionstorage.getItem("callId"),
       isOutbound: true,
-      beneficiaryRegId: (this.associateAnmMoService.selectedBenDetails.beneficiaryRegId === null) ? sessionStorage.getItem("beneficiaryRegId"): this.associateAnmMoService.selectedBenDetails.beneficiaryRegId,
+      beneficiaryRegId: (this.associateAnmMoService.selectedBenDetails.beneficiaryRegId === null) ? this.sessionstorage.getItem("beneficiaryRegId"): this.associateAnmMoService.selectedBenDetails.beneficiaryRegId,
       isFurtherCallRequired: true,
       reasonForNoFurtherCallsId: null,
       reasonForNoFurtherCalls: null,
@@ -511,20 +513,20 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
       isHrp: this.associateAnmMoService.isMother?this.associateAnmMoService.isHighRiskPregnancy:false,
       isHrni: (this.associateAnmMoService.isMother === false)?this.associateAnmMoService.isHighRiskInfant:false,
       deleted: false,
-      createdBy: sessionStorage.getItem("userName"),
-      modifiedBy: sessionStorage.getItem("userName"),
+      createdBy: this.sessionstorage.getItem('userName'),
+      modifiedBy: this.sessionstorage.getItem('userName'),
       complaintId: null,
       isWrongNumber: false,
       preferredLanguage: null
     };
     const commonReqobj = {
       benCallID: this.associateAnmMoService.callDetailId,
-      callID: sessionStorage.getItem("callId"),
+      callID: this.sessionstorage.getItem("callId"),
       remarks: null,
       callTypeID: this.callTypeId,
       emergencyType: 0,
-      agentIPAddress: sessionStorage.getItem("agentIp"),
-      createdBy: sessionStorage.getItem("userName"),
+      agentIPAddress: this.sessionstorage.getItem("agentIp"),
+      createdBy: this.sessionstorage.getItem('userName'),
       isFollowupRequired: false,
       fitToBlock: false,
       endCall: true,
@@ -547,7 +549,7 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
               'success'
             );
             this.unsubscribeWrapupTime();
-            sessionStorage.setItem("onCall", "false");
+            this.sessionstorage.setItem("onCall", "false");
             this.associateAnmMoService.fromComponent = null;
             this.associateAnmMoService.setCallClosure();
             this.resetSessions();
@@ -578,7 +580,7 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
 
     getCallTypes() {
       const reqObj={
-        providerServiceMapID: sessionStorage.getItem('providerServiceMapID')
+        providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID')
       }
       this.associateAnmMoService.getCallTypes(reqObj).subscribe(
         (response:any) => {
@@ -650,7 +652,7 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
       (response: any) => {
         if (response && response.statusCode === 200 && response.data) {
           const agentIp = response.data.agent_ip
-          sessionStorage.setItem('agentIp', agentIp);
+          this.sessionstorage.setItem('agentIp', agentIp);
         
         } else {
           this.confirmationService.openDialog(response.errorMessage, `info`);
@@ -668,7 +670,7 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
   })
 
   backToDashboard(){
-    if(sessionStorage.getItem("onCall") === "true") {
+    if(this.sessionstorage.getItem("onCall") === "true") {
       this.confirmationService.openDialog(this.currentLanguageSet.youAreNotAllowedToGoBackToDashboard, 'info')
       
     }

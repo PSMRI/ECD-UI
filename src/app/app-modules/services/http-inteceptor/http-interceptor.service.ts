@@ -39,6 +39,7 @@ import { ConfirmationService } from '../confirmation/confirmation.service';
 import { environment } from 'src/environments/environment';
 import { SetLanguageService } from '../set-language/set-language.service';
 import { throwError } from 'rxjs/internal/observable/throwError';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -51,7 +52,8 @@ export class HttpInterceptorService implements HttpInterceptor {
     private router: Router,
     private confirmationService: ConfirmationService,
     private http: HttpClient,
-    private setLanguageService: SetLanguageService
+    readonly sessionstorage:SessionStorageService,
+    private setLanguageService: SetLanguageService,
   ) {}
 
   intercept(

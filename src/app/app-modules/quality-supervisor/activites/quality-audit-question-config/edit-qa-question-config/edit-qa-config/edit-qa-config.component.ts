@@ -30,6 +30,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { QaQuestionConfigComponent } from '../../qa-question-config/qa-question-config/qa-question-config.component';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-edit-qa-config',
@@ -59,6 +60,7 @@ export class EditQaConfigComponent implements OnInit, DoCheck {
     private confirmationService: ConfirmationService,
     private qualitysupervisorService: QualitySupervisorService,
     private setLanguageService: SetLanguageService,
+    readonly sessionstorage:SessionStorageService,
     private masterService: MasterService,
   ) { }
 
@@ -187,7 +189,7 @@ export class EditQaConfigComponent implements OnInit, DoCheck {
 
     getSectionList(){
       const reqObj: any = {
-        psmId: sessionStorage.getItem('providerServiceMapID'),
+        psmId: this.sessionstorage.getItem('providerServiceMapID'),
       };
 
     this.qualitysupervisorService.getAuditSectionMap(reqObj.psmId).subscribe(
@@ -213,7 +215,7 @@ export class EditQaConfigComponent implements OnInit, DoCheck {
 
     getQuestionnaires() {
       this.qaQuestionnaireConfigList = [];
-      const psmId= sessionStorage.getItem('providerServiceMapID');
+      const psmId= this.sessionstorage.getItem('providerServiceMapID');
       this.qualitysupervisorService.getQuestionnaireData(psmId).subscribe(
         (response: any) => {
           if (response) {
@@ -267,9 +269,9 @@ export class EditQaConfigComponent implements OnInit, DoCheck {
       sectionRank: editValueData.sectionRank,
       deleted: false,
       isFatalQues: editValueData.isFatalQues,
-      createdBy: sessionStorage.getItem('userName'),
-      modifiedBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      createdBy: this.sessionstorage.getItem('userName'),
+      modifiedBy: this.sessionstorage.getItem('userName'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
       options: optionValue,
       scores: scores
     };

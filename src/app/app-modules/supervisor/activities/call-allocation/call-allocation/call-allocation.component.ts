@@ -29,6 +29,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 
 @Component({
@@ -100,6 +101,7 @@ export class CallAllocationComponent implements OnInit, DoCheck {
     private supervisorService: SupervisorService,
     private confirmationService: ConfirmationService,
     private setLanguageService: SetLanguageService,
+    readonly sessionstorage:SessionStorageService,
     private masterService: MasterService) {    
     }
 
@@ -249,13 +251,13 @@ export class CallAllocationComponent implements OnInit, DoCheck {
   }
 
   getMasterData() {
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getRoleMaster(psmId).subscribe((res:any)=>{
       if(res){
         this.roles = res;
       }
     })
-    const roleId = sessionStorage.getItem('roleId');
+    const roleId = this.sessionstorage.getItem('roleId');
      if (roleId !== null) {
        this.userRoles = JSON.parse(roleId);
      }
@@ -269,7 +271,7 @@ export class CallAllocationComponent implements OnInit, DoCheck {
    
     
      
-     const psmId= sessionStorage.getItem('providerServiceMapID');
+     const psmId= this.sessionstorage.getItem('providerServiceMapID');
     //  let fromDate = moment(fDate).toISOString();
     //  let toDate = moment(tDate).toISOString();
     const fromDate =  moment(this.range.controls.start.value).format('YYYY-MM-DDThh:mm:ssZ');
@@ -371,8 +373,8 @@ export class CallAllocationComponent implements OnInit, DoCheck {
       "roleName": this.selectedRoleName,
       "recordType": this.callAllocationForm.controls.recordType.value,
       "phoneNoType": this.callAllocationForm.controls.phoneNoType.value,
-      "psmId": sessionStorage.getItem('providerServiceMapID'),
-      "createdBy": sessionStorage.getItem("userName"),
+      "psmId": this.sessionstorage.getItem('providerServiceMapID'),
+      "createdBy": this.sessionstorage.getItem('userName'),
       "isIntroductory": this.isIntroductory,
       "tdate": toDate,
       "fdate": fromDate,

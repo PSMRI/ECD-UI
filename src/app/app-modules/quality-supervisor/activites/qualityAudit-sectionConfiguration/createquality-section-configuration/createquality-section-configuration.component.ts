@@ -30,6 +30,7 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { QualitySectionConfigurationComponent } from '../quality-section-configuration/quality-section-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 
 @Component({
@@ -52,7 +53,8 @@ export class CreatequalitySectionConfigurationComponent implements OnInit, After
   sectionName: any;
   sectionRank: any;
   
-  constructor(private fb: FormBuilder,private setLanguageService: SetLanguageService,private qualitySupervisorService: QualitySupervisorService,private confirmationService: ConfirmationService) { }
+  constructor(private fb: FormBuilder,private setLanguageService: SetLanguageService,
+    readonly sessionstorage:SessionStorageService,private qualitySupervisorService: QualitySupervisorService,private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.getSelectedLanguage();
@@ -103,8 +105,8 @@ export class CreatequalitySectionConfigurationComponent implements OnInit, After
       sectionName: formData.sectionName,
       sectionDesc: formData.sectionDescription,
       rank: formData.rank,
-      createdBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID')
+      createdBy: this.sessionstorage.getItem('userName'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID')
     };
 
     const checkfromBufferList = this.checkDuplicateRank(sectionObj);

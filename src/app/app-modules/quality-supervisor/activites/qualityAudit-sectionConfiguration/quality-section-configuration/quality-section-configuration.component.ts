@@ -31,6 +31,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { CreatequalitySectionConfigurationComponent } from '../createquality-section-configuration/createquality-section-configuration.component';
 import { EditQualitySectionConfigurationComponent } from '../edit-quality-section-configuration/edit-quality-section-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-quality-section-configuration',
@@ -58,6 +59,7 @@ export class QualitySectionConfigurationComponent implements OnInit, AfterViewIn
   constructor(
     private setLanguageService: SetLanguageService,
     private confirmationService: ConfirmationService,
+    readonly sessionstorage:SessionStorageService,
     private qualitySupervisorService: QualitySupervisorService
   ) {}
   ngOnInit(): void {
@@ -83,7 +85,7 @@ export class QualitySectionConfigurationComponent implements OnInit, AfterViewIn
   }
   getAuditSectionDetails() {
     const reqObj: any = {
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
     this.qualitySupervisorService
       .getAuditSectionMap(reqObj.psmId)
@@ -131,7 +133,7 @@ export class QualitySectionConfigurationComponent implements OnInit, AfterViewIn
 
   getQuestionaireConfiguartionMap(){
     const reqObj: any = {
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
     this.qualitySupervisorService
       .getListOfMapQuestionaireConfiguration(reqObj.psmId)
@@ -199,10 +201,10 @@ export class QualitySectionConfigurationComponent implements OnInit, AfterViewIn
               sectionName: tableValue.sectionName,
               sectionDesc: tableValue.sectionDesc,
               rank: tableValue.rank,
-              createdBy: sessionStorage.getItem('userName'),
-              psmId: sessionStorage.getItem('providerServiceMapID'),
+              createdBy: this.sessionstorage.getItem('userName'),
+              psmId: this.sessionstorage.getItem('providerServiceMapID'),
               deleted: type === 'activate' ? false : true,
-              modifiedBy: sessionStorage.getItem('userName'),
+              modifiedBy: this.sessionstorage.getItem('userName'),
             };
   
             this.qualitySupervisorService.updateSectionConfiguration(reqObj).subscribe(

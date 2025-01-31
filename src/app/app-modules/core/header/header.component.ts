@@ -32,7 +32,9 @@ import { CtiService } from '../../services/cti/cti.service';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
 import { QualityAuditorService } from '../../services/quality-auditor/quality-auditor.service';
-
+import { CookieService } from 'ngx-cookie-service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: 'app-header',
@@ -87,6 +89,9 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
     private fb: FormBuilder,
     private ctiService: CtiService,
     private qualityAuditorService: QualityAuditorService,
+    private cookieService: CookieService,
+    readonly sessionstorage:SessionStorageService,
+    private auth: AuthService,
 
 
   ) { }
@@ -104,19 +109,28 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
 
     this.loginService.enableRoleFlag$.subscribe((response) => {
       if (response) {
-        const userRolesString = sessionStorage.getItem('userRoles');
-        if (userRolesString !== null) {
-          this.roles = JSON.parse(userRolesString);
-          this.getLanguageList();
-        }
+        setTimeout(() => {
+          const userRolesString:any = this.sessionstorage.getItem('userRoles');
+          if (userRolesString !== null) {
+            this.roles = JSON.parse(userRolesString);
+            this.getLanguageList();
+            //this.refreshLogin();
+          }
+        }, 1000);        
       }  
-  });
-    }
+    });
+  }
 
   ngDoCheck(){
-    this.isAuthenticated = sessionStorage.getItem("isAuthenticated") === "true" ? true : false;
-    this.userName = (sessionStorage.getItem("userName") !== null && sessionStorage.getItem("userName") !== undefined) ? sessionStorage.getItem("userName"): null;
-    const role = sessionStorage.getItem("role");
+    const isAuth = sessionStorage.getItem("isAuthenticated");
+    if(isAuth === 'true'){
+      this.isAuthenticated = true;
+    }else{
+      this.isAuthenticated = false;
+    }
+    //this.isAuthenticated = this.sessionstorage.getItem("isAuthenticated") === "true" ? true : false;
+    this.userName = (this.sessionstorage.getItem('userName') !== null && this.sessionstorage.getItem('userName') !== undefined) ? this.sessionstorage.getItem('userName'): null;
+    const role = this.sessionstorage.getItem("role");
     if(role !== null && role !== undefined && role !== ""){
     this.headersForm.controls.selectRole.patchValue(role);
     this.roleSelection(role);
@@ -131,8 +145,8 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
   }
 
   ngAfterViewInit(){
-    const userRolesString = sessionStorage.getItem('userRoles');
-    if (userRolesString !== null) {
+    const userRolesString = this.sessionstorage.getItem('userRoles');
+    if (userRolesString && userRolesString !== null) {
       this.roles = JSON.parse(userRolesString);
     }
     this.getSelectedLanguage();
@@ -140,16 +154,36 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
   }
 
   ngOnChanges(){
-    const userRolesString = sessionStorage.getItem('userRoles');
+    const userRolesString = this.sessionstorage.getItem('userRoles');
     if (userRolesString !== null) {
       this.roles = JSON.parse(userRolesString);
     }
    
   }
 
+  refreshLogin(){
+    this.auth.getUserDetails().subscribe((res: any) => {
+      // console.log(">>>>>>", res);
+      if (res.statusCode === '200') {
+        if (res.data.previlegeObj && res.data.previlegeObj[0]) {
+          this.cookieService.set('Jwttoken', res.data.Jwttoken);
+          delete res.data.Jwttoken;
+          this.sessionstorage.setItem('loginDataResponse', JSON.stringify(res.data));
+          this.sessionstorage.setItem('key', res.key);
+          // this.sessionstorage.setItem('designation', this.designation);
+          this.sessionstorage.setItem('userID', res.userID);
+          this.sessionstorage.setItem('userName', res.userName);
+          this.sessionstorage.setItem('username', res.userName);
+        } else {
+          this.confirmationService.openDialog('Seems you are logged in from somewhere else, Logout from there & try back in.', 'error');
+        }
+      }
+    });
+  }
+
 
   logout(){
-    const isOnCall = sessionStorage.getItem("onCall");
+    const isOnCall = this.sessionstorage.getItem("onCall");
     if(isOnCall === "true") {
       this.confirmationService.openDialog(this.currentLanguageSet.youAreNotAllowedToLogOutCloseTheCall, 'info')
 }
@@ -189,10 +223,10 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
       this.roleSelected = false;
     }
 
-    if( sessionStorage.getItem("onCall") !== undefined && sessionStorage.getItem("onCall")  !== null && sessionStorage.getItem("onCall") === "false" && this.roleSelected === true) {
+    if( this.sessionstorage.getItem("onCall") !== undefined && this.sessionstorage.getItem("onCall")  !== null && this.sessionstorage.getItem("onCall") === "false" && this.roleSelected === true) {
       this.roleSelected = true; 
     }
-    else if(sessionStorage.getItem("onCall") !== undefined && sessionStorage.getItem("onCall")  !== null && sessionStorage.getItem("onCall") === "true") {
+    else if(this.sessionstorage.getItem("onCall") !== undefined && this.sessionstorage.getItem("onCall")  !== null && this.sessionstorage.getItem("onCall") === "true") {
       this.roleSelected = false;
     }
   }
@@ -203,10 +237,10 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
       if(res){
         const route = role + "/dashboard"
         this.router.navigate(['/dashboard']);
-        sessionStorage.setItem('role', role);
+        this.sessionstorage.setItem('role', role);
         this.roles.filter((item: any) => {
           if(item.RoleName === role){
-          sessionStorage.setItem('roleId', item.RoleID);
+          this.sessionstorage.setItem('roleId', item.RoleID);
           }
         });
         this.coreService.onRoleChange(true)

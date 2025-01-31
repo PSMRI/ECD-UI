@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { MapQuestionaireConfigurationComponent } from '../map-questionaire-configuration/map-questionaire-configuration.component';
 
 @Component({
@@ -32,6 +33,7 @@ export class EditQuestionMappingComponent implements OnInit, DoCheck {
     private fb: FormBuilder,
     private confirmationService: ConfirmationService,
     private supervisorService: SupervisorService,
+    readonly sessionstorage:SessionStorageService,
   ) { }
   editQuestionaireMappingForm = this.fb.group({
     id:[''],
@@ -45,7 +47,7 @@ export class EditQuestionMappingComponent implements OnInit, DoCheck {
   questionnaireList:any=[];
 
   getQuestionnaires() {
-  const psmId = sessionStorage.getItem('providerServiceMapID');
+  const psmId = this.sessionstorage.getItem('providerServiceMapID');
   const alreadyMappedId:any=[];
   if(this.mappedQuestionListData.length>0){
     for(let i=0;i<this.mappedQuestionListData.length;i++){
@@ -232,9 +234,9 @@ filterChildQuestionsList(editQuestionaireMappingForm:any){
       parentQuestionId: this.selectedParentId,
       answer: this.editQuestionaireMappingForm.controls.answerType.value,
       childQuestionId: this.selectedChildId,
-      createdBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
-      modifiedBy: sessionStorage.getItem('userName'),
+      createdBy: this.sessionstorage.getItem('userName'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
+      modifiedBy: this.sessionstorage.getItem('userName'),
       deleted: false,
     };
     if(this.selectedParentId === null ||this.selectedChildId === null ){
