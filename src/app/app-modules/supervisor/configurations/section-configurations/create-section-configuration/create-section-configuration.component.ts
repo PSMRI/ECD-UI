@@ -30,6 +30,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { SectionConfigurationComponent } from '../section-configuration/section-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 /**
  * KA40094929
@@ -54,6 +55,7 @@ export class CreateSectionConfigurationComponent implements OnInit, AfterViewIni
     private setLanguageService: SetLanguageService,
     private supervisorService: SupervisorService,
     private confirmationService: ConfirmationService,
+    readonly sessionstorage:SessionStorageService,
   ) { }
 
   sectionconfigurationform = this.fb.group({
@@ -131,8 +133,8 @@ export class CreateSectionConfigurationComponent implements OnInit, AfterViewIni
   createSectionConfiguration(){
     const dataArray = [...this.addSection.data].map(element => ({
       ...element,
-      createdBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID')
+      createdBy: this.sessionstorage.getItem('userName'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID')
     }));
     const reqObj = dataArray;
     console.log('reqObj', reqObj);

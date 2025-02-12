@@ -29,6 +29,7 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { QualitySectionConfigurationComponent } from '../quality-section-configuration/quality-section-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-edit-quality-section-configuration',
@@ -47,7 +48,8 @@ export class EditQualitySectionConfigurationComponent implements OnInit {
   sectionName: any;
 
 
-  constructor(private fb: FormBuilder,private setLanguageService: SetLanguageService,private qualitySupervisorService: QualitySupervisorService,private confirmationService: ConfirmationService) { }
+  constructor(private fb: FormBuilder,private setLanguageService: SetLanguageService,
+    readonly sessionstorage:SessionStorageService,private qualitySupervisorService: QualitySupervisorService,private confirmationService: ConfirmationService) { }
   
   validateWhitespace(control: FormControl) {
     if(control.value !== null && control.value !== undefined){
@@ -121,10 +123,10 @@ export class EditQualitySectionConfigurationComponent implements OnInit {
       sectionName:editValue.sectionName ,
       rank: editValue.rank,
       sectionDesc: editValue.sectionDesc,
-      createdBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      createdBy: this.sessionstorage.getItem('userName'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
       deleted: false,
-      modifiedBy: sessionStorage.getItem('userName'),
+      modifiedBy: this.sessionstorage.getItem('userName'),
     };
     const checkFromMainList = this.checkDuplicateRangeFromMainList(reqObj)
     console.log(reqObj);

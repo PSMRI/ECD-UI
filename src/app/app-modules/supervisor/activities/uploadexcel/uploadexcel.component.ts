@@ -30,6 +30,7 @@ import { saveAs } from 'file-saver';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import * as FileSaver from 'file-saver';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 @Component({
   selector: 'app-uploadexcel',
   templateUrl: './uploadexcel.component.html',
@@ -73,6 +74,7 @@ export class UploadexcelComponent implements OnInit {
     private http: HttpClient,
     private confirmationService: ConfirmationService,
     private fb: FormBuilder,
+    readonly sessionstorage:SessionStorageService,
     private supervisorService: SupervisorService
     ) { }
 
@@ -106,9 +108,9 @@ export class UploadexcelComponent implements OnInit {
     this.fileTypeID =this.uploadForm.value.choice === "Mother" ? "Mother Data" : "Child Data";
     const file: File = this.fileList[0];
     const requestData = {
-      providerServiceMapID: sessionStorage.getItem('providerServiceMapID'),
-      userID: sessionStorage.getItem('userId'),
-      createdBy: sessionStorage.getItem("userName"),
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
+      userID: this.sessionstorage.getItem('userID'),
+      createdBy: this.sessionstorage.getItem('userName'),
       fieldFor: this.fileTypeID,
       fileName: this.file !== undefined ? this.file.name : "",
       fileExtension:
@@ -279,7 +281,7 @@ export class UploadexcelComponent implements OnInit {
   downloadTemplate(){
     const reqObj = {
       fileTypeID : this.uploadForm.value.choice === "Mother" ? "Mother Data" : "Child Data",
-      providerServiceMapID:sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapID:this.sessionstorage.getItem('providerServiceMapID'),
     };
     this.supervisorService.getDownloadData(reqObj).subscribe((res:any)=>{
         if(res !== undefined && res !== null)
@@ -330,9 +332,9 @@ export class UploadexcelComponent implements OnInit {
     this.fileTypeID =this.uploadTemplateForm.value.choice === "Mother" ? "Mother Data" : "Child Data";
     const file: File = this.fileList[0];
     const requestData = {
-      psmId: sessionStorage.getItem('providerServiceMapID'),
-      // userID: sessionStorage.getItem('userId'),
-      createdBy: sessionStorage.getItem("userName"),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
+      // userID: this.sessionstorage.getItem('userID'),
+      createdBy: this.sessionstorage.getItem('userName'),
       fileType: this.fileTypeID,
       fileName: this.file !== undefined ? this.file.name : "",
       // fileExtension: this.file !== undefined ? "." + this.file.name.split(".")[1] : "",

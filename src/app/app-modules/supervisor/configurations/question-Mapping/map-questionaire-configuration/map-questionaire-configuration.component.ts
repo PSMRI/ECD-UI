@@ -7,6 +7,7 @@ import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/materia
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { EditQuestionMappingComponent } from '../edit-question-mapping/edit-question-mapping.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-map-questionaire-configuration',
@@ -32,6 +33,7 @@ export class MapQuestionaireConfigurationComponent implements OnInit, DoCheck, A
     private setLanguageService: SetLanguageService,
     private supervisorService: SupervisorService,
     private confirmationService: ConfirmationService,
+    readonly sessionstorage:SessionStorageService,
   ) { }
 
   ngOnInit(): void {
@@ -116,7 +118,7 @@ export class MapQuestionaireConfigurationComponent implements OnInit, DoCheck, A
   //     sectionCount.sno = index + 1;
   //   });
     const reqObj: any = {
-      providerServiceMapID: sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
     };
     this.supervisorService.getMappedQuestions(reqObj).subscribe(
       (response: any) => {
@@ -186,10 +188,10 @@ export class MapQuestionaireConfigurationComponent implements OnInit, DoCheck, A
           parentQuestionId: element.parentQuestionId,
           answer:element.answer,
           childQuestionId: element.childQuestionId,
-          createdBy: sessionStorage.getItem('userName'),
-          psmId: sessionStorage.getItem('providerServiceMapID'),
+          createdBy: this.sessionstorage.getItem('userName'),
+          psmId: this.sessionstorage.getItem('providerServiceMapID'),
           deleted: status === 'activate' ? false : true,
-          modifiedBy: sessionStorage.getItem('userName'),
+          modifiedBy: this.sessionstorage.getItem('userName'),
         }
 
         console.log("vaibhav",reqObj)

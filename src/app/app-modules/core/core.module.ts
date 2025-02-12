@@ -42,6 +42,7 @@ import { OpenAlertsNotificationLocationmessagesComponent } from './alerts-notifi
 import { AgentQualityScoreChartComponent } from './charts/agent-quality-score-chart/agent-quality-score-chart.component';
 import { SharedModule } from '../shared/shared.module';
 import { NgModule } from '@angular/core';
+import { AuthService } from "../services/auth.service";
 
 
 @NgModule({
@@ -73,6 +74,9 @@ import { NgModule } from '@angular/core';
     CallStatisticsComponent,
     HeaderComponent,
   ],
+  providers: [
+    AuthService
+  ]
   // entryComponents: [CommonDialogComponent],
 })
 export class CoreModule {}

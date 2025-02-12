@@ -31,6 +31,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { LocationMessagesComponent } from '../location-messages/location-messages.component';
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-edit-location-message',
@@ -63,7 +64,12 @@ export class EditLocationMessageComponent implements OnInit, DoCheck {
   minDate = new Date();
   dateFilter = (date: Date) => date.getTime() >= this.minDate.getTime();
 
-  constructor(private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService) { }
+  constructor(
+    private fb: FormBuilder,
+    private setLanguageService: SetLanguageService,
+    private supervisorService: SupervisorService,
+    readonly sessionstorage:SessionStorageService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     let startDate = new Date(this.data.validFrom);
@@ -89,7 +95,7 @@ export class EditLocationMessageComponent implements OnInit, DoCheck {
     this.editLocationForm.controls.message.patchValue(this.data.notificationDesc);
     this.getSelectedLanguage();
     this.getNotificationType();
-    this.uname = sessionStorage.getItem("userName");
+    this.uname = this.sessionstorage.getItem('userName');
   }
 
     editLocationForm = this.fb.group({
@@ -110,7 +116,7 @@ export class EditLocationMessageComponent implements OnInit, DoCheck {
 
    getOfficesForAlert(){
     const reqObj = { 
-      providerServiceMapId: sessionStorage.getItem('providerServiceMapID'),
+      providerServiceMapId: this.sessionstorage.getItem('providerServiceMapID'),
       roleID: this.roleID
      }
     this.supervisorService.getOffices(reqObj).subscribe((res:any)=>{
@@ -121,7 +127,7 @@ export class EditLocationMessageComponent implements OnInit, DoCheck {
    }
    getNotificationType(){
     const reqObj = {
-      providerServiceMapID : sessionStorage.getItem('providerServiceMapID')
+      providerServiceMapID : this.sessionstorage.getItem('providerServiceMapID')
   } 
     this.supervisorService.getNotificationType(reqObj).subscribe((res:any)=>{
       if(res.statusCode === 200){
@@ -200,7 +206,7 @@ export class EditLocationMessageComponent implements OnInit, DoCheck {
     endDate.setMilliseconds(0);
 
      const reqObj = {
-       providerServiceMapID: sessionStorage.getItem('providerServiceMapID'),
+       providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
        notificationTypeID:this.communicationTypeId,
        notificationID:this.data.notificationID,
        validFrom: new Date(

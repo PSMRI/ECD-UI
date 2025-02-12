@@ -31,6 +31,7 @@ import { QualitySupervisorService } from 'src/app/app-modules/services/quality-s
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { NumberFormatStyle } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-create-sample-selection',
@@ -75,6 +76,7 @@ export class CreateSampleSelectionComponent implements OnInit, DoCheck {
     private fb: FormBuilder,
     private confirmationService: ConfirmationService,
     private qualitysupervisorService: QualitySupervisorService,
+    readonly sessionstorage:SessionStorageService,
     private masterService:MasterService
   ) { }
 
@@ -100,7 +102,7 @@ export class CreateSampleSelectionComponent implements OnInit, DoCheck {
       this.currentLanguageSet = this.setLanguageService.languageData;
   }
   getCycles() {  
-    const psmId = sessionStorage.getItem('providerServiceMapID');
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
     this.masterService.getCyclesMaster(psmId).subscribe(
       (response: any) => {
         if (response) {
@@ -200,8 +202,8 @@ export class CreateSampleSelectionComponent implements OnInit, DoCheck {
       ancSampleSize:formData.ancSampleSize,
       pncSampleSize:formData.pncSampleSize,
       totalSampleSize:formData.totalSampleSize,
-      createdBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      createdBy: this.sessionstorage.getItem('userName'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
       const checkfromBufferList = this.checkDuplicateRange(sampleObj);
      const checkFromMainList = this.checkDuplicateRangeFromMainList(sampleObj)

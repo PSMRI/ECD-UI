@@ -31,6 +31,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { CreateQuestionnaireComponent } from '../create-questionnaire/create-questionnaire.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072
  * 25-01-2023
@@ -65,6 +66,7 @@ export class QuestionnaireConfigurationComponent implements OnInit, DoCheck, Aft
     private router: Router,
     private confirmationService: ConfirmationService,
     private supervisorService: SupervisorService,
+    readonly sessionstorage:SessionStorageService,
     private loginService: LoginserviceService
   ) {}
 
@@ -92,7 +94,7 @@ export class QuestionnaireConfigurationComponent implements OnInit, DoCheck, Aft
     getSectionQuestionnairesMapDetails() {
       
   
-      const providerServiceMapID = sessionStorage.getItem('providerServiceMapID');
+      const providerServiceMapID = this.sessionstorage.getItem('providerServiceMapID');
       this.supervisorService
         .getSectionQuestionnaireMap(providerServiceMapID)
         .subscribe(
@@ -118,7 +120,7 @@ export class QuestionnaireConfigurationComponent implements OnInit, DoCheck, Aft
    */
   getQuestionnaires() {
    
-      const psmId = sessionStorage.getItem('providerServiceMapID');
+      const psmId = this.sessionstorage.getItem('providerServiceMapID');
 
     this.supervisorService.getQuestionnaires(psmId).subscribe(
       (response: any) => {
@@ -223,9 +225,9 @@ export class QuestionnaireConfigurationComponent implements OnInit, DoCheck, Aft
               answerType: tableValue.answerType,
               questionnaireValues: tableValue.questionnaireValues,
               deleted: type === 'activate' ? 'false' : 'true',
-              createdBy: sessionStorage.getItem('userName'),
-      modifiedBy: sessionStorage.getItem('userName'),
-      psmId: sessionStorage.getItem('providerServiceMapID')
+              createdBy: this.sessionstorage.getItem('userName'),
+              modifiedBy: this.sessionstorage.getItem('userName'),
+              psmId: this.sessionstorage.getItem('providerServiceMapID')
             };
 
             this.supervisorService.updateQuestionnaire(reqObj).subscribe(

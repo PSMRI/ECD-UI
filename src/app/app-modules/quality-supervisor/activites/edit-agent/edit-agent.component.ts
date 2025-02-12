@@ -30,6 +30,7 @@ import { AgentMappingConfigurationComponent } from '../agent-mapping-configurati
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-edit-agent',
@@ -55,6 +56,7 @@ export class EditAgentComponent implements OnInit, DoCheck {
     private qualitysupervisorService: QualitySupervisorService,
     private setLanguageService: SetLanguageService,
     private masterService: MasterService,
+    readonly sessionstorage:SessionStorageService,
   ) { }
 
   editQualityAuditorForm = this.fb.group({
@@ -207,7 +209,7 @@ export class EditAgentComponent implements OnInit, DoCheck {
     } 
 
     getRoles() {
-      const psmId = sessionStorage.getItem('providerServiceMapID');
+      const psmId = this.sessionstorage.getItem('providerServiceMapID');
       this.masterService.getRoleMaster(psmId).subscribe(
         (response: any) => {
           if (response) {
@@ -325,9 +327,9 @@ export class EditAgentComponent implements OnInit, DoCheck {
         roleName: this.selectedmappedList.roleName,
         agentName: editValue.agentName,
         deleted: false,
-        modifiedBy: sessionStorage.getItem('userName'),
-        createdBy: sessionStorage.getItem('userName'),
-        psmId: sessionStorage.getItem('providerServiceMapID'),
+        modifiedBy: this.sessionstorage.getItem('userName'),
+        createdBy: this.sessionstorage.getItem('userName'),
+        psmId: this.sessionstorage.getItem('providerServiceMapID'),
         agentIds:agentIds,
         agentNames:agentNames
       };

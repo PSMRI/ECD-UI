@@ -29,6 +29,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-dial-preference',
@@ -83,6 +84,7 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
     private fb: FormBuilder,
     private confirmationService: ConfirmationService,
     private setLanguageService: SetLanguageService,
+    readonly sessionstorage:SessionStorageService,
     private supervisorService: SupervisorService
   ) { }
 
@@ -129,7 +131,7 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   getAutoPreviewDialingData() {
-    const psmId= sessionStorage.getItem('providerServiceMapID');
+    const psmId= this.sessionstorage.getItem('providerServiceMapID');
     this.preferenceList.controls = [];
     this.preferDupList.controls = [];
     this.sectionsData.data = [];
@@ -250,8 +252,8 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
           userId: element.userId,
           isDialPreference: true,
           previewWindowTime: element.previewWindowTime,
-          createdBy: sessionStorage.getItem("userName"),
-          psmId: sessionStorage.getItem('providerServiceMapID'),
+          createdBy: this.sessionstorage.getItem('userName'),
+          psmId: this.sessionstorage.getItem('providerServiceMapID'),
         };
       this.supervisorService.saveDialPreference(reqObj).subscribe((res:any)=>{
         console.log(res);
@@ -288,8 +290,8 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
       userId: element.userId,
       isDialPreference: false,
       previewWindowTime: null,
-      createdBy: sessionStorage.getItem("userName"),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      createdBy: this.sessionstorage.getItem('userName'),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
       };
     this.supervisorService.saveDialPreference(reqObj).subscribe((res:any)=>{
         if(res && res !== null){

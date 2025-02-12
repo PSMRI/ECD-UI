@@ -35,6 +35,7 @@ import { AssociateAnmMoService } from '../../services/associate-anm-mo/associate
 import { MasterService } from '../../services/masterService/master.service';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
 import { SupervisorService } from '../../services/supervisor/supervisor.service';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072
  * 18-01-2023
@@ -77,6 +78,7 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
     private associateAnmMoService: AssociateAnmMoService,
     private masterService: MasterService,
     private confirmationService:ConfirmationService,
+    readonly sessionstorage:SessionStorageService,
     private supervisorService: SupervisorService
   ) {}
 
@@ -84,11 +86,11 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
     
     this.getFrequencyMaster();
     this.getSelectedLanguage();
-    this.selectedRole = sessionStorage.getItem('role');
+    this.selectedRole = this.sessionstorage.getItem('role');
     this.agentId = this.loginService.agentId;
     this.getALertsNotifLocMessages();
     this.getNotificationType();
-    const selectedRoleName = sessionStorage.getItem("role");
+    const selectedRoleName = this.sessionstorage.getItem("role");
     if(selectedRoleName !== undefined && selectedRoleName !== null && (selectedRoleName.toLowerCase() === "associate" || selectedRoleName.toLowerCase() === "anm" || selectedRoleName.toLowerCase() === "mo"))
     {
       this.timerSubscription = timer(0, 15000).pipe( 
@@ -109,7 +111,7 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
 
   ngDoCheck() {
     this.getSelectedLanguage();
-    this.selectedRole = sessionStorage.getItem('role');
+    this.selectedRole = this.sessionstorage.getItem('role');
     this.agentId = this.loginService.agentId;
     // this.getALertsNotifLocMessages();
   }
@@ -193,9 +195,9 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
 
   getALertsNotifLocMessages(){
     const reqObj = {
-      userID: sessionStorage.getItem('userId'),
-      roleID: sessionStorage.getItem('roleId'),
-      providerServiceMapID: sessionStorage.getItem('providerServiceMapID')
+      userID: this.sessionstorage.getItem('userID'),
+      roleID: this.sessionstorage.getItem('roleId'),
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID')
     }
     this.loginService.getAlertsNotifLocMessagesCount(reqObj).subscribe((res: any) => {
       if(res && res.statusCode === 200){
@@ -225,7 +227,7 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
 
   getNotificationType(){
     const reqObj = {
-      providerServiceMapID : sessionStorage.getItem('providerServiceMapID')
+      providerServiceMapID : this.sessionstorage.getItem('providerServiceMapID')
   } 
     this.supervisorService.getNotificationType(reqObj).subscribe((res:any)=>{
       if(res.statusCode === 200){
@@ -247,10 +249,10 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
 
   openDialogcomponent(notificationData: any, dialogTitle: any, notificationTypeID: any){
     const reqObj = {
-      userID: sessionStorage.getItem('userId'),
-      roleID: sessionStorage.getItem('roleId'),
+      userID: this.sessionstorage.getItem('userID'),
+      roleID: this.sessionstorage.getItem('roleId'),
       notificationTypeID: notificationTypeID,
-      providerServiceMapID: sessionStorage.getItem('providerServiceMapID')
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID')
   }
   this.coreService.getAlertsNotifications(reqObj).subscribe((res: any) => {
     if(res.statusCode === 200){
@@ -292,10 +294,10 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
 
   getdialogData(dialogTitle: any, notificationTypeID: any){
     const reqObj = {
-      userID: sessionStorage.getItem('userId'),
-      roleID: sessionStorage.getItem('roleId'),
+      userID: this.sessionstorage.getItem('userID'),
+      roleID: this.sessionstorage.getItem('roleId'),
       notificationTypeID: notificationTypeID,
-      providerServiceMapID: sessionStorage.getItem('providerServiceMapID')
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID')
   }
   this.coreService.getAlertsNotifications(reqObj).subscribe((res: any) => {
     if(res.statusCode === 200){
@@ -321,9 +323,9 @@ export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
                 if (callId !== undefined && callId !== null && callId !== "undefined" &&
                 callId !== ""
                 ) {
-                  sessionStorage.setItem("benPhoneNo", benPhoneNo);
-                  sessionStorage.setItem("callId", callId);
-                  sessionStorage.setItem("onCall", "true");
+                  this.sessionstorage.setItem("benPhoneNo", benPhoneNo);
+                  this.sessionstorage.setItem("callId", callId);
+                  this.sessionstorage.setItem("onCall", "true");
               
                   this.associateAnmMoService.loadComponent(
                     OutboundWorklistComponent,

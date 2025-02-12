@@ -32,7 +32,7 @@ import { CtiService } from '../../services/cti/cti.service';
 import { DOCUMENT } from '@angular/common';
 import * as moment from 'moment';
 import * as CryptoJS from 'crypto-js';
-
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072 - 12-01-2022
  */
@@ -68,7 +68,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private loginService: LoginserviceService,
     private ctiService: CtiService,
     @Inject(DOCUMENT) private document: Document,
-    private renderer: Renderer2,
+    private renderer: Renderer2, 
+    readonly sessionstorage:SessionStorageService,
   ) {
     this._keySize = 256;
       this._ivSize = 128;
@@ -160,7 +161,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     const reqObj = {
       userName: this.loginForm.controls.userName.value,
       password: encryptedPwd,
-      doLogout: false
+      doLogout: false,
+      withCredentials: true,
+
     };
     this.loginService.validateLogin(reqObj).subscribe(
       (res: any) => {
@@ -214,10 +217,10 @@ export class LoginComponent implements OnInit, OnDestroy {
                   userName: this.loginForm.controls.userName.value,
                   password: encryptedPwd,
                   doLogout: true,
+                  withCredentials: true,
                 };
                 this.loginService
-                  .validateLogin(loginReqObj)
-                  .subscribe((userLoggedIn: any) => {
+                  .validateLogin(loginReqObj).subscribe((userLoggedIn: any) => {
                     if (userLoggedIn.statusCode === 200) {
                       if (
                         userLoggedIn.data.previlegeObj &&
@@ -255,7 +258,7 @@ export class LoginComponent implements OnInit, OnDestroy {
    * @param loginDataResponse
    * Authenticating user have ECD privilege or not
    */
-  getServiceAuthenticationDetails(loginDataResponse: any) {
+  getServiceAuthenticationDetails(loginDataResponse: any) {    
     const servicePrivileges = loginDataResponse.previlegeObj.filter(
       (privilegeResp: any) => {
         if (
@@ -265,8 +268,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         )
           return privilegeResp.serviceName.toLowerCase() === 'ecd';
       }
-    );
-
+    );    
     if (servicePrivileges.length > 0) {
       /** setting service variables */
       this.loginService.currentServiceId =
@@ -294,14 +296,14 @@ export class LoginComponent implements OnInit, OnDestroy {
           'isAuthenticated',
           loginDataResponse.isAuthenticated
         );
-        sessionStorage.setItem('userName', loginDataResponse.userName);
-        sessionStorage.setItem('onCall', 'false');
-        sessionStorage.setItem(
+        this.sessionstorage.setItem('userName', loginDataResponse.userName);
+        this.sessionstorage.setItem('onCall', 'false');
+        this.sessionstorage.setItem(
           'providerServiceMapID',
           loginDataResponse.previlegeObj[0].providerServiceMapID
         );
-        sessionStorage.setItem('userRoles',JSON.stringify(servicePrivileges[0].roles));
-        sessionStorage.setItem('userId', loginDataResponse.userID);
+        this.sessionstorage.setItem('userRoles',JSON.stringify(servicePrivileges[0].roles));
+        this.sessionstorage.setItem('userID', loginDataResponse.userID);
         this.loginService.setEnableRole();
         this.router.navigate(['/role-selection']);
 
@@ -336,10 +338,10 @@ export class LoginComponent implements OnInit, OnDestroy {
           'isAuthenticated',
           loginDataResponse.isAuthenticated
         );
-        sessionStorage.setItem('userName', loginDataResponse.userName);
+        this.sessionstorage.setItem('userName', loginDataResponse.userName);
         sessionStorage.setItem('userId', loginDataResponse.userID);
-        sessionStorage.setItem('onCall', 'false');
-        sessionStorage.setItem(
+        this.sessionstorage.setItem('onCall', 'false');
+        this.sessionstorage.setItem(
           'providerServiceMapID',
           loginDataResponse.previlegeObj[0].roles[0]
             .serviceRoleScreenMappings[0].providerServiceMapping
@@ -356,9 +358,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         'isAuthenticated',
         loginDataResponse.isAuthenticated
       );
-      sessionStorage.setItem('userName', loginDataResponse.userName);
-      sessionStorage.setItem('onCall', "false");
-      sessionStorage.setItem(
+      this.sessionstorage.setItem('userName', loginDataResponse.userName);
+      this.sessionstorage.setItem('onCall', "false");
+      this.sessionstorage.setItem(
         'providerServiceMapID',
         loginDataResponse.providerServiceMapID
       );

@@ -31,6 +31,7 @@ import { SmsTemplateService } from 'src/app/app-modules/services/smsTemplate/sms
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MatPaginator } from '@angular/material/paginator';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-sms-template',
@@ -87,11 +88,12 @@ export class SmsTemplateComponent implements OnInit, DoCheck, AfterViewInit {
     private loginService: LoginserviceService,
     private fb: FormBuilder,
     private supervisorService: SupervisorService,
+    readonly sessionstorage:SessionStorageService,
   ) {}
 
   ngOnInit() {
     this.getSelectedLanguage();
-    this.providerServiceMapID = sessionStorage.getItem('providerServiceMapID');
+    this.providerServiceMapID = this.sessionstorage.getItem('providerServiceMapID');
     this.serviceID = this.loginService.currentServiceId;
     this.getSMStemplates();
     this.getSMSparameters();
@@ -151,7 +153,7 @@ export class SmsTemplateComponent implements OnInit, DoCheck, AfterViewInit {
   }
 
   getSMStemplates() {
-    const providerServiceMapID = sessionStorage.getItem('providerServiceMapID');
+    const providerServiceMapID = this.sessionstorage.getItem('providerServiceMapID');
     this.smsTemplateService.getSMSTemplates(providerServiceMapID).subscribe(
       (response: any) => {
         if (response !== undefined && response.data !== undefined && response.data.length >= 0) {
@@ -232,7 +234,7 @@ export class SmsTemplateComponent implements OnInit, DoCheck, AfterViewInit {
 
   ActivateDeactivate(object: { deleted: any; modifiedBy: any; }, flag: any) {
     object.deleted = flag;
-    object.modifiedBy = sessionStorage.getItem('userName'),
+    object.modifiedBy = this.sessionstorage.getItem('userName'),
     this.smsTemplateService.updateSMStemplate(object).subscribe(
       (response) => {
         if (response) {
@@ -349,8 +351,8 @@ export class SmsTemplateComponent implements OnInit, DoCheck, AfterViewInit {
   add(form_values: any) {
     if (form_values !== undefined && form_values !== null) {
     const reqObj:any = {
-      'createdBy': sessionStorage.getItem('userName'),
-      'modifiedBy': sessionStorage.getItem('userName'),
+      'createdBy': this.sessionstorage.getItem('userName'),
+      'modifiedBy': this.sessionstorage.getItem('userName'),
       'smsParameterName': form_values.parameter,
       'smsParameterType': form_values.parameterValue.smsParameterType,
       'smsParameterID': form_values.parameterValue.smsParameterID,
@@ -411,7 +413,7 @@ export class SmsTemplateComponent implements OnInit, DoCheck, AfterViewInit {
 
   saveSMStemplate(form_values: any) {
     const requestObject = {
-      createdBy: sessionStorage.getItem('userName'),
+      createdBy: this.sessionstorage.getItem('userName'),
       providerServiceMapID: this.providerServiceMapID,
       smsParameterMaps: this.smsParameterMaps,
       smsTemplate: (form_values.smsTemplate !== undefined && form_values.smsTemplate !== null) ? form_values.smsTemplate.trim() : null ,

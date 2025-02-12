@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /bazel-out
+/environments/enckey.ts``
 
 # Node
 /node_modules
@@ -42,4 +43,5 @@ testem.log
 Thumbs.db
 /.vscode
 src/environments/environment.ci.ts
+src/environments/environment.ts
 target

@@ -37,6 +37,7 @@ import { MasterService } from '../../services/masterService/master.service';
 import { AgentsInnerpageComponent } from '../agents-innerpage/agents-innerpage.component';
 import { SpinnerService } from '../../services/spinnerService/spinner.service';
 import { Subscription, map, timer } from 'rxjs';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-call-closure',
@@ -114,6 +115,7 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
 private sms_service: SmsTemplateService,
     private router: Router,
     private masterService:MasterService,
+    readonly sessionstorage:SessionStorageService,
     private spinnerService: SpinnerService
   ) { 
     
@@ -133,10 +135,10 @@ private sms_service: SmsTemplateService,
   ngOnInit(): void {
      this.minimumDate = new Date();
     console.log(this.minimumDate);
-    this.phoneNo = sessionStorage.getItem("benPhoneNo");
+    this.phoneNo = this.sessionstorage.getItem("benPhoneNo");
     const url = ""
     this.ctiHandlerURL = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    this.selectedRole = sessionStorage.getItem('role');
+    this.selectedRole = this.sessionstorage.getItem('role');
     console.log(this.selectedRole);
     this.getSelectedLanguage();
     this.getReasonsOfNotCallRequired();
@@ -324,15 +326,15 @@ private sms_service: SmsTemplateService,
       obCallId: this.associateAnmMoService.selectedBenDetails.obCallId,
       motherId :this.associateAnmMoService.selectedBenDetails.mctsidNo?this.associateAnmMoService.selectedBenDetails.mctsidNo:this.associateAnmMoService.selectedBenDetails.motherId,
       childId:this.associateAnmMoService.selectedBenDetails.mctsidNoChildId?this.associateAnmMoService.selectedBenDetails.mctsidNoChildId:null,
-      userId: sessionStorage.getItem('userId'),
+      userId: this.sessionstorage.getItem('userID'),
       agentId: this.loginService.agentId,
-      role: sessionStorage.getItem('role'),
-      phoneNo: sessionStorage.getItem("benPhoneNo"),
-      psmId: sessionStorage.getItem('providerServiceMapID'),
+      role: this.sessionstorage.getItem('role'),
+      phoneNo: this.sessionstorage.getItem("benPhoneNo"),
+      psmId: this.sessionstorage.getItem('providerServiceMapID'),
       ecdCallType:this.associateAnmMoService.selectedBenDetails.outboundCallType,
-      callId: sessionStorage.getItem("callId"),
+      callId: this.sessionstorage.getItem("callId"),
       isOutbound: true,
-      beneficiaryRegId: (this.associateAnmMoService.selectedBenDetails.beneficiaryRegId === null) ? sessionStorage.getItem('beneficiaryRegId'): this.associateAnmMoService.selectedBenDetails.beneficiaryRegId,
+      beneficiaryRegId: (this.associateAnmMoService.selectedBenDetails.beneficiaryRegId === null) ? this.sessionstorage.getItem('beneficiaryRegId'): this.associateAnmMoService.selectedBenDetails.beneficiaryRegId,
       isFurtherCallRequired: (formData.isFurtherCallRequired==="Yes")?true:false,
       reasonForNoFurtherCallsId: formData.reasonForNoFurtherCallsId,
       reasonForNoFurtherCalls: formData.reasonForNoFurtherCalls,
@@ -353,19 +355,19 @@ private sms_service: SmsTemplateService,
       isHrp: this.associateAnmMoService.isMother?this.associateAnmMoService.isHighRiskPregnancy:false,
       isHrni: (this.associateAnmMoService.isMother === false)?this.associateAnmMoService.isHighRiskInfant:false,
       deleted: false,
-      createdBy: sessionStorage.getItem("userName"),
-      modifiedBy: sessionStorage.getItem("userName"),
+      createdBy: this.sessionstorage.getItem('userName'),
+      modifiedBy: this.sessionstorage.getItem('userName'),
       complaintId: (formData.complaintId !== null && formData.complaintId !== undefined && formData.complaintId !== "") ? formData.complaintId : null,
       preferredLanguage: formData.preferredLanguage
     };
     const commonReqobj = {
       benCallID: this.associateAnmMoService.callDetailId,
-      callID: sessionStorage.getItem("callId"),
+      callID: this.sessionstorage.getItem("callId"),
       remarks: formData.callRemarks,
       callTypeID: this.callTypeId,
       emergencyType: 0,
-      agentIPAddress: sessionStorage.getItem("agentIp"),
-      createdBy: sessionStorage.getItem("userName"),
+      agentIPAddress: this.sessionstorage.getItem("agentIp"),
+      createdBy: this.sessionstorage.getItem('userName'),
       isFollowupRequired: false,
       fitToBlock: false,
       endCall: true,
@@ -389,7 +391,7 @@ private sms_service: SmsTemplateService,
             this.associateAnmMoService.setStopTimer(true);
             console.log("timer stopped");
             this.unsubscribeWrapupTime();
-            sessionStorage.setItem("onCall", "false");
+            this.sessionstorage.setItem("onCall", "false");
             this.associateAnmMoService.fromComponent = null;
             this.associateAnmMoService.setCallClosure();
             this.showCallAnswerNoDropdown=false;
@@ -648,9 +650,9 @@ private sms_service: SmsTemplateService,
                       sms_Advice: smsAdvice,
                       phoneNo: phoneNo,
                       // beneficiaryRegID: generated_ben_id,
-                      createdBy: sessionStorage.getItem("userName"),
+                      createdBy: this.sessionstorage.getItem('userName'),
                       is1097: false,
-                      providerServiceMapID: sessionStorage.getItem('providerServiceMapID'),
+                      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
                       smsTemplateID: sms_template_id,
                       smsTemplateTypeID: smsTypeID
                     };
@@ -723,7 +725,7 @@ private sms_service: SmsTemplateService,
 
   getCallTypes() {
     const reqObj={
-      providerServiceMapID: sessionStorage.getItem('providerServiceMapID')
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID')
     }
     this.associateAnmMoService.getCallTypes(reqObj).subscribe(
       (response:any) => {
