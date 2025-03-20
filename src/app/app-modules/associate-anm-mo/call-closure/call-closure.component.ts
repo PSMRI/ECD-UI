@@ -820,7 +820,7 @@ private sms_service: SmsTemplateService,
   getLanguageMaster(){
     let agentLanguages: any[] = [];
     if(this.selectedRole !== undefined && this.selectedRole !== null && (this.selectedRole.toLowerCase() === "associate" || this.selectedRole.toLowerCase() === "anm")) {
-    const userId = sessionStorage.getItem('userId');
+    const userId = this.sessionstorage.getItem('userID');
     this.masterService.getLanguageMasterByUserId(userId).subscribe((response: any) => {
       if(response && response.length > 0){
         this.languages = response;
