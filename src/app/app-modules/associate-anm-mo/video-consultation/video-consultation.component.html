@@ -1,0 +1,69 @@
+<div *ngIf="data.consent">
+  <div class="modal-content">
+      <h2 class="title">Video Consultation</h2>
+
+      <button (click)="sendLink()" [disabled]="linkSent" class="btn btn-primary btn-lg">
+        Send Video Consultation Link
+      </button>
+
+      <!-- Troubleshooting Steps -->
+      <div *ngIf="receiptConfirmation === 'Not Received'" class="troubleshooting link-status">
+        <p class="troubleshoot-message">Troubleshooting Steps:</p>
+        <ul>
+          <li>Verify the beneficiary’s phone number and email.</li>
+          <li>Resend the link if needed.</li>
+        </ul>
+        <button *ngIf="receiptConfirmation === 'Not Received'" (click)="resendLink()" class="btn btn-warning btn-lg">
+          Resend Link
+        </button>
+
+      </div>
+
+
+      <h2 class="link-status">Link Sent Status:
+        <span [ngClass]="{ 'sent': linkStatus !== 'NOT Sent', 'not-sent': linkStatus === 'NOT Sent' }">
+          {{ linkStatus }}
+        </span>
+
+      </h2>
+
+      <div class="form-group receipt-container" *ngIf="linkStatus === 'Sent Successfully'">
+        <h2 class="link-status">Beneficiary Link Receipt Confirmation:</h2>
+        <select [(ngModel)]="receiptConfirmation" class="form-control" (change)="updateReceiptConfirmation($event)">
+          <option value="">Select</option>
+          <option value="Received">Received</option>
+          <option value="Not Received">Not Received</option>
+        </select>
+      </div>
+
+      <button (click)="startConsultation()" [disabled]="receiptConfirmation !== 'Received'"
+        class="btn btn-success btn-lg mt-3">
+        Start Video Consultation
+      </button>
+
+      <button *ngIf="callStatus === 'Ongoing'" (click)="endConsultation()" class="btn btn-danger btn-lg mt-3">
+        End Video Consultation
+      </button>
+
+
+      <!-- Consultation Status -->
+      <h2>
+        <strong>Consultation Status:</strong>
+        <span [ngClass]="{
+      'not-initiated': callStatus === 'Not Initiated',
+      'ongoing': callStatus === 'Ongoing',
+      'completed': callStatus === 'Completed'
+        }">
+          {{ callStatus }}
+        </span>
+      </h2>
+
+
+
+      <!-- Alternative Consultation Message -->
+      <div *ngIf="!videoConsultationAvailable" class="alternative-message">
+        <p>Video consultation is not possible. Proceed with the ECD questionnaire workflow.</p>
+        <button class="btn btn-primary">Continue with Alternative Consultation</button>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,167 @@
+/* General Modal Styling */
+
+.modal-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 500px; /* Increased width */
+  width: 90%; /* Responsive width */
+  margin: auto;
+  text-align: center;
+  display: flexbox;
+}
+
+/* Title */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #010102;
+}
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.btn-primary {
+  background: #007bff;
+  border: none;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #09407a;
+}
+
+.btn-warning {
+  background: #ffc107;
+  border: none;
+  color: #000;
+}
+
+.btn-warning:hover {
+  background: #e0a800;
+}
+
+.btn-success {
+  background: #28a745;
+  border: none;
+  color: white;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+
+}
+
+.btn-danger:hover {
+  background: #cc2031;
+}
+
+.btn-success:hover {
+  background: #15b435;
+}
+
+/* Disabled Button */
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Link Status Styling */
+.link-status {
+  margin-top: 10px;
+}
+
+.sent {
+  color: green;
+  font-weight: bold;
+}
+
+/* Red color for 'Not Sent' */
+.not-sent {
+  color: red;
+  font-weight: bold;
+}
+
+.not-initiated {
+  color: gray;
+}
+
+.ongoing {
+  color: orange;
+  font-weight: bold;
+}
+
+.completed {
+  color: green;
+  font-weight: bold;
+}
+
+/* Align text and dropdown side by side */
+.receipt-container {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between text and dropdown */
+}
+
+/* Ensure dropdown is properly sized */
+.receipt-container .form-control {
+  width: 200px; /* Adjust width as needed */
+  font-size: 16px;
+}
+
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.troubleshooting {
+  background: #f8d7da;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.troubleshoot-message {
+  font-weight: bold;
+  color: #721c24;
+} 
+
+.alternative-message {
+  background: #f4f4f4;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.status {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 576px) {
+  .modal-content {
+    width: 90%;
+  }
+  
+  .btn {
+    font-size: 14px;
+  }
+}

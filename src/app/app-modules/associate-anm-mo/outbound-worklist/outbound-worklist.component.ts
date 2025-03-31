@@ -39,7 +39,7 @@ import { CtiService } from '../../services/cti/cti.service';
 import { map, Subscription, timer } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
-
+import { VideoConsultationComponent } from '../video-consultation/video-consultation.component';
 
 @Component({
   selector: 'app-outbound-worklist',
@@ -64,6 +64,9 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
   agentStatus:any;
   autoPreviewTimeSub: Subscription = new Subscription;
   autoCallStarted:any=false
+  showPrompt = false;
+
+  
   constructor(
     private setLanguageService: SetLanguageService,
     public dialog: MatDialog,
@@ -73,7 +76,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
     private associateAnmMoService: AssociateAnmMoService,
     private loginService: LoginserviceService,
     readonly sessionstorage:SessionStorageService,
-    private ctiService: CtiService
+    private ctiService: CtiService,
   ) { }
 
   ngDoCheck() {
@@ -604,6 +607,22 @@ openCallClosure(){
     // this.associateAnmMoService.loadComponent(BeneficiaryCallHistoryComponent,null)
   }
 
+  performAction() {
+    this.showPrompt = true;
+  }  
 
-  
+  handleConsent(agreed: boolean) {
+    if (agreed === true) {
+      this.showPrompt = false;
+      this.videoConsulationPromptDialog();
+    } else
+      this.showPrompt = false;
+  }
+
+  videoConsulationPromptDialog() {
+    this.dialog.open(VideoConsultationComponent, {
+      width: '400px',
+      data:  {consent: true}  
+    });
+  }
 }

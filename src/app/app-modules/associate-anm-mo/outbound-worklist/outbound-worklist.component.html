@@ -311,6 +311,19 @@
                 >phone</mat-icon
               >
             </td>
+
+            <td mat-cell *matCellDef="let element" style="padding-left: 20px">
+              <mat-icon 
+              *ngIf = "!isAutoPreviewDial"
+                matTooltip="Video Call"
+                class="mat-icon material-icons"
+                role="img"
+                aria-hidden="true"
+                style="cursor: pointer"
+                (click)="performAction()"
+                >Video Call</mat-icon
+              >
+            </td>
           </ng-container>
       
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -340,7 +353,31 @@
 </div>
 
 <!-- Modal Code-->
-
+<!-- Consent Modal -->
+<div *ngIf="showConsentModal" class="consent-modal">
+  <div class="modal-content">
+    <h2>Video Consultation Consent</h2>
+    <p>
+      By agreeing, you consent to a secure video consultation, 
+      understanding that your data will be handled confidentially.
+    </p>
+    
+    <div class="consent-actions">
+      <button 
+        class="btn btn-success" 
+        (click)="handleConsent(true)"
+      >
+        Agree
+      </button>
+      <button 
+        class="btn btn-danger" 
+        (click)="handleConsent(false)"
+      >
+        Disagree
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- Button trigger modal -->
 
