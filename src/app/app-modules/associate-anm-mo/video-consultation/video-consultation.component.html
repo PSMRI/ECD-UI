@@ -1,5 +1,29 @@
-<div *ngIf="data.consent">
+<div *ngIf="data.videoCallPrompt"> 
+
   <div class="modal-content">
+    <h2>Video Consultation Consent</h2>
+    <p>
+      By agreeing, you consent to a secure video consultation, 
+      understanding that your data will be handled confidentially.
+    </p>
+    
+    <div class="consent-actions">
+      <button 
+        class="btn btn-success" 
+        (click)="handleConsent(true)"
+      >
+        Agree
+      </button>
+      <button 
+        class="btn btn-danger" 
+        (click)="handleConsent(false)"
+      >
+        Disagree
+      </button>
+    </div>
+   
+  <div  *ngIf="videoConsultationAvailable" style="margin-top: 10px;">
+    <p> Note: We are continuing the video counsultation on agreeing by Beneficiary.</p>
       <h2 class="title">Video Consultation</h2>
 
       <button (click)="sendLink()" [disabled]="linkSent" class="btn btn-primary btn-lg">
@@ -66,4 +90,5 @@
         <button class="btn btn-primary">Continue with Alternative Consultation</button>
       </div>
   </div>
+</div>
 </div>

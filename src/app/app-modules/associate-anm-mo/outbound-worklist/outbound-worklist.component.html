@@ -67,7 +67,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <mat-card class="innerCard">
       <div class="mat-elevation-z8 responsiveTable" style="margin-top: 30px" *ngIf="activeMother===true">
-        <table
+        <!-- <table
           mat-table
           [dataSource]="dataSource"
           aria-describedby="Outbound"
@@ -122,7 +122,7 @@
             </td>
           </ng-container>
     
-          <!-- <ng-container matColumnDef="callStatus">
+           <ng-container matColumnDef="callStatus">
             <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef>
               {{currentLanguageSet?.callStatus}}
             </th>
@@ -131,7 +131,7 @@
             </td>
           </ng-container> -->
     
-          <ng-container matColumnDef="recordUploadDate">
+        <!--  <ng-container matColumnDef="recordUploadDate">
             <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef mat-sort-header>
               {{currentLanguageSet?.recordUploadDate}}
             </th>
@@ -186,7 +186,30 @@
       
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table> -->
+
+
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Sl No</th>
+              <th>Action</th>
+              <th>Column</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>
+                <button (click)="performAction()">Click Me</button>
+              </td>
+              <td>Sample Value</td>
+            </tr>
+          </tbody>
         </table>
+        
+    
+        
         <div
           class="pull-center"
           style="margin-top: 5px"
@@ -354,7 +377,7 @@
 
 <!-- Modal Code-->
 <!-- Consent Modal -->
-<div *ngIf="showConsentModal" class="consent-modal">
+<!-- <div *ngIf="showPrompt" class="consent-modal">
   <div class="modal-content">
     <h2>Video Consultation Consent</h2>
     <p>
@@ -377,7 +400,7 @@
       </button>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- Button trigger modal -->
 

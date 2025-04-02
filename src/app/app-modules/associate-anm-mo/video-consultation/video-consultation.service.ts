@@ -1,15 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VideoConsultationService {
-  sendLink(): Observable<string> {
-    return of('Sent');
-  }
+  constructor(private http: HttpClient) {}
 
-  resendLink(): Observable<string> {
-    return of('Sent Successfully');
+  sendLink() {
+return this.http.post(environment.generateVideoLinkURL, {}); 
+ }
+
+  resendLink() {
+    return this.http.post(environment.generateVideoLinkURL, {}); 
+
+
   }
 }

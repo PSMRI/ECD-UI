@@ -44,6 +44,7 @@ import { BenRegistrationComponent } from './beneficiary-registration/ben-registr
 import { BeneficiaryCallHistoryComponent } from './beneficiary-call-history/beneficiary-call-history.component';
 import { HighRiskReasonsComponent } from './high-risk-reasons/high-risk-reasons.component';
 import { SharedModule } from '../shared/shared.module';
+import { VideoConsultationComponent } from './video-consultation/video-consultation.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { SharedModule } from '../shared/shared.module';
     EcdQuestionnaireComponent,
     BenRegistrationComponent,
     BeneficiaryCallHistoryComponent,
-    HighRiskReasonsComponent
+    HighRiskReasonsComponent,
+    VideoConsultationComponent
 
   ],
   imports: [

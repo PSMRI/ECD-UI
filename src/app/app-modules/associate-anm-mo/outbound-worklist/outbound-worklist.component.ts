@@ -21,7 +21,7 @@
 */
 
 
-import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, OnInit, ViewChild} from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
@@ -609,20 +609,22 @@ openCallClosure(){
 
   performAction() {
     this.showPrompt = true;
+    this.videoConsulationPromptDialog();
   }  
 
-  handleConsent(agreed: boolean) {
-    if (agreed === true) {
-      this.showPrompt = false;
-      this.videoConsulationPromptDialog();
-    } else
-      this.showPrompt = false;
-  }
+  // handleConsent(agreed: boolean) {
+  //   if (agreed === true) {
+  //     this.showPrompt = false;
+  //     this.videoConsulationPromptDialog();
+  //   } else
+  //     this.showPrompt = false;
+  // }
 
   videoConsulationPromptDialog() {
     this.dialog.open(VideoConsultationComponent, {
-      width: '400px',
-      data:  {consent: true}  
+      width: '50%',
+      height: '90%',
+      data:  {videoCallPrompt: true}  
     });
   }
 }
