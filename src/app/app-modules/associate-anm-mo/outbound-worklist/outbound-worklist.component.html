@@ -67,7 +67,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <mat-card class="innerCard">
       <div class="mat-elevation-z8 responsiveTable" style="margin-top: 30px" *ngIf="activeMother===true">
-        <!-- <table
+        <table
           mat-table
           [dataSource]="dataSource"
           aria-describedby="Outbound"
@@ -129,9 +129,9 @@
             <td mat-cell *matCellDef="let element" class="truncate-cell">
               {{ element.callStatus }}
             </td>
-          </ng-container> -->
+          </ng-container>
     
-        <!--  <ng-container matColumnDef="recordUploadDate">
+         <ng-container matColumnDef="recordUploadDate">
             <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef mat-sort-header>
               {{currentLanguageSet?.recordUploadDate}}
             </th>
@@ -186,10 +186,10 @@
       
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table> -->
+        </table>
 
-
-        <table border="1">
+        <!-- Kept for testing purpose -->
+        <!-- <table border="1">
           <thead>
             <tr>
               <th>Sl No</th>
@@ -206,10 +206,8 @@
               <td>Sample Value</td>
             </tr>
           </tbody>
-        </table>
-        
-    
-        
+        </table> -->
+         
         <div
           class="pull-center"
           style="margin-top: 5px"
@@ -375,32 +373,6 @@
 </div>
 </div>
 
-<!-- Modal Code-->
-<!-- Consent Modal -->
-<!-- <div *ngIf="showPrompt" class="consent-modal">
-  <div class="modal-content">
-    <h2>Video Consultation Consent</h2>
-    <p>
-      By agreeing, you consent to a secure video consultation, 
-      understanding that your data will be handled confidentially.
-    </p>
-    
-    <div class="consent-actions">
-      <button 
-        class="btn btn-success" 
-        (click)="handleConsent(true)"
-      >
-        Agree
-      </button>
-      <button 
-        class="btn btn-danger" 
-        (click)="handleConsent(false)"
-      >
-        Disagree
-      </button>
-    </div>
-  </div>
-</div> -->
 
 <!-- Button trigger modal -->
 
