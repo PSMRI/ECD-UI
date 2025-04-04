@@ -26,7 +26,7 @@
     <p> Note: We are continuing the video counsultation on agreeing by Beneficiary.</p>
       <h2 class="title">Video Consultation</h2>
 
-      <button (click)="sendLink()" [disabled]="linkSent" class="btn btn-primary btn-lg">
+      <button (click)="generaeLink()" [disabled]="linkSent" class="btn btn-primary btn-lg">
         Send Video Consultation Link
       </button>
 
@@ -37,7 +37,7 @@
           <li>Verify the beneficiary’s phone number and email.</li>
           <li>Resend the link if needed.</li>
         </ul>
-        <button *ngIf="receiptConfirmation === 'Not Received'" (click)="resendLink()" class="btn btn-warning btn-lg">
+        <button *ngIf="receiptConfirmation === 'Not Received'" (click)="generaeLink()" class="btn btn-warning btn-lg">
           Resend Link
         </button>
 
@@ -64,6 +64,8 @@
         class="btn btn-success btn-lg mt-3">
         Start Video Consultation
       </button>
+
+      <iframe *ngIf="isMeetAvailable" src={meetLink} width="800" height="600" allow="camera; microphone; fullscreen; display-capture"></iframe>
 
       <button *ngIf="callStatus === 'Ongoing'" (click)="endConsultation()" class="btn btn-danger btn-lg mt-3">
         End Video Consultation

@@ -23,7 +23,8 @@ export class VideoConsultationComponent {
   linkResend: string = 'Sent'
   videoConsultationAvailable: boolean = false;
   meetLink: string = '';
-
+  isMeetAvailable: boolean = false;
+  
 
   constructor(private videoService: VideoConsultationService,
     public dialogRef: MatDialogRef<VideoConsultationComponent>,
@@ -36,7 +37,7 @@ export class VideoConsultationComponent {
   // }
 
   sendLink() {
-    this.videoService.sendLink().subscribe((response: any) => {
+    this.videoService.generaeLink().subscribe((response: any) => {
       console.log(response);
       this.linkSent = true;
       this.linkStatus = 'Sent Successfully';
@@ -45,7 +46,7 @@ export class VideoConsultationComponent {
   }
 
   resendLink() {
-    this.videoService.resendLink().subscribe((response: any) => {
+    this.videoService.generaeLink().subscribe((response: any) => {
       this.linkStatus = 'Sent Successfully';
       this.meetLink = response.meetingLink;
     });
@@ -53,6 +54,7 @@ export class VideoConsultationComponent {
 
   startConsultation() {
     this.callStatus = 'Ongoing';
+    this.isMeetAvailable = true;
     window.open(this.meetLink, '_blank');
     setTimeout(() => { this.callStatus = 'Completed'; }, 5000); // Simulate a video call ending
   }
@@ -78,6 +80,13 @@ export class VideoConsultationComponent {
       
     } else
     this.dialogRef.close();
+  }
+
+  sendVideoLink(){
+    this.videoService.sendLink({}).subscribe((response: any) => {
+      console.log(response);
+      this.linkResend = 'Sent';
+    });
   }
   
 }

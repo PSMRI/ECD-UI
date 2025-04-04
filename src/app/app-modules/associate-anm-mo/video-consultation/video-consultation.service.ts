@@ -9,13 +9,11 @@ import { environment } from 'src/environments/environment';
 export class VideoConsultationService {
   constructor(private http: HttpClient) {}
 
-  sendLink() {
+  generaeLink() {
 return this.http.post(environment.generateVideoLinkURL, {}); 
  }
 
-  resendLink() {
-    return this.http.post(environment.generateVideoLinkURL, {}); 
-
-
+  sendLink(reqObj: any) {
+    return this.http.post(environment.sendSMSAPI, reqObj); 
   }
 }
