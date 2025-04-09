@@ -44,4 +44,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ECD-UI
-        path: ecd-ui.war
+        path: dist/ecd-ui/ecd-ui.war
