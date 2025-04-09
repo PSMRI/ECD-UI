@@ -1,32 +1,26 @@
-<div *ngIf="data.videoCallPrompt"> 
+<div *ngIf="data.videoCallPrompt" role="dialog" aria-labelledby="videoConsultationTitle" aria-modal="true"> 
 
   <div class="modal-content">
-    <h2>Video Consultation Consent</h2>
+    <h2 id="videoConsultationTitle">Video Consultation Consent</h2>
     <p>
-      By agreeing, you consent to a secure video consultation, 
+      By agreeing, you consent to a secure video consultation,
       understanding that your data will be handled confidentially.
     </p>
-    
+
     <div class="consent-actions">
-      <button 
-        class="btn btn-success" 
-        (click)="handleConsent(true)"
-      >
+      <button class="btn btn-success" (click)="handleConsent(true)">
         Agree
       </button>
-      <button 
-        class="btn btn-danger" 
-        (click)="handleConsent(false)"
-      >
+      <button class="btn btn-danger" (click)="handleConsent(false)">
         Disagree
       </button>
     </div>
-   
-  <div  *ngIf="videoConsultationAvailable" style="margin-top: 10px;">
-    <p> Note: We are continuing the video counsultation on agreeing by Beneficiary.</p>
+
+    <div *ngIf="videoConsultationAvailable" style="margin-top: 10px;">
+      <p> Note: We are continuing the video consultation on agreeing by Beneficiary.</p>
       <h2 class="title">Video Consultation</h2>
 
-      <button (click)="generaeLink()" [disabled]="linkSent" class="btn btn-primary btn-lg">
+      <button (click)="sendOrResendLink()" [disabled]="linkSent" class="btn btn-primary btn-lg">
         Send Video Consultation Link
       </button>
 
@@ -37,7 +31,7 @@
           <li>Verify the beneficiary’s phone number and email.</li>
           <li>Resend the link if needed.</li>
         </ul>
-        <button *ngIf="receiptConfirmation === 'Not Received'" (click)="generaeLink()" class="btn btn-warning btn-lg">
+        <button *ngIf="receiptConfirmation === 'Not Received'" (click)="sendOrResendLink()" class="btn btn-warning btn-lg">
           Resend Link
         </button>
 
@@ -45,7 +39,7 @@
 
 
       <h2 class="link-status">Link Sent Status:
-        <span [ngClass]="{ 'sent': linkStatus !== 'NOT Sent', 'not-sent': linkStatus === 'NOT Sent' }">
+        <span [ngClass]="{ 'sent': linkStatus !== 'NOT Sent', 'not-sent': linkStatus === 'NOT Sent' }" aria-live="polite">
           {{ linkStatus }}
         </span>
 
@@ -65,7 +59,15 @@
         Start Video Consultation
       </button>
 
-      <iframe *ngIf="isMeetAvailable" src={meetLink} width="800" height="600" allow="camera; microphone; fullscreen; display-capture"></iframe>
+      <div style="position: relative; padding-top: 56.25%; margin-top: 20px;">
+        <iframe
+          *ngIf="isMeetAvailable"
+          [src]="meetLink | safeUrl"
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+          allow="camera; microphone; fullscreen; display-capture">
+        </iframe>
+      </div>
+      
 
       <button *ngIf="callStatus === 'Ongoing'" (click)="endConsultation()" class="btn btn-danger btn-lg mt-3">
         End Video Consultation
@@ -91,6 +93,6 @@
         <p>Video consultation is not possible. Proceed with the ECD questionnaire workflow.</p>
         <button class="btn btn-primary">Continue with Alternative Consultation</button>
       </div>
+    </div>
   </div>
-</div>
 </div>

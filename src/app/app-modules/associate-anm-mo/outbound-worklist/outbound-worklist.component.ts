@@ -609,22 +609,31 @@ openCallClosure(){
 
   performAction() {
     this.showPrompt = true;
-    this.videoConsulationPromptDialog();
+    this.videoConsultationPromptDialog();
   }  
 
-  // handleConsent(agreed: boolean) {
-  //   if (agreed === true) {
-  //     this.showPrompt = false;
-  //     this.videoConsulationPromptDialog();
-  //   } else
-  //     this.showPrompt = false;
-  // }
 
-  videoConsulationPromptDialog() {
-    this.dialog.open(VideoConsultationComponent, {
-      width: '50%',
-      height: '90%',
-      data:  {videoCallPrompt: true}  
-    });
+  videoConsultationPromptDialog() {
+    // if (this.loginService.agentId === undefined) {
+    //   this.confirmationService.openDialog(this.currentLanguageSet.agentIdNotAvailable, 'error')
+    // } else{
+      const dialogRef = this.dialog.open(VideoConsultationComponent, {
+        width: '50%',
+        height: '90%',
+        data:  {
+          videoCallPrompt: true,
+          // callerPhoneNumber: '8147115862',
+          // agentID: this.loginService.agentId,
+          // agentName: 'Kundanecd'
+          callerPhoneNumber: '8147115862',
+          agentID: '2025',
+          agentName: 'Kundanecd'
+        }  
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+             this.showPrompt = false;
+     });
+    // }
   }
 }

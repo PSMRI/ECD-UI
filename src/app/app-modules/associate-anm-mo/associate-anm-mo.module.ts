@@ -44,7 +44,11 @@ import { BenRegistrationComponent } from './beneficiary-registration/ben-registr
 import { BeneficiaryCallHistoryComponent } from './beneficiary-call-history/beneficiary-call-history.component';
 import { HighRiskReasonsComponent } from './high-risk-reasons/high-risk-reasons.component';
 import { SharedModule } from '../shared/shared.module';
+import { MatDialogModule } from '@angular/material/dialog';
 import { VideoConsultationComponent } from './video-consultation/video-consultation.component';
+import { SafeUrlPipe } from './safe-url.pipe';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 
 @NgModule({
@@ -58,7 +62,8 @@ import { VideoConsultationComponent } from './video-consultation/video-consultat
     BenRegistrationComponent,
     BeneficiaryCallHistoryComponent,
     HighRiskReasonsComponent,
-    VideoConsultationComponent
+    VideoConsultationComponent,
+    SafeUrlPipe
 
   ],
   imports: [
@@ -74,7 +79,9 @@ import { VideoConsultationComponent } from './video-consultation/video-consultat
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    MatDialogModule,
+    MatSnackBarModule
   ],
   providers: [DatePipe],
 })

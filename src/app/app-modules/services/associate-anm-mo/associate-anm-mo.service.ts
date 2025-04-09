@@ -41,53 +41,53 @@ export class AssociateAnmMoService {
   isHighRiskInfant = false;
   autoDialing = false;
 
-  callWrapup: any="";
+  callWrapup: any = "";
   callWrapupFlag = new BehaviorSubject(this.callWrapup);
   callWrapupFlag$ = this.callWrapupFlag.asObservable();
 
-  resetCallClosure: any="";
+  resetCallClosure: any = "";
   callClosureFlag = new BehaviorSubject(this.resetCallClosure);
   callClosureFlag$ = this.callClosureFlag.asObservable();
 
-  openComp: any="";
+  openComp: any = "";
   openCompFlag = new BehaviorSubject(this.openComp);
   openCompFlag$ = this.openCompFlag.asObservable();
-  fromComponent :any = null;
+  fromComponent: any = null;
 
-  loadDetailsInReg: any="";
+  loadDetailsInReg: any = "";
   loadDetailsInRegFlag = new BehaviorSubject(this.loadDetailsInReg);
   loadDetailsInRegFlag$ = this.loadDetailsInRegFlag.asObservable();
 
-  isMotherRecord: any="";
+  isMotherRecord: any = "";
   isMotherRecordData = new BehaviorSubject(this.isMotherRecord);
   isMotherRecordData$ = this.isMotherRecordData.asObservable();
 
-  loadEcdQuestionnaire: any="";
+  loadEcdQuestionnaire: any = "";
   loadEcdQuestionnaireData = new BehaviorSubject(this.loadEcdQuestionnaire);
   loadEcdQuestionnaireData$ = this.loadEcdQuestionnaireData.asObservable();
 
-  isBenCallHistory: any="";
+  isBenCallHistory: any = "";
   isBenCallHistoryData = new BehaviorSubject(this.isBenCallHistory);
   isBenCallHistoryData$ = this.isBenCallHistoryData.asObservable();
 
-  isBenRegistartion: any="";
+  isBenRegistartion: any = "";
   isBenRegistartionData = new BehaviorSubject(this.isBenRegistartion);
   isBenRegistartionData$ = this.isBenRegistartionData.asObservable();
 
-  resetAgentStatus: any="";
+  resetAgentStatus: any = "";
   resetAgentStatusFlag = new BehaviorSubject(this.resetAgentStatus);
   resetAgentStatusFlag$ = this.resetAgentStatusFlag.asObservable();
 
-  stopTimer: any="";
+  stopTimer: any = "";
   stopTimerFlag = new BehaviorSubject(this.stopTimer);
   stopTimerFlag$ = this.stopTimerFlag.asObservable();
 
-  agentCurrentStatus: any="";
+  agentCurrentStatus: any = "";
   agentCurrentStatusData = new BehaviorSubject(this.agentCurrentStatus);
   agentCurrentStatusData$ = this.agentCurrentStatusData.asObservable();
-  
 
-  constructor(private http: HttpClient,  private resolver: ComponentFactoryResolver) { }
+
+  constructor(private http: HttpClient, private resolver: ComponentFactoryResolver) { }
 
 
   loadComponent(component: any, data: any) {
@@ -100,7 +100,7 @@ export class AssociateAnmMoService {
   setContainer(container: any) {
     this.container = container;
   }
-   callClosure(reqObj: any) {
+  callClosure(reqObj: any) {
     return this.http.post(environment.updateCallClosureUrl, reqObj);
   }
 
@@ -112,155 +112,155 @@ export class AssociateAnmMoService {
 
   }
 
-saveBenCallDetails(reqObj: any) {
-  return this.http.post(environment.saveBenCallDetails, reqObj);
-}
-getAutoPreviewDialing(userId: any,roleId: any,psmId: any) {
-  return this.http.get(environment.getAgentAutoPreviewDialingUrl + "/" + userId + "/" + roleId + "/" + psmId);
-}
+  saveBenCallDetails(reqObj: any) {
+    return this.http.post(environment.saveBenCallDetails, reqObj);
+  }
+  getAutoPreviewDialing(userId: any, roleId: any, psmId: any) {
+    return this.http.get(environment.getAgentAutoPreviewDialingUrl + "/" + userId + "/" + roleId + "/" + psmId);
+  }
 
-setCloseCallOnWrapup() {
-  this.callWrapup = 1;
-  this.callWrapupFlag.next(1);
-}
+  setCloseCallOnWrapup() {
+    this.callWrapup = 1;
+    this.callWrapupFlag.next(1);
+  }
 
-resetCloseCallOnWrapup()
-{
-  this.callWrapup = 0;
-  this.callWrapupFlag.next(0);
-}
+  resetCloseCallOnWrapup() {
+    this.callWrapup = 0;
+    this.callWrapupFlag.next(0);
+  }
 
-setCallClosure() {
-  this.resetCallClosure = 1;
-  this.callClosureFlag.next(1);
-}
+  setCallClosure() {
+    this.resetCallClosure = 1;
+    this.callClosureFlag.next(1);
+  }
 
-clearCallClosure()
-{
-  this.resetCallClosure = 0;
-  this.callClosureFlag.next(0);
-}
+  clearCallClosure() {
+    this.resetCallClosure = 0;
+    this.callClosureFlag.next(0);
+  }
 
-  getAgentMasterData(){
+  getAgentMasterData() {
     return this.http.get(environment.getAgentMasterDataUrl);
   }
 
-  fetchBeneficiaryQuestionnaire(reqObj: any, callType: any, role:any){
+  fetchBeneficiaryQuestionnaire(reqObj: any, callType: any, role: any) {
     return this.http.get(environment.getBeneficiaryQuestionnaire + reqObj + '/' + callType + '/' + role);
   }
 
-  saveQuestionnaireResponse(reqObj: any){
+  saveQuestionnaireResponse(reqObj: any) {
     return this.http.post(environment.saveBenQuestionnaireResponseUrl, reqObj);
   }
 
-  getHRPDetails(reqObj: any){
+  getHRPDetails(reqObj: any) {
     return this.http.get(environment.getBenHrpHrniDetailsUrl + "motherId=" + reqObj.motherId);
   }
 
-  getHRNIDetails(reqObj: any){
+  getHRNIDetails(reqObj: any) {
     return this.http.get(environment.getBenHrpHrniDetailsUrl + "childId=" + reqObj.childId);
   }
 
-  registerBeneficiary(reqObj: any){
+  registerBeneficiary(reqObj: any) {
     return this.http.post(environment.registerBeneficiaryUrl, reqObj);
   }
 
-  updateBeneficiary(reqObj: any){
+  updateBeneficiary(reqObj: any) {
     return this.http.post(environment.updateBeneficiaryUrl, reqObj);
   }
-setLoadDetailsInReg(value:any) {
-  this.loadDetailsInReg = value;
-  this.loadDetailsInRegFlag.next(this.loadDetailsInReg);
-}
+  setLoadDetailsInReg(value: any) {
+    this.loadDetailsInReg = value;
+    this.loadDetailsInRegFlag.next(this.loadDetailsInReg);
+  }
 
-resetLoadDetailsInReg()
-{
-  this.loadDetailsInReg = null;
-  this.loadDetailsInRegFlag.next(this.loadDetailsInReg);
-}
-
-
-setOpenComp(value:any) {
-  this.openComp = value;
-  this.openCompFlag.next(this.openComp);
-}
-
-resetOpenComp()
-{
-  this.openComp = null;
-  this.openCompFlag.next(this.openComp);
-}
-
-setBenHistoryComp(value:any) {
-  this.isBenCallHistory = value;
-  this.isBenCallHistoryData.next(this.isBenCallHistory);
-}
-
-resetBenHistoryComp()
-{
-  this.isBenCallHistory = null;
-  this.isBenCallHistoryData.next(this.isBenCallHistory);
-}
-
-setBenRegistartionComp(value:any) {
-  this.isBenRegistartion = value;
-  this.isBenRegistartionData.next(this.isBenRegistartion);
-}
-
-resetBenRegistartionComp()
-{
-  this.isBenRegistartion = null;
-  this.isBenRegistartionData.next(this.isBenRegistartion);
-}
-
-getMotherRecord(reqObj:any){
-  return this.http.get(environment.getMotherOutboundWorkListUrl + '/' + reqObj.userId);
-}
-getChildRecord(reqObj:any){
-  return this.http.get(environment.getChildOutboundWorkListUrl + '/' + reqObj.userId);
-}
+  resetLoadDetailsInReg() {
+    this.loadDetailsInReg = null;
+    this.loadDetailsInRegFlag.next(this.loadDetailsInReg);
+  }
 
 
-onClickOfOutboundWorklistScreen(value:any) {
-  this.isMotherRecord = value;
-  this.isMotherRecordData.next(this.isMotherRecord);
-}
+  setOpenComp(value: any) {
+    this.openComp = value;
+    this.openCompFlag.next(this.openComp);
+  }
 
-onClickOfEcdQuestionnaire(value: any){
-  this.loadEcdQuestionnaire = value;
-  this.loadEcdQuestionnaireData.next(this.loadEcdQuestionnaire);
-}
+  resetOpenComp() {
+    this.openComp = null;
+    this.openCompFlag.next(this.openComp);
+  }
 
-getBeneficiaryCallHistory(reqObj:any){
-  return this.http.get(environment.getBeneficiaryCallHistoryUrl , {params: reqObj});
-}
-getCallHistoryDetails(reqObj:any){
-  return this.http.get(environment.getCallHistoryDetailsUrl + '/' + reqObj);
-}
+  setBenHistoryComp(value: any) {
+    this.isBenCallHistory = value;
+    this.isBenCallHistoryData.next(this.isBenCallHistory);
+  }
 
-setResetAgentStatus(value:any) {
-  this.resetAgentStatus = value;
-  this.resetAgentStatusFlag.next(this.resetAgentStatus);
-}
+  resetBenHistoryComp() {
+    this.isBenCallHistory = null;
+    this.isBenCallHistoryData.next(this.isBenCallHistory);
+  }
 
-setStopTimer(value: any) {
-  this.stopTimer = value;
-  this.stopTimerFlag.next(this.stopTimer);
-}
+  setBenRegistartionComp(value: any) {
+    this.isBenRegistartion = value;
+    this.isBenRegistartionData.next(this.isBenRegistartion);
+  }
 
-clearStopTimer() {
-  this.stopTimer = null;
-  this.stopTimerFlag.next(this.stopTimer);
-}
+  resetBenRegistartionComp() {
+    this.isBenRegistartion = null;
+    this.isBenRegistartionData.next(this.isBenRegistartion);
+  }
 
-setAgentState(value:any){
-  this.agentCurrentStatus = value;
-  this.agentCurrentStatusData.next(this.agentCurrentStatus);
-}
-resetAgentState()
-{
-  this.agentCurrentStatus = null;
-  this.agentCurrentStatus.next(this.agentCurrentStatus);
-}
+  getMotherRecord(reqObj: any) {
+    return this.http.get(environment.getMotherOutboundWorkListUrl + '/' + reqObj.userId);
+  }
+  getChildRecord(reqObj: any) {
+    return this.http.get(environment.getChildOutboundWorkListUrl + '/' + reqObj.userId);
+  }
 
+
+  onClickOfOutboundWorklistScreen(value: any) {
+    this.isMotherRecord = value;
+    this.isMotherRecordData.next(this.isMotherRecord);
+  }
+
+  onClickOfEcdQuestionnaire(value: any) {
+    this.loadEcdQuestionnaire = value;
+    this.loadEcdQuestionnaireData.next(this.loadEcdQuestionnaire);
+  }
+
+  getBeneficiaryCallHistory(reqObj: any) {
+    return this.http.get(environment.getBeneficiaryCallHistoryUrl, { params: reqObj });
+  }
+  getCallHistoryDetails(reqObj: any) {
+    return this.http.get(environment.getCallHistoryDetailsUrl + '/' + reqObj);
+  }
+
+  setResetAgentStatus(value: any) {
+    this.resetAgentStatus = value;
+    this.resetAgentStatusFlag.next(this.resetAgentStatus);
+  }
+
+  setStopTimer(value: any) {
+    this.stopTimer = value;
+    this.stopTimerFlag.next(this.stopTimer);
+  }
+
+  clearStopTimer() {
+    this.stopTimer = null;
+    this.stopTimerFlag.next(this.stopTimer);
+  }
+
+  setAgentState(value: any) {
+    this.agentCurrentStatus = value;
+    this.agentCurrentStatusData.next(this.agentCurrentStatus);
+  }
+  resetAgentState() {
+    this.agentCurrentStatus = null;
+    this.agentCurrentStatus.next(this.agentCurrentStatus);
+  }
+
+  generateLink() {
+    return this.http.post(environment.generateVideoLinkURL, {});
+  }
+
+  sendLink(reqObj: any) {
+    return this.http.post(environment.sendSMSAPI, reqObj);
+  }
 }

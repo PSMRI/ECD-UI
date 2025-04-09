@@ -209,6 +209,11 @@ button[disabled] {
   background-color: #c82333;
 }
 
+::ng-deep .call-started-snackbar {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+}
 
 /* Responsive Design */
 @media (max-width: 576px) {
