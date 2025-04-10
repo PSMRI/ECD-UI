@@ -209,12 +209,15 @@ button[disabled] {
   background-color: #c82333;
 }
 
-::ng-deep .call-started-snackbar {
-  background-color: #4caf50;
-  color: white;
-  font-weight: bold;
+.snackbar-success {
+  background-color: #4caf50 !important; /* Green */
+  color: white !important;
 }
 
+.snackbar-error {
+  background-color: #f44336 !important; /* Red */
+  color: white !important;
+}
 /* Responsive Design */
 @media (max-width: 576px) {
   .modal-content {

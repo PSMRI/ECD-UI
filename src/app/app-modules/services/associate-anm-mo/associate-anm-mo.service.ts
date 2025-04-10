@@ -263,4 +263,8 @@ export class AssociateAnmMoService {
   sendLink(reqObj: any) {
     return this.http.post(environment.sendSMSAPI, reqObj);
   }
+
+  updateCallStatus(reqObj: any) {
+    return this.http.post(environment.updateCallStatusAPI, reqObj);
+  }
 }

@@ -9,16 +9,13 @@ import {
 import { AssociateAnmMoService } from '../../services/associate-anm-mo/associate-anm-mo.service';
 import { SmsTemplateService } from '../../services/smsTemplate/sms-template.service';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
+import { map, switchMap } from 'rxjs/operators';
 
 interface VideoConsultationDialogData {
   videoCallPrompt: boolean;
   callerPhoneNumber: string;
   agentID: string;
   agentName: string;
-}
-
-interface LinkResponse {
-  meetingLink: string;
 }
 
 interface VideoCallRequest {
@@ -33,6 +30,12 @@ interface VideoCallRequest {
   closureRemark: string;
 }
 
+interface VideocallStatusUpdate {
+  meetingID: string,
+  callStatus: string,
+  callDuration: string,
+  modifiedBy: string
+}
 @Component({
   selector: 'app-video-consultation',
   templateUrl: './video-consultation.component.html',
@@ -42,24 +45,26 @@ interface VideoCallRequest {
 export class VideoConsultationComponent {
   // consent: boolean | null = null;
   linkSent = false;
-  linkStatus = ''; 
-  receiptConfirmation = ''; 
+  linkStatus = '';
+  receiptConfirmation = '';
   callStatus: 'Not Initiated' | 'Ongoing' | 'Completed' = 'Not Initiated';
-  linkResend = 'Sent'; 
+  linkResend = 'Sent';
   videoConsultationAvailable = false;
-  meetLink = ''; 
+  meetLink = '';
   isMeetAvailable = false;
   SMSStatus = '';
+  callStartTime: Date | null = null;
+  callEndTime: Date | null = null;
 
 
   constructor(
     private associateAnmMoService: AssociateAnmMoService,
     private sms_service: SmsTemplateService,
     private loginService: LoginserviceService,
-    readonly sessionstorage:SessionStorageService,
+    readonly sessionstorage: SessionStorageService,
     private snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<VideoConsultationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: VideoConsultationDialogData,   
+    @Inject(MAT_DIALOG_DATA) public data: VideoConsultationDialogData,
 
   ) { }
 
@@ -68,7 +73,6 @@ export class VideoConsultationComponent {
     this.associateAnmMoService.generateLink().subscribe({
       next: (response: any) => {
         this.linkSent = true;
-        this.linkStatus = 'Sent Successfully';
         this.meetLink = response.meetingLink;
 
         this.send_sms(this.meetLink, this.data.callerPhoneNumber);
@@ -78,15 +82,42 @@ export class VideoConsultationComponent {
       }
     });
   }
-  
+
   startConsultation() {
+    this.callStartTime = new Date();
+
     this.callStatus = 'Ongoing';
-    this.isMeetAvailable = true;  
-    alert('Call has started')
+    this.isMeetAvailable = true;
+    this.snackBar.open('Call has started', 'Close', {
+      duration: 3000,
+      verticalPosition: 'top',
+      panelClass: ['snackbar-success']
+    });
+    // alert('Call has started')
   }
-  
+
   endConsultation(): void {
     this.callStatus = 'Completed';
+    this.callEndTime = new Date();
+
+    const callDuration = this.calculateCallDuration();
+
+    const smsRequest: VideocallStatusUpdate = {
+      "meetingID": "string",
+      "callStatus": "COMPLETED",
+      "callDuration": callDuration,
+      "modifiedBy": this.sessionstorage.getItem('userName')
+    };
+
+    this.associateAnmMoService.updateCallStatus(smsRequest).subscribe({
+      next: () => {
+        this.SMSStatus = 'Call record updated successfully';
+      },
+      error: () => {
+        this.SMSStatus = 'Failed to update call record';
+      }
+    });
+
     this.data.videoCallPrompt = false;
     this.dialogRef.close();
 
@@ -109,7 +140,7 @@ export class VideoConsultationComponent {
       this.linkStatus = 'Not Sent';
     }
   }
-  
+
 
   handleConsent(agreed: boolean) {
     if (agreed === true) {
@@ -119,88 +150,69 @@ export class VideoConsultationComponent {
     }
   }
 
-  send_sms(smsAdvice: any, phoneNo: any) {
-    let sms_template_id = "";
-    let smsTypeID = "";
+  send_sms(smsAdvice: string, phoneNo: string): void {
     const currentServiceID = this.loginService.currentServiceId;
-    this.sms_service.getSMStypes(currentServiceID).subscribe(
-      (response: any) => {
-        if (response !== undefined) {
-          if (response.data.length > 0) {
-            for (let i = 0; i < response.data.length; i++) {
-              if (
-                response.data[i].smsType.toLowerCase() ===
-                "Advice SMS".toLowerCase()
-              ) {
-                smsTypeID = response.data[i].smsTypeID;
-                break;
-              }
-            }
-          }
-        }
 
-        if (smsTypeID !== "") {
-          this.sms_service
-            .getSMStemplates(
-              currentServiceID,
-              smsTypeID
-            )
-            .subscribe(
-              (res: any) => {
-                if (res !== undefined) {
-                  if (res.data.length > 0) {
-                    for (let j = 0; j < res.data.length; j++) {
-                      if (res.data[j].deleted === false) {
-                        sms_template_id = res.data[j].smsTemplateID;
-                        break;
-                      }
-                    }
-                  }
+    this.sms_service.getSMStypes(currentServiceID).pipe(
+      map((response: any) => {
+        const adviceType = response?.data?.find((type: any) =>
+          type.smsType.toLowerCase() === "advice sms"
+        );
+        return adviceType?.smsTypeID || null;
+      }),
+      switchMap((smsTypeID: string | null) => {
+        if (!smsTypeID) throw new Error("Advice SMS type not found");
+        return this.sms_service.getSMStemplates(currentServiceID, smsTypeID).pipe(
+          map((res: any) => {
+            const template = res?.data?.find((tpl: any) => !tpl.deleted);
+            return {
+              smsTemplateID: template?.smsTemplateID || null,
+              smsTemplateTypeID: smsTypeID
+            };
+          })
+        );
+      }),
+      switchMap(({ smsTemplateID, smsTemplateTypeID }) => {
+        if (!smsTemplateID) throw new Error("Valid SMS template not found");
 
-                  if (smsTypeID !== "") {
-                    const reqObj = {
-                      sms_Advice: smsAdvice,
-                      phoneNo: phoneNo,
-                      // beneficiaryRegID: generated_ben_id,
-                      createdBy: this.sessionstorage.getItem('userName'),
-                      is1097: false,
-                      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
-                      smsTemplateID: sms_template_id,
-                      smsTemplateTypeID: smsTypeID
-                    };
+        const reqObj = {
+          sms_Advice: smsAdvice,
+          phoneNo: phoneNo,
+          createdBy: this.sessionstorage.getItem('userName'),
+          is1097: false,
+          providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
+          smsTemplateID,
+          smsTemplateTypeID
+        };
 
-                    const arr = [];
-                    arr.push(reqObj);
-
-                    this.sms_service.sendSMS(arr).subscribe(
-                      (ressponse: any) => {
-                        console.log(ressponse, "SMS Sent");
-                        alert("Sms sent successfully");
-
-                        this.saveVideoCallRequest(this.meetLink, "Initiated");
-                      },
-                      err => {
-                        console.log(err, "SMS not sent Error");
-                        alert("SMS not sent");
-                      }
-                    );
-                  }
-                }
-              },
-              err => {
-                console.log(err, "Error in fetching sms templates");
-              }
-            );
-        }
+        return this.sms_service.sendSMS([reqObj]);
+      })
+    ).subscribe({
+      next: (response) => {
+        console.log("SMS Sent", response);
+        this.linkStatus = 'Sent Successfully';
+        this.snackBar.open('SMS sent successfully', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success']
+        });
+        // alert("Sms sent successfully");
+        this.saveVideoCallRequest(this.meetLink, "Initiated");
       },
-      err => {
-        console.log(err, "error while fetching sms types");
+      error: (err) => {
+        console.log("Error sending SMS:", err.message || err);
+        this.snackBar.open('SMS not sent', 'Close', {
+          duration: 3000, // milliseconds
+          verticalPosition: 'top', // or 'bottom'
+          panelClass: ['snackbar-error'] // optional: for custom styling
+        });
+        // alert("SMS not sent");
       }
-    );
-
+    });
   }
 
-  private saveVideoCallRequest(meetLink: string, status: string): void {
+
+  saveVideoCallRequest(meetLink: string, status: string) {
     const request: VideoCallRequest = {
       dateOfCall: new Date().toISOString(),
       callerPhoneNumber: this.data.callerPhoneNumber,
@@ -217,5 +229,17 @@ export class VideoConsultationComponent {
       next: () => this.SMSStatus = 'SMS Sent Successfully',
       error: () => this.SMSStatus = 'Failed to send SMS'
     });
+  }
+
+  calculateCallDuration() {
+    if (!this.callStartTime || !this.callEndTime) return '0';
+
+    const diffInMs = this.callEndTime.getTime() - this.callStartTime.getTime();
+    const totalSeconds = Math.floor(diffInMs / 1000);
+
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    return `${minutes}m ${seconds}s`;
   }
 }

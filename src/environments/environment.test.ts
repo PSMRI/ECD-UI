@@ -256,4 +256,6 @@ downloadMiscarriageReportURL:`${ECD_API}ecdReportController/getECDMiscarriageRep
 //video call 
 generateVideoLinkURL :`${COMMON_API}video-consultation/generate-link`,
 sendSMSAPI: `${COMMON_API}video-consultation/send-link`,
+updateCallStatusAPI: `${COMMON_API}video-consultation/update-call-status`,
+
 };

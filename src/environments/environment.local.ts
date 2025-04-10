@@ -27,9 +27,9 @@
 const ecdIP = 'http://localhost/';
 const commonIP = 'http://localhost';
 const adminIP = 'http://localhost';
-const COMMON_API = `${commonIP}:8083/`;
-const ADMIN_API = `${adminIP}:8082/`;
-const ECD_API = `${ecdIP}:8084/`;
+const COMMON_API = `https://commonurl.loca.lt/`;
+const ADMIN_API = `https://adminurl.loca.lt/`;
+const ECD_API = `https://ecdurl.loca.lt/`;
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
 const sessionStorageEncKey = '';
 
@@ -259,6 +259,8 @@ downloadMiscarriageReportURL:`${ECD_API}ecdReportController/getECDMiscarriageRep
 //video call 
 generateVideoLinkURL :`${COMMON_API}video-consultation/generate-link`,
 sendSMSAPI: `${COMMON_API}video-consultation/send-link`,
+updateCallStatusAPI: `${COMMON_API}video-consultation/update-call-status`,
+
 };
 
 
