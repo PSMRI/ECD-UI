@@ -72,28 +72,6 @@ export class VideoConsultationComponent {
         this.meetLink = response.meetingLink;
 
         this.send_sms(this.meetLink, this.data.callerPhoneNumber);
-
-        const smsRequest: VideoCallRequest = {
-          dateOfCall: new Date().toISOString(),
-          callerPhoneNumber: this.data.callerPhoneNumber,
-          agentID: this.data.agentID,
-          agentName: this.data.agentName,           
-          meetingLink: this.meetLink,
-          callStatus: 'Initiated',
-          callDuration: '0',              // Initially 0
-          providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),     
-          closureRemark: ''
-        };
-
-        this.associateAnmMoService.sendLink(smsRequest).subscribe({
-          next: () => {
-            this.SMSStatus = 'SMS Sent Successfully';
-          },
-          error: () => {
-            this.SMSStatus = 'Failed to send SMS';
-          }
-        });
-  
       },
       error: () => {
         this.linkStatus = 'Failed to send';
@@ -103,15 +81,10 @@ export class VideoConsultationComponent {
   
   startConsultation() {
     this.callStatus = 'Ongoing';
-    this.isMeetAvailable = true;
-    // Show snack bar message
-  alert('Call has started')
-  //   , 'Close', {
-  //   duration: 3000, // ms
-  //   verticalPosition: 'top',
-  //   panelClass: ['call-started-snackbar'] // Optional custom class
-  // });
+    this.isMeetAvailable = true;  
+    alert('Call has started')
   }
+  
   endConsultation(): void {
     this.callStatus = 'Completed';
     this.data.videoCallPrompt = false;
@@ -204,26 +177,7 @@ export class VideoConsultationComponent {
                         console.log(ressponse, "SMS Sent");
                         alert("Sms sent successfully");
 
-                        const smsRequest: VideoCallRequest = {
-                          dateOfCall: new Date().toISOString(),
-                          callerPhoneNumber: this.data.callerPhoneNumber,
-                          agentID: this.data.agentID,
-                          agentName: this.data.agentName,           
-                          meetingLink: this.meetLink,
-                          callStatus: 'Initiated',
-                          callDuration: '0',              // Initially 0
-                          providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),     
-                          closureRemark: ''
-                        };
-
-                        this.associateAnmMoService.sendLink(smsRequest).subscribe({
-                          next: () => {
-                            this.SMSStatus = 'SMS Sent Successfully';
-                          },
-                          error: () => {
-                            this.SMSStatus = 'Failed to send SMS';
-                          }
-                        });
+                        this.saveVideoCallRequest(this.meetLink, "Initiated");
                       },
                       err => {
                         console.log(err, "SMS not sent Error");
@@ -244,5 +198,24 @@ export class VideoConsultationComponent {
       }
     );
 
+  }
+
+  private saveVideoCallRequest(meetLink: string, status: string): void {
+    const request: VideoCallRequest = {
+      dateOfCall: new Date().toISOString(),
+      callerPhoneNumber: this.data.callerPhoneNumber,
+      agentID: this.data.agentID,
+      agentName: this.data.agentName,
+      meetingLink: meetLink,
+      callStatus: status,
+      callDuration: '0',
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
+      closureRemark: ''
+    };
+
+    this.associateAnmMoService.sendLink(request).subscribe({
+      next: () => this.SMSStatus = 'SMS Sent Successfully',
+      error: () => this.SMSStatus = 'Failed to send SMS'
+    });
   }
 }

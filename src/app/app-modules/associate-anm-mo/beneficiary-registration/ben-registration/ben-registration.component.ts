@@ -32,14 +32,14 @@ import { LoginserviceService } from 'src/app/app-modules/services/loginservice/l
 import * as moment from 'moment';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { VideoConsultationComponent } from '../../video-consultation/video-consultation.component';
-import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
+import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 
 @Component({
   selector: 'app-ben-registration',
   templateUrl: './ben-registration.component.html',
   styleUrls: ['./ben-registration.component.css']
-})export class BenRegistrationComponent implements OnInit, DoCheck {
+}) export class BenRegistrationComponent implements OnInit, DoCheck {
 
   // viewDetails:any=this.data.selectedDetails;
   enableMotherRecord = false;
@@ -48,10 +48,10 @@ import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
   // isEditMode: boolean = true;
   maxDate = new Date();
   minDate = new Date();
-  
- 
+
+
   currentLanguageSet: any;
-  
+
   phoneNumber = [
     {
       id: 1,
@@ -68,9 +68,9 @@ import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
   blockMasterList: any;
   villageMasterList: any;
   // genderMasterList:any;
-  genderMasterList : any; 
+  genderMasterList: any;
   ageLimit = 120;
-  valueEntered : any;
+  valueEntered: any;
   // = [
   //   {
   //   "genderID" : 1,
@@ -88,30 +88,30 @@ import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
   constructor(
     private fb: FormBuilder,
     private datePipe: DatePipe,
-    private confirmationService:ConfirmationService,
+    private confirmationService: ConfirmationService,
     private associateAnmMoService: AssociateAnmMoService,
     private setLanguageService: SetLanguageService,
-    private masterService:MasterService,
+    private masterService: MasterService,
     private loginService: LoginserviceService,
-    readonly sessionstorage:SessionStorageService,
+    readonly sessionstorage: SessionStorageService,
     public dialog: MatDialog,
-    
 
- ) { 
- }
+
+  ) {
+  }
 
   ngOnInit(): void {
     this.associateAnmMoService.isBenRegistartionData$.subscribe((responseComp) => {
-      if (responseComp !== null && responseComp ===true ) {
-        if(this.associateAnmMoService.selectedBenDetails.beneficiaryRegId !== null &&
+      if (responseComp !== null && responseComp === true) {
+        if (this.associateAnmMoService.selectedBenDetails.beneficiaryRegId !== null &&
           this.associateAnmMoService.selectedBenDetails.beneficiaryRegId !== undefined) {
-         this.enableUpdateButton = true;
-       } else{
-         this.enableUpdateButton = false;
-       }
+          this.enableUpdateButton = true;
+        } else {
+          this.enableUpdateButton = false;
+        }
       }
-      
-  });
+
+    });
     console.log(this.associateAnmMoService.selectedBenDetails);
     this.getSelectedLanguage();
 
@@ -126,34 +126,34 @@ import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
     //   }
     // })
 
-   
-    
+
+
     this.associateAnmMoService.openCompFlag$.subscribe((responseComp) => {
       if (responseComp !== null && responseComp === "Call Closed") {
         this.benRegistrationForm.reset();
       }
-      
-  });
-    
+
+    });
+
     this.associateAnmMoService.loadDetailsInRegFlag$.subscribe(res => {
-      if(res === true){
+      if (res === true) {
         this.benRegistrationForm.reset();
-  
-if( this.associateAnmMoService.isMother) {
-        this.enableMotherRecord = true;
-}
-else{
-  this.enableMotherRecord = false;
-}
+
+        if (this.associateAnmMoService.isMother) {
+          this.enableMotherRecord = true;
+        }
+        else {
+          this.enableMotherRecord = false;
+        }
         this.patchValueForviewDetails();
-    
-      } 
+
+      }
     })
-    
+
     this.selectedRole = this.sessionstorage.getItem('role');
-   
-  this.minimumDate = new Date();
-  this.minimumDate.setDate(this.maxDate.getDate()-1000);
+
+    this.minimumDate = new Date();
+    this.minimumDate.setDate(this.maxDate.getDate() - 1000);
   }
 
   getSelectedLanguage() {
@@ -173,18 +173,18 @@ else{
       (response: any) => {
         if (response) {
           this.genderMasterList = response
-          
+
 
         } else {
           this.confirmationService.openDialog(response.errorMessage, 'error');
         }
       },
       (err: any) => {
-        if(err && err.error)
-        this.confirmationService.openDialog(err.error, 'error');
+        if (err && err.error)
+          this.confirmationService.openDialog(err.error, 'error');
         else
-        this.confirmationService.openDialog(err.title + err.detail, 'error')
-        }
+          this.confirmationService.openDialog(err.title + err.detail, 'error')
+      }
     );
   }
 
@@ -208,10 +208,10 @@ else{
   //         this.confirmationService.openDialog(err.title + err.detail, 'error')
   //         }
   //     );
-    
+
   // }
 
-  benRegistrationForm = new FormGroup({ 
+  benRegistrationForm = new FormGroup({
     motherId: new FormControl(''),
     mctsidNoChildId: new FormControl(''),
     childName: new FormControl(''),
@@ -246,7 +246,7 @@ else{
   //   console.log(this.phonenumofwhom);
   // }
 
-  patchValueForviewDetails(){
+  patchValueForviewDetails() {
     // let viewDetails: any =
     //   [
     //     {
@@ -273,15 +273,15 @@ else{
     //     }
     //   ];
 
-    let viewDetails:any = null;
+    let viewDetails: any = null;
     viewDetails = this.associateAnmMoService.selectedBenDetails;
 
-    if(viewDetails !== null){
+    if (viewDetails !== null) {
       this.benRegistrationForm.patchValue(viewDetails);
 
-      if(viewDetails.gender !== undefined && viewDetails.gender !== null) {
-         
-        this.genderMasterList.filter((values:any) => {
+      if (viewDetails.gender !== undefined && viewDetails.gender !== null) {
+
+        this.genderMasterList.filter((values: any) => {
           if (viewDetails.gender !== undefined && viewDetails.gender !== null && (values.genderName.toLowerCase() === viewDetails.gender.toLowerCase())) {
             this.benRegistrationForm.controls.genderID.setValue(values.genderID);
             this.benRegistrationForm.controls.genderName.setValue(values.genderName);
@@ -290,7 +290,7 @@ else{
         });
       }
 
-      if(this.enableMotherRecord && viewDetails.mctsidNo !== undefined && viewDetails.mctsidNo !== null) {
+      if (this.enableMotherRecord && viewDetails.mctsidNo !== undefined && viewDetails.mctsidNo !== null) {
         this.benRegistrationForm.controls.motherId.setValue(viewDetails.mctsidNo);
         this.benRegistrationForm.controls.motherName.setValue(viewDetails.name);
         this.benRegistrationForm.controls.phoneNo.setValue(viewDetails.whomPhoneNo);
@@ -303,7 +303,7 @@ else{
         // let eDate = new Date(viewDetails.edd);
         // eDate = new Date(eDate.getTime() + eDate.getTimezoneOffset() * 60000)
         // this.benRegistrationForm.controls.edd.setValue(eDate);
-        
+
         // Calculate EDD based on LMP Date
         const eddDate = new Date(lDate);
         eddDate.setDate(eddDate.getDate() + 7); // Add 7 days
@@ -317,20 +317,20 @@ else{
         dobDate = new Date(dobDate.getTime() + dobDate.getTimezoneOffset() * 60000)
 
         this.benRegistrationForm.controls.dob.setValue(dobDate);
-        if(this.benRegistrationForm.controls.dob.value){
+        if (this.benRegistrationForm.controls.dob.value) {
           this.benRegistrationForm.controls.dob.setErrors(null)
         }
       }
 
-      if(viewDetails.fatherName !== undefined && viewDetails.fatherName !==  null) {
+      if (viewDetails.fatherName !== undefined && viewDetails.fatherName !== null) {
         this.benRegistrationForm.controls.husbandName.setValue(viewDetails.fatherName);
       }
 
 
       this.benRegistrationForm.controls.stateID.setValue(viewDetails.stateName);
       this.benRegistrationForm.controls.districtID.setValue(viewDetails.districtName);
-       this.benRegistrationForm.controls.blockID.setValue(viewDetails.blockName);
-         this.benRegistrationForm.controls.districtBranchID.setValue(viewDetails.villageName);
+      this.benRegistrationForm.controls.blockID.setValue(viewDetails.blockName);
+      this.benRegistrationForm.controls.districtBranchID.setValue(viewDetails.villageName);
 
       // this.patchDemographicMasters(viewDetails);
 
@@ -345,153 +345,153 @@ else{
       // this.benRegistrationForm.controls.districtBranchID.setValue(745);
       // console.log("details", this.benRegistrationForm.valid);
     }
-    }
+  }
 
-    // patchDemographicMasters(viewDetails:any) {
+  // patchDemographicMasters(viewDetails:any) {
 
-    //   this.stateMasterList.filter((values:any) => {
-    //     if (viewDetails.stateName !== undefined &&  viewDetails.stateName !== null && (values.stateName.toLowerCase() === viewDetails.stateName.toLowerCase())) {
-    //       this.benRegistrationForm.controls.stateID.setValue(values.stateID);
-    //     }
-    //   });
+  //   this.stateMasterList.filter((values:any) => {
+  //     if (viewDetails.stateName !== undefined &&  viewDetails.stateName !== null && (values.stateName.toLowerCase() === viewDetails.stateName.toLowerCase())) {
+  //       this.benRegistrationForm.controls.stateID.setValue(values.stateID);
+  //     }
+  //   });
 
-    //   if(this.benRegistrationForm.controls.stateID.value !== undefined && this.benRegistrationForm.controls.stateID.value !== null && this.benRegistrationForm.controls.stateID.value !== ""){
-    //   this.getDistrictMaster(this.benRegistrationForm.controls.stateID.value,viewDetails); 
-    // }
-    // }
+  //   if(this.benRegistrationForm.controls.stateID.value !== undefined && this.benRegistrationForm.controls.stateID.value !== null && this.benRegistrationForm.controls.stateID.value !== ""){
+  //   this.getDistrictMaster(this.benRegistrationForm.controls.stateID.value,viewDetails); 
+  // }
+  // }
 
-//     getDistrictMaster(stateID:any,viewDetails:any) {
+  //     getDistrictMaster(stateID:any,viewDetails:any) {
 
-//       this.masterService.getDistrictMaster(stateID).subscribe(
-//         (response: any) => {
-//           if (response && response.data !== null) {
-//             this.districtMasterList = response.data;
-//             this.blockMasterList = [];
-//             this.villageMasterList = [];
+  //       this.masterService.getDistrictMaster(stateID).subscribe(
+  //         (response: any) => {
+  //           if (response && response.data !== null) {
+  //             this.districtMasterList = response.data;
+  //             this.blockMasterList = [];
+  //             this.villageMasterList = [];
 
-//             this.districtMasterList.filter((values:any) => {
-//               if (viewDetails.districtName !== undefined && viewDetails.districtName !== null && (values.districtName.toLowerCase() === viewDetails.districtName.toLowerCase())) {
-//                 this.benRegistrationForm.controls.districtID.setValue(values.districtID);
-//               }
-//             });
+  //             this.districtMasterList.filter((values:any) => {
+  //               if (viewDetails.districtName !== undefined && viewDetails.districtName !== null && (values.districtName.toLowerCase() === viewDetails.districtName.toLowerCase())) {
+  //                 this.benRegistrationForm.controls.districtID.setValue(values.districtID);
+  //               }
+  //             });
 
-//  if(this.benRegistrationForm.controls.districtID.value !== undefined && this.benRegistrationForm.controls.districtID.value !== null && this.benRegistrationForm.controls.districtID.value !== ""){
-//             this.getBlockMaster(this.benRegistrationForm.controls.districtID.value,viewDetails);
-//  }
+  //  if(this.benRegistrationForm.controls.districtID.value !== undefined && this.benRegistrationForm.controls.districtID.value !== null && this.benRegistrationForm.controls.districtID.value !== ""){
+  //             this.getBlockMaster(this.benRegistrationForm.controls.districtID.value,viewDetails);
+  //  }
 
-//           } else {
-//             this.confirmationService.openDialog(response.errorMessage, 'error');
-//           }
-//         },
-//         (err: any) => {
-//           if(err && err.error)
-//           this.confirmationService.openDialog(err.error, 'error');
-//           else
-//           this.confirmationService.openDialog(err.title + err.detail, 'error')
-//           }
-//       );
-
-      
-
-//     }
+  //           } else {
+  //             this.confirmationService.openDialog(response.errorMessage, 'error');
+  //           }
+  //         },
+  //         (err: any) => {
+  //           if(err && err.error)
+  //           this.confirmationService.openDialog(err.error, 'error');
+  //           else
+  //           this.confirmationService.openDialog(err.title + err.detail, 'error')
+  //           }
+  //       );
 
 
-    // getBlockMaster(dictrictID:any,viewDetails:any) {
-    //   this.masterService.getBlockMaster(dictrictID).subscribe(
-    //     (response: any) => {
-    //       if (response && response.data !== null) {
-    //         this.blockMasterList = response.data;
-    //         this.villageMasterList = [];
 
-    //         this.blockMasterList.filter((values:any) => {
-    //           if (viewDetails.blockName !== undefined  && viewDetails.blockName !== null && (values.blockName.toLowerCase() === viewDetails.blockName.toLowerCase())) {
-    //             this.benRegistrationForm.controls.blockID.setValue(values.blockID);
-    //           }
-    //         });
+  //     }
 
-    //         if(this.benRegistrationForm.controls.blockID.value !== undefined && this.benRegistrationForm.controls.blockID.value !== null && this.benRegistrationForm.controls.blockID.value !== ""){
-    //         this.getVillageMaster(this.benRegistrationForm.controls.blockID.value,viewDetails);
-    //         }
 
-    //       } else {
-    //         this.confirmationService.openDialog(response.errorMessage, 'error');
-    //       }
-    //     },
-    //     (err: any) => {
-    //       if(err && err.error)
-    //       this.confirmationService.openDialog(err.error, 'error');
-    //       else
-    //       this.confirmationService.openDialog(err.title + err.detail, 'error')
-    //       }
-    //   );
-    // }
+  // getBlockMaster(dictrictID:any,viewDetails:any) {
+  //   this.masterService.getBlockMaster(dictrictID).subscribe(
+  //     (response: any) => {
+  //       if (response && response.data !== null) {
+  //         this.blockMasterList = response.data;
+  //         this.villageMasterList = [];
 
-    // getVillageMaster(blockID:any,viewDetails:any) {
-    //   this.masterService.getVillageMaster(blockID).subscribe(
-    //     (response: any) => {
-    //       if (response && response.data !== null) {
-    //         this.villageMasterList = response.data;
+  //         this.blockMasterList.filter((values:any) => {
+  //           if (viewDetails.blockName !== undefined  && viewDetails.blockName !== null && (values.blockName.toLowerCase() === viewDetails.blockName.toLowerCase())) {
+  //             this.benRegistrationForm.controls.blockID.setValue(values.blockID);
+  //           }
+  //         });
 
-    //         this.villageMasterList.filter((values:any) => {
-    //           if (viewDetails.villageName !== undefined && viewDetails.villageName !== null && (values.villageName.toLowerCase() === viewDetails.villageName.toLowerCase())) {
-    //             this.benRegistrationForm.controls.districtBranchID.setValue(values.districtBranchID);
-    //           }
-    //         });
+  //         if(this.benRegistrationForm.controls.blockID.value !== undefined && this.benRegistrationForm.controls.blockID.value !== null && this.benRegistrationForm.controls.blockID.value !== ""){
+  //         this.getVillageMaster(this.benRegistrationForm.controls.blockID.value,viewDetails);
+  //         }
 
-           
+  //       } else {
+  //         this.confirmationService.openDialog(response.errorMessage, 'error');
+  //       }
+  //     },
+  //     (err: any) => {
+  //       if(err && err.error)
+  //       this.confirmationService.openDialog(err.error, 'error');
+  //       else
+  //       this.confirmationService.openDialog(err.title + err.detail, 'error')
+  //       }
+  //   );
+  // }
 
-    //       } else {
-    //         this.confirmationService.openDialog(response.errorMessage, 'error');
-    //       }
-    //     },
-    //     (err: any) => {
-    //       if(err && err.error)
-    //       this.confirmationService.openDialog(err.error, 'error');
-    //       else
-    //       this.confirmationService.openDialog(err.title + err.detail, 'error')
-    //       }
-    //   );
-    // }
+  // getVillageMaster(blockID:any,viewDetails:any) {
+  //   this.masterService.getVillageMaster(blockID).subscribe(
+  //     (response: any) => {
+  //       if (response && response.data !== null) {
+  //         this.villageMasterList = response.data;
 
-    setGenderName(genderValue:any) {
-     this.benRegistrationForm.controls.genderName.setValue(genderValue);
-    }
+  //         this.villageMasterList.filter((values:any) => {
+  //           if (viewDetails.villageName !== undefined && viewDetails.villageName !== null && (values.villageName.toLowerCase() === viewDetails.villageName.toLowerCase())) {
+  //             this.benRegistrationForm.controls.districtBranchID.setValue(values.districtBranchID);
+  //           }
+  //         });
 
-    onSubmit() {
-      let lmpDateValue=null;
-      let eddDateValue=null;
-      let dobDateValue=null;
-    if(this.enableMotherRecord) {
-    lmpDateValue =  moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ');
-  eddDateValue =  moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ');
+
+
+  //       } else {
+  //         this.confirmationService.openDialog(response.errorMessage, 'error');
+  //       }
+  //     },
+  //     (err: any) => {
+  //       if(err && err.error)
+  //       this.confirmationService.openDialog(err.error, 'error');
+  //       else
+  //       this.confirmationService.openDialog(err.title + err.detail, 'error')
+  //       }
+  //   );
+  // }
+
+  setGenderName(genderValue: any) {
+    this.benRegistrationForm.controls.genderName.setValue(genderValue);
+  }
+
+  onSubmit() {
+    let lmpDateValue = null;
+    let eddDateValue = null;
+    let dobDateValue = null;
+    if (this.enableMotherRecord) {
+      lmpDateValue = moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ');
+      eddDateValue = moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ');
     }
     else {
-      dobDateValue =  moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ');
+      dobDateValue = moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ');
     }
     const demographicReq = {
-        //  "stateID" :this.benRegistrationForm.controls.stateID.value,
-        //  "districtID": this.benRegistrationForm.controls.districtID.value,
-        //  "blockID" : this.benRegistrationForm.controls.blockID.value,
-        //  "districtBranchID" : this.benRegistrationForm.controls.districtBranchID.value,
-         "addressLine1" : (this.benRegistrationForm.controls.address.value !== undefined && this.benRegistrationForm.controls.address.value !== null && this.benRegistrationForm.controls.address.value !== "") ? this.benRegistrationForm.controls.address.value : undefined,
-         "createdBy" : this.sessionstorage.getItem('userName')
+      //  "stateID" :this.benRegistrationForm.controls.stateID.value,
+      //  "districtID": this.benRegistrationForm.controls.districtID.value,
+      //  "blockID" : this.benRegistrationForm.controls.blockID.value,
+      //  "districtBranchID" : this.benRegistrationForm.controls.districtBranchID.value,
+      "addressLine1": (this.benRegistrationForm.controls.address.value !== undefined && this.benRegistrationForm.controls.address.value !== null && this.benRegistrationForm.controls.address.value !== "") ? this.benRegistrationForm.controls.address.value : undefined,
+      "createdBy": this.sessionstorage.getItem('userName')
     };
 
     const phoneDetails = [];
-    if(this.benRegistrationForm.controls.phoneNo.value !== undefined && this.benRegistrationForm.controls.phoneNo.value !== null) {
+    if (this.benRegistrationForm.controls.phoneNo.value !== undefined && this.benRegistrationForm.controls.phoneNo.value !== null) {
 
       const phnReq = {
-        "phoneNo" : this.benRegistrationForm.controls.phoneNo.value,
-        "createdBy" : this.sessionstorage.getItem('userName')
+        "phoneNo": this.benRegistrationForm.controls.phoneNo.value,
+        "createdBy": this.sessionstorage.getItem('userName')
       }
       phoneDetails.push(phnReq);
     }
 
-    if(this.benRegistrationForm.controls.alternatePhoneNo.value !== undefined && this.benRegistrationForm.controls.alternatePhoneNo.value !== null && this.benRegistrationForm.controls.alternatePhoneNo.value !== "") {
+    if (this.benRegistrationForm.controls.alternatePhoneNo.value !== undefined && this.benRegistrationForm.controls.alternatePhoneNo.value !== null && this.benRegistrationForm.controls.alternatePhoneNo.value !== "") {
 
       const altPhnReq = {
-        "phoneNo" : this.benRegistrationForm.controls.alternatePhoneNo.value,
-        "createdBy" : this.sessionstorage.getItem('userName')
+        "phoneNo": this.benRegistrationForm.controls.alternatePhoneNo.value,
+        "createdBy": this.sessionstorage.getItem('userName')
       }
       phoneDetails.push(altPhnReq);
     }
@@ -501,121 +501,121 @@ else{
 
     const reqObj = {
       "motherId": this.benRegistrationForm.controls.motherId.value,
-      "childId" : (this.benRegistrationForm.controls.mctsidNoChildId.value !== undefined && this.benRegistrationForm.controls.mctsidNoChildId.value !== null && this.benRegistrationForm.controls.mctsidNoChildId.value !== "") ? this.benRegistrationForm.controls.mctsidNoChildId.value : undefined,
-      "name": (this.benRegistrationForm.controls.childName.value !== undefined && this.benRegistrationForm.controls.childName.value !== null && this.benRegistrationForm.controls.childName.value  !== "") ? this.benRegistrationForm.controls.childName.value : this.benRegistrationForm.controls.motherName.value,
-      "motherName" : (this.benRegistrationForm.controls.mctsidNoChildId.value !== undefined && this.benRegistrationForm.controls.mctsidNoChildId.value !== null && this.benRegistrationForm.controls.mctsidNoChildId.value !== "") ? this.benRegistrationForm.controls.motherName.value : undefined,
-      "spouseName" : (this.benRegistrationForm.controls.husbandName.value !== undefined && this.benRegistrationForm.controls.husbandName.value !== null && this.benRegistrationForm.controls.husbandName.value !== "") ? this.benRegistrationForm.controls.husbandName.value : undefined,
-      "genderID" : this.benRegistrationForm.controls.genderID.value,
+      "childId": (this.benRegistrationForm.controls.mctsidNoChildId.value !== undefined && this.benRegistrationForm.controls.mctsidNoChildId.value !== null && this.benRegistrationForm.controls.mctsidNoChildId.value !== "") ? this.benRegistrationForm.controls.mctsidNoChildId.value : undefined,
+      "name": (this.benRegistrationForm.controls.childName.value !== undefined && this.benRegistrationForm.controls.childName.value !== null && this.benRegistrationForm.controls.childName.value !== "") ? this.benRegistrationForm.controls.childName.value : this.benRegistrationForm.controls.motherName.value,
+      "motherName": (this.benRegistrationForm.controls.mctsidNoChildId.value !== undefined && this.benRegistrationForm.controls.mctsidNoChildId.value !== null && this.benRegistrationForm.controls.mctsidNoChildId.value !== "") ? this.benRegistrationForm.controls.motherName.value : undefined,
+      "spouseName": (this.benRegistrationForm.controls.husbandName.value !== undefined && this.benRegistrationForm.controls.husbandName.value !== null && this.benRegistrationForm.controls.husbandName.value !== "") ? this.benRegistrationForm.controls.husbandName.value : undefined,
+      "genderID": this.benRegistrationForm.controls.genderID.value,
       "genderName": this.benRegistrationForm.controls.genderName.value,
       "phoneNo": this.benRegistrationForm.controls.phoneNo.value,
       "phoneNoOfWhom": this.benRegistrationForm.controls.phoneNoOf.value,
-      "alternatePhoneNo":(this.benRegistrationForm.controls.alternatePhoneNo.value !== undefined && this.benRegistrationForm.controls.alternatePhoneNo.value !== null && this.benRegistrationForm.controls.alternatePhoneNo.value !== "") ? this.benRegistrationForm.controls.alternatePhoneNo.value : undefined,
-      "dateOfBirth" : dobDateValue,
+      "alternatePhoneNo": (this.benRegistrationForm.controls.alternatePhoneNo.value !== undefined && this.benRegistrationForm.controls.alternatePhoneNo.value !== null && this.benRegistrationForm.controls.alternatePhoneNo.value !== "") ? this.benRegistrationForm.controls.alternatePhoneNo.value : undefined,
+      "dateOfBirth": dobDateValue,
       "age": this.benRegistrationForm.controls.age.value,
-      "lmp" : lmpDateValue,
-      "edd" : eddDateValue,
-      "i_bendemographics" : demographicReq,
+      "lmp": lmpDateValue,
+      "edd": eddDateValue,
+      "i_bendemographics": demographicReq,
       "benPhoneMaps": phoneDetails,
-      "vanID" : this.loginService.currentServiceId,
+      "vanID": this.loginService.currentServiceId,
       "emergencyRegistration": false,
-      "ashaName":this.benRegistrationForm.controls.ashaName.value,
-      "ashaPh":this.benRegistrationForm.controls.ashaPhoneNo.value,
-      "anmName":this.benRegistrationForm.controls.anmName.value,
-      "anmPh":this.benRegistrationForm.controls.anmPhoneNo.value,
-      "phcName" : this.benRegistrationForm.controls.phcName.value,
+      "ashaName": this.benRegistrationForm.controls.ashaName.value,
+      "ashaPh": this.benRegistrationForm.controls.ashaPhoneNo.value,
+      "anmName": this.benRegistrationForm.controls.anmName.value,
+      "anmPh": this.benRegistrationForm.controls.anmPhoneNo.value,
+      "phcName": this.benRegistrationForm.controls.phcName.value,
       "blockName": this.benRegistrationForm.controls.healthBlock.value,
       "providerServiceMapID": this.sessionstorage.getItem('providerServiceMapID'),
       "createdBy": this.sessionstorage.getItem('userName')
     };
 
 
- 
+
     this.associateAnmMoService.registerBeneficiary(reqObj).subscribe(
       (response: any) => {
-   
-      if(response !== null && response.response && response.response.BenRegId !== undefined && response.response.BenRegId !== null) {
-        const benRegId = response.response.BenRegId;
-        const benId = response.response.BeneficiaryId;
-        this.sessionstorage.setItem('beneficiaryRegId', benRegId);
-        this.associateAnmMoService.selectedBenDetails.childName = this.benRegistrationForm.controls.childName.value,
-        this.associateAnmMoService.selectedBenDetails.motherName = this.benRegistrationForm.controls.motherName.value,
-        this.associateAnmMoService.selectedBenDetails.spouseName = this.benRegistrationForm.controls.husbandName.value,
-        this.associateAnmMoService.selectedBenDetails.genderName = this.benRegistrationForm.controls.genderName.value,
-        this.associateAnmMoService.selectedBenDetails.phoneNo = this.benRegistrationForm.controls.phoneNo.value,
-        this.associateAnmMoService.selectedBenDetails.phoneNoOfWhom = this.benRegistrationForm.controls.phoneNoOf.value,
-        this.associateAnmMoService.selectedBenDetails.alternatePhoneNo = this.benRegistrationForm.controls.alternatePhoneNo.value,
-        this.associateAnmMoService.selectedBenDetails.ashaName = this.benRegistrationForm.controls.ashaName.value,
-        this.associateAnmMoService.selectedBenDetails.ashaPh = this.benRegistrationForm.controls.ashaPhoneNo.value,
-        this.associateAnmMoService.selectedBenDetails.anmName = this.benRegistrationForm.controls.anmName.value,
-        this.associateAnmMoService.selectedBenDetails.anmPh = this.benRegistrationForm.controls.anmPhoneNo.value,
-        this.associateAnmMoService.selectedBenDetails.phcName = this.benRegistrationForm.controls.phcName.value,
-        this.associateAnmMoService.selectedBenDetails.blockName = this.benRegistrationForm.controls.healthBlock.value,
-        this.associateAnmMoService.selectedBenDetails.address = this.benRegistrationForm.controls.address.value,
-        this.associateAnmMoService.selectedBenDetails.dob =moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ'),
-        this.associateAnmMoService.selectedBenDetails.lmpDate =moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ'),
-        this.associateAnmMoService.selectedBenDetails.edd =moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ'),
-        this.associateAnmMoService.selectedBenDetails.age = this.benRegistrationForm.controls.age.value,
 
-        this.confirmationService.openDialog(this.currentLanguageSet.beneficiaryRegisteredSuccessfully + " " + benId, `success`);
-        this.associateAnmMoService.setOpenComp("ECD Questionnaire");
-        this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
-      
-      } 
-      else {
-        this.confirmationService.openDialog(this.currentLanguageSet.issueInBeneficiaryReg, 'error');
-      }
-    },
-    (err: any) => {
-    if(err && err.error)
-      this.confirmationService.openDialog(err.error, 'error');
-    else
-      this.confirmationService.openDialog(err.title + err.detail, 'error')
-    });
-  
+        if (response !== null && response.response && response.response.BenRegId !== undefined && response.response.BenRegId !== null) {
+          const benRegId = response.response.BenRegId;
+          const benId = response.response.BeneficiaryId;
+          this.sessionstorage.setItem('beneficiaryRegId', benRegId);
+          this.associateAnmMoService.selectedBenDetails.childName = this.benRegistrationForm.controls.childName.value,
+            this.associateAnmMoService.selectedBenDetails.motherName = this.benRegistrationForm.controls.motherName.value,
+            this.associateAnmMoService.selectedBenDetails.spouseName = this.benRegistrationForm.controls.husbandName.value,
+            this.associateAnmMoService.selectedBenDetails.genderName = this.benRegistrationForm.controls.genderName.value,
+            this.associateAnmMoService.selectedBenDetails.phoneNo = this.benRegistrationForm.controls.phoneNo.value,
+            this.associateAnmMoService.selectedBenDetails.phoneNoOfWhom = this.benRegistrationForm.controls.phoneNoOf.value,
+            this.associateAnmMoService.selectedBenDetails.alternatePhoneNo = this.benRegistrationForm.controls.alternatePhoneNo.value,
+            this.associateAnmMoService.selectedBenDetails.ashaName = this.benRegistrationForm.controls.ashaName.value,
+            this.associateAnmMoService.selectedBenDetails.ashaPh = this.benRegistrationForm.controls.ashaPhoneNo.value,
+            this.associateAnmMoService.selectedBenDetails.anmName = this.benRegistrationForm.controls.anmName.value,
+            this.associateAnmMoService.selectedBenDetails.anmPh = this.benRegistrationForm.controls.anmPhoneNo.value,
+            this.associateAnmMoService.selectedBenDetails.phcName = this.benRegistrationForm.controls.phcName.value,
+            this.associateAnmMoService.selectedBenDetails.blockName = this.benRegistrationForm.controls.healthBlock.value,
+            this.associateAnmMoService.selectedBenDetails.address = this.benRegistrationForm.controls.address.value,
+            this.associateAnmMoService.selectedBenDetails.dob = moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ'),
+            this.associateAnmMoService.selectedBenDetails.lmpDate = moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ'),
+            this.associateAnmMoService.selectedBenDetails.edd = moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ'),
+            this.associateAnmMoService.selectedBenDetails.age = this.benRegistrationForm.controls.age.value,
 
-     
+            this.confirmationService.openDialog(this.currentLanguageSet.beneficiaryRegisteredSuccessfully + " " + benId, `success`);
+          this.associateAnmMoService.setOpenComp("ECD Questionnaire");
+          this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
 
-     
-      // this.associateAnmMoService.loadComponent(
-      //   EcdQuestionnaireComponent,
-      //   null
-      // );
-    }
+        }
+        else {
+          this.confirmationService.openDialog(this.currentLanguageSet.issueInBeneficiaryReg, 'error');
+        }
+      },
+      (err: any) => {
+        if (err && err.error)
+          this.confirmationService.openDialog(err.error, 'error');
+        else
+          this.confirmationService.openDialog(err.title + err.detail, 'error')
+      });
 
-    goToClosure(){
-      this.confirmationService
+
+
+
+
+    // this.associateAnmMoService.loadComponent(
+    //   EcdQuestionnaireComponent,
+    //   null
+    // );
+  }
+
+  goToClosure() {
+    this.confirmationService
       .openDialog(
         this.currentLanguageSet.doYouWantToCloseTheCall,
         'confirm'
       )
       .afterClosed()
       .subscribe((response) => {
-        if(response){
+        if (response) {
           this.associateAnmMoService.fromComponent = "Beneficiary Registration";
           this.associateAnmMoService.setOpenComp("Call Closure");
         }
 
       });
-    
-   
-    }
 
-    onUpdate() {
-      let lmpDateValue=null;
-      let eddDateValue=null;
-      let dobDateValue=null;
-    if(this.enableMotherRecord) {
-    lmpDateValue =  moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ');
-  eddDateValue =  moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ');
+
+  }
+
+  onUpdate() {
+    let lmpDateValue = null;
+    let eddDateValue = null;
+    let dobDateValue = null;
+    if (this.enableMotherRecord) {
+      lmpDateValue = moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ');
+      eddDateValue = moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ');
     }
     else {
-      dobDateValue =  moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ');
+      dobDateValue = moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ');
     }
 
-      let benRegId = null;
-      if(this.associateAnmMoService.selectedBenDetails !== null) {
+    let benRegId = null;
+    if (this.associateAnmMoService.selectedBenDetails !== null) {
       benRegId = this.associateAnmMoService.selectedBenDetails.beneficiaryRegId;
-      }
+    }
 
     const demographicReq = {
       "beneficiaryRegID": benRegId,
@@ -623,195 +623,195 @@ else{
       // "districtID": this.benRegistrationForm.controls.districtID.value,
       // "blockID" : this.benRegistrationForm.controls.blockID.value,
       // "districtBranchID" : this.benRegistrationForm.controls.districtBranchID.value,
-      "addressLine1" : (this.benRegistrationForm.controls.address.value !== undefined && this.benRegistrationForm.controls.address.value !== null && this.benRegistrationForm.controls.address.value !== "") ? this.benRegistrationForm.controls.address.value : undefined,
-      "createdBy" : this.sessionstorage.getItem('userName'),
-      "modifiedBy" : this.sessionstorage.getItem('userName')
- };
+      "addressLine1": (this.benRegistrationForm.controls.address.value !== undefined && this.benRegistrationForm.controls.address.value !== null && this.benRegistrationForm.controls.address.value !== "") ? this.benRegistrationForm.controls.address.value : undefined,
+      "createdBy": this.sessionstorage.getItem('userName'),
+      "modifiedBy": this.sessionstorage.getItem('userName')
+    };
 
- const phoneDetails = [];
- if(this.benRegistrationForm.controls.phoneNo.value !== undefined && this.benRegistrationForm.controls.phoneNo.value !== null) {
+    const phoneDetails = [];
+    if (this.benRegistrationForm.controls.phoneNo.value !== undefined && this.benRegistrationForm.controls.phoneNo.value !== null) {
 
-   const phnReq = {
-    "parentBenRegID": benRegId,
-    "beneficiaryRegID": benRegId,
-     "phoneNo" : this.benRegistrationForm.controls.phoneNo.value,
-     "modifiedBy": this.sessionstorage.getItem('userName'),
-     "createdBy" : this.sessionstorage.getItem('userName')
-   }
-   phoneDetails.push(phnReq);
- }
-
- if(this.benRegistrationForm.controls.alternatePhoneNo.value !== undefined && this.benRegistrationForm.controls.alternatePhoneNo.value !== null && this.benRegistrationForm.controls.alternatePhoneNo.value !== "") {
-
-   const altPhnReq = {
-    "parentBenRegID": benRegId,
-    "beneficiaryRegID": benRegId,
-     "phoneNo" : this.benRegistrationForm.controls.alternatePhoneNo.value,
-     "modifiedBy": this.sessionstorage.getItem('userName'),
-     "createdBy" : this.sessionstorage.getItem('userName')
-   }
-   phoneDetails.push(altPhnReq);
- }
-
-
-
-
- const reqObj = {
-  "beneficiaryRegID": benRegId,
-  "motherId": this.benRegistrationForm.controls.motherId.value,
-    "childId" : (this.benRegistrationForm.controls.mctsidNoChildId.value !== undefined && this.benRegistrationForm.controls.mctsidNoChildId.value !== null && this.benRegistrationForm.controls.mctsidNoChildId.value !== "") ? this.benRegistrationForm.controls.mctsidNoChildId.value : undefined,
-    "name": (this.benRegistrationForm.controls.childName.value !== undefined && this.benRegistrationForm.controls.childName.value !== null && this.benRegistrationForm.controls.childName.value  !== "") ? this.benRegistrationForm.controls.childName.value : this.benRegistrationForm.controls.motherName.value,
-    "motherName" : (this.benRegistrationForm.controls.mctsidNoChildId.value !== undefined && this.benRegistrationForm.controls.mctsidNoChildId.value !== null && this.benRegistrationForm.controls.mctsidNoChildId.value !== "") ? this.benRegistrationForm.controls.motherName.value : undefined,
-    "spouseName" : (this.benRegistrationForm.controls.husbandName.value !== undefined && this.benRegistrationForm.controls.husbandName.value !== null && this.benRegistrationForm.controls.husbandName.value !== "") ? this.benRegistrationForm.controls.husbandName.value : undefined,
-    "genderID" : this.benRegistrationForm.controls.genderID.value,
-    "genderName": this.benRegistrationForm.controls.genderName.value,
-    "phoneNo": this.benRegistrationForm.controls.phoneNo.value,
-    "phoneNoOfWhom": this.benRegistrationForm.controls.phoneNoOf.value,
-    "alternatePhoneNo":(this.benRegistrationForm.controls.alternatePhoneNo.value !== undefined && this.benRegistrationForm.controls.alternatePhoneNo.value !== null && this.benRegistrationForm.controls.alternatePhoneNo.value !== "") ? this.benRegistrationForm.controls.alternatePhoneNo.value : undefined,
-   "dateOfBirth" : dobDateValue,
-   "age": this.benRegistrationForm.controls.age.value,
-   "lmp" : lmpDateValue,
-   "edd" : eddDateValue,
-   "i_bendemographics" : demographicReq,
-   "benPhoneMaps": phoneDetails,
-   "emergencyRegistration": false,
-   "changeInSelfDetails": true,
-   "changeInOtherDetails": true,
-   "changeInAddress": true,
-   "changeInContacts": true,
-   "changeInFamilyDetails": true,
-   "is1097": false,
-   "vanID" : this.loginService.currentServiceId,
-   "ashaName":this.benRegistrationForm.controls.ashaName.value,
-   "ashaPh":this.benRegistrationForm.controls.ashaPhoneNo.value,
-   "anmName":this.benRegistrationForm.controls.anmName.value,
-   "anmPh":this.benRegistrationForm.controls.anmPhoneNo.value,
-   "phcName" : this.benRegistrationForm.controls.phcName.value,
-   "blockName": this.benRegistrationForm.controls.healthBlock.value,
-   "providerServiceMapID": this.sessionstorage.getItem('providerServiceMapID'),
-   "createdBy": this.sessionstorage.getItem('userName'),
-   "modifiedBy": this.sessionstorage.getItem('userName')
- };
-
-console.log(reqObj);
-
- this.associateAnmMoService.updateBeneficiary(reqObj).subscribe(
-   (response: any) => {
-
-   if(response !== null && response.response !== null) {
-    
-        this.associateAnmMoService.selectedBenDetails.childName = this.benRegistrationForm.controls.childName.value,
-        this.associateAnmMoService.selectedBenDetails.motherName = this.benRegistrationForm.controls.motherName.value,
-        this.associateAnmMoService.selectedBenDetails.spouseName = this.benRegistrationForm.controls.husbandName.value,
-        this.associateAnmMoService.selectedBenDetails.genderName = this.benRegistrationForm.controls.genderName.value,
-        this.associateAnmMoService.selectedBenDetails.phoneNo = this.benRegistrationForm.controls.phoneNo.value,
-        this.associateAnmMoService.selectedBenDetails.phoneNoOfWhom = this.benRegistrationForm.controls.phoneNoOf.value,
-        this.associateAnmMoService.selectedBenDetails.alternatePhoneNo = this.benRegistrationForm.controls.alternatePhoneNo.value,
-        this.associateAnmMoService.selectedBenDetails.ashaName = this.benRegistrationForm.controls.ashaName.value,
-        this.associateAnmMoService.selectedBenDetails.ashaPh = this.benRegistrationForm.controls.ashaPhoneNo.value,
-        this.associateAnmMoService.selectedBenDetails.anmName = this.benRegistrationForm.controls.anmName.value,
-        this.associateAnmMoService.selectedBenDetails.anmPh = this.benRegistrationForm.controls.anmPhoneNo.value,
-        this.associateAnmMoService.selectedBenDetails.phcName = this.benRegistrationForm.controls.phcName.value,
-        this.associateAnmMoService.selectedBenDetails.blockName = this.benRegistrationForm.controls.healthBlock.value,
-        this.associateAnmMoService.selectedBenDetails.address = this.benRegistrationForm.controls.address.value,
-        this.associateAnmMoService.selectedBenDetails.lmpDate =moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ'),
-        this.associateAnmMoService.selectedBenDetails.dob =moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ'),
-        this.associateAnmMoService.selectedBenDetails.age = this.benRegistrationForm.controls.age.value,
-        this.associateAnmMoService.selectedBenDetails.edd =moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ'),
-        this.confirmationService.openDialog(response.response, `success`);
-     this.associateAnmMoService.setOpenComp("ECD Questionnaire");
-     this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
-   
-   } 
-   else {
-     this.confirmationService.openDialog(response.errorMessage, 'error');
-   }
- },
- (err: any) => {
- if(err && err.error)
-   this.confirmationService.openDialog(err.error, 'error');
- else
-   this.confirmationService.openDialog(err.title + err.detail, 'error')
- });
-
-      
+      const phnReq = {
+        "parentBenRegID": benRegId,
+        "beneficiaryRegID": benRegId,
+        "phoneNo": this.benRegistrationForm.controls.phoneNo.value,
+        "modifiedBy": this.sessionstorage.getItem('userName'),
+        "createdBy": this.sessionstorage.getItem('userName')
+      }
+      phoneDetails.push(phnReq);
     }
 
-    openEcdQuestionnaire(){
-      this.confirmationService
+    if (this.benRegistrationForm.controls.alternatePhoneNo.value !== undefined && this.benRegistrationForm.controls.alternatePhoneNo.value !== null && this.benRegistrationForm.controls.alternatePhoneNo.value !== "") {
+
+      const altPhnReq = {
+        "parentBenRegID": benRegId,
+        "beneficiaryRegID": benRegId,
+        "phoneNo": this.benRegistrationForm.controls.alternatePhoneNo.value,
+        "modifiedBy": this.sessionstorage.getItem('userName'),
+        "createdBy": this.sessionstorage.getItem('userName')
+      }
+      phoneDetails.push(altPhnReq);
+    }
+
+
+
+
+    const reqObj = {
+      "beneficiaryRegID": benRegId,
+      "motherId": this.benRegistrationForm.controls.motherId.value,
+      "childId": (this.benRegistrationForm.controls.mctsidNoChildId.value !== undefined && this.benRegistrationForm.controls.mctsidNoChildId.value !== null && this.benRegistrationForm.controls.mctsidNoChildId.value !== "") ? this.benRegistrationForm.controls.mctsidNoChildId.value : undefined,
+      "name": (this.benRegistrationForm.controls.childName.value !== undefined && this.benRegistrationForm.controls.childName.value !== null && this.benRegistrationForm.controls.childName.value !== "") ? this.benRegistrationForm.controls.childName.value : this.benRegistrationForm.controls.motherName.value,
+      "motherName": (this.benRegistrationForm.controls.mctsidNoChildId.value !== undefined && this.benRegistrationForm.controls.mctsidNoChildId.value !== null && this.benRegistrationForm.controls.mctsidNoChildId.value !== "") ? this.benRegistrationForm.controls.motherName.value : undefined,
+      "spouseName": (this.benRegistrationForm.controls.husbandName.value !== undefined && this.benRegistrationForm.controls.husbandName.value !== null && this.benRegistrationForm.controls.husbandName.value !== "") ? this.benRegistrationForm.controls.husbandName.value : undefined,
+      "genderID": this.benRegistrationForm.controls.genderID.value,
+      "genderName": this.benRegistrationForm.controls.genderName.value,
+      "phoneNo": this.benRegistrationForm.controls.phoneNo.value,
+      "phoneNoOfWhom": this.benRegistrationForm.controls.phoneNoOf.value,
+      "alternatePhoneNo": (this.benRegistrationForm.controls.alternatePhoneNo.value !== undefined && this.benRegistrationForm.controls.alternatePhoneNo.value !== null && this.benRegistrationForm.controls.alternatePhoneNo.value !== "") ? this.benRegistrationForm.controls.alternatePhoneNo.value : undefined,
+      "dateOfBirth": dobDateValue,
+      "age": this.benRegistrationForm.controls.age.value,
+      "lmp": lmpDateValue,
+      "edd": eddDateValue,
+      "i_bendemographics": demographicReq,
+      "benPhoneMaps": phoneDetails,
+      "emergencyRegistration": false,
+      "changeInSelfDetails": true,
+      "changeInOtherDetails": true,
+      "changeInAddress": true,
+      "changeInContacts": true,
+      "changeInFamilyDetails": true,
+      "is1097": false,
+      "vanID": this.loginService.currentServiceId,
+      "ashaName": this.benRegistrationForm.controls.ashaName.value,
+      "ashaPh": this.benRegistrationForm.controls.ashaPhoneNo.value,
+      "anmName": this.benRegistrationForm.controls.anmName.value,
+      "anmPh": this.benRegistrationForm.controls.anmPhoneNo.value,
+      "phcName": this.benRegistrationForm.controls.phcName.value,
+      "blockName": this.benRegistrationForm.controls.healthBlock.value,
+      "providerServiceMapID": this.sessionstorage.getItem('providerServiceMapID'),
+      "createdBy": this.sessionstorage.getItem('userName'),
+      "modifiedBy": this.sessionstorage.getItem('userName')
+    };
+
+    console.log(reqObj);
+
+    this.associateAnmMoService.updateBeneficiary(reqObj).subscribe(
+      (response: any) => {
+
+        if (response !== null && response.response !== null) {
+
+          this.associateAnmMoService.selectedBenDetails.childName = this.benRegistrationForm.controls.childName.value,
+            this.associateAnmMoService.selectedBenDetails.motherName = this.benRegistrationForm.controls.motherName.value,
+            this.associateAnmMoService.selectedBenDetails.spouseName = this.benRegistrationForm.controls.husbandName.value,
+            this.associateAnmMoService.selectedBenDetails.genderName = this.benRegistrationForm.controls.genderName.value,
+            this.associateAnmMoService.selectedBenDetails.phoneNo = this.benRegistrationForm.controls.phoneNo.value,
+            this.associateAnmMoService.selectedBenDetails.phoneNoOfWhom = this.benRegistrationForm.controls.phoneNoOf.value,
+            this.associateAnmMoService.selectedBenDetails.alternatePhoneNo = this.benRegistrationForm.controls.alternatePhoneNo.value,
+            this.associateAnmMoService.selectedBenDetails.ashaName = this.benRegistrationForm.controls.ashaName.value,
+            this.associateAnmMoService.selectedBenDetails.ashaPh = this.benRegistrationForm.controls.ashaPhoneNo.value,
+            this.associateAnmMoService.selectedBenDetails.anmName = this.benRegistrationForm.controls.anmName.value,
+            this.associateAnmMoService.selectedBenDetails.anmPh = this.benRegistrationForm.controls.anmPhoneNo.value,
+            this.associateAnmMoService.selectedBenDetails.phcName = this.benRegistrationForm.controls.phcName.value,
+            this.associateAnmMoService.selectedBenDetails.blockName = this.benRegistrationForm.controls.healthBlock.value,
+            this.associateAnmMoService.selectedBenDetails.address = this.benRegistrationForm.controls.address.value,
+            this.associateAnmMoService.selectedBenDetails.lmpDate = moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ'),
+            this.associateAnmMoService.selectedBenDetails.dob = moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ'),
+            this.associateAnmMoService.selectedBenDetails.age = this.benRegistrationForm.controls.age.value,
+            this.associateAnmMoService.selectedBenDetails.edd = moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ'),
+            this.confirmationService.openDialog(response.response, `success`);
+          this.associateAnmMoService.setOpenComp("ECD Questionnaire");
+          this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
+
+        }
+        else {
+          this.confirmationService.openDialog(response.errorMessage, 'error');
+        }
+      },
+      (err: any) => {
+        if (err && err.error)
+          this.confirmationService.openDialog(err.error, 'error');
+        else
+          this.confirmationService.openDialog(err.title + err.detail, 'error')
+      });
+
+
+  }
+
+  openEcdQuestionnaire() {
+    this.confirmationService
       .openDialog(
         this.currentLanguageSet.areYouSureWantToProceedEcdQuestionnaire,
         'confirm'
       )
       .afterClosed()
       .subscribe((response) => {
-        if(response){
-        this.associateAnmMoService.setOpenComp("ECD Questionnaire");
-        this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
+        if (response) {
+          this.associateAnmMoService.setOpenComp("ECD Questionnaire");
+          this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
         }
 
       });
-      
+
+  }
+
+
+  calculateEdd() {
+
+    if (this.benRegistrationForm.controls.lmpDate.value !== null) {
+      const eddDate = new Date(this.benRegistrationForm.controls.lmpDate.value);
+      eddDate.setDate(this.benRegistrationForm.controls.lmpDate.value.getDate() + 7);
+      eddDate.setMonth(this.benRegistrationForm.controls.lmpDate.value.getMonth() + 9);
+      this.benRegistrationForm.patchValue({ edd: eddDate })
+    } else {
+      console.log("EDD VALUE", this.benRegistrationForm.controls.edd.value);
+      this.benRegistrationForm.patchValue({ edd: null })
     }
+  }
 
 
-    calculateEdd() {
-  
-      if (this.benRegistrationForm.controls.lmpDate.value !== null) {
-        const eddDate = new Date(this.benRegistrationForm.controls.lmpDate.value);
-        eddDate.setDate(this.benRegistrationForm.controls.lmpDate.value.getDate() + 7);
-        eddDate.setMonth(this.benRegistrationForm.controls.lmpDate.value.getMonth() + 9);
-        this.benRegistrationForm.patchValue({ edd: eddDate })
-      } else {
-        console.log("EDD VALUE", this.benRegistrationForm.controls.edd.value);
-        this.benRegistrationForm.patchValue({ edd: null })
-      }
-    }
-
-
-    ageEntered() {
+  ageEntered() {
     this.valueEntered = this.benRegistrationForm.controls.age.value;
     if (this.valueEntered) {
-      if(this.valueEntered < 12 || this.valueEntered > 50) {
-        this.confirmationService.openDialog( this.currentLanguageSet.pleaseValidateAge, 'warn');
+      if (this.valueEntered < 12 || this.valueEntered > 50) {
+        this.confirmationService.openDialog(this.currentLanguageSet.pleaseValidateAge, 'warn');
         this.benRegistrationForm.patchValue({ age: null });
       }
       else if (this.valueEntered > this.ageLimit) {
-        this.confirmationService.openDialog( this.currentLanguageSet.pleaseValidateAge, 'warn');
+        this.confirmationService.openDialog(this.currentLanguageSet.pleaseValidateAge, 'warn');
         this.benRegistrationForm.patchValue({ age: null });
-      } 
+      }
     }
-    
+
   }
 
   performAction() {
-      this.showPrompt = true;
-      this.videoConsultationPromptDialog();
-    }  
-  
-  
-    videoConsultationPromptDialog() {
-      // if (this.loginService.agentId === undefined) {
-      //   this.confirmationService.openDialog(this.currentLanguageSet.agentIdNotAvailable, 'error')
-      // } else{
-        const dialogRef = this.dialog.open(VideoConsultationComponent, {
-          width: '50%',
-          height: '90%',
-          data:  {
-            videoCallPrompt: true,
-            // callerPhoneNumber: '8147115862',
-            // agentID: this.loginService.agentId,
-            // agentName: 'Kundanecd'
-            callerPhoneNumber: '8147115862',
-            agentID: '2025',
-            agentName: 'Kundanecd'
-          }  
-        });
-    
-        dialogRef.afterClosed().subscribe(result => {
-               this.showPrompt = false;
-       });
-      // }
+    this.showPrompt = true;
+    this.videoConsultationPromptDialog();
+  }
+
+
+  videoConsultationPromptDialog() {
+    if (this.loginService.agentId === undefined) {
+      this.confirmationService.openDialog(this.currentLanguageSet.agentIdNotAvailable, 'error')
+    } else {
+      const dialogRef = this.dialog.open(VideoConsultationComponent, {
+        width: '50%',
+        height: '90%',
+        data: {
+          videoCallPrompt: true,
+          // callerPhoneNumber: '8147115862',
+          // agentID: this.loginService.agentId,
+          // agentName: 'Kundanecd'
+          callerPhoneNumber: this.benRegistrationForm.controls.phoneNo.value,
+          agentID: this.loginService.agentId || '',
+          agentName: this.sessionstorage.getItem('userName') || ''
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        this.showPrompt = false;
+      });
     }
-  
+
+  }
 }
