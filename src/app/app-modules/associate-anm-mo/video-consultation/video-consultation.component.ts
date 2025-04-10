@@ -1,5 +1,4 @@
 import { Component, Inject } from '@angular/core';
-import { VideoConsultationService } from './video-consultation.service';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -54,7 +53,6 @@ export class VideoConsultationComponent {
 
 
   constructor(
-    private videoService: VideoConsultationService,
     private associateAnmMoService: AssociateAnmMoService,
   
     readonly sessionstorage:SessionStorageService,
@@ -66,7 +64,7 @@ export class VideoConsultationComponent {
 
 
   sendOrResendLink(): void {
-    this.videoService.generateLink().subscribe({
+    this.associateAnmMoService.generateLink().subscribe({
       next: (response: any) => {
         this.linkSent = true;
         this.linkStatus = 'Sent Successfully';
@@ -84,7 +82,7 @@ export class VideoConsultationComponent {
           closureRemark: ''
         };
 
-        this.videoService.sendLink(smsRequest).subscribe({
+        this.associateAnmMoService.sendLink(smsRequest).subscribe({
           next: () => {
             this.SMSStatus = 'SMS Sent Successfully';
           },
