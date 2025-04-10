@@ -31,6 +31,9 @@ import { MasterService } from 'src/app/app-modules/services/masterService/master
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import * as moment from 'moment';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { VideoConsultationComponent } from '../../video-consultation/video-consultation.component';
+import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
+
 
 @Component({
   selector: 'app-ben-registration',
@@ -80,7 +83,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   // ];
   enableUpdateButton = false;
   minimumDate: any;
-  
+  showPrompt = false;
+
   constructor(
     private fb: FormBuilder,
     private datePipe: DatePipe,
@@ -90,6 +94,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
     private masterService:MasterService,
     private loginService: LoginserviceService,
     readonly sessionstorage:SessionStorageService,
+    public dialog: MatDialog,
+    
 
  ) { 
  }
@@ -777,5 +783,35 @@ console.log(reqObj);
     }
     
   }
+
+  performAction() {
+      this.showPrompt = true;
+      this.videoConsultationPromptDialog();
+    }  
+  
+  
+    videoConsultationPromptDialog() {
+      // if (this.loginService.agentId === undefined) {
+      //   this.confirmationService.openDialog(this.currentLanguageSet.agentIdNotAvailable, 'error')
+      // } else{
+        const dialogRef = this.dialog.open(VideoConsultationComponent, {
+          width: '50%',
+          height: '90%',
+          data:  {
+            videoCallPrompt: true,
+            // callerPhoneNumber: '8147115862',
+            // agentID: this.loginService.agentId,
+            // agentName: 'Kundanecd'
+            callerPhoneNumber: '8147115862',
+            agentID: '2025',
+            agentName: 'Kundanecd'
+          }  
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+               this.showPrompt = false;
+       });
+      // }
+    }
   
 }
