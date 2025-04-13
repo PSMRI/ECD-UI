@@ -27,5 +27,4 @@ jobs:
 
       - name: Run commitlint on PR
         run: |
-          git fetch origin main
-          npx commitlint --from=origin/main --to=HEAD
+          npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
