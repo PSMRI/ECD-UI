@@ -340,14 +340,15 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right" style="margin-top: 60px; margin-bottom: -60px;">
-        <button mat-raised-button class="buttonColorBlue full-width buttonWidth" style="margin-right: 10px"
-          (click)="performAction()">
-          {{ currentLanguageSet?.videoCall || 'Start Video Call' }}
-        </button>
-      </div>
-
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right" style="margin-top: 100px">
+
+        <button mat-raised-button
+          class="buttonColorYellow full-width buttonWidth" type="submit" style="margin-right: 10px"
+          (click)="performAction()">
+                <mat-icon>video_call</mat-icon>
+                {{ currentLanguageSet?.videoCall || 'Video Call' }}
+        </button>
+
         <button style="margin-right: 5px;" mat-raised-button class="buttonColorRedish full-width buttonWidth"
           (click)="goToClosure()">
           {{ currentLanguageSet?.closure}}
