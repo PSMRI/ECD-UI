@@ -132,6 +132,13 @@ input.mat-input-element {
   color: #ffffff;
   border-radius: 10px !important;
 }
+
+.buttonColorYellow {
+  font-family: 'Lato', sans-serif;
+  background-color: #ffb800 !important;
+  color: #ffffff;
+  border-radius: 10px !important;
+}
 .buttonColorRed:disabled {
   font-family: 'Lato', sans-serif;
   background-color: #0000001f !important;
