@@ -1,6 +1,15 @@
-<div *ngIf="data.videoCallPrompt" role="dialog" aria-labelledby="videoConsultationTitle" aria-modal="true"> 
+<div *ngIf="data?.videoCallPrompt" role="dialog" aria-labelledby="videoConsultationTitle" aria-modal="true"> 
 
-  <div class="modal-content">
+  <!-- <div class="modal-content"> -->
+    <mat-card class="mainCard">
+      <button
+      mat-icon-button
+      class="close-button"
+      (click)="dialogRef?.close()"
+      aria-label="Close">
+      <mat-icon>close</mat-icon>
+    </button>
+
     <h2 id="videoConsultationTitle">Video Consultation Consent</h2>
     <p>
       By agreeing, you consent to a secure video consultation,
@@ -58,21 +67,16 @@
         class="btn btn-success btn-lg mt-3">
         Start Video Consultation
       </button>
-
-      <div style="position: relative; padding-top: 56.25%; margin-top: 20px;">
-        <iframe
-          *ngIf="isMeetAvailable"
-          [src]="meetLink | safeUrl"
-          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
-          allow="camera; microphone; fullscreen; display-capture">
-        </iframe>
-      </div>
+     
+      <div *ngIf="isMeetAvailable" class="jitsi-wrapper">
+        <div id="jitsi-container"></div>
       
-
-      <button *ngIf="callStatus === 'Ongoing'" (click)="endConsultation()" class="btn btn-danger btn-lg mt-3">
-        End Video Consultation
-      </button>
-
+        <button *ngIf="callStatus === 'Ongoing'"
+                (click)="endConsultation()"
+                class="btn btn-danger btn-lg mt-3 end-call-button">
+          End Video Consultation
+        </button>
+      </div>
 
       <!-- Consultation Status -->
       <h2>
@@ -94,5 +98,6 @@
         <button class="btn btn-primary">Continue with Alternative Consultation</button>
       </div>
     </div>
-  </div>
+  <!-- </div> -->
+   </mat-card>
 </div>

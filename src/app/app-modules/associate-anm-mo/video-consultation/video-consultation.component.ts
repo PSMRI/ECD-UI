@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input, Optional, Output } from '@angular/core';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
@@ -10,6 +10,8 @@ import { AssociateAnmMoService } from '../../services/associate-anm-mo/associate
 import { SmsTemplateService } from '../../services/smsTemplate/sms-template.service';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { map, switchMap } from 'rxjs/operators';
+
+declare var JitsiMeetExternalAPI: any;
 
 interface VideoConsultationDialogData {
   videoCallPrompt: boolean;
@@ -31,7 +33,7 @@ interface VideoCallRequest {
 }
 
 interface VideocallStatusUpdate {
-  meetingID: string,
+  meetingLink: string,
   callStatus: string,
   callDuration: string,
   modifiedBy: string
@@ -41,6 +43,8 @@ interface VideocallStatusUpdate {
   templateUrl: './video-consultation.component.html',
   styleUrls: ['./video-consultation.component.css']
 })
+
+
 
 export class VideoConsultationComponent {
   // consent: boolean | null = null;
@@ -56,7 +60,6 @@ export class VideoConsultationComponent {
   callStartTime: Date | null = null;
   callEndTime: Date | null = null;
 
-
   constructor(
     private associateAnmMoService: AssociateAnmMoService,
     private sms_service: SmsTemplateService,
@@ -65,8 +68,7 @@ export class VideoConsultationComponent {
     private snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<VideoConsultationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: VideoConsultationDialogData,
-
-  ) { }
+  ){} 
 
 
   sendOrResendLink(): void {
@@ -74,8 +76,9 @@ export class VideoConsultationComponent {
       next: (response: any) => {
         this.linkSent = true;
         this.meetLink = response.meetingLink;
+        this.linkStatus = 'Sent Successfully';
 
-        this.send_sms(this.meetLink, this.data.callerPhoneNumber);
+        this.send_sms(this.meetLink, "8754969836");
       },
       error: () => {
         this.linkStatus = 'Failed to send';
@@ -93,7 +96,34 @@ export class VideoConsultationComponent {
       verticalPosition: 'top',
       panelClass: ['snackbar-success']
     });
-    // alert('Call has started')
+    
+    setTimeout(() => {
+      const domain = 'meet.jit.si';
+      const options = {
+        roomName: this.meetLink.split('/').pop(), // gets the last part of the link
+        parentNode: document.querySelector('#jitsi-container'),
+        userInfo: {
+          displayName: this.sessionstorage.getItem('userName') || 'Agent'
+        },
+        configOverwrite: {
+          startWithAudioMuted: false,
+          startWithVideoMuted: false
+        },
+        interfaceConfigOverwrite: {
+          SHOW_JITSI_WATERMARK: false,
+          SHOW_BRAND_WATERMARK: false,
+          disableDeepLinking: true
+        }
+      };
+      const api = new JitsiMeetExternalAPI(domain, options);
+
+      api.addListener('readyToClose', () => { 
+        console.log("User disconnected / call ended");
+        this.endConsultation(); // Your custom logic
+      });
+    }, 0);
+    this.saveVideoCallRequest(this.meetLink, "Initiated");
+
   }
 
   endConsultation(): void {
@@ -103,7 +133,7 @@ export class VideoConsultationComponent {
     const callDuration = this.calculateCallDuration();
 
     const smsRequest: VideocallStatusUpdate = {
-      "meetingID": "string",
+      "meetingLink": this.meetLink,
       "callStatus": "COMPLETED",
       "callDuration": callDuration,
       "modifiedBy": this.sessionstorage.getItem('userName')
@@ -119,7 +149,7 @@ export class VideoConsultationComponent {
     });
 
     this.data.videoCallPrompt = false;
-    this.dialogRef.close();
+    this.dialogRef?.close();
 
     this.resetLinkState();
   }
@@ -146,7 +176,7 @@ export class VideoConsultationComponent {
     if (agreed === true) {
       this.videoConsultationAvailable = true;
     } else {
-      this.dialogRef.close();
+      this.dialogRef?.close();
     }
   }
 
@@ -156,13 +186,13 @@ export class VideoConsultationComponent {
     this.sms_service.getSMStypes(currentServiceID).pipe(
       map((response: any) => {
         const adviceType = response?.data?.find((type: any) =>
-          type.smsType.toLowerCase() === "advice sms"
+          type.smsType === "Video Consultation"
         );
         return adviceType?.smsTypeID || null;
       }),
       switchMap((smsTypeID: string | null) => {
-        if (!smsTypeID) throw new Error("Advice SMS type not found");
-        return this.sms_service.getSMStemplates(currentServiceID, smsTypeID).pipe(
+        if (!smsTypeID) throw new Error("Video Consultation type not found");
+        return this.sms_service.getSMStemplates(1714, smsTypeID).pipe(
           map((res: any) => {
             const template = res?.data?.find((tpl: any) => !tpl.deleted);
             return {
@@ -190,13 +220,11 @@ export class VideoConsultationComponent {
     ).subscribe({
       next: (response) => {
         console.log("SMS Sent", response);
-        this.linkStatus = 'Sent Successfully';
         this.snackBar.open('SMS sent successfully', 'Close', {
           duration: 3000,
           verticalPosition: 'top',
           panelClass: ['snackbar-success']
         });
-        // alert("Sms sent successfully");
         this.saveVideoCallRequest(this.meetLink, "Initiated");
       },
       error: (err) => {

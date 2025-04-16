@@ -2,16 +2,27 @@
 
 .modal-content {
   background: #ffffff;
-  padding: 20px;
+  padding: 5px;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  max-width: 500px; /* Increased width */
+  max-width: 600px; /* Increased width */
   width: 90%; /* Responsive width */
   margin: auto;
   text-align: center;
   display: flexbox;
 }
 
+.mainCard {
+  height: auto;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  width: 99%;
+  background-color: #F2F2F2;
+  border: 1px solid #4FA2D0;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+  border-radius: 10px !important; 
+}
 /* Title */
 .title {
   font-size: 24px;
@@ -166,20 +177,11 @@ button[disabled] {
   z-index: 1000;
 }
 
-.modal-content {
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  max-width: 500px;
-  width: 100%;
-  margin: 30px auto;
-}
-
 .consent-actions {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .btn {
@@ -218,6 +220,35 @@ button[disabled] {
   background-color: #f44336 !important; /* Red */
   color: white !important;
 }
+
+
+.jitsi-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+}
+
+#jitsi-container {
+  width: 100%;
+  height: 500px;
+  border: none;
+}
+
+/* Ensure the button appears below the video nicely */
+.end-call-button {
+  display: block;
+  margin: 20px auto 0 auto; /* center the button with spacing */
+  max-width: 300px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #555;
+  z-index: 1000;
+}
+
 /* Responsive Design */
 @media (max-width: 576px) {
   .modal-content {
