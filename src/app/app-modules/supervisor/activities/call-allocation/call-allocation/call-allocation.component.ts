@@ -167,7 +167,7 @@ export class CallAllocationComponent implements OnInit, DoCheck {
           
          const recordType= this.callAllocationForm.controls.recordType.value;
          const phoneNoType= this.callAllocationForm.controls.phoneNoType.value;
-         const psmId= sessionStorage.getItem('providerServiceMapID');
+         const psmId= this.sessionstorage.getItem('providerServiceMapID');
          const fromDate =  moment(this.range.controls.start.value).format('YYYY-MM-DDThh:mm:ssZ');
          const toDate =  moment(this.range.controls.end.value).format('YYYY-MM-DDThh:mm:ssZ');
 
