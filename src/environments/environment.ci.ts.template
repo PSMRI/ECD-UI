@@ -27,6 +27,7 @@ const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreenin
 const sessionStorageEncKey = '<%= SESSION_STORAGE_ENC_KEY %>';
 const FHIR_API = '<%= FHIR_API_BASE %>';
 
+
 export const environment = {
   production: true,
   encKey: sessionStorageEncKey,
