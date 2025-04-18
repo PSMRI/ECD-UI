@@ -226,6 +226,10 @@ export const environment = {
   registerBeneficiaryUrl:`${ECD_API}beneficary/registration`,
   updateBeneficiaryUrl:`${ECD_API}beneficary/updateBeneficiaryDetails`,
 
+  // Customization APIs
+  getAllRegistrationData: `${COMMON_API}customization/fetchAllData`,
+  getBenIdForhealthID: `${FHIR_API}healthID/getBenIdForhealthID`,
+
   /** Gender Master */
   getGenderMasterUrl:`${ECD_API}master/getGender`,
   
