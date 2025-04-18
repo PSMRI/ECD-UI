@@ -215,6 +215,9 @@ export const environment = {
   getSMSValuesURL: `${ECD_API}master/getSMSValues`,
   getListOfMapQuestionaireConfigurationUrl:`${ECD_API}questionnaireConfiguration/getByPSMId`,
 
+  // Customization APIs
+  getAllRegistrationData: `${COMMON_API}customization/fetchAllData`,
+  getBenIdForhealthID: `${FHIR_API}healthID/getBenIdForhealthID`,
 
   /**Demographic Masters */
   getStatesMasterUrl: `${COMMON_API}location/states`,
