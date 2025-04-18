@@ -25,7 +25,7 @@ const ADMIN_API = '<%= ADMIN_API_BASE %>';
 const ECD_API = '<%= ECD_API_BASE %>';
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`;
 const sessionStorageEncKey = '<%= SESSION_STORAGE_ENC_KEY %>';
-const FHIR_API = '<%= FHIR_API_BASE %>';
+const FHIR_API = '<%= FHIR_API %>';
 
 
 export const environment = {
