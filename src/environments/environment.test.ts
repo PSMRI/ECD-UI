@@ -30,6 +30,9 @@ const ECD_API = `${ecdIP}ecdapi-v1.0/`;
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
 const sessionStorageEncKey = '';
 
+const fhirIP = 'http://amritwprdev.piramalswasthya.org:8080/';
+const FHIR_API = `${fhirIP}:8085/`;
+
 export const environment = {
   production: true,
   encKey: sessionStorageEncKey,
@@ -214,6 +217,10 @@ export const environment = {
   getSMSParamsURL: `${ECD_API}master/getSMSParameters`,
   getSMSValuesURL: `${ECD_API}master/getSMSValues`,
   getListOfMapQuestionaireConfigurationUrl:`${ECD_API}questionnaireConfiguration/getByPSMId`,
+
+  // Customization APIs
+  getAllRegistrationData: `${COMMON_API}customization/fetchAllData`,
+  getBenIdForhealthID: `${FHIR_API}healthID/getBenIdForhealthID`,
 
 
   /**Demographic Masters */
