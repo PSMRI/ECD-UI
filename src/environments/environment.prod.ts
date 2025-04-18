@@ -24,11 +24,16 @@
 const ecdIP = 'http://amritwprdev.piramalswasthya.org:8080/';
 const commonIP = 'http://amritwprdev.piramalswasthya.org:8080/';
 const adminIP = 'http://amritwprdev.piramalswasthya.org:8080/';
+const fhirIP = 'http://amritwprdev.piramalswasthya.org:8080/';
+
 const COMMON_API = `${commonIP}commonapi-ecd/`;
 const ADMIN_API = `${adminIP}adminapi-v1.0/`;
 const ECD_API = `${ecdIP}ecdapi-v1.0/`;
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
 const sessionStorageEncKey = '';
+const FHIR_API = `${fhirIP}:8085/`;
+
+
 
 export const environment = {
   production: true,
