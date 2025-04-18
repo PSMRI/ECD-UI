@@ -32,9 +32,6 @@ const sessionStorageEncKey = '';
 const fhirIP = 'http://amritwprdev.piramalswasthya.org:8080/';
 const FHIR_API = `${fhirIP}fhirapi-v1.0/`;
 
-const fhirIP = 'http://amritwprdev.piramalswasthya.org:8080/';
-const FHIR_API = `${fhirIP}:8085/`;
-
 export const environment = {
   production: true,
   encKey: sessionStorageEncKey,
