@@ -27,9 +27,13 @@
 const ecdIP = 'http://localhost/';
 const commonIP = 'http://localhost';
 const adminIP = 'http://localhost';
+const fhirIP = 'http://localhost';
+
 const COMMON_API = `${commonIP}:8083/`;
 const ADMIN_API = `${adminIP}:8082/`;
 const ECD_API = `${ecdIP}:8084/`;
+const FHIR_API = `${fhirIP}:8085/`;
+
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
 const sessionStorageEncKey = '';
 
