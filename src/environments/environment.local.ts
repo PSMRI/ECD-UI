@@ -32,6 +32,8 @@ const ADMIN_API = `${adminIP}:8082/`;
 const ECD_API = `${ecdIP}:8084/`;
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
 const sessionStorageEncKey = '';
+const fhirIP = 'http://localhost';
+const FHIR_API = `${fhirIP}:8085/`;
 
 export const environment = {
   production: false,

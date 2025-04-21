@@ -24,11 +24,14 @@
 const ecdIP = 'https://amritwprdev.piramalswasthya.org/';
 const commonIP = 'https://amritwprdev.piramalswasthya.org/';
 const adminIP = 'https://amritwprdev.piramalswasthya.org/';
+const fhirIP = 'http://amritwprdev.piramalswasthya.org:8080/';
 const COMMON_API = `${commonIP}commonapi-ecd/`;
 const ADMIN_API = `${adminIP}adminapi-v1.0/`;
 const ECD_API = `${ecdIP}ecdapi-v1.0/`;
-const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
+const FHIR_API = `${fhirIP}fhirapi-v1.0/`;
+const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`;
 const sessionStorageEncKey = '';
+
 
 export const environment = {
   production: true,
@@ -215,6 +218,10 @@ export const environment = {
   getSMSValuesURL: `${ECD_API}master/getSMSValues`,
   getListOfMapQuestionaireConfigurationUrl:`${ECD_API}questionnaireConfiguration/getByPSMId`,
 
+
+   // Customization APIs
+   getAllRegistrationData: `${COMMON_API}customization/fetchAllData`,
+   getBenIdForhealthID: `${FHIR_API}healthID/getBenIdForhealthID`,
 
   /**Demographic Masters */
   getStatesMasterUrl: `${COMMON_API}location/states`,
