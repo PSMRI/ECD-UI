@@ -3,10 +3,12 @@
     <h2 class="mainHeading inner">
       {{ currentLanguageSet?.ecdQuestionnaire }}
     </h2>
-    <button mat-raised-button class="buttonColor full-width" style="float: right;" (click)="openBenHistory()">Beneficiary Call History</button>
+    <button mat-raised-button class="buttonColor full-width" style="float: right;"
+      (click)="openBenHistory()">Beneficiary Call History</button>
   </div>
 
-  <div>
+  <div *ngIf="videoService.isVideoCallActive; else fullWidthLayout" style="display: flex; gap: 1rem;">
+    <div style="flex: 3;">
     <mat-card class="innerCard fontStyle">
       <div>
         <mat-expansion-panel>
@@ -14,739 +16,403 @@
             <mat-panel-title>
               <b class="inner fontHeaderStyle"> Beneficiary Details </b>
               <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
-              <button *ngIf="role.toLowerCase() !== 'associate' && !enableChildForm" style="float:right" mat-raised-button class="highRiskButtonColor full-width buttonWidth" 
-              (click)="getHRPReasons()">HRP Reasons</button>
-              <button *ngIf="role.toLowerCase() !== 'associate' && enableChildForm" style="float:right" mat-raised-button class="highRiskButtonColor full-width buttonWidth" 
-              (click)="getHRPReasons()">HRNI Reasons</button>
-            </div>
+                <button *ngIf="role.toLowerCase() !== 'associate' && !enableChildForm" style="float:right"
+                  mat-raised-button class="highRiskButtonColor full-width buttonWidth" (click)="getHRPReasons()">HRP
+                  Reasons</button>
+                <button *ngIf="role.toLowerCase() !== 'associate' && enableChildForm" style="float:right"
+                  mat-raised-button class="highRiskButtonColor full-width buttonWidth" (click)="getHRPReasons()">HRNI
+                  Reasons</button>
+              </div>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-panel-description>
-            <form *ngIf="!enableChildForm"
-              class="row fontStyle"
-              [formGroup]="beneficiaryMotherDataForm"
-              autocomplete="off"
-              style="margin-top: 10px"
-            >
+            <form *ngIf="!enableChildForm" class="row fontStyle" [formGroup]="beneficiaryMotherDataForm"
+              autocomplete="off" style="margin-top: 10px">
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>Mother Id</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="motherId"
-                    formControlName="motherId"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="motherId" formControlName="motherId" type="text" readonly />
                 </mat-form-field>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>Mother Name</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="motherName"
-                    formControlName="motherName"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="motherName" formControlName="motherName" type="text" readonly />
                 </mat-form-field>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-                <mat-form-field  class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>Husband's Name</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="husbandName"
-                    formControlName="husbandName"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="husbandName" formControlName="husbandName" type="text" readonly />
                 </mat-form-field>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>Age</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="age"
-                    formControlName="age"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="age" formControlName="age" type="text" readonly />
                 </mat-form-field>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>District Name</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="districtName"
-                    formControlName="districtName"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="districtName" formControlName="districtName" type="text"
+                    readonly />
                 </mat-form-field>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>Health Block</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="healthBlock"
-                    formControlName="healthBlock"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="healthBlock" formControlName="healthBlock" type="text" readonly />
                 </mat-form-field>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>PHC Name</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="phcName"
-                    formControlName="phcName"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="phcName" formControlName="phcName" type="text" readonly />
                 </mat-form-field>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>Sub Facility / Sub Center</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="subFacility"
-                    formControlName="subFacility"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="subFacility" formControlName="subFacility" type="text" readonly />
                 </mat-form-field>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>Village Name</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="villageName"
-                    formControlName="villageName"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="villageName" formControlName="villageName" type="text" readonly />
                 </mat-form-field>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>Address</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="address"
-                    formControlName="address"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="address" formControlName="address" type="text" readonly />
                 </mat-form-field>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>Phone Number</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="whomPhoneNo"
-                    formControlName="whomPhoneNo"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="whomPhoneNo" formControlName="whomPhoneNo" type="text" readonly />
                 </mat-form-field>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>Phone Number of Whom</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="phoneNoOfWhom"
-                    formControlName="phoneNoOfWhom"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="phoneNoOfWhom" formControlName="phoneNoOfWhom" type="text"
+                    readonly />
                 </mat-form-field>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-                <mat-form-field class="fieldStyleDisabled" class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                <mat-form-field class="fieldStyleDisabled" class="fieldStyleDisabled" appearance="outline"
+                  [style.width]="'100%'">
                   <mat-label>Alternate Phone Number</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="alternatePhoneNo"
-                    formControlName="alternatePhoneNo"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="alternatePhoneNo" formControlName="alternatePhoneNo" type="text"
+                    readonly />
                 </mat-form-field>
               </div>
 
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>Asha Name</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="ashaName"
-                    formControlName="ashaName"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="ashaName" formControlName="ashaName" type="text" readonly />
                 </mat-form-field>
               </div>
 
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>Asha PhoneNo</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="ashaPhoneNo"
-                    formControlName="ashaPhoneNo"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="ashaPhoneNo" formControlName="ashaPhoneNo" type="text" readonly />
                 </mat-form-field>
               </div>
 
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>ANM Name</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="anmName"
-                    formControlName="anmName"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="anmName" formControlName="anmName" type="text" readonly />
                 </mat-form-field>
               </div>
 
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-                <mat-form-field class="fieldStyleDisabled" class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                <mat-form-field class="fieldStyleDisabled" class="fieldStyleDisabled" appearance="outline"
+                  [style.width]="'100%'">
                   <mat-label>ANM PhoneNO</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="anmPhoneNo"
-                    formControlName="anmPhoneNo"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="anmPhoneNo" formControlName="anmPhoneNo" type="text" readonly />
                 </mat-form-field>
               </div>
 
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>LMP Date</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="lmpDate"
-                    formControlName="lmpDate"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="lmpDate" formControlName="lmpDate" type="text" readonly />
                 </mat-form-field>
               </div>
 
               <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                 <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                   <mat-label>Expected Deivery Date</mat-label>
-                  <input
-                    matInput
-                    placeholder=""
-                    id="edd"
-                    formControlName="edd"
-                    type="text"
-                    readonly
-                  />
+                  <input matInput placeholder="" id="edd" formControlName="edd" type="text" readonly />
                 </mat-form-field>
               </div>
             </form>
-            <form *ngIf="enableChildForm"
-            class="row fontStyle"
-            [formGroup]="beneficiaryChildDataForm"
-            autocomplete="off"
-            style="margin-top: 10px"
-          >
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Child Id</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="motherId"
-                  formControlName="childId"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Child Name</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="motherName"
-                  formControlName="childName"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Mother Id</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="motherId"
-                  formControlName="motherId"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Mother Name</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="motherName"
-                  formControlName="motherName"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Father Name</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="fatherName"
-                  formControlName="fatherName"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Gender</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="gender"
-                  formControlName="gender"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>District Name</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="districtName"
-                  formControlName="districtName"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Health Block</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="healthBlock"
-                  formControlName="healthBlock"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>PHC Name</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="phcName"
-                  formControlName="phcName"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Sub Facility / Sub Center</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="subFacility"
-                  formControlName="subFacility"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Village Name</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="villageName"
-                  formControlName="villageName"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Address</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="address"
-                  formControlName="address"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Phone Number</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="phoneNo"
-                  formControlName="phoneNo"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Phone Number of Whom</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="phoneNoOf"
-                  formControlName="phoneNoOf"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Alternate Phone Number</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="alternatePhoneNo"
-                  formControlName="alternatePhoneNo"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
+            <form *ngIf="enableChildForm" class="row fontStyle" [formGroup]="beneficiaryChildDataForm"
+              autocomplete="off" style="margin-top: 10px">
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Child Id</mat-label>
+                  <input matInput placeholder="" id="motherId" formControlName="childId" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Child Name</mat-label>
+                  <input matInput placeholder="" id="motherName" formControlName="childName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Mother Id</mat-label>
+                  <input matInput placeholder="" id="motherId" formControlName="motherId" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Mother Name</mat-label>
+                  <input matInput placeholder="" id="motherName" formControlName="motherName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Father Name</mat-label>
+                  <input matInput placeholder="" id="fatherName" formControlName="fatherName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Gender</mat-label>
+                  <input matInput placeholder="" id="gender" formControlName="gender" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>District Name</mat-label>
+                  <input matInput placeholder="" id="districtName" formControlName="districtName" type="text"
+                    readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Health Block</mat-label>
+                  <input matInput placeholder="" id="healthBlock" formControlName="healthBlock" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>PHC Name</mat-label>
+                  <input matInput placeholder="" id="phcName" formControlName="phcName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Sub Facility / Sub Center</mat-label>
+                  <input matInput placeholder="" id="subFacility" formControlName="subFacility" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Village Name</mat-label>
+                  <input matInput placeholder="" id="villageName" formControlName="villageName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Address</mat-label>
+                  <input matInput placeholder="" id="address" formControlName="address" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Phone Number</mat-label>
+                  <input matInput placeholder="" id="phoneNo" formControlName="phoneNo" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Phone Number of Whom</mat-label>
+                  <input matInput placeholder="" id="phoneNoOf" formControlName="phoneNoOf" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Alternate Phone Number</mat-label>
+                  <input matInput placeholder="" id="alternatePhoneNo" formControlName="alternatePhoneNo" type="text"
+                    readonly />
+                </mat-form-field>
+              </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Asha Name</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="ashaName"
-                  formControlName="ashaName"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Asha Name</mat-label>
+                  <input matInput placeholder="" id="ashaName" formControlName="ashaName" type="text" readonly />
+                </mat-form-field>
+              </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Asha PhoneNo</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="ashaPhoneNo"
-                  formControlName="ashaPhoneNo"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Asha PhoneNo</mat-label>
+                  <input matInput placeholder="" id="ashaPhoneNo" formControlName="ashaPhoneNo" type="text" readonly />
+                </mat-form-field>
+              </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>ANM Name</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="anmName"
-                  formControlName="anmName"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>ANM Name</mat-label>
+                  <input matInput placeholder="" id="anmName" formControlName="anmName" type="text" readonly />
+                </mat-form-field>
+              </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>ANM PhoneNO</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="anmPhoneNo"
-                  formControlName="anmPhoneNo"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>ANM PhoneNO</mat-label>
+                  <input matInput placeholder="" id="anmPhoneNo" formControlName="anmPhoneNo" type="text" readonly />
+                </mat-form-field>
+              </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
-              <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
-                <mat-label>Date of birth</mat-label>
-                <input
-                  matInput
-                  placeholder=""
-                  id="lmpDate"
-                  formControlName="dob"
-                  type="text"
-                  readonly
-                />
-              </mat-form-field>
-            </div>
-          </form>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Date of birth</mat-label>
+                  <input matInput placeholder="" id="lmpDate" formControlName="dob" type="text" readonly />
+                </mat-form-field>
+              </div>
+            </form>
           </mat-panel-description>
         </mat-expansion-panel>
       </div>
       <div class="stepper-paginator" [hidden]="filteredQuesData.length === 0">
         <div class="arrow-icons">
-            <button mat-icon-button (click)="paginatorBack()" *ngIf="page > 0">
-              <mat-icon>keyboard_arrow_left</mat-icon>
-            </button>
+          <button mat-icon-button (click)="paginatorBack()" *ngIf="page > 0">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+          </button>
         </div>
 
         <div class="stepper">
-          <mat-horizontal-stepper class="stepFontStyle"
-            #stepper
-            (selectionChange)="stepSelectionChange($event)"
-            (selectedIndexChange)="onStepSelected($event)"
-          >
-          <div *ngFor="let section of filteredQuesData" >
-            <mat-step class="stepFontStyle" [stepControl]="section.sectionName">
-              <ng-template matStepLabel> {{section.sectionName}} </ng-template>
-              <mat-card class="stepperCard fontStyle">
-                <mat-card-content *ngFor="let ques of section.questionnaires" class="fontStyle">
-                  <div *ngIf="(ques?.questionType?.toLowerCase() === 'information' || ques?.questionType?.toLowerCase() === 'info') && ques?.enabledQues.length >0">
-                    <li> {{ques.question}} </li>
-                  </div>
-                  <div *ngIf="ques?.questionType?.toLowerCase() === 'label' && ques?.enabledQues.length > 0">
-                    <a class="textColor"> {{ques.question}} </a>
-                  </div>
-                  <div *ngIf="ques?.questionType?.toLowerCase() === 'question' && ques?.enabledQues.length > 0">
-                    <li class="quesStyle"><strong> {{ques.question}} </strong>
-
-                    <!-- Fields to check the question type starts here-->
-                    <div class="form-container">
-                      <div class="section">
-                    <mat-form-field appearance="outline" *ngIf="ques?.answerType?.toLowerCase() === 'text'">
-                      <input matInput type="input" placeholder="Please Enter Answer Here" required [(ngModel)]="ques.answer"/>
-                    </mat-form-field>
-                    <mat-error class="error" *ngIf="ques?.answerType?.toLowerCase() === 'text' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please enter mandatory field</mat-error>
-
-                    <mat-form-field appearance="outline" *ngIf="ques?.answerType?.toLowerCase() === 'date'">
-                      <input matInput type="date" placeholder="Please Enter Answer Here" required [(ngModel)]="ques.answer"/>
-                    </mat-form-field>
-                    <mat-error class="error" *ngIf="ques?.answerType?.toLowerCase() === 'date' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please enter mandatory field</mat-error>
-
-                    <mat-form-field appearance="outline" *ngIf="ques?.answerType?.toLowerCase() === 'time'">
-                      <input matInput type="time" placeholder="Please Enter Answer Here" required [(ngModel)]="ques.answer"/>
-                    </mat-form-field>
-                    <mat-error class="error" *ngIf="ques?.answerType?.toLowerCase() === 'time' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please enter mandatory field</mat-error>
-
-                    <mat-form-field appearance="outline" class="backgroundWhite dropdownfontStyle" *ngIf="ques?.answerType?.toLowerCase() === 'multiple'">
-                      <mat-select matInput multiple placeholder="Please Enter Answer Here" required [(ngModel)]="ques.answer" (selectionChange)="processFilteredQuestionnaires(ques)">
-                        <mat-option *ngFor="let option of ques.options" [value]="option.options">
-                          {{ option.options }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-error class="error" *ngIf="ques?.answerType?.toLowerCase() === 'multiple' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please enter mandatory field</mat-error>
-
-                    <mat-form-field appearance="outline" *ngIf="ques?.answerType?.toLowerCase() === 'date & time'">
-                      <input matInput type="datetime-local" placeholder="Please Enter Answer Here" required [(ngModel)]="ques.answer"/>
-                    </mat-form-field>
-                    <mat-error class="error" *ngIf="ques?.answerType?.toLowerCase() === 'date & time' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please enter mandatory field</mat-error>
-
-                    <!-- extra condition for the radio button not visible 2 tyms for hrp and hrni cases  -->
-
-                    <mat-radio-group *ngIf="ques?.answerType?.toLowerCase() === 'radio'"
-                    [(ngModel)]="ques.answer" (change)="processFilteredQuestionnaires(ques)" required>
-                      <mat-radio-button class="radioButtonFontStyle" style="margin-left: 5px; margin-right: 5px;" *ngFor="let option of ques.options" [value]="option.options">
-                        {{option.options}}
-                      </mat-radio-button>
-                      <mat-error style="font-size: 15px;" *ngIf="validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please enter mandatory field</mat-error>
-                    </mat-radio-group>
-
-                    <!-- extra condition for the downdrop not visible 2 tyms for hrp and hrni cases  -->
-
-                    <mat-form-field appearance="outline" class="backgroundWhite fieldForHRP dropdownfontStyle" *ngIf="ques?.answerType?.toLowerCase() === 'dropdown'">
-                      <mat-select matInput type="select" placeholder="Please Enter Answer Here" required [(ngModel)]="ques.answer" (selectionChange)="processFilteredQuestionnaires(ques)">
-                        <mat-option *ngFor="let option of ques.options" [value]="option.options">
-                          {{ option.options }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-error class="error" *ngIf="ques?.answerType?.toLowerCase() === 'dropdown' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please enter mandatory field</mat-error>
-
-                    <!-- Fields to check the question type ends here -->
-
-                    <!-- conditions to check if Beneficiary is HRP -->
-
-                    <!-- <div *ngIf="(ques?.question.toLowerCase().includes('is hrp') || ques?.question.toLowerCase().includes('high risk pregnancy'))">
-                    <mat-form-field appearance="outline" class="backgroundWhite fieldAlignment dropdownfontStyle" *ngIf="ques?.answerType?.toLowerCase() === 'dropdown'">
-                      <mat-select matInput type="select" placeholder="Please Enter Answer Here" required [(ngModel)]="ques.answer" (selectionChange)="checkIsHrp(ques.answer)">
-                        <mat-option *ngFor="let option of ques.options" [value]="option.options">
-                          {{ option.options }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-error class="error" *ngIf="ques?.answerType?.toLowerCase() === 'dropdown' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please enter mandatory field</mat-error>
-
-                    <mat-radio-group *ngIf="ques?.answerType?.toLowerCase() === 'radio'" [(ngModel)]="ques.answer" (change)="checkIsHrp(ques.answer)" required>
-                      <mat-radio-button style="margin-left: 5px; margin-right: 5px;" *ngFor="let option of ques.options" [value]="option.options">
-                        {{option.options}}
-                      </mat-radio-button>
-                      <mat-error style="font-size: 15px;" *ngIf="ques?.answerType?.toLowerCase() === 'radio' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please enter mandatory field</mat-error>
-                    </mat-radio-group>
-
-                    <mat-form-field appearance="outline" class="backgroundWhite fieldForHRP dropdownfontStyle" *ngIf="enableHrpReasons">
-                      <mat-select matInput multiple placeholder="Reasons for HRP" required [(ngModel)]="hrpReasons" (selectionChange)="checkHrpReasons(hrpReasons)">
-                        <mat-option *ngFor="let hrp of hrpMasterData" [value]="hrp.name">
-                          {{ hrp.name }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" *ngIf="enableOtherHrp" style="margin-left: 10px; font-size: 14px; width: 100%; max-width: 200px;">
-                      <input matInput type="input" placeholder="Other HRP Reason" required [(ngModel)]="otherHrPReason"/>
-                    </mat-form-field>
-
-                    </div> -->
-
-                    <!-- conditions to check if Beneficiary is HRNI -->
-
-                    <!-- <div *ngIf="(ques?.question.toLowerCase().includes('is hrni')
-                    || ques?.question.toLowerCase().includes('high risk newborn') || ques?.question.toLowerCase().includes('high risk infant'))">
-                    
-                    <mat-form-field appearance="outline" class="backgroundWhite fieldAlignment dropdownfontStyle" *ngIf="ques?.answerType?.toLowerCase() === 'dropdown'">
-                      <mat-select matInput type="select" placeholder="Please Enter Answer Here" required [(ngModel)]="ques.answer" (selectionChange)="checkIsHrni(ques.answer)">
-                        <mat-option *ngFor="let option of ques.options" [value]="option.options">
-                          {{ option.options }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-error *ngIf="ques?.answerType?.toLowerCase() === 'dropdown' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please enter mandatory field</mat-error>
-
-                    <mat-radio-group *ngIf="ques?.answerType?.toLowerCase() === 'radio'" [(ngModel)]="ques.answer" (change)="checkIsHrni(ques.answer)" required>
-                      <mat-radio-button style="margin-left: 5px; margin-right: 5px;" *ngFor="let option of ques.options" [value]="option.options">
-                        {{option.options}}
-                      </mat-radio-button>
-                      <mat-error style="font-size: 15px;" *ngIf="ques?.answerType?.toLowerCase() === 'radio' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please enter mandatory field</mat-error>
-                    </mat-radio-group>
-
-                    <mat-form-field appearance="outline" class="backgroundWhite fieldForHRP dropdownfontStyle" *ngIf="enableHrniReasons">
-                    <mat-select matInput multiple placeholder="Reasons for HRNI" required [(ngModel)]="hrniReasons" (selectionChange)="checkHrniReasons(hrniReasons)">
-                      <mat-option *ngFor="let hrni of hrniMasterData" [value]="hrni.name">
-                        {{ hrni.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-
-                  <mat-form-field appearance="outline" *ngIf="enableOtherHrni">
-                    <input matInput type="input" placeholder="Other HRNI Reason" required [(ngModel)]="otherHrniReason"/>
-                  </mat-form-field>
-
-                  <mat-form-field appearance="outline" class="backgroundWhite fieldAlignment dropdownfontStyle" *ngIf="enableCongentialAnomalies">
-                    <mat-select matInput multiple placeholder="Reasons for Congential Anomalies" required 
-                    [(ngModel)]="congentialAnomaliesReasons" (selectionChange)="checkCongentialAnomaliesReasons(congentialAnomaliesReasons)">
-                      <mat-option *ngFor="let value of congentialAnomaliesData" [value]="value.name">
-                        {{ value.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-
-                  <mat-form-field appearance="outline" *ngIf="enableOtherCongential">
-                    <input matInput type="input" placeholder="Other Congential Anomalie" required [(ngModel)]="otherCongentialAnomalie"/>
-                  </mat-form-field>
-
-                  <mat-form-field appearance="outline" *ngIf="enableProbableCauseDefect">
-                    <input matInput type="input" placeholder="Probable Defect Cause" required [(ngModel)]="probableDefectCause"/>
-                  </mat-form-field>
-                  
-                    </div> -->
+          <mat-horizontal-stepper class="stepFontStyle" #stepper (selectionChange)="stepSelectionChange($event)"
+            (selectedIndexChange)="onStepSelected($event)">
+            <div *ngFor="let section of filteredQuesData">
+              <mat-step class="stepFontStyle" [stepControl]="section.sectionName">
+                <ng-template matStepLabel> {{section.sectionName}} </ng-template>
+                <mat-card class="stepperCard fontStyle">
+                  <mat-card-content *ngFor="let ques of section.questionnaires" class="fontStyle">
+                    <div
+                      *ngIf="(ques?.questionType?.toLowerCase() === 'information' || ques?.questionType?.toLowerCase() === 'info') && ques?.enabledQues.length >0">
+                      <li> {{ques.question}} </li>
                     </div>
+                    <div *ngIf="ques?.questionType?.toLowerCase() === 'label' && ques?.enabledQues.length > 0">
+                      <a class="textColor"> {{ques.question}} </a>
                     </div>
-                    </li>                    
+                    <div *ngIf="ques?.questionType?.toLowerCase() === 'question' && ques?.enabledQues.length > 0">
+                      <li class="quesStyle"><strong> {{ques.question}} </strong>
+
+                        <!-- Fields to check the question type starts here-->
+                        <div class="form-container">
+                          <div class="section">
+                            <mat-form-field appearance="outline" *ngIf="ques?.answerType?.toLowerCase() === 'text'">
+                              <input matInput type="input" placeholder="Please Enter Answer Here" required
+                                [(ngModel)]="ques.answer" />
+                            </mat-form-field>
+                            <mat-error class="error"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'text' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                              enter mandatory field</mat-error>
+
+                            <mat-form-field appearance="outline" *ngIf="ques?.answerType?.toLowerCase() === 'date'">
+                              <input matInput type="date" placeholder="Please Enter Answer Here" required
+                                [(ngModel)]="ques.answer" />
+                            </mat-form-field>
+                            <mat-error class="error"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'date' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                              enter mandatory field</mat-error>
+
+                            <mat-form-field appearance="outline" *ngIf="ques?.answerType?.toLowerCase() === 'time'">
+                              <input matInput type="time" placeholder="Please Enter Answer Here" required
+                                [(ngModel)]="ques.answer" />
+                            </mat-form-field>
+                            <mat-error class="error"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'time' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                              enter mandatory field</mat-error>
+
+                            <mat-form-field appearance="outline" class="backgroundWhite dropdownfontStyle"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'multiple'">
+                              <mat-select matInput multiple placeholder="Please Enter Answer Here" required
+                                [(ngModel)]="ques.answer" (selectionChange)="processFilteredQuestionnaires(ques)">
+                                <mat-option *ngFor="let option of ques.options" [value]="option.options">
+                                  {{ option.options }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <mat-error class="error"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'multiple' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                              enter mandatory field</mat-error>
+
+                            <mat-form-field appearance="outline"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'date & time'">
+                              <input matInput type="datetime-local" placeholder="Please Enter Answer Here" required
+                                [(ngModel)]="ques.answer" />
+                            </mat-form-field>
+                            <mat-error class="error"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'date & time' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                              enter mandatory field</mat-error>
+
+                            <!-- extra condition for the radio button not visible 2 tyms for hrp and hrni cases  -->
+
+                            <mat-radio-group *ngIf="ques?.answerType?.toLowerCase() === 'radio'"
+                              [(ngModel)]="ques.answer" (change)="processFilteredQuestionnaires(ques)" required>
+                              <mat-radio-button class="radioButtonFontStyle"
+                                style="margin-left: 5px; margin-right: 5px;" *ngFor="let option of ques.options"
+                                [value]="option.options">
+                                {{option.options}}
+                              </mat-radio-button>
+                              <mat-error style="font-size: 15px;"
+                                *ngIf="validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                                enter mandatory field</mat-error>
+                            </mat-radio-group>
+
+                            <!-- extra condition for the downdrop not visible 2 tyms for hrp and hrni cases  -->
+
+                            <mat-form-field appearance="outline" class="backgroundWhite fieldForHRP dropdownfontStyle"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'dropdown'">
+                              <mat-select matInput type="select" placeholder="Please Enter Answer Here" required
+                                [(ngModel)]="ques.answer" (selectionChange)="processFilteredQuestionnaires(ques)">
+                                <mat-option *ngFor="let option of ques.options" [value]="option.options">
+                                  {{ option.options }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <mat-error class="error"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'dropdown' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                              enter mandatory field</mat-error>
+
+                            <!-- Fields to check the question type ends here -->
+
+                            <!-- conditions to check if Beneficiary is HRP -->
+                          </div>
+                        </div>
+                      </li>
+                    </div>
+                  </mat-card-content>
+                  <div style="display: flex; justify-content: center;">
+                    <button style="margin-right: 5px;" mat-raised-button class="buttonColor full-width buttonWidth"
+                      [disabled]="stepper.selectedIndex === 0" (click)="goBack()">Previous</button>
+                    <button style="margin-right: 5px;" mat-raised-button class="buttonColor full-width buttonWidth"
+                      [disabled]="stepper.selectedIndex === stepper.steps.length - 1"
+                      (click)="goForward(stepper.selectedIndex)">Next</button>
                   </div>
-                </mat-card-content>
-                <div style="display: flex; justify-content: center;">
-                  <button style="margin-right: 5px;" mat-raised-button class="buttonColor full-width buttonWidth" 
-                  [disabled]="stepper.selectedIndex === 0" (click)="goBack()">Previous</button>
-                  <button  style="margin-right: 5px;" mat-raised-button class="buttonColor full-width buttonWidth" 
-                  [disabled]="stepper.selectedIndex === stepper.steps.length - 1" 
-                  (click)="goForward(stepper.selectedIndex)">Next</button>
-                </div>
-              </mat-card>
-            </mat-step>
-          </div>
+                </mat-card>
+              </mat-step>
+            </div>
           </mat-horizontal-stepper>
         </div>
 
         <div class="arrow-icons">
-          <button
-            mat-icon-button
-            (click)="paginatorNext()"
-            *ngIf="page < totalPages - 1"
-          >
+          <button mat-icon-button (click)="paginatorNext()" *ngIf="page < totalPages - 1">
             <mat-icon>keyboard_arrow_right</mat-icon>
           </button>
         </div>
@@ -759,13 +425,448 @@
       </div>
 
       <div style="display: flex; justify-content: right;">
-        <button style="margin-right: 5px;" mat-raised-button class="buttonColorRedish full-width buttonWidth" 
-        (click)="goToClosure()">Closure</button>
-        <button *ngIf="filteredQuesData.length !== 0" style="margin-right: 5px;" mat-raised-button class="buttonColorGreen full-width buttonWidth" 
-        (click)="saveQuestionnaire()">Submit</button>
+        <button style="margin-right: 5px;" mat-raised-button class="buttonColorRedish full-width buttonWidth"
+          (click)="goToClosure()">Closure</button>
+        <button *ngIf="filteredQuesData.length !== 0" style="margin-right: 5px;" mat-raised-button
+          class="buttonColorGreen full-width buttonWidth" (click)="saveQuestionnaire()">Submit</button>
       </div>
 
       <div style="float: right; margin-right: -25px;"> <app-czentrix-iframe></app-czentrix-iframe></div>
     </mat-card>
   </div>
+  <div style="flex: 1;">
+    <app-video-consultation></app-video-consultation>
 </div>
+  </div>
+  
+  <app-floating-video *ngIf="videoService.showFloatingVideo"></app-floating-video>
+
+
+<ng-template #fullWidthLayout>
+  <div>
+    <mat-card class="innerCard fontStyle">
+      <div>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <b class="inner fontHeaderStyle"> Beneficiary Details </b>
+              <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                <button *ngIf="role.toLowerCase() !== 'associate' && !enableChildForm" style="float:right"
+                  mat-raised-button class="highRiskButtonColor full-width buttonWidth" (click)="getHRPReasons()">HRP
+                  Reasons</button>
+                <button *ngIf="role.toLowerCase() !== 'associate' && enableChildForm" style="float:right"
+                  mat-raised-button class="highRiskButtonColor full-width buttonWidth" (click)="getHRPReasons()">HRNI
+                  Reasons</button>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-panel-description>
+            <form *ngIf="!enableChildForm" class="row fontStyle" [formGroup]="beneficiaryMotherDataForm"
+              autocomplete="off" style="margin-top: 10px">
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Mother Id</mat-label>
+                  <input matInput placeholder="" id="motherId" formControlName="motherId" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Mother Name</mat-label>
+                  <input matInput placeholder="" id="motherName" formControlName="motherName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Husband's Name</mat-label>
+                  <input matInput placeholder="" id="husbandName" formControlName="husbandName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Age</mat-label>
+                  <input matInput placeholder="" id="age" formControlName="age" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>District Name</mat-label>
+                  <input matInput placeholder="" id="districtName" formControlName="districtName" type="text"
+                    readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Health Block</mat-label>
+                  <input matInput placeholder="" id="healthBlock" formControlName="healthBlock" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>PHC Name</mat-label>
+                  <input matInput placeholder="" id="phcName" formControlName="phcName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Sub Facility / Sub Center</mat-label>
+                  <input matInput placeholder="" id="subFacility" formControlName="subFacility" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Village Name</mat-label>
+                  <input matInput placeholder="" id="villageName" formControlName="villageName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Address</mat-label>
+                  <input matInput placeholder="" id="address" formControlName="address" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Phone Number</mat-label>
+                  <input matInput placeholder="" id="whomPhoneNo" formControlName="whomPhoneNo" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Phone Number of Whom</mat-label>
+                  <input matInput placeholder="" id="phoneNoOfWhom" formControlName="phoneNoOfWhom" type="text"
+                    readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" class="fieldStyleDisabled" appearance="outline"
+                  [style.width]="'100%'">
+                  <mat-label>Alternate Phone Number</mat-label>
+                  <input matInput placeholder="" id="alternatePhoneNo" formControlName="alternatePhoneNo" type="text"
+                    readonly />
+                </mat-form-field>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Asha Name</mat-label>
+                  <input matInput placeholder="" id="ashaName" formControlName="ashaName" type="text" readonly />
+                </mat-form-field>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Asha PhoneNo</mat-label>
+                  <input matInput placeholder="" id="ashaPhoneNo" formControlName="ashaPhoneNo" type="text" readonly />
+                </mat-form-field>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>ANM Name</mat-label>
+                  <input matInput placeholder="" id="anmName" formControlName="anmName" type="text" readonly />
+                </mat-form-field>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" class="fieldStyleDisabled" appearance="outline"
+                  [style.width]="'100%'">
+                  <mat-label>ANM PhoneNO</mat-label>
+                  <input matInput placeholder="" id="anmPhoneNo" formControlName="anmPhoneNo" type="text" readonly />
+                </mat-form-field>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>LMP Date</mat-label>
+                  <input matInput placeholder="" id="lmpDate" formControlName="lmpDate" type="text" readonly />
+                </mat-form-field>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Expected Deivery Date</mat-label>
+                  <input matInput placeholder="" id="edd" formControlName="edd" type="text" readonly />
+                </mat-form-field>
+              </div>
+            </form>
+            <form *ngIf="enableChildForm" class="row fontStyle" [formGroup]="beneficiaryChildDataForm"
+              autocomplete="off" style="margin-top: 10px">
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Child Id</mat-label>
+                  <input matInput placeholder="" id="motherId" formControlName="childId" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Child Name</mat-label>
+                  <input matInput placeholder="" id="motherName" formControlName="childName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Mother Id</mat-label>
+                  <input matInput placeholder="" id="motherId" formControlName="motherId" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Mother Name</mat-label>
+                  <input matInput placeholder="" id="motherName" formControlName="motherName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Father Name</mat-label>
+                  <input matInput placeholder="" id="fatherName" formControlName="fatherName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Gender</mat-label>
+                  <input matInput placeholder="" id="gender" formControlName="gender" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>District Name</mat-label>
+                  <input matInput placeholder="" id="districtName" formControlName="districtName" type="text"
+                    readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Health Block</mat-label>
+                  <input matInput placeholder="" id="healthBlock" formControlName="healthBlock" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>PHC Name</mat-label>
+                  <input matInput placeholder="" id="phcName" formControlName="phcName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Sub Facility / Sub Center</mat-label>
+                  <input matInput placeholder="" id="subFacility" formControlName="subFacility" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Village Name</mat-label>
+                  <input matInput placeholder="" id="villageName" formControlName="villageName" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Address</mat-label>
+                  <input matInput placeholder="" id="address" formControlName="address" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Phone Number</mat-label>
+                  <input matInput placeholder="" id="phoneNo" formControlName="phoneNo" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Phone Number of Whom</mat-label>
+                  <input matInput placeholder="" id="phoneNoOf" formControlName="phoneNoOf" type="text" readonly />
+                </mat-form-field>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Alternate Phone Number</mat-label>
+                  <input matInput placeholder="" id="alternatePhoneNo" formControlName="alternatePhoneNo" type="text"
+                    readonly />
+                </mat-form-field>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Asha Name</mat-label>
+                  <input matInput placeholder="" id="ashaName" formControlName="ashaName" type="text" readonly />
+                </mat-form-field>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Asha PhoneNo</mat-label>
+                  <input matInput placeholder="" id="ashaPhoneNo" formControlName="ashaPhoneNo" type="text" readonly />
+                </mat-form-field>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>ANM Name</mat-label>
+                  <input matInput placeholder="" id="anmName" formControlName="anmName" type="text" readonly />
+                </mat-form-field>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>ANM PhoneNO</mat-label>
+                  <input matInput placeholder="" id="anmPhoneNo" formControlName="anmPhoneNo" type="text" readonly />
+                </mat-form-field>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
+                <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+                  <mat-label>Date of birth</mat-label>
+                  <input matInput placeholder="" id="lmpDate" formControlName="dob" type="text" readonly />
+                </mat-form-field>
+              </div>
+            </form>
+          </mat-panel-description>
+        </mat-expansion-panel>
+      </div>
+      <div class="stepper-paginator" [hidden]="filteredQuesData.length === 0">
+        <div class="arrow-icons">
+          <button mat-icon-button (click)="paginatorBack()" *ngIf="page > 0">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+          </button>
+        </div>
+
+        <div class="stepper">
+          <mat-horizontal-stepper class="stepFontStyle" #stepper (selectionChange)="stepSelectionChange($event)"
+            (selectedIndexChange)="onStepSelected($event)">
+            <div *ngFor="let section of filteredQuesData">
+              <mat-step class="stepFontStyle" [stepControl]="section.sectionName">
+                <ng-template matStepLabel> {{section.sectionName}} </ng-template>
+                <mat-card class="stepperCard fontStyle">
+                  <mat-card-content *ngFor="let ques of section.questionnaires" class="fontStyle">
+                    <div
+                      *ngIf="(ques?.questionType?.toLowerCase() === 'information' || ques?.questionType?.toLowerCase() === 'info') && ques?.enabledQues.length >0">
+                      <li> {{ques.question}} </li>
+                    </div>
+                    <div *ngIf="ques?.questionType?.toLowerCase() === 'label' && ques?.enabledQues.length > 0">
+                      <a class="textColor"> {{ques.question}} </a>
+                    </div>
+                    <div *ngIf="ques?.questionType?.toLowerCase() === 'question' && ques?.enabledQues.length > 0">
+                      <li class="quesStyle"><strong> {{ques.question}} </strong>
+
+                        <!-- Fields to check the question type starts here-->
+                        <div class="form-container">
+                          <div class="section">
+                            <mat-form-field appearance="outline" *ngIf="ques?.answerType?.toLowerCase() === 'text'">
+                              <input matInput type="input" placeholder="Please Enter Answer Here" required
+                                [(ngModel)]="ques.answer" />
+                            </mat-form-field>
+                            <mat-error class="error"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'text' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                              enter mandatory field</mat-error>
+
+                            <mat-form-field appearance="outline" *ngIf="ques?.answerType?.toLowerCase() === 'date'">
+                              <input matInput type="date" placeholder="Please Enter Answer Here" required
+                                [(ngModel)]="ques.answer" />
+                            </mat-form-field>
+                            <mat-error class="error"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'date' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                              enter mandatory field</mat-error>
+
+                            <mat-form-field appearance="outline" *ngIf="ques?.answerType?.toLowerCase() === 'time'">
+                              <input matInput type="time" placeholder="Please Enter Answer Here" required
+                                [(ngModel)]="ques.answer" />
+                            </mat-form-field>
+                            <mat-error class="error"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'time' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                              enter mandatory field</mat-error>
+
+                            <mat-form-field appearance="outline" class="backgroundWhite dropdownfontStyle"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'multiple'">
+                              <mat-select matInput multiple placeholder="Please Enter Answer Here" required
+                                [(ngModel)]="ques.answer" (selectionChange)="processFilteredQuestionnaires(ques)">
+                                <mat-option *ngFor="let option of ques.options" [value]="option.options">
+                                  {{ option.options }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <mat-error class="error"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'multiple' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                              enter mandatory field</mat-error>
+
+                            <mat-form-field appearance="outline"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'date & time'">
+                              <input matInput type="datetime-local" placeholder="Please Enter Answer Here" required
+                                [(ngModel)]="ques.answer" />
+                            </mat-form-field>
+                            <mat-error class="error"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'date & time' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                              enter mandatory field</mat-error>
+
+                            <!-- extra condition for the radio button not visible 2 tyms for hrp and hrni cases  -->
+
+                            <mat-radio-group *ngIf="ques?.answerType?.toLowerCase() === 'radio'"
+                              [(ngModel)]="ques.answer" (change)="processFilteredQuestionnaires(ques)" required>
+                              <mat-radio-button class="radioButtonFontStyle"
+                                style="margin-left: 5px; margin-right: 5px;" *ngFor="let option of ques.options"
+                                [value]="option.options">
+                                {{option.options}}
+                              </mat-radio-button>
+                              <mat-error style="font-size: 15px;"
+                                *ngIf="validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                                enter mandatory field</mat-error>
+                            </mat-radio-group>
+
+                            <!-- extra condition for the downdrop not visible 2 tyms for hrp and hrni cases  -->
+
+                            <mat-form-field appearance="outline" class="backgroundWhite fieldForHRP dropdownfontStyle"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'dropdown'">
+                              <mat-select matInput type="select" placeholder="Please Enter Answer Here" required
+                                [(ngModel)]="ques.answer" (selectionChange)="processFilteredQuestionnaires(ques)">
+                                <mat-option *ngFor="let option of ques.options" [value]="option.options">
+                                  {{ option.options }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <mat-error class="error"
+                              *ngIf="ques?.answerType?.toLowerCase() === 'dropdown' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
+                              enter mandatory field</mat-error>
+
+                            <!-- Fields to check the question type ends here -->
+
+                            <!-- conditions to check if Beneficiary is HRP -->
+                          </div>
+                        </div>
+                      </li>
+                    </div>
+                  </mat-card-content>
+                  <div style="display: flex; justify-content: center;">
+                    <button style="margin-right: 5px;" mat-raised-button class="buttonColor full-width buttonWidth"
+                      [disabled]="stepper.selectedIndex === 0" (click)="goBack()">Previous</button>
+                    <button style="margin-right: 5px;" mat-raised-button class="buttonColor full-width buttonWidth"
+                      [disabled]="stepper.selectedIndex === stepper.steps.length - 1"
+                      (click)="goForward(stepper.selectedIndex)">Next</button>
+                  </div>
+                </mat-card>
+              </mat-step>
+            </div>
+          </mat-horizontal-stepper>
+        </div>
+
+        <div class="arrow-icons">
+          <button mat-icon-button (click)="paginatorNext()" *ngIf="page < totalPages - 1">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin: 25px;" [hidden]="filteredQuesData.length !== 0">
+        <mat-card class="stepFontStyle">
+          Questionnaires not mapped against the call type
+        </mat-card>
+      </div>
+
+      <div style="display: flex; justify-content: right;">
+        <button style="margin-right: 5px;" mat-raised-button class="buttonColorRedish full-width buttonWidth"
+          (click)="goToClosure()">Closure</button>
+        <button *ngIf="filteredQuesData.length !== 0" style="margin-right: 5px;" mat-raised-button
+          class="buttonColorGreen full-width buttonWidth" (click)="saveQuestionnaire()">Submit</button>
+      </div>
+
+      <div style="float: right; margin-right: -25px;"> <app-czentrix-iframe></app-czentrix-iframe></div>
+    </mat-card>
+  </div>
+</ng-template>

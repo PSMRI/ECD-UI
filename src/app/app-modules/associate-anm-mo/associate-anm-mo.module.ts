@@ -48,6 +48,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { VideoConsultationComponent } from './video-consultation/video-consultation.component';
 import { SafeUrlPipe } from './safe-url.pipe';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FloatingVideoComponent } from './floating-videocall/floating-video.component';
 
 
 
@@ -63,7 +64,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     BeneficiaryCallHistoryComponent,
     HighRiskReasonsComponent,
     VideoConsultationComponent,
-    SafeUrlPipe
+    SafeUrlPipe,
+    FloatingVideoComponent
+    // VideoComponent,
 
   ],
   imports: [

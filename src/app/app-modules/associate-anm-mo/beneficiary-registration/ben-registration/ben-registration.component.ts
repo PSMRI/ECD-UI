@@ -16,7 +16,7 @@
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
-* You should have received a copy of the GNU General Public License
+* You should have received a copy of the GNU General Public License   
 * along with this program.  If not, see https://www.gnu.org/licenses/.
 */
 
@@ -31,9 +31,8 @@ import { MasterService } from 'src/app/app-modules/services/masterService/master
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import * as moment from 'moment';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
-import { VideoConsultationComponent } from '../../video-consultation/video-consultation.component';
 import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-
+import { VideoConsultationService } from '../../video-consultation/videoService';
 
 @Component({
   selector: 'app-ben-registration',
@@ -83,24 +82,32 @@ import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
   // ];
   enableUpdateButton = false;
   minimumDate: any;
-  showPrompt = false;
+  // showPrompt = false;
+  isVideoCallActive = false;
+  callerPhoneNumber: any;
+  agentID: any;
+  agentName: any;
+
 
   constructor(
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private confirmationService: ConfirmationService,
-    private associateAnmMoService: AssociateAnmMoService,
+    public associateAnmMoService: AssociateAnmMoService,
     private setLanguageService: SetLanguageService,
     private masterService: MasterService,
     private loginService: LoginserviceService,
     readonly sessionstorage: SessionStorageService,
     public dialog: MatDialog,
-
+    public videoService: VideoConsultationService,
 
   ) {
   }
 
   ngOnInit(): void {
+    this.videoService.videoCallPrompt = true;
+    // this.isVideoCallActive = this.associateAnmMoService.getIsVideoCallActive();
+
     this.associateAnmMoService.isBenRegistartionData$.subscribe((responseComp) => {
       if (responseComp !== null && responseComp === true) {
         if (this.associateAnmMoService.selectedBenDetails.beneficiaryRegId !== null &&
@@ -746,6 +753,13 @@ import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
       .afterClosed()
       .subscribe((response) => {
         if (response) {
+          this.videoService.setVideoCallData(
+            true, // or your dynamic video call status
+            '8147115862',
+            'https://meet.jit.si/myroom',
+            '2002',
+            'AnikaECD'
+          );
           this.associateAnmMoService.setOpenComp("ECD Questionnaire");
           this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
         }
@@ -784,34 +798,14 @@ import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
 
   }
 
-  performAction() {
-    this.showPrompt = true;
-    this.videoConsultationPromptDialog();
+  performAction(event :Event) {
+    
+    this.videoService.videoCallPrompt = true;
+    this.videoService.setVideoCallData(true, '8147115862', '', '2002', 'AnikaECD');
+    // this.isVideoCallActive = this.associateAnmMoService.getIsVideoCallActive();
+    this.callerPhoneNumber = "8147115862";
+    this.agentID = "2002";
+    this.agentName = sessionStorage.getItem('userName') || 'Default Name';
   }
 
-
-  videoConsultationPromptDialog() {
-    if (this.loginService.agentId === undefined) {
-      this.confirmationService.openDialog(this.currentLanguageSet.agentIdNotAvailable, 'error')
-    } else {
-      const dialogRef = this.dialog.open(VideoConsultationComponent, {
-        width: '50%',
-        height: '90%',
-        data: {
-          videoCallPrompt: true,
-          // callerPhoneNumber: '8147115862',
-          // agentID: this.loginService.agentId,
-          // agentName: 'Kundanecd'
-          callerPhoneNumber: this.benRegistrationForm.controls.phoneNo.value,
-          agentID: this.loginService.agentId || '',
-          agentName: this.sessionstorage.getItem('userName') || ''
-        }
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        this.showPrompt = false;
-      });
-    }
-
-  }
 }
