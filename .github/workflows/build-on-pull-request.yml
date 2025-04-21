@@ -35,8 +35,8 @@ jobs:
       - name: Build with NPM and Maven
         run: |
           npm config set legacy-peer-deps true
-          npm install -g @angular/cli
-          npm install typescript@5.1.3 --save-dev
+          npm install -g @angular/cli@19.2.8
+          npm install typescript@5.5.0 --save-dev
           npm install --force
           npm run build-ci
         
