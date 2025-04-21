@@ -289,14 +289,10 @@ else{
         this.benRegistrationForm.controls.motherName.setValue(viewDetails.name);
         this.benRegistrationForm.controls.phoneNo.setValue(viewDetails.whomPhoneNo);
         this.benRegistrationForm.controls.phoneNoOf.setValue(viewDetails.phoneNoOfWhom);
-        let lDate = new Date(viewDetails.lmpDate);
-        lDate = new Date(lDate.getTime() + lDate.getTimezoneOffset() * 60000)
 
+        const lDate = new Date(viewDetails.lmpDate).toLocaleDateString('en-CA');
         this.benRegistrationForm.controls.lmpDate.setValue(lDate);
-
-        // let eDate = new Date(viewDetails.edd);
-        // eDate = new Date(eDate.getTime() + eDate.getTimezoneOffset() * 60000)
-        // this.benRegistrationForm.controls.edd.setValue(eDate);
+   
         
         // Calculate EDD based on LMP Date
         const eddDate = new Date(lDate);
@@ -307,9 +303,7 @@ else{
         console.log("EDD PATCHING VALUE", eddDate);
       }
       else {
-        let dobDate = new Date(viewDetails.dob);
-        dobDate = new Date(dobDate.getTime() + dobDate.getTimezoneOffset() * 60000)
-
+        const dobDate = new Date(viewDetails.dob).toLocaleDateString('en-CA');
         this.benRegistrationForm.controls.dob.setValue(dobDate);
         if(this.benRegistrationForm.controls.dob.value){
           this.benRegistrationForm.controls.dob.setErrors(null)
@@ -456,11 +450,12 @@ else{
       let eddDateValue=null;
       let dobDateValue=null;
     if(this.enableMotherRecord) {
-    lmpDateValue =  moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ');
-  eddDateValue =  moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ');
+
+      lmpDateValue = this.formatDateValue(this.benRegistrationForm.controls.lmpDate.value);
+      eddDateValue = this.formatDateValue(this.benRegistrationForm.controls.edd.value);
     }
     else {
-      dobDateValue =  moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ');
+      dobDateValue =  this.formatDateValue(this.benRegistrationForm.controls.dob.value);
     }
     const demographicReq = {
         //  "stateID" :this.benRegistrationForm.controls.stateID.value,
@@ -545,9 +540,10 @@ else{
         this.associateAnmMoService.selectedBenDetails.phcName = this.benRegistrationForm.controls.phcName.value,
         this.associateAnmMoService.selectedBenDetails.blockName = this.benRegistrationForm.controls.healthBlock.value,
         this.associateAnmMoService.selectedBenDetails.address = this.benRegistrationForm.controls.address.value,
-        this.associateAnmMoService.selectedBenDetails.dob =moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ'),
-        this.associateAnmMoService.selectedBenDetails.lmpDate =moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ'),
-        this.associateAnmMoService.selectedBenDetails.edd =moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ'),
+        this.associateAnmMoService.selectedBenDetails.dob = this.formatDateValue(this.benRegistrationForm.controls.dob.value),
+        this.associateAnmMoService.selectedBenDetails.lmpDate = this.formatDateValue(this.benRegistrationForm.controls.lmpDate.value),
+        this.associateAnmMoService.selectedBenDetails.edd = this.formatDateValue(this.benRegistrationForm.controls.edd.value),
+    
         this.associateAnmMoService.selectedBenDetails.age = this.benRegistrationForm.controls.age.value,
 
         this.confirmationService.openDialog(this.currentLanguageSet.beneficiaryRegisteredSuccessfully + " " + benId, `success`);
@@ -599,11 +595,11 @@ else{
       let eddDateValue=null;
       let dobDateValue=null;
     if(this.enableMotherRecord) {
-    lmpDateValue =  moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ');
-  eddDateValue =  moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ');
+      lmpDateValue = this.formatDateValue(this.benRegistrationForm.controls.lmpDate.value);
+      eddDateValue = this.formatDateValue(this.benRegistrationForm.controls.edd.value);
     }
     else {
-      dobDateValue =  moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ');
+      dobDateValue =  this.formatDateValue(this.benRegistrationForm.controls.dob.value);
     }
 
       let benRegId = null;
@@ -708,10 +704,10 @@ console.log(reqObj);
         this.associateAnmMoService.selectedBenDetails.phcName = this.benRegistrationForm.controls.phcName.value,
         this.associateAnmMoService.selectedBenDetails.blockName = this.benRegistrationForm.controls.healthBlock.value,
         this.associateAnmMoService.selectedBenDetails.address = this.benRegistrationForm.controls.address.value,
-        this.associateAnmMoService.selectedBenDetails.lmpDate =moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ'),
-        this.associateAnmMoService.selectedBenDetails.dob =moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ'),
         this.associateAnmMoService.selectedBenDetails.age = this.benRegistrationForm.controls.age.value,
-        this.associateAnmMoService.selectedBenDetails.edd =moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ'),
+        this.associateAnmMoService.selectedBenDetails.lmpDate = this.formatDateValue(this.benRegistrationForm.controls.lmpDate.value),
+        this.associateAnmMoService.selectedBenDetails.dob =  this.formatDateValue(this.benRegistrationForm.controls.dob.value),
+        this.associateAnmMoService.selectedBenDetails.edd = this.formatDateValue(this.benRegistrationForm.controls.edd.value),
         this.confirmationService.openDialog(response.response, `success`);
      this.associateAnmMoService.setOpenComp("ECD Questionnaire");
      this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
@@ -777,5 +773,14 @@ console.log(reqObj);
     }
     
   }
+
+
+
+  formatDateValue(value: any) {
+
+    const dateObj = new Date(value);
+    const finalDate = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, "0")}-${String(dateObj.getDate()).padStart(2, "0")}T00:00:00+05:30`;
+    return finalDate;
+ }
   
 }
