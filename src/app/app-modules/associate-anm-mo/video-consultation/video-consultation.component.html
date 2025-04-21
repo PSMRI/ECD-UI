@@ -1,11 +1,9 @@
-<div *ngIf="data?.videoCallPrompt" role="dialog" aria-labelledby="videoConsultationTitle" aria-modal="true"> 
-
-  <!-- <div class="modal-content"> -->
-    <mat-card class="mainCard">
-      <button
+<div *ngIf="videoService.videoCallPrompt" role="dialog" aria-labelledby="videoConsultationTitle" aria-modal="true">
+  <mat-card class="mainCard">
+    <button
       mat-icon-button
       class="close-button"
-      (click)="dialogRef?.close()"
+      (click)="endConsultation()"
       aria-label="Close">
       <mat-icon>close</mat-icon>
     </button>
@@ -25,79 +23,81 @@
       </button>
     </div>
 
-    <div *ngIf="videoConsultationAvailable" style="margin-top: 10px;">
-      <p> Note: We are continuing the video consultation on agreeing by Beneficiary.</p>
+    <div *ngIf="videoService.videoConsultationAvailable" style="margin-top: 10px;">
+      <p>Note: We are continuing the video consultation on agreeing by Beneficiary.</p>
       <h2 class="title">Video Consultation</h2>
 
-      <button (click)="sendOrResendLink()" [disabled]="linkSent" class="btn btn-primary btn-lg">
+      <button (click)="sendOrResendLink()" [disabled]="videoService.linkSent" class="btn btn-primary btn-lg">
         Send Video Consultation Link
       </button>
 
       <!-- Troubleshooting Steps -->
-      <div *ngIf="receiptConfirmation === 'Not Received'" class="troubleshooting link-status">
+      <div *ngIf="videoService.receiptConfirmation === 'Not Received'" class="troubleshooting link-status">
         <p class="troubleshoot-message">Troubleshooting Steps:</p>
         <ul>
           <li>Verify the beneficiary’s phone number and email.</li>
           <li>Resend the link if needed.</li>
         </ul>
-        <button *ngIf="receiptConfirmation === 'Not Received'" (click)="sendOrResendLink()" class="btn btn-warning btn-lg">
+        <button (click)="sendOrResendLink()" class="btn btn-warning btn-lg">
           Resend Link
         </button>
-
       </div>
 
-
       <h2 class="link-status">Link Sent Status:
-        <span [ngClass]="{ 'sent': linkStatus !== 'NOT Sent', 'not-sent': linkStatus === 'NOT Sent' }" aria-live="polite">
-          {{ linkStatus }}
+        <span
+          [ngClass]="{ 'sent': videoService.linkStatus !== 'NOT Sent', 'not-sent': videoService.linkStatus === 'NOT Sent' }"
+          aria-live="polite">
+          {{ videoService.linkStatus }}
         </span>
-
       </h2>
 
-      <div class="form-group receipt-container" *ngIf="linkStatus === 'Sent Successfully'">
+      <div class="form-group receipt-container" *ngIf="videoService.linkStatus === 'Sent Successfully'">
         <h2 class="link-status">Beneficiary Link Receipt Confirmation:</h2>
-        <select [(ngModel)]="receiptConfirmation" class="form-control" (change)="updateReceiptConfirmation($event)">
+        <select [(ngModel)]="videoService.receiptConfirmation" class="form-control" (change)="updateReceiptConfirmation($event)">
           <option value="">Select</option>
           <option value="Received">Received</option>
           <option value="Not Received">Not Received</option>
         </select>
       </div>
 
-      <button (click)="startConsultation()" [disabled]="receiptConfirmation !== 'Received'"
+      <button
+        (click)="startConsultation()"
+        [disabled]="videoService.receiptConfirmation !== 'Received'"
         class="btn btn-success btn-lg mt-3">
         Start Video Consultation
       </button>
-     
-      <div *ngIf="isMeetAvailable" class="jitsi-wrapper">
-        <div id="jitsi-container"></div>
-      
-        <button *ngIf="callStatus === 'Ongoing'"
+
+      <!-- <div class="jitsi-wrapper" *ngIf="videoService.isMeetAvailable"> -->
+        <!-- <div id="jitsi-container"></div> -->
+        <!-- <div #jitsiContainer id="jitsi-container"></div> -->
+        
+
+
+        <button *ngIf="videoService.callStatus === 'Ongoing'"
                 (click)="endConsultation()"
                 class="btn btn-danger btn-lg mt-3 end-call-button">
           End Video Consultation
         </button>
-      </div>
+      <!-- </div> -->
 
-      <!-- Consultation Status -->
+      <!-- Consultxation Status -->
       <h2>
         <strong>Consultation Status:</strong>
-        <span [ngClass]="{
-      'not-initiated': callStatus === 'Not Initiated',
-      'ongoing': callStatus === 'Ongoing',
-      'completed': callStatus === 'Completed'
-        }">
-          {{ callStatus }}
+        <span
+          [ngClass]="{
+            'not-initiated': videoService.callStatus === 'Not Initiated',
+            'ongoing': videoService.callStatus === 'Ongoing',
+            'completed': videoService.callStatus === 'Completed'
+          }">
+          {{ videoService.callStatus }}
         </span>
       </h2>
 
-
-
       <!-- Alternative Consultation Message -->
-      <div *ngIf="!videoConsultationAvailable" class="alternative-message">
+      <div *ngIf="!videoService.videoConsultationAvailable" class="alternative-message">
         <p>Video consultation is not possible. Proceed with the ECD questionnaire workflow.</p>
         <button class="btn btn-primary">Continue with Alternative Consultation</button>
       </div>
     </div>
-  <!-- </div> -->
-   </mat-card>
+  </mat-card>
 </div>
