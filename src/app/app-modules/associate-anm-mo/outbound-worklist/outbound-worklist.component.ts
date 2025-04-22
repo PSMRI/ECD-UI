@@ -364,8 +364,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
               this.sessionstorage.setItem('agentIp', response.data.agent_ip);
 
               this.ctiService
-                // .callBeneficiaryManual(this.loginService.agentId, phNo)
-                .callBeneficiaryManual(this.loginService.agentId, 8147115862)
+                .callBeneficiaryManual(this.loginService.agentId, phNo)
                 .subscribe(
                   (response: any) => {
 
@@ -393,8 +392,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
       }
       else {
         this.ctiService
-          // .callBeneficiaryManual(this.loginService.agentId, phNo)
-          .callBeneficiaryManual(this.loginService.agentId, 8147115862)
+          .callBeneficiaryManual(this.loginService.agentId, phNo)
           .subscribe(
             (response: any) => {
 

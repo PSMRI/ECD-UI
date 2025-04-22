@@ -755,11 +755,11 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
         if (response) {
           this.videoService.setVideoCallData(
             true, // or your dynamic video call status
-            '8147115862',
-            'https://meet.jit.si/myroom',
-            '2002',
-            'AnikaECD'
-          );
+            this.benRegistrationForm.controls.phoneNo.value,
+            this.videoService.meetLink,
+            this.loginService.agentId,
+            sessionStorage.getItem('userName'))
+           
           this.associateAnmMoService.setOpenComp("ECD Questionnaire");
           this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
         }
@@ -801,11 +801,12 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
   performAction(event :Event) {
     
     this.videoService.videoCallPrompt = true;
-    this.videoService.setVideoCallData(true, '8147115862', '', '2002', 'AnikaECD');
-    // this.isVideoCallActive = this.associateAnmMoService.getIsVideoCallActive();
-    this.callerPhoneNumber = "8147115862";
-    this.agentID = "2002";
-    this.agentName = sessionStorage.getItem('userName') || 'Default Name';
+    this.videoService.setVideoCallData(
+      true, // or your dynamic video call status
+      this.benRegistrationForm.controls.phoneNo.value,
+      this.videoService.meetLink,
+      this.loginService.agentId,
+      sessionStorage.getItem('userName'))
   }
 
 }
