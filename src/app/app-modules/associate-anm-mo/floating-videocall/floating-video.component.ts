@@ -37,8 +37,7 @@ import { VideoConsultationService } from '../video-consultation/videoService';
     }
 
     initializeJitsi(): void {
-        console.error('Initializing Jitsi in:', this.jitsiContainerRef?.nativeElement);
-    
+  
         if (!this.jitsiContainerRef?.nativeElement) {
           console.error('Jitsi container not available');
           return;
@@ -47,6 +46,7 @@ import { VideoConsultationService } from '../video-consultation/videoService';
         this.videoService.apiInitialized = true; // Add this flag to prevent double init
       
         const domain = 'meet.jit.si';
+        try {
         const options = {
           roomName: this.videoService.meetLink.split('/').pop(),
           parentNode: this.jitsiContainerRef.nativeElement,
@@ -69,6 +69,10 @@ import { VideoConsultationService } from '../video-consultation/videoService';
       
         const api = new JitsiMeetExternalAPI(domain, options);
         api.addListener('readyToClose', () => this.close());
+      } catch (error) {
+            console.error('Failed to initialize Jitsi:', error);
+            this.videoService.apiInitialized = false;
+          }
       }
   
     close(): void {
@@ -110,5 +114,16 @@ import { VideoConsultationService } from '../video-consultation/videoService';
       document.removeEventListener('mousemove', this.onDrag);
       document.removeEventListener('mouseup', this.endDrag);
     };
+
+    ngOnDestroy(): void {
+        // Clean up any remaining event listeners
+      document.removeEventListener('mousemove', this.onDrag);
+      document.removeEventListener('mouseup', this.endDrag);
+      
+      // Reset the video service if needed
+      if (this.videoService.showFloatingVideo) {
+        this.videoService.resetVideoCall();
+      }
+     }
   }
   

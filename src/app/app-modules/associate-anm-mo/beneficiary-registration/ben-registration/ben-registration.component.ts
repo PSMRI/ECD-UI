@@ -82,7 +82,6 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
   // ];
   enableUpdateButton = false;
   minimumDate: any;
-  // showPrompt = false;
   isVideoCallActive = false;
   callerPhoneNumber: any;
   agentID: any;

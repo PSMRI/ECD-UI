@@ -37,12 +37,7 @@ interface VideocallStatusUpdate {
 export class VideoConsultationComponent {
   @ViewChild('jitsiContainer', { static: false }) jitsiContainerRef!: ElementRef;
 
-  @Input() callerPhoneNumber!: string;
-  @Input() agentID!: string;
-  @Input() agentName!: string;
-  @Input() videoCallPrompt: boolean = false;
-
-  @Output() close = new EventEmitter<void>();
+  @Output() consultationClosed = new EventEmitter<void>();
 
 
   constructor(
@@ -62,7 +57,7 @@ export class VideoConsultationComponent {
         this.videoService.meetLink = response.meetingLink;
         this.videoService.linkStatus = 'Sent Successfully';
 
-        this.send_sms(this.videoService.meetLink, this.callerPhoneNumber);
+        this.send_sms(this.videoService.meetLink, this.videoService.callerPhoneNumber);
       },
       error: () => {
         this.videoService.linkStatus = 'Failed to send';
@@ -117,7 +112,7 @@ export class VideoConsultationComponent {
     });
 
     this.videoService.reset();
-    this.close.emit();
+    this.consultationClosed.emit();
   }
 
   updateReceiptConfirmation(event: Event): void {
@@ -141,7 +136,7 @@ export class VideoConsultationComponent {
       // map((res: any) => res?.data?.find((t: any) => t.smsType === 'Video Consultation')?.smsTypeID),
       switchMap((smsTypeID: string | null) => {
         if (!smsTypeID) throw new Error('Video Consultation type not found');
-        return this.sms_service.getSMStemplates(1714, smsTypeID).pipe(
+        return this.sms_service.getSMStemplates(currentServiceID, smsTypeID).pipe(
           map((res: any) => ({
             smsTemplateID: res?.data?.find((tpl: any) => !tpl.deleted)?.smsTemplateID,
             smsTemplateTypeID: smsTypeID
@@ -184,9 +179,9 @@ export class VideoConsultationComponent {
   saveVideoCallRequest(link: string, status: string): void {
     const request: VideoCallRequest = {
       dateOfCall: new Date().toISOString(),
-      callerPhoneNumber: this.callerPhoneNumber,
-      agentID: this.agentID,
-      agentName: this.agentName,
+      callerPhoneNumber: this.videoService.callerPhoneNumber,
+      agentID: this.videoService.agentID,
+      agentName: this.videoService.agentName,
       meetingLink: link,
       callStatus: status,
       callDuration: '0',

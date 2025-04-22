@@ -1,17 +1,22 @@
 import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+
 
 @Injectable({ providedIn: 'root' })
 
 export class VideoConsultationService {
 
+private videoStateChange = new BehaviorSubject<{[key: string]: any}>({});
+videoStateChange$ = this.videoStateChange.asObservable();
+
   videoCallPrompt = false;
   videoConsultationAvailable = false;
   linkSent = false;
   linkStatus = 'Sent Successfully';
-  receiptConfirmation: string = '';
+  receiptConfirmation = '';
   callStatus: 'Not Initiated' | 'Ongoing' | 'Completed' = 'Not Initiated';
   isMeetAvailable = false;
-  meetLink = "https://meet.jit.si/oIYoMJbO";
+  meetLink = "";
   SMSStatus = '';
   apiInitialized = false;
   showFloatingVideo = false;
@@ -24,7 +29,6 @@ export class VideoConsultationService {
 
   // Add methods if needed to update status or reset
   reset() {
-    console.error("Resetting video consultation service");
     this.videoCallPrompt = false;
     this.videoConsultationAvailable = false;
     this.linkSent = false;
@@ -35,9 +39,18 @@ export class VideoConsultationService {
     this.meetLink = '';
     this.SMSStatus = '';
     this.isVideoCallActive = false; 
-  }
+    // Notify subscribers of the reset
 
-  resetVideoCall() {
+  this.videoStateChange.next({
+    action: 'reset',
+    isVideoCallActive: false
+  });
+}
+
+
+
+
+resetVideoCall() {
     this.showFloatingVideo = false;
     this.apiInitialized = false;
   }
@@ -53,12 +66,25 @@ export class VideoConsultationService {
     this.apiInitialized = false;
   }
 
-  setVideoCallData(isVideoCallActive: boolean, phoneNumber:any, meetLink: any, agentID: any, name: any) {
+  setVideoCallData(isVideoCallActive: boolean, phoneNumber: any, meetLink: any, agentID: any, name: any) {
+    if (phoneNumber === undefined || phoneNumber === null || phoneNumber === '') {
+      console.warn('Invalid phone number provided to setVideoCallData');
+      return;
+    }
+    if (meetLink === undefined || meetLink === null || meetLink === '') {
+      console.warn('Invalid meetLink provided to setVideoCallData');
+      return;
+    }
     this.isVideoCallActive = isVideoCallActive;
     this.callerPhoneNumber = phoneNumber;
     this.meetLink = meetLink;
     this.agentID = agentID;
     this.agentName = name;
+
+    this.videoStateChange.next({
+      action: 'setVideoCallData',
+      isVideoCallActive
+    });
   }
 
   // Getters
