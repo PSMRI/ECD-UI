@@ -260,7 +260,7 @@ export class AssociateAnmMoService {
     return this.http.post(environment.generateVideoLinkURL, {});
   }
 
-  sendLink(reqObj: any) {
+  saveVideoCall(reqObj: any) {
     return this.http.post(environment.sendSMSAPI, reqObj);
   }
 
