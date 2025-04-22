@@ -468,11 +468,13 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
     let eddDateValue = null;
     let dobDateValue = null;
     if (this.enableMotherRecord) {
-      lmpDateValue = moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ');
-      eddDateValue = moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ');
+      
+      lmpDateValue = this.formatDateValue(this.benRegistrationForm.controls.lmpDate.value);
+      eddDateValue = this.formatDateValue(this.benRegistrationForm.controls.edd.value);
     }
     else {
-      dobDateValue = moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ');
+      dobDateValue =  this.formatDateValue(this.benRegistrationForm.controls.dob.value);
+
     }
     const demographicReq = {
       //  "stateID" :this.benRegistrationForm.controls.stateID.value,
@@ -557,9 +559,9 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
             this.associateAnmMoService.selectedBenDetails.phcName = this.benRegistrationForm.controls.phcName.value,
             this.associateAnmMoService.selectedBenDetails.blockName = this.benRegistrationForm.controls.healthBlock.value,
             this.associateAnmMoService.selectedBenDetails.address = this.benRegistrationForm.controls.address.value,
-            this.associateAnmMoService.selectedBenDetails.dob = moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ'),
-            this.associateAnmMoService.selectedBenDetails.lmpDate = moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ'),
-            this.associateAnmMoService.selectedBenDetails.edd = moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ'),
+            this.associateAnmMoService.selectedBenDetails.dob = this.formatDateValue(this.benRegistrationForm.controls.dob.value),
+            this.associateAnmMoService.selectedBenDetails.lmpDate = this.formatDateValue(this.benRegistrationForm.controls.lmpDate.value),
+            this.associateAnmMoService.selectedBenDetails.edd = this.formatDateValue(this.benRegistrationForm.controls.edd.value),
             this.associateAnmMoService.selectedBenDetails.age = this.benRegistrationForm.controls.age.value,
 
             this.confirmationService.openDialog(this.currentLanguageSet.beneficiaryRegisteredSuccessfully + " " + benId, `success`);
@@ -611,11 +613,11 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
     let eddDateValue = null;
     let dobDateValue = null;
     if (this.enableMotherRecord) {
-      lmpDateValue = moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ');
-      eddDateValue = moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ');
+      lmpDateValue = this.formatDateValue(this.benRegistrationForm.controls.lmpDate.value);
+      eddDateValue = this.formatDateValue(this.benRegistrationForm.controls.edd.value);
     }
     else {
-      dobDateValue = moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ');
+      dobDateValue =  this.formatDateValue(this.benRegistrationForm.controls.dob.value);
     }
 
     let benRegId = null;
@@ -720,11 +722,10 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
             this.associateAnmMoService.selectedBenDetails.phcName = this.benRegistrationForm.controls.phcName.value,
             this.associateAnmMoService.selectedBenDetails.blockName = this.benRegistrationForm.controls.healthBlock.value,
             this.associateAnmMoService.selectedBenDetails.address = this.benRegistrationForm.controls.address.value,
-            this.associateAnmMoService.selectedBenDetails.lmpDate = moment(this.benRegistrationForm.controls.lmpDate.value).format('YYYY-MM-DDThh:mm:ssZ'),
-            this.associateAnmMoService.selectedBenDetails.dob = moment(this.benRegistrationForm.controls.dob.value).format('YYYY-MM-DDThh:mm:ssZ'),
             this.associateAnmMoService.selectedBenDetails.age = this.benRegistrationForm.controls.age.value,
-            this.associateAnmMoService.selectedBenDetails.edd = moment(this.benRegistrationForm.controls.edd.value).format('YYYY-MM-DDThh:mm:ssZ'),
-            this.confirmationService.openDialog(response.response, `success`);
+            this.associateAnmMoService.selectedBenDetails.lmpDate = this.formatDateValue(this.benRegistrationForm.controls.lmpDate.value),
+            this.associateAnmMoService.selectedBenDetails.dob =  this.formatDateValue(this.benRegistrationForm.controls.dob.value),
+            this.associateAnmMoService.selectedBenDetails.edd = this.formatDateValue(this.benRegistrationForm.controls.edd.value),            this.confirmationService.openDialog(response.response, `success`);
           this.associateAnmMoService.setOpenComp("ECD Questionnaire");
           this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
 
@@ -807,5 +808,13 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
       this.loginService.agentId,
       sessionStorage.getItem('userName'))
   }
+
+  formatDateValue(value: any) {
+
+    const dateObj = new Date(value);
+    const finalDate = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, "0")}-${String(dateObj.getDate()).padStart(2, "0")}T00:00:00+05:30`;
+    return finalDate;
+
+ }
 
 }

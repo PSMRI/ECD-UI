@@ -21,9 +21,9 @@
 */
 
 
-const ecdIP = 'http://amritwprdev.piramalswasthya.org:8080/';
-const commonIP = 'http://amritwprdev.piramalswasthya.org:8080/';
-const adminIP = 'http://amritwprdev.piramalswasthya.org:8080/';
+const ecdIP = 'https://amritwprdev.piramalswasthya.org/';
+const commonIP = 'https://amritwprdev.piramalswasthya.org/';
+const adminIP = 'https://amritwprdev.piramalswasthya.org/';
 const COMMON_API = `${commonIP}commonapi-ecd/`;
 const ADMIN_API = `${adminIP}adminapi-v1.0/`;
 const ECD_API = `${ecdIP}ecdapi-v1.0/`;
@@ -187,7 +187,7 @@ export const environment = {
   getBeneficiaryCallHistoryUrl:`${ECD_API}callHistory/getBeneficiaryCallHistory`,
   getCallHistoryDetailsUrl:`${ECD_API}callHistory/getBeneficiaryCallDetails`,
   /**CTI Urls */
-  ctiUrl: `http://192.168.45.55/`,
+  ctiUrl: `https://uatcz.piramalswasthya.org/`,
   ctiEventUrl: `bar/cti_handler.php?e=`,
   getLoginKeyUrl:`${COMMON_API}cti/getLoginKey`,
   getAgentsDataUrl: `${ECD_API}master/getAgentsByRoleId`,

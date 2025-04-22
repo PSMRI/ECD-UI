@@ -80,6 +80,8 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
   benData: any;
   disableFields: any = true;
   formattedDOB = '';
+  formattedLMP = '';
+  formattedEDD = '';
 
   constructor(
     private setLanguageService: SetLanguageService,
@@ -158,8 +160,7 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
             this.childId = this.benData.mctsidNoChildId;
             this.beneficiaryChildDataForm.patchValue(this.benData);
 
-            const dobDate = new Date(this.benData.dob);
-            this.formattedDOB = dobDate.toISOString().split('T')[0];
+            this.formattedDOB = new Date(this.benData.dob).toLocaleDateString('en-CA');
             this.beneficiaryChildDataForm.patchValue({
               childId: this.benData.mctsidNoChildId,
               dob: this.formattedDOB
@@ -171,6 +172,14 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
             this.beneficiaryMotherDataForm.patchValue({
               motherName: (this.benData.motherName !== null && this.benData.motherName !== undefined && this.benData.motherName !== "") ? this.benData.motherName : this.benData.name,
               motherId: this.benData.mctsidNo
+            });
+            this.formattedLMP = new Date(this.benData.lmpDate).toLocaleDateString('en-CA');
+            this.beneficiaryMotherDataForm.patchValue({
+              lmpDate: this.formattedLMP
+            });
+            this.formattedEDD = new Date(this.benData.edd).toLocaleDateString('en-CA');
+            this.beneficiaryMotherDataForm.patchValue({
+              edd: this.formattedEDD
             });
             this.enableChildForm = false;
           }
