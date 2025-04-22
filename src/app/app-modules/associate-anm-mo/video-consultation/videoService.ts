@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
 
 @Injectable({ providedIn: 'root' })
+
 export class VideoConsultationService {
+
   videoCallPrompt = false;
   videoConsultationAvailable = false;
   linkSent = false;
@@ -17,6 +19,8 @@ export class VideoConsultationService {
   callerPhoneNumber= '';
   agentID= '';
   agentName= '';
+  callStartTime: Date | null = null;
+  callEndTime: Date | null = null;
 
   // Add methods if needed to update status or reset
   reset() {
@@ -30,10 +34,12 @@ export class VideoConsultationService {
     this.isMeetAvailable = false;
     this.meetLink = '';
     this.SMSStatus = '';
+    this.isVideoCallActive = false; 
+  }
+
+  resetVideoCall() {
     this.showFloatingVideo = false;
     this.apiInitialized = false;
-    this.isVideoCallActive = false; 
-
   }
 
   reinitializeJitsi() {

@@ -9,9 +9,6 @@ import { SmsTemplateService } from '../../services/smsTemplate/sms-template.serv
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { map, switchMap } from 'rxjs/operators';
 import { VideoConsultationService } from './videoService';
-import { VideoConsultationServices } from '../../services/associate-anm-mo/video-consultation';
-
-declare var JitsiMeetExternalAPI: any;
 
 interface VideoCallRequest {
   dateOfCall: string;
@@ -47,10 +44,6 @@ export class VideoConsultationComponent {
 
   @Output() close = new EventEmitter<void>();
 
-  // meetLink = '';
-  callStartTime: Date | null = null;
-  callEndTime: Date | null = null;
-  SMSStatus = '';
 
   constructor(
     private associateAnmMoService: AssociateAnmMoService,
@@ -62,7 +55,7 @@ export class VideoConsultationComponent {
   ) { }
 
 
- sendOrResendLink(): void {
+  sendOrResendLink(): void {
     this.associateAnmMoService.generateLink().subscribe({
       next: (response: any) => {
         this.videoService.linkSent = true;
@@ -72,21 +65,23 @@ export class VideoConsultationComponent {
         this.send_sms(this.videoService.meetLink, this.callerPhoneNumber);
       },
       error: () => {
-        // this.videoService.linkStatus = 'Failed to send';
-        this.videoService.linkStatus = 'Sent Successfully';
+        this.videoService.linkStatus = 'Failed to send';
+        // this.videoService.linkStatus = 'Sent Successfully';
+        // this.send_sms('https://meet.jit.si/oIYoMJbO', '8147115862');
 
       }
     });
   }
 
   startConsultation(): void {
-    this.callStartTime = new Date();
+    this.videoService.callStartTime = new Date();
     this.videoService.callStatus = 'Ongoing';
     this.videoService.isMeetAvailable = true;
 
     //test
-    const meetLink = 'https://meet.jit.si/oIYoMJbO'; // or generate dynamically
-    this.videoService.startFloatingCall(meetLink);
+    // const meetLink = 'https://meet.jit.si/oIYoMJbO'; // or generate dynamically
+    // this.videoService.startFloatingCall(meetLink);
+    this.videoService.startFloatingCall(this.videoService.meetLink);
     this.videoService.showFloatingVideo = true;
 
     this.snackBar.open('Call has started', 'Close', {
@@ -99,11 +94,12 @@ export class VideoConsultationComponent {
   }
 
   endConsultation(): void {
-    this.callEndTime = new Date();
+    this.videoService.callEndTime = new Date();
     this.videoService.callStatus = 'Completed';
     this.videoService.setVideoCallData(
       false, '', '', '', '')
     const callDuration = this.calculateCallDuration();
+
     const updateRequest: VideocallStatusUpdate = {
       meetingLink: this.videoService.meetLink,
       callStatus: 'COMPLETED',
@@ -141,7 +137,8 @@ export class VideoConsultationComponent {
     const currentServiceID = this.loginService.currentServiceId;
 
     this.sms_service.getSMStypes(currentServiceID).pipe(
-      map((res: any) => res?.data?.find((t: any) => t.smsType === 'Video Consultation')?.smsTypeID),
+      map((res: any) => res?.data?.find((t: any) => t.smsType === 'Call Closure')?.smsTypeID),
+      // map((res: any) => res?.data?.find((t: any) => t.smsType === 'Video Consultation')?.smsTypeID),
       switchMap((smsTypeID: string | null) => {
         if (!smsTypeID) throw new Error('Video Consultation type not found');
         return this.sms_service.getSMStemplates(1714, smsTypeID).pipe(
@@ -197,15 +194,15 @@ export class VideoConsultationComponent {
       closureRemark: ''
     };
 
-    this.associateAnmMoService.sendLink(request).subscribe({
+    this.associateAnmMoService.saveVideoCall(request).subscribe({
       next: () => this.videoService.SMSStatus = 'SMS Sent Successfully',
       error: () => this.videoService.SMSStatus = 'Failed to send SMS'
     });
   }
 
   calculateCallDuration(): string {
-    if (!this.callStartTime || !this.callEndTime) return '0';
-    const totalSeconds = Math.floor((this.callEndTime.getTime() - this.callStartTime.getTime()) / 1000);
+    if (!this.videoService.callStartTime || !this.videoService.callEndTime) return '0';
+    const totalSeconds = Math.floor((this.videoService.callEndTime.getTime() - this.videoService.callStartTime.getTime()) / 1000);
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
     return `${minutes}m ${seconds}s`;
