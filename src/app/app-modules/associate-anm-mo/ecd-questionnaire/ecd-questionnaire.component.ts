@@ -36,7 +36,6 @@ import { CallClosureComponent } from '../call-closure/call-closure.component';
 import { HighRiskReasonsComponent } from '../high-risk-reasons/high-risk-reasons.component';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { VideoConsultationService } from '../video-consultation/videoService';
-import { VideoConsultationServices } from '../../services/associate-anm-mo/video-consultation';
 
 
 @Component({
