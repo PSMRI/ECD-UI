@@ -1,8 +1,8 @@
-/* 
-* AMRIT – Accessible Medical Records via Integrated Technology 
-* Integrated EHR (Electronic Health Records) Solution 
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
 *
-* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
 *
 * This file is part of AMRIT.
 *
@@ -21,519 +21,561 @@
 */
 
 
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { endOfMonth, startOfMonth } from 'date-fns';
-import addMonths from 'date-fns/addMonths';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { QualityAuditorService } from 'src/app/app-modules/services/quality-auditor/quality-auditor.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { CallRatingComponent } from '../../call-rating/call-rating.component';
 import { ViewCasesheetComponent } from '../../view-casesheet/view-casesheet.component';
-import * as moment from 'moment';
-import { tr } from 'date-fns/locale';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
-import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
+import { Subject, takeUntil } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-call-audit',
   templateUrl: './call-audit.component.html',
   styleUrls: ['./call-audit.component.css']
 })
-export class CallAuditComponent implements OnInit {
-  
-  @Input()
-  public data: any;
+export class CallAuditComponent implements OnInit, OnDestroy {
+  // Subject to unsubscribe from all observables when component is destroyed
+  private destroy$ = new Subject<void>();
 
+  // ViewChild references
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  // Form groups
+  callAuditForm: FormGroup;
+  cycleWiseForm: FormGroup;
+  dateWiseForm: FormGroup;
+
+  // Data properties
+  callAuditData = new MatTableDataSource<any>([]);
+  displayedColumns: string[] = [
+    'sno', 'phoneNo', 'callId', 'callTypeID', 'createdDate',
+    'assignedUserID', 'agentData', 'view', 'rate'
+  ];
+
+  // Selection properties
   currentLanguageSet: any;
-  selectedRoute: any;
-  roles: any = [];
-  choice = ["Cycle Wise ", "Date Wise"];
- option : any;
- selectedRadioButtonChange = false;
- dateWiseChangeForm = false;
- iscycleWiseChangeForm = true;
-  languages: any = [];
-
-  agents: any[] = [];
-
-  // callAuditData: any = [];
-  displayedColumns: string[] = ['sNo', 'beneficiaryId', 'beneficiaryName', 'phoneNumber', 'agentName', 'callType' ,'casesheet','action'];
-  searchTerm: any;
-
-  callAuditData = new MatTableDataSource();
-  @ViewChild(MatSort, { static: false })sort!: MatSort; 
-  @ViewChild(MatPaginator, {static: false}) paginator!: MatPaginator;
-  callData: any=[];
+  data: any;
   years: any = [];
   months: any = [];
+  cycles: any = [];
+  roles: any = [];
+  agents: any = [];
+  languages: any = [];
+
+  // State properties
+  iscycleWiseChangeForm = true;
+  showQualityAuditWorklist = false;
+  showAgentId = false;
   currentDate = new Date();
   currentYear = this.currentDate.getFullYear();
   currentMonth = this.currentDate.getMonth() + 1;
-  cycles: any = [];
-  phoneNo: any;
-  date = new Date();
- 
-  showQualityAuditWorklist = false;
- range  = new FormGroup({
-    start: new FormControl('', [Validators.required]),
-    end: new FormControl('', [Validators.required])
-  });
-  showAgentId = false;
-  
-  selectedFormValue: any = [];
-  selectedDateFormValue: any = [];
-  today = new Date();
-  lastPageIndex:any;
-  lastLength:any;
-  lastPageSize:any;
+  invalidTimeFlag = false;
+
+  // Paginator state
+  lastPageIndex: any;
+  lastLength: any;
+  lastPageSize: any;
 
   constructor(
     private fb: FormBuilder,
-    private setLanguageService: SetLanguageService,
-    private qualityAuditorService: QualityAuditorService,
     private masterService: MasterService,
+    private qualityAuditorService: QualityAuditorService,
+    private setLanguageService: SetLanguageService,
+    private sessionstorage: SessionStorageService,
     private confirmationService: ConfirmationService,
-    private changeDetectorRefs: ChangeDetectorRef,
-    readonly sessionstorage:SessionStorageService,
-    public dialog: MatDialog
-  ) { }
-
-  callAuditForm = this.fb.group({
-    selectedRadioButton: new FormControl('', [Validators.required]),
-  });
-  dateWiseForm = this.fb.group({
-    role: ['', Validators.required],
-    roleId: [''],
-    language: ['', Validators.required],
-    agentId: ['', Validators.required],
-    isValid: ['', Validators.required],
-    startTime:[''],
-    endTime:[''],
-    phoneNo: new FormControl(''),
-    start: new FormControl('', [Validators.required]),
-    end: new FormControl('', [Validators.required])
-  });
-  cycleWiseForm = this.fb.group({
-    role: ['', Validators.required],
-    roleId: [''],
-    language: ['', Validators.required],
-    agentId: ['', Validators.required],
-    isValid: ['', Validators.required],
-    month: ['', Validators.required],
-    year: ['', Validators.required],
-    cycle: ['', Validators.required]
-  });
-  ngOnInit(): void {
-   if(this.data){
-    setTimeout(()=>this.callAuditData.paginator = this.data.data.paginator);
-    setTimeout(()=>this.callAuditData.sort = this.data.sort);
-    this.lastLength = this.data.data.paginator.length;
-    this.lastPageIndex = this.data.data.paginator.pageIndex;
-    this.lastPageSize = this.data.data.paginator.pageSize;
-  }else{
-    this.callAuditData.paginator = this.paginator;
-    this.callAuditData.sort = this.sort;
+    private dialog: MatDialog,
+    private changeDetectorRefs: ChangeDetectorRef
+  ) {
+    this.initForms();
   }
+
+  ngOnInit(): void {
+    this.initializeComponent();
+    this.setupYears();
+    this.loadMasterData();
+    this.handlePersistedData();
+  }
+
+  /**
+   * Initialize form groups
+   */
+  private initForms(): void {
+    this.callAuditForm = this.fb.group({
+      selectedRadioButton: ['1']
+    });
+
+    this.cycleWiseForm = this.fb.group({
+      language: ['', Validators.required],
+      role: ['', Validators.required],
+      roleId: ['', Validators.required],
+      year: ['', Validators.required],
+      month: ['', Validators.required],
+      cycle: ['', Validators.required],
+      agentId: [''],
+      isValid: ['true']
+    });
+
+    this.dateWiseForm = this.fb.group({
+      language: ['', Validators.required],
+      role: ['', Validators.required],
+      roleId: ['', Validators.required],
+      start: ['', Validators.required],
+      end: ['', Validators.required],
+      agentId: [''],
+      isValid: ['true'],
+      phoneNo: ['']
+    });
+  }
+
+  /**
+   * Basic component initialization
+   */
+  private initializeComponent(): void {
     this.getSelectedLanguage();
-    this.getRoleMasters();
-    this.getCyclesMaster();
-    this.getLanguageMaster();
+
+    if (this.data) {
+      setTimeout(() => this.callAuditData.paginator = this.data.data.paginator);
+      setTimeout(() => this.callAuditData.sort = this.data.sort);
+      this.lastLength = this.data.data.paginator.length;
+      this.lastPageIndex = this.data.data.paginator.pageIndex;
+      this.lastPageSize = this.data.data.paginator.pageSize;
+    } else {
+      setTimeout(() => {
+        if (this.paginator) this.callAuditData.paginator = this.paginator;
+        if (this.sort) this.callAuditData.sort = this.sort;
+      });
+    }
+
+    // Set default radio button
+    this.callAuditForm.controls['selectedRadioButton'].setValue('1');
+    this.iscycleWiseChangeForm = false;
+  }
+
+  /**
+   * Set up available years (last 5 years up to current year)
+   */
+  private setupYears(): void {
     for (let i = this.currentYear - 5; i <= this.currentYear; i++) {
       this.years.push(i);
     }
-    this.callAuditForm.controls['selectedRadioButton'].setValue('1');
-    this.iscycleWiseChangeForm = true;
-    if(this.qualityAuditorService.showForm === false){
-    if (this.qualityAuditorService.callAuditData !== undefined && this.qualityAuditorService.callAuditData !== null && this.qualityAuditorService.isCycleWiseForm === true ){
-      this.callAuditForm.controls['selectedRadioButton'].setValue('1');
-      this.iscycleWiseChangeForm = true;
-    this.cycleWiseForm.patchValue(this.qualityAuditorService.callAuditData);
-     this.getMonths();
-     this.getAgentByRole();
-     this.getQualityAudiotorWorklist();
-    }else{
-      if(this.qualityAuditorService.callAuditData !== undefined && this.qualityAuditorService.callAuditData !== null){
-      this.callAuditForm.controls['selectedRadioButton'].setValue('2');
-      this.iscycleWiseChangeForm = false;
-      this.dateWiseForm.patchValue(this.qualityAuditorService.callAuditData);
-      this.getAgentByRole();
-      this.getDateWiseAudiotorWorklist();
-    }
-  }}
-  }
-  
-  getSelectedLanguage() {
-    if (
-      this.setLanguageService.languageData !== undefined &&
-      this.setLanguageService.languageData !== null
-    )
-      this.currentLanguageSet = this.setLanguageService.languageData;
   }
 
-  getMonths(){
-    const selectedYear = this.cycleWiseForm.controls.year.value ? parseInt(this.cycleWiseForm.controls.year.value.toString(),10) : 0;
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth() + 1;
-    if (selectedYear === currentYear) {
-      this.months = [];
-      for (let i = 1; i <= currentMonth; i++) {
-        const monthName = new Date(selectedYear, i - 1, 1).toLocaleString('default', { month: 'long' });
-        this.months.push({ month: monthName, id: i });
-      }
-      // const start = startOfMonth(this.currentDate);
-      // const end = endOfMonth(this.currentDate);
-      // let date = start;
-      // this.months = [];
-      // while (date <= end) {
-      //   this.months.push(date.toLocaleString('default', { month: 'long' }));
-      //   date = addMonths(date, 1);
-      // }
-    } else {
-      this.months = [];
-      for (let i = 1; i <= 12; i++) {
-        const monthName = new Date(2000, i - 1, 1).toLocaleString('default', { month: 'long' });
-        this.months.push({ month: monthName, id: i });
-      }
-    }
-  }
-  
-  getRoleMasters(){
-    const psmId = this.sessionstorage.getItem('providerServiceMapID');
-    this.masterService.getRoleMaster(psmId).subscribe((res: any) => {
-      if(res && res.length > 0){
-        res.filter((role: any) => {
-          if(role.roleName.toLowerCase() === "anm" || role.roleName.toLowerCase() === "mo" || role.roleName.toLowerCase() === "associate"){
-            this.roles.push(role)
-          }
-        })
-      }else {
-        this.confirmationService.openDialog(this.currentLanguageSet.noRolesFound, 'error');
-      }
-    },
-    (err: any) => {
-      this.confirmationService.openDialog(err.error, 'error');
-    }
-    );
+  /**
+   * Load all master data needed for the component
+   */
+  private loadMasterData(): void {
+    this.getRoleMasters();
+    this.getCyclesMaster();
+    this.getLanguageMaster();
   }
 
-  getCyclesMaster(){
-    const psmId = this.sessionstorage.getItem('providerServiceMapID');
-    this.masterService.getCyclesMaster(psmId).subscribe((res: any) => {
-      if(res && res.length > 0){
-        this.cycles = res;
-      }else {
-        this.confirmationService.openDialog(this.currentLanguageSet.noCyclesFound, 'error');
-      }
-    },
-    (err: any) => {
-      this.confirmationService.openDialog(err.error, 'error');
-    }
-    );
-  }
+  /**
+   * Handle any data that should be persisted from previous operations
+   */
+  private handlePersistedData(): void {
+    if (this.qualityAuditorService.showForm === false) {
+      if (this.qualityAuditorService.callAuditData !== undefined &&
+          this.qualityAuditorService.callAuditData !== null) {
 
-  getLanguageMaster(){
-    const userId = this.sessionstorage.getItem('userID');
-    this.masterService.getLanguageMasterByUserId(userId).subscribe((res: any) => {
-      if(res && res.length > 0){
-        this.languages = res;
-      }else {
-        this.confirmationService.openDialog(this.currentLanguageSet.noLanguagesFound, 'error');
-      }
-    },
-    (err: any) => {
-      this.confirmationService.openDialog(err.error, 'error');
-    }
-    );
-  }
-
-  getAgentByRole(){
-    if(this.callAuditForm.controls['selectedRadioButton'].value === '1'){
-    // if (this.qualityAuditorService.callAuditData === undefined &&  this.qualityAuditorService.callAuditData[0].selectedRadioButton === '1' ){
-    // this.cycleWiseForm.controls.agentId.reset();
-    // this.dateWiseForm.controls.agentId.reset();
-    // }
-    const roleId = this.cycleWiseForm.controls.roleId.value;
-    const role = this.cycleWiseForm.controls.role.value;
-    this.masterService.getAgentMasterByRoleId(roleId).subscribe((res: any) => {
-      if(res && res.length > 0){
-        this.agents = res;
-      }else {
-        this.confirmationService.openDialog(this.currentLanguageSet.noAgentsFoundFor + role + this.currentLanguageSet.role, 'error');
-      }
-    },
-    (err: any) => {
-      this.confirmationService.openDialog(err.error, 'error');
-    }
-    );
-  }else{
-    // if (this.qualityAuditorService.callAuditData === undefined && this.qualityAuditorService.callAuditData[0].selectedRadioButton === '2'){
-    //   this.cycleWiseForm.controls.agentId.reset();
-    //   this.dateWiseForm.controls.agentId.reset();
-    //   }
-      const roleId = this.dateWiseForm.controls.roleId.value;
-      const role = this.dateWiseForm.controls.role.value;
-      this.masterService.getAgentMasterByRoleId(roleId).subscribe((res: any) => {
-        if(res && res.length > 0){
-          this.agents = res;
-        }else {
-          this.confirmationService.openDialog(this.currentLanguageSet.noAgentsFoundFor + role + this.currentLanguageSet.role, 'error');
+        if (this.qualityAuditorService.isCycleWiseForm === true) {
+          this.callAuditForm.controls['selectedRadioButton'].setValue('1');
+          this.iscycleWiseChangeForm = false;
+          this.cycleWiseForm.patchValue(this.qualityAuditorService.callAuditData);
+          this.getMonths();
+          this.getAgentByRole();
+          this.getQualityAuditorWorklist();
+        } else {
+          this.callAuditForm.controls['selectedRadioButton'].setValue('2');
+          this.iscycleWiseChangeForm = true;
+          this.dateWiseForm.patchValue(this.qualityAuditorService.callAuditData);
+          this.getAgentByRole();
+          this.getDateWiseAuditorWorklist();
         }
-      },
-      (err: any) => {
-        this.confirmationService.openDialog(err.error, 'error');
       }
-      );
-  }
-  }
-
-  getRoleId(){
-    if(this.callAuditForm.controls['selectedRadioButton'].value === '1'){
-      this.cycleWiseForm.controls['agentId'].reset()
-    // this.cycleWiseForm.controls['agentId'].markAsPristine();
-    
-    const role = this.cycleWiseForm.controls.role.value;
-    this.roles.filter((item: any) => {
-      if(item.roleName === role)
-      this.cycleWiseForm.controls.roleId.patchValue(item.roleId);
-    });
-  }else{
-    this.dateWiseForm.controls.agentId.reset();
-    const role = this.dateWiseForm.controls.role.value;
-    this.roles.filter((item: any) => {
-      if(item.roleName === role)
-      this.dateWiseForm.controls.roleId.patchValue(item.roleId);
-    });
-  }
-  }
-  getRoleNames(){
-    if(this.callAuditForm.controls['selectedRadioButton'].value === '1'){
-    const role = this.qualityAuditorService.callAuditData.roleId;
-    this.roles.filter((item: any) => {
-      if(item.roleId === role)
-      this.cycleWiseForm.controls.role.patchValue(item.rolename);
-    });
-  }else{
-    const role = this.qualityAuditorService.callAuditData.roleId;
-    this.roles.filter((item: any) => {
-      if(item.roleId === role)
-      this.dateWiseForm.controls.role.patchValue(item.rolename);
-    });
-  }
-  }
-  
-  routeToAgentRating(data: any, auditType: string){
-    data.paginator= this.paginator;
-    data.sort = this.sort;
-    this.qualityAuditorService.loadComponent(CallRatingComponent, {data: data, type: auditType});
-    console.log("route required", data)
+    }
   }
 
-  filterSearchTerm(searchTerm: any) {
-    if (!searchTerm && !this.data) {
-      this.callAuditData.data = this.callData;
-      this.callAuditData.paginator = this.paginator;
-      this.callAuditData.sort = this.sort;
-    }else if (!searchTerm && this.data) {
-        this.callAuditData.data = this.callData;
-        this.callAuditData.paginator = this.data.data.paginator;
-        this.callAuditData.sort = this.data.data.sort;
-    } else {
-      this.callData.forEach((item: any) => {
-        for (const key in item) {
-          if (
-            key === 'beneficiaryid' ||
-            key === 'beneficiaryname' ||
-            key === 'phoneNo' ||
-            key === 'agetname'
-          ) {
-            const value: string = '' + item[key];
-            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-              this.callAuditData.data.push(item);
-              this.callAuditData.paginator = this.paginator;
-              this.callAuditData.sort = this.sort;
-              break;
-            }
+  /**
+   * Get the selected language for internationalization
+   */
+  getSelectedLanguage(): void {
+    this.setLanguageService.currentLanguage
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((language) => {
+        this.currentLanguageSet = language;
+      });
+  }
+
+  /**
+   * Get role masters from service
+   */
+  getRoleMasters(): void {
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
+    this.masterService.getRoleMaster(psmId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          if (res && res.length > 0) {
+            this.roles = res.filter((role: any) =>
+              ['anm', 'mo', 'associate'].includes(role.roleName.toLowerCase())
+            );
+          } else {
+            this.confirmationService.openDialog(
+              this.currentLanguageSet?.noRolesFound || 'No roles found',
+              'error'
+            );
           }
+        },
+        error: (err: any) => {
+          this.confirmationService.openDialog(err.error, 'error');
         }
       });
-    }
-  }
-  onSearchClicked(){
-    this.paginator.firstPage();
-    this.lastLength = null;
-    this.lastPageIndex = null;
-    this.lastPageSize = null;
-    this.getQualityAudiotorWorklist();
   }
 
-  getQualityAudiotorWorklist(){
-    if(this.callAuditForm.controls['selectedRadioButton'].value === '1'){
-      const reqObj = {
+  /**
+   * Get language master data
+   */
+  getLanguageMaster(): void {
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
+    this.masterService.getLanguageMaster(psmId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          if (res && res.length > 0) {
+            this.languages = res;
+          } else {
+            this.confirmationService.openDialog(
+              this.currentLanguageSet?.noLanguagesFound || 'No languages found',
+              'error'
+            );
+          }
+        },
+        error: (err: any) => {
+          this.confirmationService.openDialog(err.error, 'error');
+        }
+      });
+  }
+
+  /**
+   * Get cycle master data
+   */
+  getCyclesMaster(): void {
+    const psmId = this.sessionstorage.getItem('providerServiceMapID');
+    this.masterService.getCyclesMaster(psmId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          if (res && res.length > 0) {
+            this.cycles = res;
+          } else {
+            this.confirmationService.openDialog(
+              this.currentLanguageSet?.noCyclesFound || 'No cycles found',
+              'error'
+            );
+          }
+        },
+        error: (err: any) => {
+          this.confirmationService.openDialog(err.error, 'error');
+        }
+      });
+  }
+
+  /**
+   * Get months based on selected year
+   */
+  getMonths(): void {
+    const year = this.cycleWiseForm.controls.year.value;
+    this.months = [];
+
+    if (year === this.currentYear) {
+      for (let i = 1; i <= this.currentMonth; i++) {
+        this.months.push(i);
+      }
+    } else {
+      for (let i = 1; i <= 12; i++) {
+        this.months.push(i);
+      }
+    }
+  }
+
+  /**
+   * Set the role ID based on selected role name
+   */
+  getRoleId(): void {
+    if (this.callAuditForm.controls['selectedRadioButton'].value === '1') {
+      this.cycleWiseForm.controls['agentId'].reset();
+
+      const role = this.cycleWiseForm.controls.role.value;
+      const selectedRole = this.roles.find((item: any) => item.roleName === role);
+      if (selectedRole) {
+        this.cycleWiseForm.controls.roleId.setValue(selectedRole.roleId);
+      }
+    } else {
+      this.dateWiseForm.controls.agentId.reset();
+
+      const role = this.dateWiseForm.controls.role.value;
+      const selectedRole = this.roles.find((item: any) => item.roleName === role);
+      if (selectedRole) {
+        this.dateWiseForm.controls.roleId.setValue(selectedRole.roleId);
+      }
+    }
+  }
+
+  /**
+   * Get agents based on selected role
+   */
+  getAgentByRole(): void {
+    if (this.callAuditForm.controls['selectedRadioButton'].value === '1') {
+      const roleId = this.cycleWiseForm.controls.roleId.value;
+      const role = this.cycleWiseForm.controls.role.value;
+
+      if (!roleId) return;
+
+      this.masterService.getAgentMasterByRoleId(roleId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res: any) => {
+            if (res && res.length > 0) {
+              this.agents = res;
+            } else {
+              this.confirmationService.openDialog(
+                `${this.currentLanguageSet?.noAgentsFoundFor || 'No agents found for'} ${role} ${this.currentLanguageSet?.role || 'role'}`,
+                'error'
+              );
+            }
+          },
+          error: (err: any) => {
+            this.confirmationService.openDialog(err.error, 'error');
+          }
+        });
+    } else {
+      const roleId = this.dateWiseForm.controls.roleId.value;
+      const role = this.dateWiseForm.controls.role.value;
+
+      if (!roleId) return;
+
+      this.masterService.getAgentMasterByRoleId(roleId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res: any) => {
+            if (res && res.length > 0) {
+              this.agents = res;
+            } else {
+              this.confirmationService.openDialog(
+                `${this.currentLanguageSet?.noAgentsFoundFor || 'No agents found for'} ${role} ${this.currentLanguageSet?.role || 'role'}`,
+                'error'
+              );
+            }
+          },
+          error: (err: any) => {
+            this.confirmationService.openDialog(err.error, 'error');
+          }
+        });
+    }
+  }
+
+  /**
+   * Handle radio button change for switching between cycle-wise and date-wise forms
+   */
+  onRadioButtonChange(): void {
+    if (this.callAuditForm.controls['selectedRadioButton'].value === '1') {
+      this.iscycleWiseChangeForm = false;
+    } else {
+      this.iscycleWiseChangeForm = true;
+    }
+
+    this.callAuditForm.reset();
+    this.callAuditForm.controls['selectedRadioButton'].setValue(
+      this.iscycleWiseChangeForm ? '2' : '1'
+    );
+
+    this.cycleWiseForm.reset();
+    this.dateWiseForm.reset();
+    this.callAuditData.data = [];
+    this.callAuditData.paginator = this.paginator;
+  }
+
+  /**
+   * Get quality auditor worklist using cycle-wise criteria
+   */
+  getQualityAuditorWorklist(): void {
+    if (!this.cycleWiseForm.valid) {
+      Object.keys(this.cycleWiseForm.controls).forEach(field => {
+        const control = this.cycleWiseForm.get(field);
+        control?.markAsTouched({ onlySelf: true });
+      });
+      return;
+    }
+
+    const reqObj = {
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
       languageId: this.cycleWiseForm.controls.language.value,
       agentId: this.cycleWiseForm.controls.agentId.value,
       roleId: this.cycleWiseForm.controls.roleId.value,
-      isValid: (this.cycleWiseForm.controls.isValid.value === "true") ? true : false,
+      isValid: this.cycleWiseForm.controls.isValid.value === "true",
       year: this.cycleWiseForm.controls.year.value,
       month: this.cycleWiseForm.controls.month.value,
       cycleId: this.cycleWiseForm.controls.cycle.value,
       fromDate: null,
       toDate: null
-    }
-    this.qualityAuditorService.isCycleWiseForm = this.iscycleWiseChangeForm ;
-  this.qualityAuditorService.callAuditData = null;
-   this.qualityAuditorService.callAuditData = this.cycleWiseForm.value;
-   console.log(this.qualityAuditorService.callAuditData);
-    this.qualityAuditorService.getQualityAuditorWorklist(reqObj).subscribe((res: any) => {
-      if(res && res.length > 0){
-        this.callData = res;
-        this.refresh(res);
-      } else if(res.length <= 0) {
-        this.confirmationService.openDialog(this.currentLanguageSet.noDataFoundForCallRating, 'error');
-        this.callData = [];
-        this.callAuditData.data = [];
-        this.callAuditData.paginator = this.paginator;      
-      } else {
-        this.confirmationService.openDialog(res.errorMessage, 'error');
-        this.callData = [];
-        this.callAuditData.data = [];
-        this.callAuditData.paginator = this.paginator;  
-      }
-    },
-    (err: any) => {
-      this.confirmationService.openDialog(err.error, 'error');
-    }
-    );
+    };
+
+    this.qualityAuditorService.isCycleWiseForm = !this.iscycleWiseChangeForm;
+    this.qualityAuditorService.callAuditData = this.cycleWiseForm.value;
+
+    this.qualityAuditorService.getQualityAuditorWorklist(reqObj)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          if (res && res.length > 0) {
+            this.callAuditData.data = res;
+            this.refreshPagination();
+          } else if (res.length <= 0) {
+            this.confirmationService.openDialog(
+              this.currentLanguageSet?.noDataFoundForCallRating || 'No data found for call rating',
+              'error'
+            );
+            this.callAuditData.data = [];
+          } else {
+            this.confirmationService.openDialog(res.errorMessage, 'error');
+            this.callAuditData.data = [];
+          }
+        },
+        error: (err: any) => {
+          this.confirmationService.openDialog(err.error, 'error');
+        }
+      });
   }
-    
-  else{
-    this.getDateWiseAudiotorWorklist();
-  }
-}
-  getDateWiseAudiotorWorklist(){
-    const fromDate =  moment(this.dateWiseForm.controls.start.value).format('YYYY-MM-DDThh:mm:ssZ');
-    const toDate =  moment(this.dateWiseForm.controls.end.value).format('YYYY-MM-DDThh:mm:ssZ');   
+
+  /**
+   * Get quality auditor worklist using date-wise criteria
+   */
+  getDateWiseAuditorWorklist(): void {
+    if (!this.dateWiseForm.valid) {
+      Object.keys(this.dateWiseForm.controls).forEach(field => {
+        const control = this.dateWiseForm.get(field);
+        control?.markAsTouched({ onlySelf: true });
+      });
+      return;
+    }
+
+    // Validate date range
+    if (this.dateWiseForm.controls.start.value > this.dateWiseForm.controls.end.value) {
+      this.confirmationService.openDialog(
+        this.currentLanguageSet?.startDateCannotBeGreaterThanEndDate || 'Start date cannot be greater than end date',
+        'error'
+      );
+      return;
+    }
+
+    const fromDate = moment(this.dateWiseForm.controls.start.value).format('YYYY-MM-DDThh:mm:ssZ');
+    const toDate = moment(this.dateWiseForm.controls.end.value).format('YYYY-MM-DDThh:mm:ssZ');
+
     const reqObj = {
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
       languageId: this.dateWiseForm.controls.language.value,
       agentId: this.dateWiseForm.controls.agentId.value,
       roleId: this.dateWiseForm.controls.roleId.value,
-      isValid: (this.dateWiseForm.controls.isValid.value === "true") ? true : false,
+      isValid: this.dateWiseForm.controls.isValid.value === "true",
       validFrom: fromDate,
       validTill: toDate,
       cycleId: null,
-      beneficiaryPhoneNumber : this.dateWiseForm.controls.phoneNo.value
-      
-    }
-    this.qualityAuditorService.isCycleWiseForm = this.iscycleWiseChangeForm ;
-    this.qualityAuditorService.callAuditData = null;
+      beneficiaryPhoneNumber: this.dateWiseForm.controls.phoneNo.value
+    };
+
+    this.qualityAuditorService.isCycleWiseForm = this.iscycleWiseChangeForm;
     this.qualityAuditorService.callAuditData = this.dateWiseForm.value;
-    console.log(this.qualityAuditorService.callAuditData);
-     this.qualityAuditorService.getQualityAuditorDateWorklist(reqObj).subscribe((res: any) => {
-       if(res && res.length > 0){
-         this.callData = res;
-         this.refresh(res);
-       } else if(res.length <= 0) {
-         this.confirmationService.openDialog(this.currentLanguageSet.noDataFoundForCallRating, 'error');
-         this.callData = [];
-         this.callAuditData.data = [];
-         this.callAuditData.paginator = this.paginator;      
-       } else {
-         this.confirmationService.openDialog(res.errorMessage, 'error');
-         this.callData = [];
-         this.callAuditData.data = [];
-         this.callAuditData.paginator = this.paginator;  
-       }
-     },
-     (err: any) => {
-       this.confirmationService.openDialog(err.error, 'error');
-     }
-     );
+
+    this.qualityAuditorService.getQualityAuditorDateWorklist(reqObj)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          if (res && res.length > 0) {
+            this.callAuditData.data = res;
+            this.refreshPagination();
+          } else if (res.length <= 0) {
+            this.confirmationService.openDialog(
+              this.currentLanguageSet?.noDataFoundForCallRating || 'No data found for call rating',
+              'error'
+            );
+            this.callAuditData.data = [];
+          } else {
+            this.confirmationService.openDialog(res.errorMessage, 'error');
+            this.callAuditData.data = [];
+          }
+        },
+        error: (err: any) => {
+          this.confirmationService.openDialog(err.error, 'error');
+        }
+      });
   }
 
-  refresh(res: any) {
+  /**
+   * Refresh pagination settings
+   */
+  private refreshPagination(): void {
     this.changeDetectorRefs.detectChanges();
-    this.callData = res;
-    this.callAuditData.data = res;
-    if(this.lastLength && this.lastPageIndex && this.lastPageSize){
+
+    if (this.lastLength && this.lastPageIndex && this.lastPageSize) {
       this.paginator.length = this.lastLength;
       this.paginator.pageSize = this.lastPageSize;
       this.paginator.pageIndex = this.lastPageIndex;
-      this.callAuditData.paginator = this.paginator;
-    }else{
-      this.callAuditData.paginator = this.paginator;
-      this.callAuditData.sort = this.sort;
     }
-   
-  }
-  viewCasheet(element:any){
- 
 
-    this.dialog.open(ViewCasesheetComponent,{
-      width: "900px",
-      disableClose: true ,
-      data: {  
-        
-        benCallId : element.benCallID,
-        beneficiaryId : element.beneficiaryid
-      }
+    this.callAuditData.paginator = this.paginator;
+    this.callAuditData.sort = this.sort;
+  }
+
+  /**
+   * Route to agent rating view
+   */
+  routeToAgentRating(data: any, auditType: string): void {
+    // Implementation of routing to agent rating view
+    const dialogRef = this.dialog.open(CallRatingComponent, {
+      width: '90%',
+      height: '90%',
+      data: { callData: data, auditType }
+    });
+
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(result => {
+        if (result === 'success') {
+          if (this.callAuditForm.controls['selectedRadioButton'].value === '1') {
+            this.getQualityAuditorWorklist();
+          } else {
+            this.getDateWiseAuditorWorklist();
+          }
+        }
+      });
+  }
+
+  /**
+   * View case sheet
+   */
+  viewCasesheet(element: any): void {
+    this.dialog.open(ViewCasesheetComponent, {
+      width: '90%',
+      height: '90%',
+      data: element
     });
   }
-  invalidTimeFlag = false;
-  validateTime(start_date: any, end_date: any, start_time: any, end_time: any) {
-    // if (start_time === undefined && end_time === undefined && start_time ==="" && end_time ==="") {
-    // }
-    if (start_time !== undefined && start_time !== "" && end_time !== undefined && end_time !== "" && start_date.getDate() !== undefined && start_date.getDate() !== "" && end_date.getDate() !== undefined && end_date.getDate() !== ""
-    ) {
-      if (
-        start_date.getDate() === end_date.getDate() &&
-        start_time > end_time
-      ) {
-        this.invalidTimeFlag = true;
-      }
-      if (
-        start_date.getDate() === end_date.getDate() &&
-        start_time < end_time
-      ) {
-        this.invalidTimeFlag = false;
-      }
-      if (
-        start_date.getDate() === end_date.getDate() &&
-        start_time === end_time
-      ) {
-        this.invalidTimeFlag = true;
-      }
-      if (start_date.getDate() !== end_date.getDate()) {
-        this.invalidTimeFlag = false;
-      }
-    }
+
+  /**
+   * Clean up subscriptions on destroy
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
-  onRadioButtonChange(){   
-    if(this.callAuditForm.controls['selectedRadioButton'].value === '1') {
-      // this.selectedRadioButtonChange = true;
-      this.iscycleWiseChangeForm = false;
-    } else{
-      this.iscycleWiseChangeForm = true;
-    }
-    this.callAuditForm.reset();
-    // this.range.reset();
-    this.cycleWiseForm.reset();
-    this.dateWiseForm.reset();
-    this.callData = [];
-    this.callAuditData.data = [];
-    this.callAuditData.paginator = this.paginator; 
-  }
-  // agentIdSelection(){
-  // if(this.agents[i].agentId !== undefined && this.agents[i].agentId !== null){
-  // this.showAgentId = true;
-  // }
-  // else{
-  //   this.showAgentId = false;
-  // }
-  // }
 }
