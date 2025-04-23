@@ -69,6 +69,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     BrowserAnimationsModule,
     FormsModule,
     MaterialModule,
+    MatCardModule,
     CoreModule,
     UserLoginModule,
     HttpClientModule,
@@ -112,4 +113,3 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   exports:[SharedModule]
 })
 export class AppModule {}
-MatCardModule

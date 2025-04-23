@@ -292,7 +292,10 @@ export class SkillsetWiseQualityRatingChartComponent implements OnInit, DoCheck 
         ],
       };
   
-      option && myChart.setOption(option);
+      // option && myChart.setOption(option);
+      if (option) {
+        myChart.setOption(option);
+      }
 
     }
   //   const myChart = echarts.init(chartDom);

@@ -234,7 +234,7 @@ export class SmsTemplateComponent implements OnInit, DoCheck, AfterViewInit {
 
   ActivateDeactivate(object: { deleted: any; modifiedBy: any; }, flag: any) {
     object.deleted = flag;
-    object.modifiedBy = this.sessionstorage.getItem('userName'),
+    object.modifiedBy = this.sessionstorage.getItem('userName');
     this.smsTemplateService.updateSMStemplate(object).subscribe(
       (response) => {
         if (response) {
