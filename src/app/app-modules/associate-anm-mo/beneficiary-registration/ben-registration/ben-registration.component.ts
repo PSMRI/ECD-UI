@@ -22,7 +22,7 @@
 
 
 import { DatePipe } from '@angular/common';
-import { Component, DoCheck, OnInit, ChangeDetectorRef,ChangeDetectionStrategy} from '@angular/core';
+import { Component, DoCheck, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AssociateAnmMoService } from 'src/app/app-modules/services/associate-anm-mo/associate-anm-mo.service';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
@@ -38,8 +38,6 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
   selector: 'app-ben-registration',
   templateUrl: './ben-registration.component.html',
   styleUrls: ['./ben-registration.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-
 }) export class BenRegistrationComponent implements OnInit, DoCheck {
 
   // viewDetails:any=this.data.selectedDetails;
@@ -752,13 +750,9 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
       .afterClosed()
       .subscribe((response) => {
         if (response) {
-          this.videoService.setVideoCallData(
-            true, // or your dynamic video call status
-            this.benRegistrationForm.controls.phoneNo.value,
-            this.videoService.meetLink,
-            this.loginService.agentId,
-            sessionStorage.getItem('userName'))
-           
+
+          this.performAction();
+                   
           this.associateAnmMoService.setOpenComp("ECD Questionnaire");
           this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
         }
@@ -798,7 +792,13 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
   }
 
   performAction() {
-    // this.isVideoCallActive = true
+    if (!this.benRegistrationForm.controls.phoneNo.value) {
+        this.confirmationService.openDialog(
+          this.currentLanguageSet?.phoneNumberRequired || 'Phone number is required for video call',
+          'error'
+        );
+        return;
+      }
     this.videoService.videoCallPrompt = true;
     // this.cdr.detectChanges();
     this.videoService.setVideoCallData(
