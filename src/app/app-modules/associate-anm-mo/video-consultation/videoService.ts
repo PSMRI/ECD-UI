@@ -26,6 +26,7 @@ videoStateChange$ = this.videoStateChange.asObservable();
   agentName= '';
   callStartTime: Date | null = null;
   callEndTime: Date | null = null;
+  benRegId = ''
 
   // Add methods if needed to update status or reset
   reset() {
@@ -67,14 +68,6 @@ resetVideoCall() {
   }
 
   setVideoCallData(isVideoCallActive: boolean, phoneNumber: any, meetLink: any, agentID: any, name: any) {
-    if (phoneNumber === undefined || phoneNumber === null || phoneNumber === '') {
-      console.warn('Invalid phone number provided to setVideoCallData');
-      return;
-    }
-    if (meetLink === undefined || meetLink === null || meetLink === '') {
-      console.warn('Invalid meetLink provided to setVideoCallData');
-      return;
-    }
     this.isVideoCallActive = isVideoCallActive;
     this.callerPhoneNumber = phoneNumber;
     this.meetLink = meetLink;

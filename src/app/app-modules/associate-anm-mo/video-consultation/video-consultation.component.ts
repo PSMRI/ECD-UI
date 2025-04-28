@@ -20,6 +20,7 @@ interface VideoCallRequest {
   callDuration: string;
   providerServiceMapID: number;
   closureRemark: string;
+  beneficiaryRegID:string;
 }
 
 interface VideocallStatusUpdate {
@@ -55,15 +56,13 @@ export class VideoConsultationComponent {
       next: (response: any) => {
         this.videoService.linkSent = true;
         this.videoService.meetLink = response.meetingLink;
-        this.videoService.linkStatus = 'Sent Successfully';
-
+        
+        
+        this.saveVideoCallRequest(response.meetingLink, 'Initiated');
         this.send_sms(this.videoService.meetLink, this.videoService.callerPhoneNumber);
       },
       error: () => {
-        this.videoService.linkStatus = 'Failed to send';
-        // this.videoService.linkStatus = 'Sent Successfully';
-        // this.send_sms('https://meet.jit.si/oIYoMJbO', '8147115862');
-
+        this.videoService.linkStatus = 'Failed to send'
       }
     });
   }
@@ -73,9 +72,6 @@ export class VideoConsultationComponent {
     this.videoService.callStatus = 'Ongoing';
     this.videoService.isMeetAvailable = true;
 
-    //test
-    // const meetLink = 'https://meet.jit.si/oIYoMJbO'; // or generate dynamically
-    // this.videoService.startFloatingCall(meetLink);
     this.videoService.startFloatingCall(this.videoService.meetLink);
     this.videoService.showFloatingVideo = true;
 
@@ -132,8 +128,7 @@ export class VideoConsultationComponent {
     const currentServiceID = this.loginService.currentServiceId;
 
     this.sms_service.getSMStypes(currentServiceID).pipe(
-      map((res: any) => res?.data?.find((t: any) => t.smsType === 'Call Closure')?.smsTypeID),
-      // map((res: any) => res?.data?.find((t: any) => t.smsType === 'Video Consultation')?.smsTypeID),
+      map((res: any) => res?.data?.find((t: any) => t.smsType === 'Video Consultation')?.smsTypeID),
       switchMap((smsTypeID: string | null) => {
         if (!smsTypeID) throw new Error('Video Consultation type not found');
         return this.sms_service.getSMStemplates(currentServiceID, smsTypeID).pipe(
@@ -152,7 +147,8 @@ export class VideoConsultationComponent {
           is1097: false,
           providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
           smsTemplateID,
-          smsTemplateTypeID
+          smsTemplateTypeID,
+          beneficiaryRegID: this.videoService.benRegId,
         };
         return this.sms_service.sendSMS([reqObj]);
       })
@@ -163,7 +159,8 @@ export class VideoConsultationComponent {
           verticalPosition: 'top',
           panelClass: ['snackbar-success']
         });
-        this.saveVideoCallRequest(link, 'Initiated');
+        // this.saveVideoCallRequest(link, 'Initiated');
+        this.videoService.linkStatus = 'Sent Successfully';
       },
       error: (err) => {
         console.error('Error sending SMS:', err);
@@ -186,7 +183,8 @@ export class VideoConsultationComponent {
       callStatus: status,
       callDuration: '0',
       providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
-      closureRemark: ''
+      closureRemark: '',
+      beneficiaryRegID: this.videoService.benRegId,
     };
 
     this.associateAnmMoService.saveVideoCall(request).subscribe({

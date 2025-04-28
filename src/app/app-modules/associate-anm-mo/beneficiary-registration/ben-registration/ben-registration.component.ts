@@ -22,7 +22,7 @@
 
 
 import { DatePipe } from '@angular/common';
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit, ChangeDetectorRef,ChangeDetectionStrategy} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AssociateAnmMoService } from 'src/app/app-modules/services/associate-anm-mo/associate-anm-mo.service';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
@@ -37,7 +37,9 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
 @Component({
   selector: 'app-ben-registration',
   templateUrl: './ben-registration.component.html',
-  styleUrls: ['./ben-registration.component.css']
+  styleUrls: ['./ben-registration.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 }) export class BenRegistrationComponent implements OnInit, DoCheck {
 
   // viewDetails:any=this.data.selectedDetails;
@@ -99,13 +101,13 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
     readonly sessionstorage: SessionStorageService,
     public dialog: MatDialog,
     public videoService: VideoConsultationService,
+    // private cdr: ChangeDetectorRef,
 
   ) {
   }
 
   ngOnInit(): void {
     this.videoService.videoCallPrompt = true;
-    // this.isVideoCallActive = this.associateAnmMoService.getIsVideoCallActive();
 
     this.associateAnmMoService.isBenRegistartionData$.subscribe((responseComp) => {
       if (responseComp !== null && responseComp === true) {
@@ -124,16 +126,7 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
     // this.stateMaster();
     this.genderMaster();
     this.minDate.setMonth(this.maxDate.getMonth() - 10);
-    // this.associateAnmMoService.isMotherRecordData$.subscribe(res => {
-    //   if(res == true){
-    //   this.enableMotherRecord = true;
-    //   } else {
-    //     this.enableMotherRecord = false;
-    //   }
-    // })
-
-
-
+    
     this.associateAnmMoService.openCompFlag$.subscribe((responseComp) => {
       if (responseComp !== null && responseComp === "Call Closed") {
         this.benRegistrationForm.reset();
@@ -544,6 +537,7 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
         if (response !== null && response.response && response.response.BenRegId !== undefined && response.response.BenRegId !== null) {
           const benRegId = response.response.BenRegId;
           const benId = response.response.BeneficiaryId;
+          this.videoService.benRegId = response.response.BenRegId
           this.sessionstorage.setItem('beneficiaryRegId', benRegId);
           this.associateAnmMoService.selectedBenDetails.childName = this.benRegistrationForm.controls.childName.value,
             this.associateAnmMoService.selectedBenDetails.motherName = this.benRegistrationForm.controls.motherName.value,
@@ -564,9 +558,10 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
             this.associateAnmMoService.selectedBenDetails.edd = this.formatDateValue(this.benRegistrationForm.controls.edd.value),
             this.associateAnmMoService.selectedBenDetails.age = this.benRegistrationForm.controls.age.value,
 
-            this.confirmationService.openDialog(this.currentLanguageSet.beneficiaryRegisteredSuccessfully + " " + benId, `success`);
+            this.confirmationService.openDialog(this.currentLanguageSet.beneficiaryRegisteredSuccessfully + " " + benRegId, `success`);
           this.associateAnmMoService.setOpenComp("ECD Questionnaire");
           this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
+          this.performAction();
 
         }
         else {
@@ -623,6 +618,8 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
     let benRegId = null;
     if (this.associateAnmMoService.selectedBenDetails !== null) {
       benRegId = this.associateAnmMoService.selectedBenDetails.beneficiaryRegId;
+      this.videoService.benRegId = benRegId
+
     }
 
     const demographicReq = {
@@ -729,6 +726,8 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
           this.associateAnmMoService.setOpenComp("ECD Questionnaire");
           this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
 
+          this.performAction();
+
         }
         else {
           this.confirmationService.openDialog(response.errorMessage, 'error');
@@ -798,9 +797,10 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
 
   }
 
-  performAction(event :Event) {
-    
+  performAction() {
+    // this.isVideoCallActive = true
     this.videoService.videoCallPrompt = true;
+    // this.cdr.detectChanges();
     this.videoService.setVideoCallData(
       true, // or your dynamic video call status
       this.benRegistrationForm.controls.phoneNo.value,
