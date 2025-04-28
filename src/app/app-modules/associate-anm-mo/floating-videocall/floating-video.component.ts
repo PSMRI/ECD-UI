@@ -8,7 +8,7 @@ import {
   } from '@angular/core';
 import { VideoConsultationService } from '../video-consultation/videoService';
   
-  declare var JitsiMeetExternalAPI: any;
+  declare let JitsiMeetExternalAPI: any;
   
   @Component({
     selector: 'app-floating-video',
