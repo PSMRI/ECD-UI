@@ -1,6 +1,5 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeading">
-  <!-- <h2 *ngIf="enableMotherRecord" class="inner fontStyleHeading">{{ currentLanguageSet?.motherRecord}}</h2>
-    <h2 *ngIf="!enableMotherRecord" class="inner fontStyle">{{ currentLanguageSet?.childRecord}}</h2> -->
+  
   <h2 class="inner fontStyleHeading">{{currentLanguageSet?.beneficiaryRegistration}}</h2>
   <button mat-raised-button
     *ngIf="selectedRole === 'MO' || selectedRole === 'ANM' || (selectedRole === 'Associate' && enableUpdateButton)"
@@ -10,7 +9,7 @@
   </button>
 </div>
 
-<div style="display: flex; gap: 1rem;">
+<div style="display: flex; gap: 1rem; width: 100%;">
   <div [style.flex]="videoService.isVideoCallActive ? 3 : 1"
     [style.width]="videoService.isVideoCallActive ? 'auto' : '100%'">
     <mat-card class="mainCard">
@@ -124,75 +123,6 @@
 
 
 
-        <!-- <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box marginAlign">
-            <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
-            <mat-label  class="fontStyleDisabled">{{currentLanguageSet?.state}}</mat-label>
-            <mat-select
-              
-              formControlName="stateID"
-              [disabled]="true"
-             
-            >
-              <mat-option *ngFor="let states of stateMasterList" [value]="states.stateID">
-                {{ states.stateName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          </div> -->
-
-        <!-- <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box marginAlign" >
-            <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
-            <mat-label  class="fontStyleDisabled">{{currentLanguageSet?.district}}</mat-label>
-            <mat-select
-              
-              formControlName="districtID"
-              [disabled]="true"
-             
-            >
-              <mat-option *ngFor="let districts of districtMasterList" [value]="districts.districtID">
-                {{ districts.districtName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          </div> -->
-
-        <!-- <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box marginAlign">
-            <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
-            <mat-label  class="fontStyleDisabled">{{currentLanguageSet?.block}}</mat-label>
-            <mat-select
-              
-              formControlName="blockID"
-              [disabled]="true"
-             
-            >
-              <mat-option *ngFor="let blocks of blockMasterList" [value]="blocks.blockID">
-                {{ blocks.blockName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          </div> -->
-
-        <!-- <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box marginAlign">
-            <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
-            <mat-label  class="fontStyleDisabled">{{currentLanguageSet?.village}}</mat-label>
-            <mat-select
-              
-              formControlName="districtBranchID"
-              [disabled]="true"
-             
-            >
-              <mat-option *ngFor="let villages of villageMasterList" [value]="villages.districtBranchID">
-                {{ villages.villageName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          </div> -->
-
-
-
-
-
-
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box marginAlign">
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyleDisabled">{{ currentLanguageSet?.healthBlock}}</mat-label>
@@ -215,10 +145,6 @@
               type="text" defaultNull readonly />
           </mat-form-field>
         </div>
-
-
-
-
 
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box marginAlign">
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
