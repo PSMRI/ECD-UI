@@ -259,4 +259,10 @@ downloadBabyDeathReportURL:`${ECD_API}ecdReportController/getECDBabyDeathReport`
 downloadNotConnectedReportURL:`${ECD_API}ecdReportController/getECDNotConnectedPhonelistDiffformatReport`,
 downloadJsyReportURL: `${ECD_API}ecdReportController/getECDJSYRelatedComplaintsReport`,
 downloadMiscarriageReportURL:`${ECD_API}ecdReportController/getECDMiscarriageReport`,
+
+//video call 
+generateVideoLinkURL :`${COMMON_API}video-consultation/generate-link`,
+sendSMSAPI: `${COMMON_API}video-consultation/send-link`,
+updateCallStatusAPI: `${COMMON_API}video-consultation/update-call-status`,
+
 };

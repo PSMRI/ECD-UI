@@ -1,0 +1,10 @@
+
+  <div class="floating-video" #floatingWindow>
+    <div class="drag-header" (mousedown)="startDrag($event)">
+      <span>Video Call</span>
+      <button class="close-btn" (click)="close()">×</button>
+    </div>
+  
+    <div id="jitsi-container" #jitsiContainer></div>
+  </div>
+  

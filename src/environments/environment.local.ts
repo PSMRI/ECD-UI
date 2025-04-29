@@ -24,12 +24,14 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-const ecdIP = 'http://localhost/';
-const commonIP = 'http://localhost';
-const adminIP = 'http://localhost';
-const COMMON_API = `${commonIP}:8083/`;
-const ADMIN_API = `${adminIP}:8082/`;
-const ECD_API = `${ecdIP}:8084/`;
+
+const ecdIP = 'https://amritwprdev.piramalswasthya.org/';
+const commonIP = 'https://amritwprdev.piramalswasthya.org/';
+const adminIP = 'https://amritwprdev.piramalswasthya.org/';
+const COMMON_API = `${commonIP}commonapi-ecd/`;
+const COMMON_API1 = `https://commonurl.loca.lt/`;
+const ADMIN_API = `${adminIP}adminapi-v1.0/`;
+const ECD_API = `${ecdIP}ecdapi-v1.0/`;
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
 const sessionStorageEncKey = '';
 
@@ -190,7 +192,7 @@ export const environment = {
   getBeneficiaryCallHistoryUrl:`${ECD_API}callHistory/getBeneficiaryCallHistory`,
   getCallHistoryDetailsUrl:`${ECD_API}callHistory/getBeneficiaryCallDetails`,
   /**CTI Urls */
-  ctiUrl: `https://uatcz.piramalswasthya.org/`,
+  ctiUrl: `http://192.168.45.55/`,
   ctiEventUrl: `bar/cti_handler.php?e=`,
   getLoginKeyUrl:`${COMMON_API}cti/getLoginKey`,
   getAgentsDataUrl: `${ECD_API}master/getAgentsByRoleId`,
@@ -255,6 +257,12 @@ downloadBabyDeathReportURL:`${ECD_API}ecdReportController/getECDBabyDeathReport`
 downloadNotConnectedReportURL:`${ECD_API}ecdReportController/getECDNotConnectedPhonelistDiffformatReport`,
 downloadJsyReportURL: `${ECD_API}ecdReportController/getECDJSYRelatedComplaintsReport`,
 downloadMiscarriageReportURL:`${ECD_API}ecdReportController/getECDMiscarriageReport`,
+
+//video call 
+generateVideoLinkURL :`${COMMON_API1}video-consultation/generate-link`,
+sendSMSAPI: `${COMMON_API1}video-consultation/send-link`,
+updateCallStatusAPI: `${COMMON_API1}video-consultation/update-call-status`,
+
 };
 
 

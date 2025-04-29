@@ -32,6 +32,7 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.12",
+    "@types/jitsi-meet": "^2.0.5",
     "angular-disable-browser-back-button": "^2.0.0",
     "bootstrap": "^5.2.3",
     "crypto-js": "^4.2.0",
