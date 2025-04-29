@@ -1,5 +1,3 @@
-/* General Modal Styling */
-
 .modal-content {
   background: #ffffff;
   padding: 5px;
@@ -38,47 +36,6 @@
   font-size: 16px;
   border-radius: 8px;
   margin-top: 10px;
-}
-
-.btn-primary {
-  background: #007bff;
-  border: none;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: #09407a;
-}
-
-.btn-warning {
-  background: #ffc107;
-  border: none;
-  color: #000;
-}
-
-.btn-warning:hover {
-  background: #e0a800;
-}
-
-.btn-success {
-  background: #28a745;
-  border: none;
-  color: white;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-
-}
-
-.btn-danger:hover {
-  background: #cc2031;
-}
-
-.btn-success:hover {
-  background: #15b435;
 }
 
 /* Disabled Button */
@@ -222,13 +179,8 @@ button[disabled] {
 #jitsi-container {
   height: 600px;
   width: 100%;
-  background: #eee; /* Optional for debug */
+  background: #eee; 
 }
-/* #jitsi-container {
-  width: 100%;
-  height: 500px;
-  border: none;
-} */
 
 :host ::ng-deep .jitsi-iframe {
   width: 100% !important;
@@ -247,6 +199,12 @@ button[disabled] {
   right: 10px;
   color: #555;
   z-index: 1000;
+}
+
+:host {
+  all: initial;
+  font-family: inherit;
+  font-size: 16px;
 }
 
 /* Responsive Design */

@@ -62,7 +62,7 @@ export class VideoConsultationComponent {
         this.send_sms(this.videoService.meetLink, this.videoService.callerPhoneNumber);
       },
       error: () => {
-        this.videoService.linkStatus = 'Failed to send'
+        this.videoService.linkStatus = 'Not Sent'
       }
     });
   }
