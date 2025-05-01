@@ -1,8 +1,8 @@
-/* 
-* AMRIT – Accessible Medical Records via Integrated Technology 
-* Integrated EHR (Electronic Health Records) Solution 
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
 *
-* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
 *
 * This file is part of AMRIT.
 *
@@ -23,24 +23,21 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { QualityAuditorRoutingModule } from './quality-auditor-routing.module';
 import { CallAuditComponent } from './call-audit/call-audit/call-audit.component';
 import { InnerpageQualityAuditorComponent } from './innerpage-quality-auditor/innerpage-quality-auditor/innerpage-quality-auditor.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MaterialModule } from '../material/material.module';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatInputModule } from '@angular/material/input';
 import { CallRatingComponent } from './call-rating/call-rating.component';
-import { SharedModule } from '../shared/shared.module';
 import { ViewCasesheetComponent } from './view-casesheet/view-casesheet.component';
-
-
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [

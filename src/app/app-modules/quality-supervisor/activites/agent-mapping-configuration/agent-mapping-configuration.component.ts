@@ -1,37 +1,27 @@
-/* 
-* AMRIT – Accessible Medical Records via Integrated Technology 
-* Integrated EHR (Electronic Health Records) Solution 
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
 *
-* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
 *
 * This file is part of AMRIT.
 *
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see https://www.gnu.org/licenses/.
+* Licensed under GNU General Public License v3.0
+* See: https://www.gnu.org/licenses/gpl-3.0.html
 */
-
 
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatPaginator } from '@angular/material/paginator';
+
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
-import { CreateAgentComponent } from '../create-agent/create-agent.component';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
-import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
-import { EditAgentComponent } from '../edit-agent/edit-agent.component';
-import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+
+import { CreateAgentComponent } from '../create-agent/create-agent.component';
+import { EditAgentComponent } from '../edit-agent/edit-agent.component';
 
 @Component({
   selector: 'app-agent-mapping-configuration',
@@ -39,209 +29,142 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   styleUrls: ['./agent-mapping-configuration.component.css']
 })
 export class AgentMappingConfigurationComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatSort) sort: MatSort | null = null;
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
-  mappedAgentList: any[] = [];
-  searchTerm: any;
+
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  mappedAgentList: AuditorMapped[] = [];
+  searchTerm = '';
   currentLanguageSet: any;
-  dataSource = new MatTableDataSource<audtiorMapped>();
+
+  dataSource = new MatTableDataSource<AuditorMapped>();
+
   displayedColumns: string[] = [
-    'sno',
-    'qualityAuditorName',
-    'roleName',
-    'agentName',
-    'edit',
-    'delete',
+    'sno', 'qualityAuditorName', 'roleName', 'agentName', 'edit', 'delete'
   ];
 
   constructor(
-    private qualitysupervisorService: QualitySupervisorService,
+    private qualitySupervisorService: QualitySupervisorService,
     private setLanguageService: SetLanguageService,
     private confirmationService: ConfirmationService,
-    private loginService: LoginserviceService,
-    readonly sessionstorage:SessionStorageService,
-    private qualitySupervisorService: QualitySupervisorService
-  ) { }
+    private sessionStorage: SessionStorageService
+  ) {}
 
   ngOnInit(): void {
     this.getAuditors();
     this.getSelectedLanguage();
   }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
   openCreateAgentMapping() {
-    const reqObj = {
+    this.qualitySupervisorService.createComponent(CreateAgentComponent, {
       qualityAuditorData: this.mappedAgentList,
-      isEdit: false,
-    };
-    this.qualitysupervisorService.createComponent(
-      CreateAgentComponent,
-      reqObj
+      isEdit: false
+    });
+  }
+
+  private getSelectedLanguage() {
+    this.currentLanguageSet = this.setLanguageService.languageData || {};
+  }
+
+  filterSearchTerm(searchTerm: string) {
+    const filtered = this.mappedAgentList.filter(item =>
+      ['qualityAuditorName', 'roleName', 'agentName'].some(
+        key => item[key]?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
     );
+    this.dataSource.data = searchTerm ? filtered : this.mappedAgentList;
   }
 
-  getSelectedLanguage() {
-    if (
-      this.setLanguageService.languageData !== undefined &&
-      this.setLanguageService.languageData !== null
-    )
-      this.currentLanguageSet = this.setLanguageService.languageData;
-  }
-  filterSearchTerm(searchTerm?: string) {
-    if (!searchTerm) {
-      this.dataSource.data = this.mappedAgentList;
-      this.dataSource.paginator = this.paginator;
-    } else {
-      this.dataSource.data = [];
-      this.dataSource.paginator = this.paginator;
-      this.mappedAgentList.forEach((item) => {
-        for (const key in item) {
-          if (
-            key === 'qualityAuditorName' ||
-            key === 'roleName' ||
-            key === 'agentName'
-          ) {
-            const value: string = '' + item[key];
-            if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-              this.dataSource.data.push(item);
-              this.dataSource.paginator = this.paginator;
-              break;
-            }
-          }
-        }
-      });
-    }
-  }
+  private getAuditors() {
+    const psmId = this.sessionStorage.getItem('providerServiceMapID');
 
-  getAuditors() {
-    const reqObj: any = {
-      psmId: this.sessionstorage.getItem('providerServiceMapID'),
-    };
-    this.qualitySupervisorService.getAgentMappedData(reqObj.psmId).subscribe(
-      (response: any) => {
+    this.qualitySupervisorService.getAgentMappedData(psmId).subscribe({
+      next: (response) => {
         if (response) {
-          this.mappedAgentList = response;
-          this.mappedAgentList.forEach((sectionCount: any, index: number) => {
-            sectionCount.sno = index + 1;
-          });
-          this.dataSource.data = response;
-          this.dataSource.paginator = this.paginator;
+          this.mappedAgentList = response.map((item: any, index: number) => ({
+            ...item,
+            sno: index + 1
+          }));
+          this.dataSource.data = this.mappedAgentList;
         } else {
-          this.confirmationService.openDialog(response.errorMessage, 'error');
+          this.confirmationService.openDialog('Failed to load data', 'error');
         }
       },
-      
-      (err: any) => {
-        if(err && err.error)
-        this.confirmationService.openDialog(err.error, 'error');
-        else
-        this.confirmationService.openDialog(err.title + err.detail, 'error')
-        });
-  }
-  activateDeactivateAuditor(tableValue: any, type: any) {
-    const isDuplicateFromMainList = this.checkDuplicateFromMainList(tableValue);
-    if (isDuplicateFromMainList === true && type === 'activate') {
-      this.confirmationService.openDialog(
-        'Agent Already Mapped',
-        'error'
-      );
-    } else {
-      let status: any = null;
-      if (type === 'activate') {
-        status = 'Activated';
-      } else {
-        status = 'Deactivated';
-      }
-
-      this.confirmationService
-        .openDialog(
-          this.currentLanguageSet.areYouSureWantTo + ' ' + type + '?',
-          'confirm'
-        )
-        .afterClosed()
-        .subscribe((response) => {
-          if (response) {
-            const agentIds:any[]=[];
-            const agentNames:any[]=[]
-            agentIds.push(tableValue.agentId);
-            agentNames.push(tableValue.agentName);
-            const reqObj: any = {
-              id: tableValue.id,
-              qualityAuditorId: tableValue.qualityAuditorId,
-              roleId: tableValue.roleId,
-              agentId: tableValue.agentId,
-              qualityAuditorName: tableValue.qualityAuditorName,
-              roleName: tableValue.roleName,
-              agentName: tableValue.agentName,
-              modifiedBy: this.sessionstorage.getItem('userName'),
-              createdBy: this.sessionstorage.getItem('userName'),
-              psmId: this.sessionstorage.getItem('providerServiceMapID'),
-              agentIds:agentIds,
-              agentNames:agentNames,
-              deleted: type === 'activate' ? 'false' : 'true'
-            };
-            console.log(reqObj);
-            this.qualitySupervisorService.updateAgentQualityConfiguration(reqObj).subscribe(
-              (response: any) => {
-                if (response) {
-                  this.confirmationService.openDialog(
-                    status + ' ' + this.currentLanguageSet.successfully,
-                    'success'
-                  );
-                  this.dataSource.data = [];
-                  this.dataSource.paginator = this.paginator;
-                  this.getAuditors();
-                } else {
-                  this.confirmationService.openDialog(
-                    response.errorMessage,
-                    'error'
-                  );
-                }
-              },
-              (err: any) => {
-                this.confirmationService.openDialog(err.error, 'error');
-              }
-            );
-          }
-        });
-    }
-  }
-  checkDuplicateFromMainList(mapObj: any) {
-    let isDuplicate = false;
-    this.mappedAgentList.filter((values) => {
-      if (
-        ( 
-          values.roleId === mapObj.roleId &&
-          values.agentId === mapObj.agentId) &&
-        values.deleted === false
-      ) {
-        isDuplicate = true;
+      error: (err) => {
+        const message = err.error || `${err.title || ''} ${err.detail || ''}`;
+        this.confirmationService.openDialog(message, 'error');
       }
     });
-
-    return isDuplicate;
   }
-  editQualityAuditorMapping(value: any) {
-    const reqObj = {
-      selectedAuditorMappingData: value,
-      qualityAuditorData: this.mappedAgentList,
-      isEdit: true,
-    };
-    this.qualitySupervisorService.createComponent(
-      EditAgentComponent,
-      reqObj
+
+  activateDeactivateAuditor(tableValue: AuditorMapped, action: 'activate' | 'deactivate') {
+    if (action === 'activate' && this.isDuplicateMapping(tableValue)) {
+      this.confirmationService.openDialog('Agent Already Mapped', 'error');
+      return;
+    }
+
+    const status = action === 'activate' ? 'Activated' : 'Deactivated';
+
+    this.confirmationService.openDialog(
+      `${this.currentLanguageSet.areYouSureWantTo} ${action}?`, 'confirm'
+    ).afterClosed().subscribe(confirmed => {
+      if (!confirmed) return;
+
+      const reqObj = {
+        ...tableValue,
+        deleted: action !== 'activate',
+        modifiedBy: this.sessionStorage.getItem('userName'),
+        psmId: this.sessionStorage.getItem('providerServiceMapID'),
+        agentIds: [tableValue.agentId],
+        agentNames: [tableValue.agentName]
+      };
+
+      this.qualitySupervisorService.updateAgentQualityConfiguration(reqObj).subscribe({
+        next: (resp) => {
+          if (resp) {
+            this.confirmationService.openDialog(`${status} successfully`, 'success');
+            this.getAuditors();
+          } else {
+            this.confirmationService.openDialog(resp.errorMessage, 'error');
+          }
+        },
+        error: (err) => {
+          this.confirmationService.openDialog(err.error, 'error');
+        }
+      });
+    });
+  }
+
+  private isDuplicateMapping(mapObj: AuditorMapped): boolean {
+    return this.mappedAgentList.some(values =>
+      values.roleId === mapObj.roleId &&
+      values.agentId === mapObj.agentId &&
+      !values.deleted
     );
   }
+
+  editQualityAuditorMapping(value: AuditorMapped) {
+    this.qualitySupervisorService.createComponent(EditAgentComponent, {
+      selectedAuditorMappingData: value,
+      qualityAuditorData: this.mappedAgentList,
+      isEdit: true
+    });
+  }
 }
-export interface audtiorMapped {
+
+export interface AuditorMapped {
+  id?: number;
   qualityAuditorId: number;
   roleId: number;
-  agentId: number[];
+  agentId: number;
   qualityAuditorName: string;
   roleName: string;
-  agentName: string[];
-  deleted: any;
-
+  agentName: string;
+  deleted?: boolean;
+  sno?: number;
 }
