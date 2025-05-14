@@ -818,29 +818,29 @@ private sms_service: SmsTemplateService,
    }
 
   getLanguageMaster(){
-    let agentLanguages: any[] = [];
-    if(this.selectedRole !== undefined && this.selectedRole !== null && (this.selectedRole.toLowerCase() === "associate" || this.selectedRole.toLowerCase() === "anm")) {
-    const userId = this.sessionstorage.getItem('userID');
-    this.masterService.getLanguageMasterByUserId(userId).subscribe((response: any) => {
-      if(response && response.length > 0){
-        this.languages = response;
-        agentLanguages = response;
-      }else {
-        this.confirmationService.openDialog(this.currentLanguageSet.noLanguagesFound, 'error');
-      }
-    },
-    (err: any) => {
-      this.confirmationService.openDialog(err.error, 'error');
-    }
-    );
-  }
-  if(this.selectedRole !== undefined && this.selectedRole !== null && this.selectedRole.toLowerCase() === "anm") {
+    // let agentLanguages: any[] = [];
+  //   if(this.selectedRole !== undefined && this.selectedRole !== null && (this.selectedRole.toLowerCase() === "associate" || this.selectedRole.toLowerCase() === "anm")) {
+  //   const userId = this.sessionstorage.getItem('userID');
+  //   this.masterService.getLanguageMasterByUserId(userId).subscribe((response: any) => {
+  //     if(response && response.length > 0){
+  //       this.languages = response;
+  //       agentLanguages = response;
+  //     }else {
+  //       this.confirmationService.openDialog(this.currentLanguageSet.noLanguagesFound, 'error');
+  //     }
+  //   },
+  //   (err: any) => {
+  //     this.confirmationService.openDialog(err.error, 'error');
+  //   }
+  //   );
+  // }
+  if(this.selectedRole !== undefined && this.selectedRole !== null && (this.selectedRole.toLowerCase() === "associate" || this.selectedRole.toLowerCase() === "anm") ) {
     this.masterService.getLanguageMaster().subscribe((response: any) => {
       if(response && response.length > 0){
-        this.languages = [];
-        this.languages = response.filter(
-          (lang: any) => !agentLanguages.some(agentLang => agentLang.languageName?.toLowerCase() === lang.languageName?.toLowerCase())
-         );
+        this.languages = response;
+        // this.languages = response.filter(
+        //   (lang: any) => !agentLanguages.some(agentLang => agentLang.languageName?.toLowerCase() === lang.languageName?.toLowerCase())
+        //  );
       }else {
         this.confirmationService.openDialog(this.currentLanguageSet.noLanguagesFound, 'error');
       }

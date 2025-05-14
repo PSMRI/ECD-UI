@@ -235,10 +235,12 @@ export class CallReallocationComponent implements OnInit, DoCheck {
 
   setAgentRoleName(roleName:any) {
     this.enableLanguage = false;
+    this.callReallocationForm.controls["preferredLanguage"].clearValidators();
     this.selectedRoleName = roleName;
 
     if(this.selectedRoleName !== undefined && this.selectedRoleName !== null && this.selectedRoleName.toLowerCase() === 'associate') {
        this.callReallocationForm.patchValue({isStickyAgent : false});
+       this.enableLanguage = true;
       }   
       
     if(this.selectedRoleName !== undefined && this.selectedRoleName !== null && this.selectedRoleName.toLowerCase() === 'anm') {
@@ -383,12 +385,6 @@ export class CallReallocationComponent implements OnInit, DoCheck {
   
     const fromDate =  moment(this.range.controls.start.value).format('YYYY-MM-DDThh:mm:ssZ');
     const toDate =  moment(this.range.controls.end.value).format('YYYY-MM-DDThh:mm:ssZ');
-
-   
- 
-    
-
-
     const reqObj = {
       "fromUserIds": [
         0
