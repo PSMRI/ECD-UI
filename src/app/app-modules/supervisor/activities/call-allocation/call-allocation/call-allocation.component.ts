@@ -138,7 +138,7 @@ export class CallAllocationComponent implements OnInit, DoCheck {
     recordType: new FormControl('', [Validators.required]),
     phoneNoType: new FormControl('', [Validators.required]),
     agentType: new FormControl('', [Validators.required]),
-    preferredLanguage: new FormControl(null, [Validators.required]),
+    preferredLanguage: new FormControl(null),
     allocateTo: new FormControl('', [Validators.required]),
     numericValue: new FormControl('', [Validators.required]),
   });
@@ -239,7 +239,9 @@ export class CallAllocationComponent implements OnInit, DoCheck {
      }
 
 
-    if ((!this.enableLanguage  || (this.enableLanguage && this.callAllocationForm.controls.preferredLanguage.value !== null )) && this.callAllocationForm.controls.agentType.value !== null && this.callAllocationForm.controls.allocateTo.value !== null && this.callAllocationForm.controls.allocateTo.value.length > 0  && numValue) {
+    if ((!this.enableLanguage ||
+      (this.enableLanguage && this.selectedRoleName.toLowerCase() === "associate") ||
+      (this.enableLanguage && this.selectedRoleName.toLowerCase() === "anm" && this.callAllocationForm.controls.preferredLanguage.value !== null )) && this.callAllocationForm.controls.agentType.value !== null && this.callAllocationForm.controls.allocateTo.value !== null && this.callAllocationForm.controls.allocateTo.value.length > 0  && numValue) {
       this.isAllocateDisabled = false;
     }
     else {
@@ -301,6 +303,7 @@ export class CallAllocationComponent implements OnInit, DoCheck {
     this.currentMaxAllocatedRecords = noOfRecords;
     this.enableAgentAllocation = true;
     this.isSubmitDisabled = false;
+    this.callAllocationForm.controls['preferredLanguage'].clearValidators();
     this.callAllocationForm.controls["preferredLanguage"].patchValue(null);
     this.enableLanguage = false;
     this.resetInnerAllocateForm();
@@ -316,6 +319,8 @@ export class CallAllocationComponent implements OnInit, DoCheck {
           this.setSelectedRoleName(values.roleName);
       }
     });
+    this.enableLanguage = true;
+    this.callAllocationForm.controls['preferredLanguage'].clearValidators();
     } else {
       this.rolesArr = [];
      if(value === "low risk") {
@@ -327,6 +332,7 @@ export class CallAllocationComponent implements OnInit, DoCheck {
         }
       });
       this.enableLanguage = true;
+      this.callAllocationForm.controls['preferredLanguage'].setValidators([Validators.required]);
     }
     else {
       this.roles.filter((values:any) => {
