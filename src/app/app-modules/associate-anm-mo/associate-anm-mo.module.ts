@@ -44,6 +44,12 @@ import { BenRegistrationComponent } from './beneficiary-registration/ben-registr
 import { BeneficiaryCallHistoryComponent } from './beneficiary-call-history/beneficiary-call-history.component';
 import { HighRiskReasonsComponent } from './high-risk-reasons/high-risk-reasons.component';
 import { SharedModule } from '../shared/shared.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { VideoConsultationComponent } from './video-consultation/video-consultation.component';
+import { SafeUrlPipe } from './safe-url.pipe';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FloatingVideoComponent } from './floating-videocall/floating-video.component';
+
 
 
 @NgModule({
@@ -56,7 +62,11 @@ import { SharedModule } from '../shared/shared.module';
     EcdQuestionnaireComponent,
     BenRegistrationComponent,
     BeneficiaryCallHistoryComponent,
-    HighRiskReasonsComponent
+    HighRiskReasonsComponent,
+    VideoConsultationComponent,
+    SafeUrlPipe,
+    FloatingVideoComponent
+    // VideoComponent,
 
   ],
   imports: [
@@ -72,7 +82,9 @@ import { SharedModule } from '../shared/shared.module';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    MatDialogModule,
+    MatSnackBarModule
   ],
   providers: [DatePipe],
 })

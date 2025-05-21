@@ -23,7 +23,7 @@
 
 import { TestBed } from '@angular/core/testing';
 
-import { CtiService } from '../cti.service';
+import { CtiService } from './cti.service';
 
 describe('CtiService', () => {
   let service: CtiService;

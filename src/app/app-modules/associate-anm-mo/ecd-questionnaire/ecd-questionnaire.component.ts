@@ -35,6 +35,7 @@ import { BeneficiaryCallHistoryComponent } from '../beneficiary-call-history/ben
 import { CallClosureComponent } from '../call-closure/call-closure.component';
 import { HighRiskReasonsComponent } from '../high-risk-reasons/high-risk-reasons.component';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { VideoConsultationService } from '../video-consultation/videoService';
 
 
 @Component({
@@ -81,19 +82,18 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
   formattedDOB = '';
   formattedLMP = '';
   formattedEDD = '';
-  
 
   constructor(
     private setLanguageService: SetLanguageService,
     private fb: FormBuilder,
     private elementRef: ElementRef,
-    private associateAnmMoService: AssociateAnmMoService,
+    public associateAnmMoService: AssociateAnmMoService,
     private confirmationService: ConfirmationService,
     public dialog: MatDialog,
     private masterService: MasterService,
     private changeDetectorRefs: ChangeDetectorRef,
     readonly sessionstorage:SessionStorageService,
-
+    public videoService: VideoConsultationService,    
   ) { }
 
   beneficiaryMotherDataForm = this.fb.group({
@@ -144,7 +144,15 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.getSelectedLanguage();
     this.role = this.sessionstorage.getItem('role')
+  
+    this.videoService.isMeetAvailable = true;
+
+    if (this.videoService.callStatus === 'Ongoing' && this.videoService.meetLink) {
+      this.videoService.isMeetAvailable = true;
+    }
+    
     this.associateAnmMoService.loadEcdQuestionnaireData$.subscribe(res => {
+
       if(res === true){
         if(this.associateAnmMoService.selectedBenDetails){
           this.benData = this.associateAnmMoService.selectedBenDetails;
@@ -183,6 +191,7 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
     // this.getHrniMaster();
     // this.getCongentialAnomaliesMaster();
     this.associateAnmMoService.openCompFlag$.subscribe((responseComp) => {
+    
       if (responseComp !== null && responseComp === "Call Closed") {
         this.filteredQuesData = [];
         this.enableHrpReasons = false;
@@ -204,7 +213,7 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
         this.step = 0;
         this.page = 0;
         this.myStepper.selectedIndex = 0;
-      }
+      } 
     });
 
   }

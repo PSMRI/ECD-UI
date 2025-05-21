@@ -5,8 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.iemr.ecd-ui</groupId>
   <artifactId>ecd-ui</artifactId>
-  <version>1.0</version>
-  <name>ecd-ui</name>
+  <version>3.1.0</version>
+  <name>ECD-UI</name>
   <packaging>war</packaging>
   <profiles>
     <profile>
@@ -79,7 +79,7 @@
 
   <!-- install the necessary node_modules & compile in prod mode -->
   <build>
-    <finalName>ecd-ui-v3.0.0</finalName>
+    <finalName>${artifactId}-${version}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>

@@ -122,16 +122,16 @@
             </td>
           </ng-container>
     
-          <!-- <ng-container matColumnDef="callStatus">
+           <ng-container matColumnDef="callStatus">
             <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef>
               {{currentLanguageSet?.callStatus}}
             </th>
             <td mat-cell *matCellDef="let element" class="truncate-cell">
               {{ element.callStatus }}
             </td>
-          </ng-container> -->
+          </ng-container>
     
-          <ng-container matColumnDef="recordUploadDate">
+         <ng-container matColumnDef="recordUploadDate">
             <th mat-header-cell  style="border-bottom: none" *matHeaderCellDef mat-sort-header>
               {{currentLanguageSet?.recordUploadDate}}
             </th>
@@ -187,6 +187,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
+        
         <div
           class="pull-center"
           style="margin-top: 5px"
@@ -338,8 +339,6 @@
 </div>
 </div>
 </div>
-
-<!-- Modal Code-->
 
 
 <!-- Button trigger modal -->
