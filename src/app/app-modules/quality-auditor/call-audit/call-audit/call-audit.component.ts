@@ -333,23 +333,23 @@ export class CallAuditComponent implements OnInit {
     console.log("route required", data)
   }
 
-  filterSearchTerm(searchTerm: any) {
-    if (!searchTerm && !this.data) {
+  filterSearchTerm(searchTerm?: string) {
+    if (!searchTerm) {
       this.callAuditData.data = this.callData;
       this.callAuditData.paginator = this.paginator;
       this.callAuditData.sort = this.sort;
-    }else if (!searchTerm && this.data) {
-        this.callAuditData.data = this.callData;
-        this.callAuditData.paginator = this.data.data.paginator;
-        this.callAuditData.sort = this.data.data.sort;
     } else {
+      this.callAuditData.data = [];
+      this.callAuditData.paginator = this.paginator;
+      this.callAuditData.sort = this.sort;
       this.callData.forEach((item: any) => {
         for (const key in item) {
           if (
             key === 'beneficiaryid' ||
             key === 'beneficiaryname' ||
             key === 'phoneNo' ||
-            key === 'agetname'
+            key === 'agetname' || 
+            key === 'outboundCallType'
           ) {
             const value: string = '' + item[key];
             if (value.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
@@ -363,6 +363,7 @@ export class CallAuditComponent implements OnInit {
       });
     }
   }
+
   onSearchClicked(){
     this.paginator.firstPage();
     this.lastLength = null;
