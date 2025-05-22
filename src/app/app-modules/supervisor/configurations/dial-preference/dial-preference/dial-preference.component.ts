@@ -322,7 +322,7 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
       item.value.previewWindowTime  <= 60){
       item.get('selected')?.enable();
      }
-    if (item.value.previewWindowTime <= 0 || item.value.previewWindowTime > 60) {
+   else {
       item.value.previewWindowTime = null;
       item.get('selected').disable();
       let newIndexes: any;
