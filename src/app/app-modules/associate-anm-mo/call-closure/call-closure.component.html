@@ -5,239 +5,292 @@
                 {{currentLanguageSet?.callClosure}}
             </h2>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <mat-card class="innerCard">
-            <mat-card-content>
-                <form [formGroup]="callClosureForm" autocomplete="off" style="margin-top: 10px">
-                    <div class="row" style="margin-bottom: 20px;">
-                        <div style="padding: 10px; " class="col-xs-12 col-sm-8 col-md-6 col-lg-6 box m-bottom">
-                            <mat-label  class="radio-button-styling" id="isCallAnswered"> {{currentLanguageSet?.callAnswered}}
-                            </mat-label>
-                            <mat-radio-group required id="isCallAnswered" formControlName="isCallAnswered"
-                                aria-label="isCallAnswered" 
-                                (change)="selectNoCallAnswered(callClosureForm.controls['isCallAnswered'].value)">
-                                <mat-radio-button class="m-10" value="Yes">{{currentLanguageSet?.yes}}</mat-radio-button>
-                                <mat-radio-button class="m-10" value="No">{{currentLanguageSet?.no}}</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                       
-                        <div *ngIf="showCallAnswerNoDropdown" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <mat-form-field  class="backgroundWhite" appearance="outline" id="reasonForCallNotAnsweredId" style="width:100%">
-                                <mat-label> {{currentLanguageSet?.reasonOfNotAnswered}}</mat-label>
-                                <mat-select formControlName="reasonForCallNotAnsweredId"
-                                    (selectionChange)="setNoAnswerName(callClosureForm.controls['reasonForCallNotAnsweredId'].value)"
-                                    required>
-                                    <mat-option *ngFor="let option of notAnsweredReason" [value]="option.id">
-                                        {{ option.name }}
-                                    </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="callClosureForm.controls['reasonForCallNotAnsweredId'].errors?.['required']">{{
-                                    currentLanguageSet.fieldIsRequired }}</mat-error>
-
-                            </mat-form-field>
-                        </div>
-                      
-                    </div>
-                    <div class="row">
-                        <div [hidden]="!showVerifiedFields" style="padding: 8px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <mat-label  class="radio-button-styling" id="isCallVerified">{{currentLanguageSet?.callVerified}}
-                            </mat-label>
-                            <mat-radio-group (change)="onCallverified(callClosureForm.controls['isCallVerified'].value)" [required]="showVerifiedFields" id="isCallVerified" formControlName="isCallVerified"
-                              aria-label="isCallVerified">
-                                <mat-radio-button class="m-10" value="Yes" >{{currentLanguageSet?.yes}}</mat-radio-button>
-                                <mat-radio-button class="m-10" value="No">{{currentLanguageSet?.no}}</mat-radio-button>
-                            </mat-radio-group>
-
-                        </div>
-                        <div [hidden]="!enableCallDisconnectAndFurtherCall" style="padding: 8px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <mat-label class="radio-button-styling" id="isCallDisconnected">{{currentLanguageSet?.callDisconnected}}
-                            </mat-label>
-                            <mat-radio-group (change)="checkIsNextAttempt(callClosureForm.controls['isCallDisconnected'].value)"
-                             [required]="enableCallDisconnectAndFurtherCall" id="isCallDisconnected" formControlName="isCallDisconnected"
-                                aria-label="isCallDisconnected">
-                                <mat-radio-button class="m-10" value="Yes">{{currentLanguageSet?.yes}}</mat-radio-button>
-                                <mat-radio-button class="m-10" value="No">{{currentLanguageSet?.no}}</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                        <div [hidden]="!enableWrongNumber" style="padding: 8px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <mat-label class="radio-button-styling" id="isWrongNumber">{{currentLanguageSet?.isWrongNumber}}
-                            </mat-label>
-                            <mat-radio-group [required]="enableWrongNumber" id="isWrongNumber" formControlName="isWrongNumber"
-                                aria-label="isWrongNumber" (change)="onWrongNumberChange(callClosureForm.controls['isWrongNumber'].value)">
-                                <mat-radio-button class="m-10" value="Yes">{{currentLanguageSet?.yes}}</mat-radio-button>
-                                <mat-radio-button class="m-10" value="No">{{currentLanguageSet?.no}}</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                        <div *ngIf="enablePhoneNumber" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
-                                <mat-label> {{currentLanguageSet?.enterCorrectPhoneNumber}}</mat-label>
-                                <input  appMobileNumber matInput  placeholder="" id="phoneNumber" formControlName="phoneNumber"
-                                allowText="number"  type="tel" maxlength="10" minlength="10" defaultNull/>
-                            </mat-form-field>
-                        </div>
-        
-                    </div>
-
-                    <div class="row" style="margin-bottom: 20px;" [hidden]="!enableCallDisconnectAndFurtherCall">
-                        <div style="padding: 10px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-6 box m-bottom">
-                            <mat-label class="radio-button-styling" id="No-Further-Call-Required">{{currentLanguageSet?.noFurtherCallRequired}}</mat-label>
-                            <mat-radio-group [required]="enableCallDisconnectAndFurtherCall" id="reasonOfCallNotRequired" formControlName="isFurtherCallRequired"
-                                aria-label="No-Further-Call-Required"
-                                (change)="selectedReasonOfNoFutherCall(callClosureForm.controls['isFurtherCallRequired'].value)">
-                                <mat-radio-button class="m-10" value="Yes">{{currentLanguageSet?.yes}}</mat-radio-button>
-                                <mat-radio-button class="m-10" value="No">{{currentLanguageSet?.no}}</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                        <div  *ngIf="showDetails" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <mat-form-field  class="backgroundWhite" appearance="outline" id="reasonForNoFurtherCallsId" style="width:100%">
-                                <mat-label> {{currentLanguageSet?.reasonForNoCall}}</mat-label>
-                                <mat-select formControlName="reasonForNoFurtherCallsId"
-                                    (selectionChange)="setNoCallRequired(callClosureForm.controls['reasonForNoFurtherCallsId'].value)"
-                                    >
-                                    <mat-option *ngFor="let option of noCallRequired" [value]="option.id">
-                                        {{ option.name }}
-                                    </mat-option>
-                                </mat-select>
-                                <mat-error
-                                    *ngIf="callClosureForm.controls['reasonForNoFurtherCallsId'].errors?.['required']">{{
-                                    currentLanguageSet.fieldIsRequired }}</mat-error>
-                            </mat-form-field>
-                        </div>
-
-                       
-                            <div  *ngIf="enablePreferredLanguage && (selectedRole === 'Associate' || selectedRole === 'ANM')" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-    
-                                  <mat-form-field  class="backgroundWhite" appearance="outline" id="preferredLanguage" style="width:100%">
-                                    <mat-label> {{currentLanguageSet?.preferredLanguage}}</mat-label>
-                                    <mat-select formControlName="preferredLanguage">
-                                        <mat-option *ngFor="let language of languages" [value]="language.languageName">
-                                            {{ language.languageName }}
-                                        </mat-option>
-                                    </mat-select>
-                                    <mat-error
-                                        *ngIf="callClosureForm.controls['preferredLanguage'].errors?.['required']">{{
-                                        currentLanguageSet.fieldIsRequired }}</mat-error>
-                                </mat-form-field>
-                          
+        <div style="display: flex; gap: 1rem; width: 100%;">
+            <div [style.flex]="videoService.isVideoCallActive ? 3 : 1"
+                [style.width]="videoService.isVideoCallActive ? 'auto' : '100%'">
+                <mat-card class="innerCard">
+                    <mat-card-content>
+                        <form [formGroup]="callClosureForm" autocomplete="off" style="margin-top: 10px">
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div style="padding: 10px; " class="col-xs-12 col-sm-8 col-md-6 col-lg-6 box m-bottom">
+                                    <mat-label class="radio-button-styling" id="isCallAnswered">
+                                        {{currentLanguageSet?.callAnswered}}
+                                    </mat-label>
+                                    <mat-radio-group required id="isCallAnswered" formControlName="isCallAnswered"
+                                        aria-label="isCallAnswered"
+                                        (change)="selectNoCallAnswered(callClosureForm.controls['isCallAnswered'].value)">
+                                        <mat-radio-button class="m-10"
+                                            value="Yes">{{currentLanguageSet?.yes}}</mat-radio-button>
+                                        <mat-radio-button class="m-10"
+                                            value="No">{{currentLanguageSet?.no}}</mat-radio-button>
+                                    </mat-radio-group>
                                 </div>
-                          
 
-                    </div>
-                    <div class="row">
-                    <div style="margin-top: 5px" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom"> 
-                        <mat-checkbox labelPosition="before" [disabled]="disableIVRFeedback" formControlName="iVRFeedbackRequired">{{currentLanguageSet?.iVRFeedbackRequired}}</mat-checkbox>
-                    </div>
+                                <div *ngIf="showCallAnswerNoDropdown"
+                                    class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-form-field class="backgroundWhite" appearance="outline"
+                                        id="reasonForCallNotAnsweredId" style="width:100%">
+                                        <mat-label> {{currentLanguageSet?.reasonOfNotAnswered}}</mat-label>
+                                        <mat-select formControlName="reasonForCallNotAnsweredId"
+                                            (selectionChange)="setNoAnswerName(callClosureForm.controls['reasonForCallNotAnsweredId'].value)"
+                                            required>
+                                            <mat-option *ngFor="let option of notAnsweredReason" [value]="option.id">
+                                                {{ option.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error
+                                            *ngIf="callClosureForm.controls['reasonForCallNotAnsweredId'].errors?.['required']">{{
+                                            currentLanguageSet.fieldIsRequired }}</mat-error>
 
-                    <div  style="padding: 12px;" *ngIf="selectedRole !=='Associate' && showStickyAgent" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                        <mat-checkbox labelPosition="before" formControlName="isStickyAgentRequired">{{currentLanguageSet?.stickyAgent}}</mat-checkbox>
-                    </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <mat-form-field  class="backgroundWhite" appearance="outline" id="complaintId" style="width:100%">
-                                <mat-label>{{currentLanguageSet?.typeOfComplaint}}</mat-label>
-                                <mat-select formControlName="complaintId"
-                                    (selectionChange)="setComplaintName(callClosureForm.controls['complaintId'].value)"
-                                    >
-                                    <mat-option *ngFor="let option of complaints" [value]="option.id">
-                                        {{ option.name }}
+                                    </mat-form-field>
+                                </div>
 
-                                    </mat-option>
-                                </mat-select>
-                                <!-- <mat-error *ngIf="callClosureForm.controls['complaintId'].errors?.['required']">{{
+                            </div>
+                            <div class="row">
+                                <div [hidden]="!showVerifiedFields" style="padding: 8px;"
+                                    class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-label class="radio-button-styling"
+                                        id="isCallVerified">{{currentLanguageSet?.callVerified}}
+                                    </mat-label>
+                                    <mat-radio-group
+                                        (change)="onCallverified(callClosureForm.controls['isCallVerified'].value)"
+                                        [required]="showVerifiedFields" id="isCallVerified"
+                                        formControlName="isCallVerified" aria-label="isCallVerified">
+                                        <mat-radio-button class="m-10"
+                                            value="Yes">{{currentLanguageSet?.yes}}</mat-radio-button>
+                                        <mat-radio-button class="m-10"
+                                            value="No">{{currentLanguageSet?.no}}</mat-radio-button>
+                                    </mat-radio-group>
+
+                                </div>
+                                <div [hidden]="!enableCallDisconnectAndFurtherCall" style="padding: 8px;"
+                                    class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-label class="radio-button-styling"
+                                        id="isCallDisconnected">{{currentLanguageSet?.callDisconnected}}
+                                    </mat-label>
+                                    <mat-radio-group
+                                        (change)="checkIsNextAttempt(callClosureForm.controls['isCallDisconnected'].value)"
+                                        [required]="enableCallDisconnectAndFurtherCall" id="isCallDisconnected"
+                                        formControlName="isCallDisconnected" aria-label="isCallDisconnected">
+                                        <mat-radio-button class="m-10"
+                                            value="Yes">{{currentLanguageSet?.yes}}</mat-radio-button>
+                                        <mat-radio-button class="m-10"
+                                            value="No">{{currentLanguageSet?.no}}</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                                <div [hidden]="!enableWrongNumber" style="padding: 8px;"
+                                    class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-label class="radio-button-styling"
+                                        id="isWrongNumber">{{currentLanguageSet?.isWrongNumber}}
+                                    </mat-label>
+                                    <mat-radio-group [required]="enableWrongNumber" id="isWrongNumber"
+                                        formControlName="isWrongNumber" aria-label="isWrongNumber"
+                                        (change)="onWrongNumberChange(callClosureForm.controls['isWrongNumber'].value)">
+                                        <mat-radio-button class="m-10"
+                                            value="Yes">{{currentLanguageSet?.yes}}</mat-radio-button>
+                                        <mat-radio-button class="m-10"
+                                            value="No">{{currentLanguageSet?.no}}</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                                <div *ngIf="enablePhoneNumber"
+                                    class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
+                                        <mat-label> {{currentLanguageSet?.enterCorrectPhoneNumber}}</mat-label>
+                                        <input appMobileNumber matInput placeholder="" id="phoneNumber"
+                                            formControlName="phoneNumber" allowText="number" type="tel" maxlength="10"
+                                            minlength="10" defaultNull />
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+
+                            <div class="row" style="margin-bottom: 20px;"
+                                [hidden]="!enableCallDisconnectAndFurtherCall">
+                                <div style="padding: 10px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-6 box m-bottom">
+                                    <mat-label class="radio-button-styling"
+                                        id="No-Further-Call-Required">{{currentLanguageSet?.noFurtherCallRequired}}</mat-label>
+                                    <mat-radio-group [required]="enableCallDisconnectAndFurtherCall"
+                                        id="reasonOfCallNotRequired" formControlName="isFurtherCallRequired"
+                                        aria-label="No-Further-Call-Required"
+                                        (change)="selectedReasonOfNoFutherCall(callClosureForm.controls['isFurtherCallRequired'].value)">
+                                        <mat-radio-button class="m-10"
+                                            value="Yes">{{currentLanguageSet?.yes}}</mat-radio-button>
+                                        <mat-radio-button class="m-10"
+                                            value="No">{{currentLanguageSet?.no}}</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                                <div *ngIf="showDetails" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-form-field class="backgroundWhite" appearance="outline"
+                                        id="reasonForNoFurtherCallsId" style="width:100%">
+                                        <mat-label> {{currentLanguageSet?.reasonForNoCall}}</mat-label>
+                                        <mat-select formControlName="reasonForNoFurtherCallsId"
+                                            (selectionChange)="setNoCallRequired(callClosureForm.controls['reasonForNoFurtherCallsId'].value)">
+                                            <mat-option *ngFor="let option of noCallRequired" [value]="option.id">
+                                                {{ option.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error
+                                            *ngIf="callClosureForm.controls['reasonForNoFurtherCallsId'].errors?.['required']">{{
+                                            currentLanguageSet.fieldIsRequired }}</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+
+                                <div *ngIf="enablePreferredLanguage && (selectedRole === 'Associate' || selectedRole === 'ANM')"
+                                    class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+
+                                    <mat-form-field class="backgroundWhite" appearance="outline" id="preferredLanguage"
+                                        style="width:100%">
+                                        <mat-label> {{currentLanguageSet?.preferredLanguage}}</mat-label>
+                                        <mat-select formControlName="preferredLanguage">
+                                            <mat-option *ngFor="let language of languages"
+                                                [value]="language.languageName">
+                                                {{ language.languageName }}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error
+                                            *ngIf="callClosureForm.controls['preferredLanguage'].errors?.['required']">{{
+                                            currentLanguageSet.fieldIsRequired }}</mat-error>
+                                    </mat-form-field>
+
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div style="margin-top: 5px" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-checkbox labelPosition="before" [disabled]="disableIVRFeedback"
+                                        formControlName="iVRFeedbackRequired">{{currentLanguageSet?.iVRFeedbackRequired}}</mat-checkbox>
+                                </div>
+
+                                <div style="padding: 12px;" *ngIf="selectedRole !=='Associate' && showStickyAgent"
+                                    class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-checkbox labelPosition="before"
+                                        formControlName="isStickyAgentRequired">{{currentLanguageSet?.stickyAgent}}</mat-checkbox>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-form-field class="backgroundWhite" appearance="outline" id="complaintId"
+                                        style="width:100%">
+                                        <mat-label>{{currentLanguageSet?.typeOfComplaint}}</mat-label>
+                                        <mat-select formControlName="complaintId"
+                                            (selectionChange)="setComplaintName(callClosureForm.controls['complaintId'].value)">
+                                            <mat-option *ngFor="let option of complaints" [value]="option.id">
+                                                {{ option.name }}
+
+                                            </mat-option>
+                                        </mat-select>
+                                        <!-- <mat-error *ngIf="callClosureForm.controls['complaintId'].errors?.['required']">{{
                                     currentLanguageSet.fieldIsRequired }}</mat-error> -->
-                            </mat-form-field>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <mat-form-field class="backgroundWhite" appearance="outline"  style="width:100%">
-                                <mat-label>{{currentLanguageSet?.nextAttempt}}</mat-label>
-                                <input (change)="CheckFutureTime()" [min] ="minimumDate | date:'yyyy-MM-ddTHH:mm'"  matInput   name="nextAttemptDate" type="datetime-local" placeholder="Next Attemt Call Date And Time " formControlName="nextAttemptDate" 
-                                     />
-                                    <!-- <mat-error
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-form-field class="backgroundWhite" appearance="outline" style="width:100%">
+                                        <mat-label>{{currentLanguageSet?.nextAttempt}}</mat-label>
+                                        <input (change)="CheckFutureTime()"
+                                            [min]="minimumDate | date:'yyyy-MM-ddTHH:mm'" matInput
+                                            name="nextAttemptDate" type="datetime-local"
+                                            placeholder="Next Attemt Call Date And Time "
+                                            formControlName="nextAttemptDate" />
+                                        <!-- <mat-error
                                     *ngIf="callClosureForm.controls['nextAttemptDate'].errors?.['required']">{{
                                     currentLanguageSet.fieldIsRequired }}</mat-error> -->
-                            </mat-form-field> 
-                        </div>
+                                    </mat-form-field>
+                                </div>
 
-                    </div>
-                    <div class="row">
-                        <div style="margin-bottom: 30px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
-                                <mat-label>{{currentLanguageSet?.complaintRemarksCall}}</mat-label>
-                                <textarea appTextareaWithCopyPaste minlength="10" maxlength="500" matInput placeholder="" id="complaintRemarks"
-                                    formControlName="complaintRemarks" type="text" defaultNull
-                                    ></textarea>
-                                <!-- <mat-error *ngIf="callClosureForm.controls['complaintRemarks'].errors?.['required']">{{
+                            </div>
+                            <div class="row">
+                                <div style="margin-bottom: 30px;"
+                                    class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
+                                        <mat-label>{{currentLanguageSet?.complaintRemarksCall}}</mat-label>
+                                        <textarea appTextareaWithCopyPaste minlength="10" maxlength="500" matInput
+                                            placeholder="" id="complaintRemarks" formControlName="complaintRemarks"
+                                            type="text" defaultNull></textarea>
+                                        <!-- <mat-error *ngIf="callClosureForm.controls['complaintRemarks'].errors?.['required']">{{
                                     currentLanguageSet.complaintRemarks }}</mat-error>
                                     <mat-error *ngIf="callClosureForm.controls['complaintRemarks'].errors?.['minlength'] ">
                                         {{currentLanguageSet?.pleaseProvideMinimumTenCharacter}}</mat-error>
                                      <mat-error *ngIf="callClosureForm.controls['complaintRemarks'].errors?.['maxlength']">
                                      {{ currentLanguageSet?.pleaseProvideMaximumFiveHundredCharacter}}</mat-error> -->
-                         </mat-form-field>
-                        </div>
-                        <div style="margin-bottom: 30px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
-                                <mat-label>{{currentLanguageSet?.callClosureRemarks}}</mat-label>
-                                <textarea matInput minlength="10" maxlength="500" placeholder="" id="callRemarks" formControlName="callRemarks" appTextareaWithCopyPaste
-                                    type="text" defaultNull ></textarea>
-                                <!-- <mat-error *ngIf="callClosureForm.controls['callRemarks'].errors?.['required']">{{
+                                    </mat-form-field>
+                                </div>
+                                <div style="margin-bottom: 30px;"
+                                    class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
+                                        <mat-label>{{currentLanguageSet?.callClosureRemarks}}</mat-label>
+                                        <textarea matInput minlength="10" maxlength="500" placeholder=""
+                                            id="callRemarks" formControlName="callRemarks" appTextareaWithCopyPaste
+                                            type="text" defaultNull></textarea>
+                                        <!-- <mat-error *ngIf="callClosureForm.controls['callRemarks'].errors?.['required']">{{
                                     currentLanguageSet.remarks }}</mat-error>
                                     <mat-error *ngIf="callClosureForm.controls['callRemarks'].errors?.['minlength'] ">
                                         {{currentLanguageSet?.pleaseProvideMinimumTenCharacter}}</mat-error>
                                      <mat-error *ngIf="callClosureForm.controls['callRemarks'].errors?.['maxlength']">
                                      {{ currentLanguageSet?.pleaseProvideMaximumFiveHundredCharacter}}</mat-error> -->
-                            </mat-form-field>
-                        </div>
-                    </div>
+                                    </mat-form-field>
+                                </div>
+                            </div>
 
 
-                    <div class="row" *ngIf="selectedRole==='MO'">
-                        <div style="margin-bottom: 20px;"class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
-                                <mat-label>{{currentLanguageSet?.sendAdvice}}</mat-label>
-                                <textarea  minlength="10" maxlength="500" matInput placeholder="" id="sendAdvice"
-                                    formControlName="sendAdvice"  type="text" defaultNull
-                                    ></textarea>
-                                <!-- <mat-error *ngIf="callClosureForm.controls['sendAdvice'].errors?.['required']">{{
+                            <div class="row" *ngIf="selectedRole==='MO'">
+                                <div style="margin-bottom: 20px;"
+                                    class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
+                                        <mat-label>{{currentLanguageSet?.sendAdvice}}</mat-label>
+                                        <textarea minlength="10" maxlength="500" matInput placeholder="" id="sendAdvice"
+                                            formControlName="sendAdvice" type="text" defaultNull></textarea>
+                                        <!-- <mat-error *ngIf="callClosureForm.controls['sendAdvice'].errors?.['required']">{{
                                     currentLanguageSet.Advice }}</mat-error>
                                     <mat-error *ngIf="callClosureForm.controls['sendAdvice'].errors?.['minlength'] ">
                                         {{currentLanguageSet?.pleaseProvideMinimumTenCharacter}}</mat-error>
                                      <mat-error *ngIf="callClosureForm.controls['sendAdvice'].errors?.['maxlength']">
                                      {{ currentLanguageSet?.pleaseProvideMaximumFiveHundredCharacter}}</mat-error> -->
-                         </mat-form-field>
-                        </div>
-                         <div style="margin-bottom: 20px;" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
-                                <mat-label> {{currentLanguageSet?.alternateNumber}}</mat-label>
-                                <input  appMobileNumber matInput  placeholder="" id="altPhoneNo" formControlName="altPhoneNo"
-                                allowText="number"  type="tel" maxlength="10" minlength="10" defaultNull />
-                                    <!-- <mat-error *ngIf="callClosureForm.controls['altPhoneNo'].errors?.['pattern']">{{ currentLanguageSet.enterEnterDigitMobileNumber}}</mat-error> -->
-                            </mat-form-field>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                            <button mat-raised-button  (click)="sendSms(callClosureForm.controls['sendAdvice'].value, callClosureForm.controls['altPhoneNo'].value)" style=" margin: 10px;" class=" buttonColor full-width" type="button"
-                            [disabled]="
-                            !callClosureForm.controls['altPhoneNo'].valid || !callClosureForm.controls['sendAdvice'].value" >
-                            {{ currentLanguageSet?.sendSms }}
-                        </button>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn-toolbar pull-right"
-                        style="margin-top: 30px; justify-content: right;">
-                        <button mat-raised-button class="buttonColorRed full-width buttonWidth" type="button"
-                        (click)="back()">
-                            {{ currentLanguageSet?.back }}
-                        </button>
-                        <button mat-raised-button class="buttonColorGreen full-width buttonWidth"
-                            style="margin-left: 10px" type="reset" (click)="submitCallClosure(callClosureForm.value)"
-                            [disabled]="!callClosureForm.valid || isCorrectDateAndTime === false">
-                            {{ currentLanguageSet?.submit }}
-                        </button>
-                    </div>
+                                    </mat-form-field>
+                                </div>
+                                <div style="margin-bottom: 20px;"
+                                    class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
+                                        <mat-label> {{currentLanguageSet?.alternateNumber}}</mat-label>
+                                        <input appMobileNumber matInput placeholder="" id="altPhoneNo"
+                                            formControlName="altPhoneNo" allowText="number" type="tel" maxlength="10"
+                                            minlength="10" defaultNull />
+                                        <!-- <mat-error *ngIf="callClosureForm.controls['altPhoneNo'].errors?.['pattern']">{{ currentLanguageSet.enterEnterDigitMobileNumber}}</mat-error> -->
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+                                    <button mat-raised-button
+                                        (click)="sendSms(callClosureForm.controls['sendAdvice'].value, callClosureForm.controls['altPhoneNo'].value)"
+                                        style=" margin: 10px;" class=" buttonColor full-width" type="button"
+                                        [disabled]="
+                            !callClosureForm.controls['altPhoneNo'].valid || !callClosureForm.controls['sendAdvice'].value">
+                                        {{ currentLanguageSet?.sendSms }}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn-toolbar pull-right"
+                                style="margin-top: 30px; justify-content: right;">
+                                <button mat-raised-button class="buttonColorRed full-width buttonWidth" type="button"
+                                    (click)="back()">
+                                    {{ currentLanguageSet?.back }}
+                                </button>
+                                <button mat-raised-button class="buttonColorGreen full-width buttonWidth"
+                                    style="margin-left: 10px" type="reset"
+                                    (click)="submitCallClosure(callClosureForm.value)"
+                                    [disabled]="!callClosureForm.valid || isCorrectDateAndTime === false">
+                                    {{ currentLanguageSet?.submit }}
+                                </button>
+                            </div>
 
-                </form>
-            </mat-card-content>
-           <div style="float: right; margin-right: -25px;"> <app-czentrix-iframe></app-czentrix-iframe></div>
-        </mat-card>
-       </div>
-       
+                        </form>
+                    </mat-card-content>
+                    <div style="float: right; margin-right: -25px;"> <app-czentrix-iframe></app-czentrix-iframe></div>
+                </mat-card>
+            </div>
+            <div *ngIf="videoService.isVideoCallActive" style="flex: 1;">
+                <app-video-consultation></app-video-consultation>
+            </div>
+        </div>
+
+        <app-floating-video *ngIf="videoService.showFloatingVideo"></app-floating-video>

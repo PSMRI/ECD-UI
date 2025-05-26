@@ -85,7 +85,7 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
   callerPhoneNumber: any;
   agentID: any;
   agentName: any;
-
+  hideVideoCall = false;
 
   constructor(
     private fb: FormBuilder,
