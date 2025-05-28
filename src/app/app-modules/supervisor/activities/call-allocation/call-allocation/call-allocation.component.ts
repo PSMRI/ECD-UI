@@ -171,7 +171,7 @@ export class CallAllocationComponent implements OnInit, DoCheck {
          const fromDate =  moment(this.range.controls.start.value).format('YYYY-MM-DDThh:mm:ssZ');
          const toDate =  moment(this.range.controls.end.value).format('YYYY-MM-DDThh:mm:ssZ');
 
-          this.supervisorService.getLowRiskRecordsByLanguage(psmId, phoneNoType, recordType, fromDate, toDate, selectedLanguage).subscribe((resp:any)=>{ 
+          this.supervisorService.getLowRiskRecordsByLanguage(psmId, phoneNoType, recordType, fromDate, toDate, selectedLanguage, this.selectedRoleName).subscribe((resp:any)=>{ 
             if(resp){
               this.callAllocationForm.controls.numericValue.patchValue(resp.totalLowRiskRecord);
               this.allocateNoOfRecords = resp.totalLowRiskRecord;
@@ -392,7 +392,7 @@ export class CallAllocationComponent implements OnInit, DoCheck {
     this.supervisorService.saveAllocateCalls(allocateReqObj).subscribe(
       (response: any) => {
    
-      if(response !== null && response.response !== null) {
+      if(response && response.response) {
         this.confirmationService.openDialog(response.response, `success`);
         // this.confirmationService.openDialog(this.currentLanguageSet.callsAllocatedSuccessfully, `success`);
         this.callAllocationForm.reset();
