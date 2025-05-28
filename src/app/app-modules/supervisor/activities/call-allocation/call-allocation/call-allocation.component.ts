@@ -173,8 +173,14 @@ export class CallAllocationComponent implements OnInit, DoCheck {
 
           this.supervisorService.getLowRiskRecordsByLanguage(psmId, phoneNoType, recordType, fromDate, toDate, selectedLanguage, this.selectedRoleName).subscribe((resp:any)=>{ 
             if(resp){
+              if(this.selectedRoleName.toLowerCase() === "anm") {
               this.callAllocationForm.controls.numericValue.patchValue(resp.totalLowRiskRecord);
               this.allocateNoOfRecords = resp.totalLowRiskRecord;
+              }
+              else {
+                this.callAllocationForm.controls.numericValue.patchValue(resp.totalIntroductoryRecord);
+                this.allocateNoOfRecords = resp.totalIntroductoryRecord;
+              }
 
           this.masterService.getAgentMasterByRoleIdAndLanguage(agentTypeValue,selectedLanguage).subscribe((response:any)=>{
           if(response){
