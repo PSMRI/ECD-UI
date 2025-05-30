@@ -94,6 +94,17 @@ position: relative;
 padding: 5px !important;
 } */
 
+.loginCard {
+  height: auto;
+}
+
+.disabledLoginButton {
+  background-color: #ccc !important;
+  color: #666 !important;
+  cursor: not-allowed;
+  box-shadow: none !important;
+}
+
 
 
 
