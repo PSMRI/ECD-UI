@@ -187,10 +187,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.userLogOutPreviousSession(res);
           } else {
             sessionStorage.clear();
-            this.captchaToken = ''
             this.router.navigate(['/login']);
             this.confirmationService.openDialog(res.errorMessage, 'error');
-            this.captchaToken = ''
           }
         } else {
           this.confirmationService.openDialog(res.errorMessage, 'error');
@@ -202,6 +200,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         else
         this.confirmationService.openDialog(err.title + err.detail, 'error')
         });
+    this.captchaToken = ''
   }
 
   /**
@@ -239,14 +238,12 @@ export class LoginComponent implements OnInit, OnDestroy {
                         this.loginService.userLoginData = userLoggedIn.data;
                         this.getServiceAuthenticationDetails(userLoggedIn.data);
                       } else {
-                        this.captchaToken = ''
                         this.confirmationService.openDialog(
                           this.currentLanguageSet.seemsYouAreLoggedIn,
                           'error'
                         );
                       }
                     } else {
-                      this.captchaToken = ''
                       this.confirmationService.openDialog(
                         userLoggedIn.errorMessage,
                         'error'
@@ -254,7 +251,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                     }
                   });
               } else {
-                this.captchaToken = ''
                 this.confirmationService.openDialog(
                   logOutFromPreviousSession.errorMessage,
                   'error'
