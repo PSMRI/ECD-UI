@@ -41,7 +41,9 @@ const defaultEnvValues = {
   COMMON_API_BASE: '',
   ADMIN_API_BASE: '',
   ECD_API_BASE: '',
-  SESSION_STORAGE_ENC_KEY: ''
+  SESSION_STORAGE_ENC_KEY: '',
+  SITE_KEY:'',
+  CAPTCHA_CHALLENGE_URL:''
 };
 
 // Generate output data

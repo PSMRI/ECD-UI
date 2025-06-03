@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  "providedIn":"root"
-}
-)
+  providedIn: 'root',
+})
 export class CaptchaService {
   private scriptLoaded = false;
 
@@ -20,7 +19,14 @@ export class CaptchaService {
         this.scriptLoaded = true;
         resolve();
       };
-      script.onerror = () => reject('Failed to load Turnstile script');
+      script.onerror = (event) => {
+        this.scriptLoaded = false;
+        reject(
+          new Error(
+            `Failed to load CAPTCHA script from ${environment.captchaChallengeURL}: ${event}`,
+          ),
+        );
+      };
       document.head.appendChild(script);
     });
   }

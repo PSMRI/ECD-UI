@@ -154,8 +154,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   loginForm = this.fb.group({
-    userName: [''],
-    password: [''],
+    userName: ['', Validators.required],
+    password: ['', Validators.required],
   });
 
   /**
@@ -394,9 +394,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   updateLoginDisabled(): void {
-    const user = this.loginForm.controls.userName.value;
-    const pass = this.loginForm.controls.password.value;
-    this.isLoginDisabled = !(user && pass && this.captchaToken);
+    this.isLoginDisabled = !(this.loginForm.valid && this.captchaToken);
   }
   
   onCaptchaResolved(token: string) {
