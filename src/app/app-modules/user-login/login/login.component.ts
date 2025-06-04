@@ -21,7 +21,7 @@
 */
 
 
-import { Component, HostListener, Inject, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, HostListener, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -42,6 +42,7 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  @ViewChild('captchaCmp') captchaCmp: any;
   username: any;
   password: any;
   hide = true;
@@ -199,8 +200,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.confirmationService.openDialog(err.error, 'error');
         else
         this.confirmationService.openDialog(err.title + err.detail, 'error')
-        });
-    this.captchaToken = ''
+      });
+    this.resetCaptcha();
   }
 
   /**
@@ -396,5 +397,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   onCaptchaResolved(token: string) {
     this.captchaToken = token;
     this.updateLoginDisabled()
+  }
+
+  resetCaptcha() {
+    if (this.captchaCmp && typeof this.captchaCmp.reset === 'function') {
+      this.captchaCmp.reset();
+      this.captchaToken = '';
+      this.updateLoginDisabled();
+    }
   }
 }

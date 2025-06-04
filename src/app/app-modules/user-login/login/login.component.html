@@ -79,7 +79,7 @@
 
             <div class="row" role="group" aria-labelledby="captcha-label">
               <label id="captcha-label" class="sr-only">Security check</label>
-              <app-captcha style="display: flex;justify-content: center;" (tokenResolved)="onCaptchaResolved($event)"></app-captcha>
+              <app-captcha #captchaCmp style="display: flex;justify-content: center;" (tokenResolved)="onCaptchaResolved($event)"></app-captcha>
             </div>
 
             <button
