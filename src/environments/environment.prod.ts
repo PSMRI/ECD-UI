@@ -31,7 +31,7 @@ const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreenin
 const sessionStorageEncKey = '';
 const siteKey = '';
 const captchaChallengeURL = '';
-
+const enableCaptcha = false;
 
 export const environment = {
   production: true,
@@ -261,6 +261,7 @@ generateVideoLinkURL :`${COMMON_API}video-consultation/generate-link`,
 sendSMSAPI: `${COMMON_API}video-consultation/send-link`,
 updateCallStatusAPI: `${COMMON_API}video-consultation/update-call-status`,
 
-siteKey:siteKey,
-captchaChallengeURL:captchaChallengeURL
+siteKey: siteKey,
+captchaChallengeURL: captchaChallengeURL,
+enableCaptcha: enableCaptcha
 };

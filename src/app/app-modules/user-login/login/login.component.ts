@@ -33,6 +33,7 @@ import { DOCUMENT } from '@angular/common';
 import * as moment from 'moment';
 import * as CryptoJS from 'crypto-js';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { CaptchaComponent } from '../captcha/captcha.component';
 /**
  * DE40034072 - 12-01-2022
  */
@@ -42,7 +43,7 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  @ViewChild('captchaCmp') captchaCmp: any;
+  @ViewChild('captchaCmp') captchaCmp: CaptchaComponent | undefined;
   username: any;
   password: any;
   hide = true;
@@ -61,7 +62,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   _iterationCount: any;
   captchaToken!:string;
   isLoginDisabled = true;
-
+  enableCaptcha = environment.enableCaptcha;
 
   constructor(
     private fb: FormBuilder,
@@ -169,7 +170,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: encryptedPwd,
       doLogout: false,
       withCredentials: true,
-      captchaToken:this.captchaToken
+      ...( this.enableCaptcha ? {captchaToken:this.captchaToken} : {})
     };
     this.loginService.validateLogin(reqObj).subscribe(
       (res: any) => {
@@ -225,7 +226,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                   password: encryptedPwd,
                   doLogout: true,
                   withCredentials: true,
-                  captchaToken:this.captchaToken
+                  ...(this.enableCaptcha ? {captchaToken:this.captchaToken} : {}),
                 };
                 this.loginService
                   .validateLogin(loginReqObj).subscribe((userLoggedIn: any) => {
@@ -391,7 +392,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   updateLoginDisabled(): void {
-    this.isLoginDisabled = !(this.loginForm.valid && this.captchaToken);
+    // Disable login button if the form is invalid or captcha is required but not resolved
+    const isFormValid = this.loginForm.valid;
+    const isCaptchaValid = !this.enableCaptcha || !!this.captchaToken;
+    this.isLoginDisabled = !(isFormValid && isCaptchaValid);
   }
   
   onCaptchaResolved(token: string) {
@@ -400,7 +404,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   resetCaptcha() {
-    if (this.captchaCmp && typeof this.captchaCmp.reset === 'function') {
+    if (this.enableCaptcha && this.captchaCmp && typeof this.captchaCmp.reset === 'function') {
       this.captchaCmp.reset();
       this.captchaToken = '';
       this.updateLoginDisabled();

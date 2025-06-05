@@ -43,7 +43,8 @@ const defaultEnvValues = {
   ECD_API_BASE: '',
   SESSION_STORAGE_ENC_KEY: '',
   SITE_KEY:'',
-  CAPTCHA_CHALLENGE_URL:''
+  CAPTCHA_CHALLENGE_URL:'',
+  ENABLE_CAPTCHA: false,
 };
 
 // Generate output data
