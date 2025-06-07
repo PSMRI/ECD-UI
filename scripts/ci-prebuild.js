@@ -41,7 +41,8 @@ const defaultEnvValues = {
   COMMON_API_BASE: '',
   ADMIN_API_BASE: '',
   ECD_API_BASE: '',
-  SESSION_STORAGE_ENC_KEY: ''
+  SESSION_STORAGE_ENC_KEY: '',
+  TELEPHONY_SERVER: '',
 };
 
 // Generate output data

@@ -25,6 +25,7 @@ const ADMIN_API = '<%= ADMIN_API_BASE %>';
 const ECD_API = '<%= ECD_API_BASE %>';
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`;
 const sessionStorageEncKey = '<%= SESSION_STORAGE_ENC_KEY %>';
+const TELEPHONY_SERVER = '<%= TELEPHONY_SERVER %>';
 
 export const environment = {
   production: true,
@@ -183,7 +184,7 @@ export const environment = {
   getBeneficiaryCallHistoryUrl:`${ECD_API}callHistory/getBeneficiaryCallHistory`,
   getCallHistoryDetailsUrl:`${ECD_API}callHistory/getBeneficiaryCallDetails`,
   /**CTI Urls */
-  ctiUrl: `https://uatcz.piramalswasthya.org/`,
+  ctiUrl: TELEPHONY_SERVER,
   ctiEventUrl: `bar/cti_handler.php?e=`,
   getLoginKeyUrl:`${COMMON_API}cti/getLoginKey`,
   getAgentsDataUrl: `${ECD_API}master/getAgentsByRoleId`,
