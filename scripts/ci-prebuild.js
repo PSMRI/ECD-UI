@@ -45,6 +45,7 @@ const defaultEnvValues = {
   SITE_KEY:'',
   CAPTCHA_CHALLENGE_URL:'',
   ENABLE_CAPTCHA: false,
+  TELEPHONY_SERVER: '',
 };
 
 // Generate output data
