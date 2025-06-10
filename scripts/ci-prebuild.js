@@ -42,10 +42,10 @@ const defaultEnvValues = {
   ADMIN_API_BASE: '',
   ECD_API_BASE: '',
   SESSION_STORAGE_ENC_KEY: '',
+  TELEPHONY_SERVER: '',
   SITE_KEY:'',
   CAPTCHA_CHALLENGE_URL:'',
   ENABLE_CAPTCHA: false,
-  TELEPHONY_SERVER: '',
 };
 
 // Generate output data

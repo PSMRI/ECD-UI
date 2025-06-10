@@ -25,10 +25,10 @@ const ADMIN_API = '<%= ADMIN_API_BASE %>';
 const ECD_API = '<%= ECD_API_BASE %>';
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`;
 const sessionStorageEncKey = '<%= SESSION_STORAGE_ENC_KEY %>';
+const TELEPHONY_SERVER = '<%= TELEPHONY_SERVER %>';
 const siteKey = '<%= SITE_KEY %>';
 const captchaChallengeURL = '<%= CAPTCHA_CHALLENGE_URL %>';
 const enableCaptcha = '<%= ENABLE_CAPTCHA %>';
-const TELEPHONY_SERVER = '<%= TELEPHONY_SERVER %>';
 
 export const environment = {
   production: true,
