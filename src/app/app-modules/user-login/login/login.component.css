@@ -94,6 +94,30 @@ position: relative;
 padding: 5px !important;
 } */
 
+.loginCard {
+  height: auto;
+}
+
+/* .sr-only is a visually hidden class but useful for screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  white-space: nowrap;
+}
+
+.disabledLoginButton {
+  background-color: #ccc !important;
+  color: #666 !important;
+  cursor: not-allowed;
+  box-shadow: none !important;
+}
+
 
 
 

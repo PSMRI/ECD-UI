@@ -26,6 +26,9 @@ const ECD_API = '<%= ECD_API_BASE %>';
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`;
 const sessionStorageEncKey = '<%= SESSION_STORAGE_ENC_KEY %>';
 const TELEPHONY_SERVER = '<%= TELEPHONY_SERVER %>';
+const siteKey = '<%= SITE_KEY %>';
+const captchaChallengeURL = '<%= CAPTCHA_CHALLENGE_URL %>';
+const enableCaptcha = '<%= ENABLE_CAPTCHA %>';
 
 export const environment = {
   production: true,
@@ -252,4 +255,7 @@ downloadMiscarriageReportURL:`${ECD_API}ecdReportController/getECDMiscarriageRep
 generateVideoLinkURL :`${COMMON_API}video-consultation/generate-link`,
 sendSMSAPI: `${COMMON_API}video-consultation/send-link`,
 updateCallStatusAPI: `${COMMON_API}video-consultation/update-call-status`,
+siteKey: siteKey,
+captchaChallengeURL: captchaChallengeURL,
+enableCaptcha: enableCaptcha
 };

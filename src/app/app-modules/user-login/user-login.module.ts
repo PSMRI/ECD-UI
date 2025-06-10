@@ -30,9 +30,10 @@ import { RoleSelectionComponent } from './role-selection/role-selection.componen
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { SetPasswordComponent } from './set-password/set-password.component';
 import { SetSecurityQuestionsComponent } from './set-security-questions/set-security-questions.component';
+import { CaptchaComponent } from './captcha/captcha.component';
 
 @NgModule({
-  declarations: [LoginComponent, RoleSelectionComponent, ForgotPasswordComponent, SetPasswordComponent, SetSecurityQuestionsComponent],
+  declarations: [LoginComponent, RoleSelectionComponent, ForgotPasswordComponent, SetPasswordComponent, SetSecurityQuestionsComponent,CaptchaComponent],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule],
   exports: [LoginComponent],
 })

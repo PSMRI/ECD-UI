@@ -34,6 +34,9 @@ const ADMIN_API = `${adminIP}adminapi-v1.0/`;
 const ECD_API = `${ecdIP}ecdapi-v1.0/`;
 const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
 const sessionStorageEncKey = '';
+const siteKey = '';
+const captchaChallengeURL = '';
+const enableCaptcha = false;
 
 export const environment = {
   production: false,
@@ -262,6 +265,10 @@ downloadMiscarriageReportURL:`${ECD_API}ecdReportController/getECDMiscarriageRep
 generateVideoLinkURL :`${COMMON_API1}video-consultation/generate-link`,
 sendSMSAPI: `${COMMON_API1}video-consultation/send-link`,
 updateCallStatusAPI: `${COMMON_API1}video-consultation/update-call-status`,
+
+siteKey: siteKey,
+captchaChallengeURL: captchaChallengeURL,
+enableCaptcha: enableCaptcha
 
 };
 
