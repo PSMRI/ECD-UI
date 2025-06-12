@@ -339,7 +339,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           loginDataResponse.isAuthenticated
         );
         this.sessionstorage.setItem('userName', loginDataResponse.userName);
-        sessionStorage.setItem('userId', loginDataResponse.userID);
+        sessionStorage.setItem('userID', loginDataResponse.userID);
         this.sessionstorage.setItem('onCall', 'false');
         this.sessionstorage.setItem(
           'providerServiceMapID',
