@@ -558,7 +558,7 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
             this.confirmationService.openDialog(this.currentLanguageSet.beneficiaryRegisteredSuccessfully + " " + benRegId, `success`);
           this.associateAnmMoService.setOpenComp("ECD Questionnaire");
           this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
-          this.performAction();
+          // this.performAction();
 
         }
         else {
@@ -723,7 +723,7 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
           this.associateAnmMoService.setOpenComp("ECD Questionnaire");
           this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
 
-          this.performAction();
+          // this.performAction();
 
         }
         else {
@@ -750,7 +750,7 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
       .subscribe((response) => {
         if (response) {
 
-          this.performAction();
+          // this.performAction();
                    
           this.associateAnmMoService.setOpenComp("ECD Questionnaire");
           this.associateAnmMoService.onClickOfEcdQuestionnaire(true);
