@@ -28,7 +28,7 @@ const sessionStorageEncKey = '<%= SESSION_STORAGE_ENC_KEY %>';
 const TELEPHONY_SERVER = '<%= TELEPHONY_SERVER %>';
 const siteKey = '<%= SITE_KEY %>';
 const captchaChallengeURL = '<%= CAPTCHA_CHALLENGE_URL %>';
-const enableCaptcha = '<%= ENABLE_CAPTCHA %>';
+const enableCaptcha = <%= ENABLE_CAPTCHA %>;
 
 export const environment = {
   production: true,
