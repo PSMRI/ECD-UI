@@ -70,7 +70,7 @@ import { VideoConsultationService } from '../video-consultation/videoService';
              SHOW_POWERED_BY: false,
              TOOLBAR_BUTTONS: [
               'microphone', 'recording', 'camera', 'fullscreen',
-              'fodeviceselection', 'hangup',
+              'hangup',
               'chat', 'settings', 'raisehand',
               'videoquality'
             ],
