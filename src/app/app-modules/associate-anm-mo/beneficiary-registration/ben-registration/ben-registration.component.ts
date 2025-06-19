@@ -29,7 +29,6 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
-import * as moment from 'moment';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { VideoConsultationService } from '../../video-consultation/videoService';
@@ -66,26 +65,16 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
   districtMasterList: any;
   blockMasterList: any;
   villageMasterList: any;
-  // genderMasterList:any;
   genderMasterList: any;
   ageLimit = 120;
   valueEntered: any;
-  // = [
-  //   {
-  //   "genderID" : 1,
-  //   "genderName" : "Male"
-  //   },
-  //   {
-  //     "genderID" : 2,
-  //     "genderName" : "Female"
-  //     }
-  // ];
+
   enableUpdateButton = false;
   minimumDate: any;
   callerPhoneNumber: any;
   agentID: any;
   agentName: any;
-  hideVideoCall = false;
+  hideVideoCall =  true;
 
   constructor(
     private fb: FormBuilder,
@@ -98,7 +87,6 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
     readonly sessionstorage: SessionStorageService,
     public dialog: MatDialog,
     public videoService: VideoConsultationService,
-    // private cdr: ChangeDetectorRef,
 
   ) {
   }
@@ -343,111 +331,7 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
     }
   }
 
-  // patchDemographicMasters(viewDetails:any) {
 
-  //   this.stateMasterList.filter((values:any) => {
-  //     if (viewDetails.stateName !== undefined &&  viewDetails.stateName !== null && (values.stateName.toLowerCase() === viewDetails.stateName.toLowerCase())) {
-  //       this.benRegistrationForm.controls.stateID.setValue(values.stateID);
-  //     }
-  //   });
-
-  //   if(this.benRegistrationForm.controls.stateID.value !== undefined && this.benRegistrationForm.controls.stateID.value !== null && this.benRegistrationForm.controls.stateID.value !== ""){
-  //   this.getDistrictMaster(this.benRegistrationForm.controls.stateID.value,viewDetails); 
-  // }
-  // }
-
-  //     getDistrictMaster(stateID:any,viewDetails:any) {
-
-  //       this.masterService.getDistrictMaster(stateID).subscribe(
-  //         (response: any) => {
-  //           if (response && response.data !== null) {
-  //             this.districtMasterList = response.data;
-  //             this.blockMasterList = [];
-  //             this.villageMasterList = [];
-
-  //             this.districtMasterList.filter((values:any) => {
-  //               if (viewDetails.districtName !== undefined && viewDetails.districtName !== null && (values.districtName.toLowerCase() === viewDetails.districtName.toLowerCase())) {
-  //                 this.benRegistrationForm.controls.districtID.setValue(values.districtID);
-  //               }
-  //             });
-
-  //  if(this.benRegistrationForm.controls.districtID.value !== undefined && this.benRegistrationForm.controls.districtID.value !== null && this.benRegistrationForm.controls.districtID.value !== ""){
-  //             this.getBlockMaster(this.benRegistrationForm.controls.districtID.value,viewDetails);
-  //  }
-
-  //           } else {
-  //             this.confirmationService.openDialog(response.errorMessage, 'error');
-  //           }
-  //         },
-  //         (err: any) => {
-  //           if(err && err.error)
-  //           this.confirmationService.openDialog(err.error, 'error');
-  //           else
-  //           this.confirmationService.openDialog(err.title + err.detail, 'error')
-  //           }
-  //       );
-
-
-
-  //     }
-
-
-  // getBlockMaster(dictrictID:any,viewDetails:any) {
-  //   this.masterService.getBlockMaster(dictrictID).subscribe(
-  //     (response: any) => {
-  //       if (response && response.data !== null) {
-  //         this.blockMasterList = response.data;
-  //         this.villageMasterList = [];
-
-  //         this.blockMasterList.filter((values:any) => {
-  //           if (viewDetails.blockName !== undefined  && viewDetails.blockName !== null && (values.blockName.toLowerCase() === viewDetails.blockName.toLowerCase())) {
-  //             this.benRegistrationForm.controls.blockID.setValue(values.blockID);
-  //           }
-  //         });
-
-  //         if(this.benRegistrationForm.controls.blockID.value !== undefined && this.benRegistrationForm.controls.blockID.value !== null && this.benRegistrationForm.controls.blockID.value !== ""){
-  //         this.getVillageMaster(this.benRegistrationForm.controls.blockID.value,viewDetails);
-  //         }
-
-  //       } else {
-  //         this.confirmationService.openDialog(response.errorMessage, 'error');
-  //       }
-  //     },
-  //     (err: any) => {
-  //       if(err && err.error)
-  //       this.confirmationService.openDialog(err.error, 'error');
-  //       else
-  //       this.confirmationService.openDialog(err.title + err.detail, 'error')
-  //       }
-  //   );
-  // }
-
-  // getVillageMaster(blockID:any,viewDetails:any) {
-  //   this.masterService.getVillageMaster(blockID).subscribe(
-  //     (response: any) => {
-  //       if (response && response.data !== null) {
-  //         this.villageMasterList = response.data;
-
-  //         this.villageMasterList.filter((values:any) => {
-  //           if (viewDetails.villageName !== undefined && viewDetails.villageName !== null && (values.villageName.toLowerCase() === viewDetails.villageName.toLowerCase())) {
-  //             this.benRegistrationForm.controls.districtBranchID.setValue(values.districtBranchID);
-  //           }
-  //         });
-
-
-
-  //       } else {
-  //         this.confirmationService.openDialog(response.errorMessage, 'error');
-  //       }
-  //     },
-  //     (err: any) => {
-  //       if(err && err.error)
-  //       this.confirmationService.openDialog(err.error, 'error');
-  //       else
-  //       this.confirmationService.openDialog(err.title + err.detail, 'error')
-  //       }
-  //   );
-  // }
 
   setGenderName(genderValue: any) {
     this.benRegistrationForm.controls.genderName.setValue(genderValue);

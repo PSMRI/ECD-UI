@@ -45,12 +45,11 @@ import { VideoConsultationService } from '../video-consultation/videoService';
     
         this.videoService.apiInitialized = true; // Add this flag to prevent double init
       
-        const domain = 'meet.jit.si';
+        const domain = 'vc.piramalswasthya.org';
         try {
         const options = {
           roomName: this.videoService.meetLink.split('/').pop(),
           parentNode: this.jitsiContainerRef.nativeElement,
-          // parentNode: document.querySelector('#jitsi-container'),
           userInfo: {
             displayName: 'Agent'
           },
@@ -58,12 +57,23 @@ import { VideoConsultationService } from '../video-consultation/videoService';
             startWithAudioMuted: false,
             startWithVideoMuted: false,
             prejoinPageEnabled: false,
-            disableModeratorIndicator: true
+            disableModeratorIndicator: true,
+            serviceUrl: 'wss://vc.piramalswasthya.org/xmpp-websocket',
+            enableNoAudioDetection: true,
+            enableNoisyMicDetection: true
+
           },
           interfaceConfigOverwrite: {
             SHOW_JITSI_WATERMARK: false,
             SHOW_BRAND_WATERMARK: false,
-            disableDeepLinking: true
+            disableDeepLinking: true,
+             SHOW_POWERED_BY: false,
+             TOOLBAR_BUTTONS: [
+              'microphone', 'recording', 'camera', 'fullscreen',
+              'hangup',
+              'chat', 'settings', 'raisehand',
+              'videoquality'
+            ],
           }
         };
       
