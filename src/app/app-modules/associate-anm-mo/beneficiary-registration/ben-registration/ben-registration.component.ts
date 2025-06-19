@@ -33,6 +33,7 @@ import * as moment from 'moment';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { VideoConsultationService } from '../../video-consultation/videoService';
+import { tr } from 'date-fns/locale';
 
 @Component({
   selector: 'app-ben-registration',
@@ -85,7 +86,7 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
   callerPhoneNumber: any;
   agentID: any;
   agentName: any;
-  hideVideoCall = false;
+  hideVideoCall =  true;
 
   constructor(
     private fb: FormBuilder,
