@@ -270,7 +270,7 @@
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right" style="margin-top: 100px">
 
-          <button mat-raised-button class="buttonColorYellow full-width buttonWidth" type="submit"
+          <button *ngIf="hideVideoCall" mat-raised-button class="buttonColorYellow full-width buttonWidth" type="submit"
             style="margin-right: 10px" (click)="performAction()">
             <mat-icon>video_call</mat-icon>
             {{ currentLanguageSet?.videoCall || 'Video Call' }}

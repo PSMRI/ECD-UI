@@ -441,7 +441,7 @@ export class SupervisorService {
     return this.http.post(environment.updateParentChildMappingURL,reqData)
   }
 
-  getLowRiskRecordsByLanguage(psmId: any, phoneNoType: any, recordType: any, fDate: any, tDate: any, language: any) {
-    return this.http.get(environment.getLowRiskRecordsByLanguageUrl + '/' + psmId + '/' + phoneNoType + '/' + recordType + '/' + fDate + '/' + tDate + '/' + language);
+  getLowRiskRecordsByLanguage(psmId: any, phoneNoType: any, recordType: any, fDate: any, tDate: any, language: any, role: any) {
+    return this.http.get(environment.getLowRiskRecordsByLanguageUrl + '/' + psmId + '/' + phoneNoType + '/' + recordType + '/' + fDate + '/' + tDate + '/' + language + '/' + role);
   }
 }

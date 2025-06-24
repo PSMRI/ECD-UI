@@ -322,8 +322,7 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
       item.value.previewWindowTime  <= 60){
       item.get('selected')?.enable();
      }
-    if (item.value.previewWindowTime <= 0 || item.value.previewWindowTime > 60) {
-      item.value.previewWindowTime = null;
+   else {
       item.get('selected').disable();
       let newIndexes: any;
       this.preferenceList.controls.forEach((sourceValue: any, index) => {
@@ -335,7 +334,6 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
         )
           newIndexes = index;
       });
-      this.preferenceList.controls[newIndexes].patchValue({ previewWindowTime: null });
       item.value.selected = false;
       this.preferenceList.controls[newIndexes].patchValue({
         selected: null,
@@ -350,7 +348,6 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
         )
           newIndexes = index;
       });
-      this.preferDupList.controls[newIndexes].patchValue({ previewWindowTime: null });
       item.value.selected = false;
       this.preferDupList.controls[newIndexes].patchValue({
         selected: null,
@@ -358,7 +355,9 @@ export class DialPreferenceComponent implements OnInit, AfterViewInit, DoCheck {
       if (
         item.value.previewWindowTime === null ||
         item.value.previewWindowTime === undefined ||
-        item.value.previewWindowTime === ''
+        item.value.previewWindowTime === '' ||
+        item.value.previewWindowTime < 15 || 
+        item.value.previewWindowTime > 60
       ) {
         let newIndex: any;
         this.preferenceList.controls.forEach((sourceValue: any, index) => {

@@ -38,6 +38,7 @@ import { AgentsInnerpageComponent } from '../agents-innerpage/agents-innerpage.c
 import { SpinnerService } from '../../services/spinnerService/spinner.service';
 import { Subscription, map, timer } from 'rxjs';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { VideoConsultationService } from '../video-consultation/videoService';
 
 @Component({
   selector: 'app-call-closure',
@@ -116,7 +117,9 @@ private sms_service: SmsTemplateService,
     private router: Router,
     private masterService:MasterService,
     readonly sessionstorage:SessionStorageService,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    public videoService: VideoConsultationService,
+    
   ) { 
     
   }

@@ -21,7 +21,7 @@
 */
 
 
-import { Component, HostListener, Inject, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, HostListener, Inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -33,6 +33,7 @@ import { DOCUMENT } from '@angular/common';
 import * as moment from 'moment';
 import * as CryptoJS from 'crypto-js';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { CaptchaComponent } from '../captcha/captcha.component';
 /**
  * DE40034072 - 12-01-2022
  */
@@ -42,6 +43,7 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  @ViewChild('captchaCmp') captchaCmp: CaptchaComponent | undefined;
   username: any;
   password: any;
   hide = true;
@@ -58,7 +60,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   _keySize: any;
   _ivSize: any;
   _iterationCount: any;
-
+  captchaToken!:string;
+  isLoginDisabled = true;
+  enableCaptcha = environment.enableCaptcha;
 
   constructor(
     private fb: FormBuilder,
@@ -78,6 +82,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.loginForm.valueChanges.subscribe(() => {
+      this.updateLoginDisabled();
+    });
     if(sessionStorage.getItem("isAuthenticated") === "true"){
       this.router.navigate(['/role-selection']);
     } else {
@@ -149,8 +156,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   loginForm = this.fb.group({
-    userName: [''],
-    password: [''],
+    userName: ['', Validators.required],
+    password: ['', Validators.required],
   });
 
   /**
@@ -163,7 +170,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: encryptedPwd,
       doLogout: false,
       withCredentials: true,
-
+      ...( this.enableCaptcha ? {captchaToken:this.captchaToken} : {})
     };
     this.loginService.validateLogin(reqObj).subscribe(
       (res: any) => {
@@ -182,19 +189,22 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.userLogOutPreviousSession(res);
           } else {
             sessionStorage.clear();
+            this.resetCaptcha();
             this.router.navigate(['/login']);
             this.confirmationService.openDialog(res.errorMessage, 'error');
           }
         } else {
+          this.resetCaptcha();
           this.confirmationService.openDialog(res.errorMessage, 'error');
         }
       },
       (err: any) => {
+        this.resetCaptcha();
         if(err && err.error)
         this.confirmationService.openDialog(err.error, 'error');
         else
         this.confirmationService.openDialog(err.title + err.detail, 'error')
-        });
+      });
   }
 
   /**
@@ -218,6 +228,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                   password: encryptedPwd,
                   doLogout: true,
                   withCredentials: true,
+                  ...(this.enableCaptcha ? {captchaToken:this.captchaToken} : {}),
                 };
                 this.loginService
                   .validateLogin(loginReqObj).subscribe((userLoggedIn: any) => {
@@ -231,12 +242,14 @@ export class LoginComponent implements OnInit, OnDestroy {
                         this.loginService.userLoginData = userLoggedIn.data;
                         this.getServiceAuthenticationDetails(userLoggedIn.data);
                       } else {
+                        this.resetCaptcha();
                         this.confirmationService.openDialog(
                           this.currentLanguageSet.seemsYouAreLoggedIn,
                           'error'
                         );
                       }
                     } else {
+                      this.resetCaptcha();
                       this.confirmationService.openDialog(
                         userLoggedIn.errorMessage,
                         'error'
@@ -244,6 +257,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     }
                   });
               } else {
+                this.resetCaptcha();
                 this.confirmationService.openDialog(
                   logOutFromPreviousSession.errorMessage,
                   'error'
@@ -339,7 +353,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           loginDataResponse.isAuthenticated
         );
         this.sessionstorage.setItem('userName', loginDataResponse.userName);
-        sessionStorage.setItem('userId', loginDataResponse.userID);
+        sessionStorage.setItem('userID', loginDataResponse.userID);
         this.sessionstorage.setItem('onCall', 'false');
         this.sessionstorage.setItem(
           'providerServiceMapID',
@@ -380,5 +394,25 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   openForgotPassword() {
     this.router.navigate(['/forgot-password']);
+  }
+
+  updateLoginDisabled(): void {
+    // Disable login button if the form is invalid or captcha is required but not resolved
+    const isFormValid = this.loginForm.valid;
+    const isCaptchaValid = !this.enableCaptcha || !!this.captchaToken;
+    this.isLoginDisabled = !(isFormValid && isCaptchaValid);
+  }
+  
+  onCaptchaResolved(token: string) {
+    this.captchaToken = token;
+    this.updateLoginDisabled()
+  }
+
+  resetCaptcha() {
+    if (this.enableCaptcha && this.captchaCmp && typeof this.captchaCmp.reset === 'function') {
+      this.captchaCmp.reset();
+      this.captchaToken = '';
+      this.updateLoginDisabled();
+    }
   }
 }

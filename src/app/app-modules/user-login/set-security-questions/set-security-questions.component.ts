@@ -110,21 +110,21 @@ questionForm = this.fb.group({
 setSecurityQuestions(){
   this.dataArray = [
     {
-      'userID': this.sessionstorage.getItem('userID'),
+      'userID': sessionStorage.getItem('userID'),
       'questionID': this.questionForm.controls.question1.value,
       'answers': ((this.questionForm.controls.answer1.value !== null && this.questionForm.controls.answer1.value !== undefined) ? this.questionForm.controls.answer1.value.trim() : ''),
       'mobileNumber': '1234567890',
       'createdBy': this.uname
     },
     {
-      'userID': this.sessionstorage.getItem('userID'),
+      'userID': sessionStorage.getItem('userID'),
       'questionID': this.questionForm.controls.question2.value,
       'answers': ((this.questionForm.controls.answer2.value !== null && this.questionForm.controls.answer2.value !== undefined) ? this.questionForm.controls.answer2.value.trim() : ''),
       'mobileNumber': '1234567890',
       'createdBy': this.uname
     },
     {
-      'userID': this.sessionstorage.getItem('userID'),
+      'userID': sessionStorage.getItem('userID'),
       'questionID': this.questionForm.controls.question3.value,
       'answers': ((this.questionForm.controls.answer3.value !== null && this.questionForm.controls.answer3.value !== undefined) ? this.questionForm.controls.answer3.value.trim() : ''),
       'mobileNumber': '1234567890',
@@ -136,7 +136,7 @@ setSecurityQuestions(){
 
 updatePassword(){
     this.loginService.saveSecurityQuesAns(this.dataArray).subscribe((res:any)=>{
-      if(res.statuscode === 200){
+      if(res.statusCode === 200){
         if(res.data !== undefined && res.data !== null){
           this.loginService.transactionId = res.data.transactionId;
           this.router.navigate(['/set-password']);
