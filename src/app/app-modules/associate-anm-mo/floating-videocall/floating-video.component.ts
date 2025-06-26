@@ -3,11 +3,11 @@ import {
     AfterViewInit,
     ElementRef,
     ViewChild,
-    HostListener,
     ChangeDetectionStrategy
   } from '@angular/core';
-import { VideoConsultationService } from '../video-consultation/videoService';
-  
+import { VideoConsultationService } from '../video-consultation/videoService';  
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+
   declare let JitsiMeetExternalAPI: any;
   
   @Component({
@@ -26,12 +26,16 @@ import { VideoConsultationService } from '../video-consultation/videoService';
     private lastMove = 0;
 
 
-    constructor(public videoService: VideoConsultationService) {}
+    constructor(
+      public videoService: VideoConsultationService,
+      readonly sessionstorage: SessionStorageService,
+
+    ) {}
   
     ngAfterViewInit(): void {
       const container = this.jitsiContainerRef?.nativeElement;
 
-      if (!this.videoService.apiInitialized || container?.childElementCount === 0 && this.videoService.meetLink) {
+      if ((!this.videoService.apiInitialized || container?.childElementCount === 0) && this.videoService.meetLink) {
         this.initializeJitsi();
       }
     }
@@ -48,10 +52,10 @@ import { VideoConsultationService } from '../video-consultation/videoService';
         const domain = 'vc.piramalswasthya.org';
         try {
         const options = {
-          roomName: this.videoService.meetLink.split('/').pop(),
+          roomName: this.videoService.meetLink?.split('/').pop(),
           parentNode: this.jitsiContainerRef.nativeElement,
           userInfo: {
-            displayName: 'Agent'
+            displayName: this.sessionstorage.getItem('userName'),
           },
           configOverwrite: {
             startWithAudioMuted: false,
@@ -101,23 +105,29 @@ import { VideoConsultationService } from '../video-consultation/videoService';
       document.addEventListener('mouseup', this.endDrag);
     }
   
-    onDrag = (event: MouseEvent) => {
+  
+    
+    onDrag = (event: MouseEvent): void => {
+      if (!this.isDragging) return;
+
       const now = Date.now();
       if (now - this.lastMove < 16) return; // Throttle to ~60fps
       this.lastMove = now;
-    
-      if (!this.isDragging) return;
-    
+
       const left = event.clientX - this.offsetX;
       const top = event.clientY - this.offsetY;
-    
-      const windowElement = this.floatingWindowRef.nativeElement;
-      windowElement.style.left = `${left}px`;
-      windowElement.style.top = `${top}px`;
-      windowElement.style.bottom = 'auto';
-      windowElement.style.right = 'auto';
+
+      const floatingEl = this.floatingWindowRef.nativeElement;
+
+      // Apply constraints to keep window within the viewport (optional but helpful)
+      const maxLeft = window.innerWidth - floatingEl.offsetWidth;
+      const maxTop = window.innerHeight - floatingEl.offsetHeight;
+
+      floatingEl.style.left = `${Math.max(0, Math.min(left, maxLeft))}px`;
+      floatingEl.style.top = `${Math.max(0, Math.min(top, maxTop))}px`;
+      floatingEl.style.right = 'auto';
+      floatingEl.style.bottom = 'auto';
     };
-    
   
     endDrag = () => {
       this.isDragging = false;
