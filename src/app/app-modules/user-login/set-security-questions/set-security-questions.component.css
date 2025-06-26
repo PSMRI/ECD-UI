@@ -63,3 +63,6 @@ input::-ms-clear {
   border-radius: 10px !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+.m-b-10 {
+  margin-bottom: 10px;
+}

@@ -27,6 +27,7 @@ import { Router } from '@angular/router';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import * as CryptoJS from 'crypto-js';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 /**
  * KA40094929
@@ -62,6 +63,7 @@ export class SetPasswordComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private router: Router,
     private loginService: LoginserviceService,
+    private sessionstorage: SessionStorageService
   ) { 
     this._keySize = 256;
       this._ivSize = 128;
@@ -69,7 +71,7 @@ export class SetPasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.uname = this.loginService.userName;
+    this.uname = this.sessionstorage.getItem('userName');
   }
 
   setpasswordform = this.fb.group({
