@@ -71,7 +71,6 @@ export class VideoConsultationComponent {
     this.videoService.isMeetAvailable = true;
 
     this.videoService.startFloatingCall(this.videoService.meetLink);
-    // this.videoService.startFloatingCall("https://vc.piramalswasthya.org/30x656cr")
     this.videoService.showFloatingVideo = true;
 
     this.snackBar.open('Call has started', 'Close', {
@@ -123,7 +122,6 @@ export class VideoConsultationComponent {
     if (agreed) {
     this.videoService.videoConsultationAvailable = agreed;
     } else {
-      // this.endConsultation();
       this.videoService.reset();
       this.consultationClosed.emit()
     }
@@ -164,12 +162,11 @@ export class VideoConsultationComponent {
           verticalPosition: 'top',
           panelClass: ['snackbar-success']
         });
-        this.saveVideoCallRequest(link, 'Initiated');
         this.videoService.linkStatus = 'Sent Successfully';
       },
       error: (err) => {
         console.error('Error sending SMS:', err);
-        this.videoService.linkStatus = 'Sent Successfully';
+        this.videoService.linkStatus = 'Not Sent';
 
         this.snackBar.open('SMS not sent', 'Close', {
           duration: 3000,
