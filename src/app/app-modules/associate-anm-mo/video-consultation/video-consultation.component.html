@@ -8,17 +8,17 @@
       <mat-icon>close</mat-icon>
     </button>
 
-    <h2 id="videoConsultationTitle">Video Consultation Consent</h2>
+    <h2 id="videoConsultationTitle" class="title">Video Consultation Consent</h2>
     <p>
-      By agreeing, you consent to a secure video consultation,
+      By agreeing, your consent to a secure video consultation,
       understanding that your data will be handled confidentially.
     </p>
 
     <div class="consent-actions">
-      <button class="btn btn-success" (click)="handleConsent(true)">
+      <button class="buttonColorGreen  buttonWidth" mat-raised-button (click)="handleConsent(true)" [disabled]="videoService.videoConsultationAvailable">
         Agree
       </button>
-      <button class="btn btn-danger" (click)="handleConsent(false)">
+      <button class="buttonColorRedish  buttonWidth" mat-raised-button (click)="handleConsent(false)" [disabled]="videoService.videoConsultationAvailable">
         Disagree
       </button>
     </div>
@@ -27,7 +27,7 @@
       <p>Note: We are continuing the video consultation on agreeing by Beneficiary.</p>
       <h2 class="title">Video Consultation</h2>
 
-      <button (click)="sendOrResendLink()" [disabled]="videoService.linkSent" class="btn btn-primary btn-lg">
+      <button (click)="sendOrResendLink()" [disabled]="videoService.linkSent" class="btn btn-primary">
         Send Video Consultation Link
       </button>
 
@@ -38,12 +38,12 @@
           <li>Verify the beneficiary’s phone number and email.</li>
           <li>Resend the link if needed.</li>
         </ul>
-        <button (click)="sendOrResendLink()" class="btn btn-warning btn-lg">
+        <button (click)="sendOrResendLink()" class="btn btn-warning ">
           Resend Link
         </button>
       </div>
 
-      <h2 class="link-status">Link Sent Status:
+      <h2 class="title">Link Sent Status:
         <span
           [ngClass]="{ 'sent': videoService.linkStatus !== 'Not Sent', 'not-sent': videoService.linkStatus === 'Not Sent' }"
           aria-live="polite">
@@ -52,7 +52,7 @@
       </h2>
 
       <div class="form-group receipt-container" *ngIf="videoService.linkStatus === 'Sent Successfully'">
-        <h2 class="link-status">Beneficiary Link Receipt Confirmation:</h2>
+        <h2 class="title">Beneficiary Link Receipt Confirmation:</h2>
         <select [(ngModel)]="videoService.receiptConfirmation" class="form-control" (change)="updateReceiptConfirmation($event)">
           <option value="">Select</option>
           <option value="Received">Received</option>
@@ -63,19 +63,14 @@
       <button
         (click)="startConsultation()"
         [disabled]="videoService.receiptConfirmation !== 'Received'"
-        class="btn btn-success btn-lg mt-3">
+        class="btn btn-success  mt-3">
         Start Video Consultation
       </button>
-
-      <!-- <div class="jitsi-wrapper" *ngIf="videoService.isMeetAvailable"> -->
-        <!-- <div id="jitsi-container"></div> -->
-        <!-- <div #jitsiContainer id="jitsi-container"></div> -->
-        
 
 
         <button *ngIf="videoService.callStatus === 'Ongoing'"
                 (click)="endConsultation()"
-                class="btn btn-danger btn-lg mt-3 end-call-button">
+                class="btn btn btn-danger  mt-3 ">
           End Video Consultation
         </button>
       <!-- </div> -->
