@@ -351,12 +351,8 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
         this.benPhoneNo = this.sessionstorage.getItem("benPhoneNo");
         this.callId = this.sessionstorage.getItem("callId");
         this.associateAnmMoService.setOpenComp("Call Closed");
-        // this.associateAnmMoService.loadComponent(
-        //   OutboundWorklistComponent,
-        //   null
-        // );
+        
       }
-      this.getAgentState();
     }
 
     viewBenRegScreen() {

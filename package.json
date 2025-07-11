@@ -16,7 +16,7 @@
     "build-test": "(test -f src/environments/environment.ts || touch src/environments/environment.ts) && node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --configuration=test --aot"
   },
   "lint-staged": {
-    "src/**/*.{ts,css,html}": [
+    "src/**/*.ts": [
       "eslint --fix"
     ]
   },

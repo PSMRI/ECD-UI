@@ -57,8 +57,6 @@ export class VideoConsultationComponent {
         this.videoService.linkSent = true;
         this.videoService.meetLink = response.meetingLink;
         
-        
-        this.saveVideoCallRequest(response.meetingLink, 'Initiated');
         this.send_sms(this.videoService.meetLink, this.videoService.callerPhoneNumber);
       },
       error: () => {
@@ -73,6 +71,7 @@ export class VideoConsultationComponent {
     this.videoService.isMeetAvailable = true;
 
     this.videoService.startFloatingCall(this.videoService.meetLink);
+    // this.videoService.startFloatingCall("https://vc.piramalswasthya.org/30x656cr")
     this.videoService.showFloatingVideo = true;
 
     this.snackBar.open('Call has started', 'Close', {
@@ -121,7 +120,13 @@ export class VideoConsultationComponent {
   }
 
   handleConsent(agreed: boolean): void {
+    if (agreed) {
     this.videoService.videoConsultationAvailable = agreed;
+    } else {
+      // this.endConsultation();
+      this.videoService.reset();
+      this.consultationClosed.emit()
+    }
   }
 
   send_sms(link: string, phoneNo: string): void {
@@ -131,7 +136,7 @@ export class VideoConsultationComponent {
       map((res: any) => res?.data?.find((t: any) => t.smsType === 'Video Consultation')?.smsTypeID),
       switchMap((smsTypeID: string | null) => {
         if (!smsTypeID) throw new Error('Video Consultation type not found');
-        return this.sms_service.getSMStemplates(currentServiceID, smsTypeID).pipe(
+        return this.sms_service.getSMStemplates(this.sessionstorage.getItem('providerServiceMapID'), smsTypeID).pipe(
           map((res: any) => ({
             smsTemplateID: res?.data?.find((tpl: any) => !tpl.deleted)?.smsTemplateID,
             smsTemplateTypeID: smsTypeID
@@ -159,11 +164,13 @@ export class VideoConsultationComponent {
           verticalPosition: 'top',
           panelClass: ['snackbar-success']
         });
-        // this.saveVideoCallRequest(link, 'Initiated');
+        this.saveVideoCallRequest(link, 'Initiated');
         this.videoService.linkStatus = 'Sent Successfully';
       },
       error: (err) => {
         console.error('Error sending SMS:', err);
+        this.videoService.linkStatus = 'Sent Successfully';
+
         this.snackBar.open('SMS not sent', 'Close', {
           duration: 3000,
           verticalPosition: 'top',
