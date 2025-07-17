@@ -1,21 +1,23 @@
-  
-   .floating-video {
+  .floating-video {
   position: fixed;
-  width: 500px;
-  height: 700px;
+  width: 60vw; /* Responsive width */
+  max-width: 700px;
+  min-width: 300px;
+  height: 60vh; /* Responsive height */
+  max-height: 600px;
+  min-height: 300px;
   background: white;
   border: 1px solid #ccc;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   z-index: 10000;
-  top: 100px;
-  left: 100px;
+  top: 10vh;
+  left: 10vw;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border-radius: 8px;
-  transition: transform 0.2s ease; /* Optional for smooth drag */
+  transition: transform 0.2s ease;
 }
-
 .drag-header {
   height: 40px;
   background: #f0f0f0;
@@ -51,4 +53,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Optional: for screens smaller than 600px */
+@media (max-width: 600px) {
+  .floating-video {
+    width: 90vw;
+    height: 70vh;
+    top: 5vh;
+    left: 5vw;
+  }
 }
