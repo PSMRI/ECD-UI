@@ -122,8 +122,6 @@ export class VideoConsultationComponent {
   handleConsent(agreed: boolean): void {
     if (agreed) {
     this.videoService.videoConsultationAvailable = agreed;
-    } else {
-      // this.endConsultation();
       this.videoService.reset();
       this.consultationClosed.emit()
     }
@@ -164,13 +162,11 @@ export class VideoConsultationComponent {
           verticalPosition: 'top',
           panelClass: ['snackbar-success']
         });
-        this.saveVideoCallRequest(link, 'Initiated');
         this.videoService.linkStatus = 'Sent Successfully';
       },
       error: (err) => {
         console.error('Error sending SMS:', err);
-        this.videoService.linkStatus = 'Sent Successfully';
-
+        this.videoService.linkStatus = 'Not Sent';
         this.snackBar.open('SMS not sent', 'Close', {
           duration: 3000,
           verticalPosition: 'top',
