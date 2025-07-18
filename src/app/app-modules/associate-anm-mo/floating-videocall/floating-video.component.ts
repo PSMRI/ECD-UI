@@ -7,6 +7,7 @@ import {
   } from '@angular/core';
 import { VideoConsultationService } from '../video-consultation/videoService';  
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { environment } from 'src/environments/environment';
 
   declare let JitsiMeetExternalAPI: any;
   
@@ -49,7 +50,7 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
     
         this.videoService.apiInitialized = true; // Add this flag to prevent double init
       
-        const domain = 'vc.piramalswasthya.org';
+        const domain = environment.vcDomain;
         try {
         const options = {
           roomName: this.videoService.meetLink?.split('/').pop(),
@@ -62,7 +63,7 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
             startWithVideoMuted: false,
             prejoinPageEnabled: false,
             disableModeratorIndicator: true,
-            serviceUrl: 'wss://vc.piramalswasthya.org/xmpp-websocket',
+            serviceUrl: `wss://${environment.vcDomain}/xmpp-websocket`,
             enableNoAudioDetection: true,
             enableNoisyMicDetection: true
 

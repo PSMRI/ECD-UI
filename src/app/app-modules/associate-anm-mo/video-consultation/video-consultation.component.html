@@ -10,40 +10,39 @@
 
     <h2 id="videoConsultationTitle" class="title">Video Consultation Consent</h2>
     <p>
-      By agreeing, your consent to a secure video consultation,
-      understanding that your data will be handled confidentially.
+      {{this.currentLanguageSet.consentMessage}}
     </p>
 
     <div class="consent-actions">
       <button class="buttonColorGreen  buttonWidth" mat-raised-button (click)="handleConsent(true)" [disabled]="videoService.videoConsultationAvailable">
-        Agree
+        {{this.currentLanguageSet.agree}}
       </button>
       <button class="buttonColorRedish  buttonWidth" mat-raised-button (click)="handleConsent(false)" [disabled]="videoService.videoConsultationAvailable">
-        Disagree
+        {{this.currentLanguageSet.disagree}}
       </button>
     </div>
 
     <div *ngIf="videoService.videoConsultationAvailable" style="margin-top: 10px;">
-      <p>Note: We are continuing the video consultation on agreeing by Beneficiary.</p>
-      <h2 class="title">Video Consultation</h2>
+      <p>{{this.currentLanguageSet.agreeNote}}</p>
+      <h2 class="title">{{this.currentLanguageSet.videoConsultation}}</h2>
 
       <button (click)="sendOrResendLink()" [disabled]="videoService.linkSent" class="btn btn-primary">
-        Send Video Consultation Link
+        {{this.currentLanguageSet.sendVCLink}}
       </button>
 
       <!-- Troubleshooting Steps -->
       <div *ngIf="videoService.receiptConfirmation === 'Not Received'" class="troubleshooting link-status">
-        <p class="troubleshoot-message">Troubleshooting Steps:</p>
+        <p class="troubleshoot-message">{{this.currentLanguageSet.troubleshootingSteps}}:</p>
         <ul>
-          <li>Verify the beneficiary’s phone number and email.</li>
-          <li>Resend the link if needed.</li>
+          <li>{{this.currentLanguageSet?.step1}}</li>
+          <li>{{this.currentLanguageSet?.step2}}</li>
         </ul>
         <button (click)="sendOrResendLink()" class="btn btn-warning ">
-          Resend Link
+           {{this.currentLanguageSet.resendVCLink}}
         </button>
       </div>
 
-      <h2 class="title">Link Sent Status:
+      <h2 class="title">{{ this.currentLanguageSet.linkStatus }}:
         <span
           [ngClass]="{ 'sent': videoService.linkStatus !== 'Not Sent', 'not-sent': videoService.linkStatus === 'Not Sent' }"
           aria-live="polite">
@@ -52,11 +51,11 @@
       </h2>
 
       <div class="form-group receipt-container" *ngIf="videoService.linkStatus === 'Sent Successfully'">
-        <h2 class="title">Beneficiary Link Receipt Confirmation:</h2>
+        <h2 class="title">{{this.currentLanguageSet?.receiptConfirmation}}</h2>
         <select [(ngModel)]="videoService.receiptConfirmation" class="form-control" (change)="updateReceiptConfirmation($event)">
           <option value="">Select</option>
-          <option value="Received">Received</option>
-          <option value="Not Received">Not Received</option>
+          <option value="Received">{{this.currentLanguageSet?.received}}</option>
+          <option value="Not Received">{{this.currentLanguageSet?.notReceived}}</option>
         </select>
       </div>
 
@@ -64,20 +63,20 @@
         (click)="startConsultation()"
         [disabled]="videoService.receiptConfirmation !== 'Received'"
         class="btn btn-success  mt-3">
-        Start Video Consultation
+        {{this.currentLanguageSet?.startVideoConsultation}}
       </button>
 
 
         <button *ngIf="videoService.callStatus === 'Ongoing'"
                 (click)="endConsultation()"
                 class="btn btn btn-danger  mt-3 ">
-          End Video Consultation
+          {{this.currentLanguageSet?.endVideoConsultation}}
         </button>
       <!-- </div> -->
 
       <!-- Consultxation Status -->
       <h2>
-        <strong>Consultation Status:</strong>
+        <strong>{{this.currentLanguageSet?.consultationStatus}}:</strong>
         <span
           [ngClass]="{
             'not-initiated': videoService.callStatus === 'Not Initiated',
@@ -90,8 +89,8 @@
 
       <!-- Alternative Consultation Message -->
       <div *ngIf="!videoService.videoConsultationAvailable" class="alternative-message">
-        <p>Video consultation is not possible. Proceed with the ECD questionnaire workflow.</p>
-        <button class="btn btn-primary">Continue with Alternative Consultation</button>
+        <p>{{this.currentLanguageSet?.notPossible}}</p>
+        <button class="btn btn-primary">{{this.currentLanguageSet?.alternateNumber}}</button>
       </div>
     </div>
   </mat-card>

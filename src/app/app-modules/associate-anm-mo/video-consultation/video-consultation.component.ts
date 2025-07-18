@@ -9,6 +9,7 @@ import { SmsTemplateService } from '../../services/smsTemplate/sms-template.serv
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { map, switchMap } from 'rxjs/operators';
 import { VideoConsultationService } from './videoService';
+import { SetLanguageService } from '../../services/set-language/set-language.service';
 
 interface VideoCallRequest {
   dateOfCall: string;
@@ -39,6 +40,7 @@ export class VideoConsultationComponent {
   @ViewChild('jitsiContainer', { static: false }) jitsiContainerRef!: ElementRef;
 
   @Output() consultationClosed = new EventEmitter<void>();
+  currentLanguageSet: any;
 
 
   constructor(
@@ -48,9 +50,21 @@ export class VideoConsultationComponent {
     readonly sessionstorage: SessionStorageService,
     private snackBar: MatSnackBar,
     public videoService: VideoConsultationService,
+    private setLanguageService: SetLanguageService,
+    
   ) { }
 
+  ngOnInit() {
+    this.getSelectedLanguage();
+  }
 
+ getSelectedLanguage() {
+    if (
+      this.setLanguageService.languageData !== undefined &&
+      this.setLanguageService.languageData !== null
+    )
+      this.currentLanguageSet = this.setLanguageService.languageData;
+  }
   sendOrResendLink(): void {
     this.associateAnmMoService.generateLink().subscribe({
       next: (response: any) => {
@@ -71,7 +85,6 @@ export class VideoConsultationComponent {
     this.videoService.isMeetAvailable = true;
 
     this.videoService.startFloatingCall(this.videoService.meetLink);
-    // this.videoService.startFloatingCall("https://vc.piramalswasthya.org/30x656cr")
     this.videoService.showFloatingVideo = true;
 
     this.snackBar.open('Call has started', 'Close', {
@@ -122,6 +135,7 @@ export class VideoConsultationComponent {
   handleConsent(agreed: boolean): void {
     if (agreed) {
     this.videoService.videoConsultationAvailable = agreed;
+    } else {
       this.videoService.reset();
       this.consultationClosed.emit()
     }
