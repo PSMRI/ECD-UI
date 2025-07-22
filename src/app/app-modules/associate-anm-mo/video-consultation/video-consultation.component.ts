@@ -181,7 +181,6 @@ export class VideoConsultationComponent {
       error: (err) => {
         console.error('Error sending SMS:', err);
         this.videoService.linkStatus = 'Not Sent';
-
         this.snackBar.open('SMS not sent', 'Close', {
           duration: 3000,
           verticalPosition: 'top',
