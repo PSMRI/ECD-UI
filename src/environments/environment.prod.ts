@@ -32,6 +32,7 @@ const sessionStorageEncKey = '';
 const siteKey = '';
 const captchaChallengeURL = '';
 const enableCaptcha = false;
+const vcDomain = '';
 
 export const environment = {
   production: true,
@@ -263,5 +264,7 @@ updateCallStatusAPI: `${COMMON_API}video-consultation/update-call-status`,
 
 siteKey: siteKey,
 captchaChallengeURL: captchaChallengeURL,
-enableCaptcha: enableCaptcha
+enableCaptcha: enableCaptcha,
+vcDomain: vcDomain,
+
 };

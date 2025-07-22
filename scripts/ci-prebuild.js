@@ -46,6 +46,7 @@ const defaultEnvValues = {
   SITE_KEY:'',
   CAPTCHA_CHALLENGE_URL:'',
   ENABLE_CAPTCHA: false,
+  VC_DOMAIN: '',
 };
 
 // Generate output data
