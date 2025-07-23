@@ -29,7 +29,7 @@ const TELEPHONY_SERVER = '<%= TELEPHONY_SERVER %>';
 const siteKey = '<%= SITE_KEY %>';
 const captchaChallengeURL = '<%= CAPTCHA_CHALLENGE_URL %>';
 const enableCaptcha = <%= ENABLE_CAPTCHA %>;
-const vcDomain = <%= VC_DOMAIN %>;
+const vcDomain = '<%= VC_DOMAIN %>';
 
 export const environment = {
   production: true,
