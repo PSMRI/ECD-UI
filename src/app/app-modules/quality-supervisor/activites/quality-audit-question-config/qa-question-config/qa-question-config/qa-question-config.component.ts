@@ -50,6 +50,7 @@ export class QaQuestionConfigComponent implements OnInit, AfterViewInit {
     'questionnaire',
     'answerType',
     'sectionName',
+    'roles',
     'edit',
     'delete',
   ];
@@ -203,6 +204,7 @@ export class QaQuestionConfigComponent implements OnInit, AfterViewInit {
             questionnaire: tableValue.question,
             questionRank: tableValue.questionRank,
             answerType: tableValue.answerType,
+            roles: tableValue.roles,
             createdBy: this.sessionstorage.getItem('userName'),
             psmId: this.sessionstorage.getItem('providerServiceMapID'),
             deleted: type === 'activate' ? false : true,
