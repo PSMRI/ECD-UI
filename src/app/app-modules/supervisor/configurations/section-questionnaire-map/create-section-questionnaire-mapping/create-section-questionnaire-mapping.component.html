@@ -24,7 +24,7 @@
           (selectionChange)="
             getUnMappedQuestionnaireMaster(
               sectionQuestionnaireMapForm.controls.sectionid.value
-            )
+            ); trackFieldInteraction('Section Name')
           "
           required
         >
@@ -68,6 +68,7 @@
                 sectionQuestionnaireMapForm.controls.searchTerm.value
               )
             "
+            (focus)="trackFieldInteraction('In Table Search')"
           />
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
@@ -139,6 +140,7 @@
                   (keyup)="removeCheck(element)"
                   [min]="1"
                   [max]="10000"
+                  (focus)="trackFieldInteraction('Rank')"
                 />
               </mat-form-field>
             </td>
@@ -159,6 +161,7 @@
             [value]="roles"
             multiple
             formControlName="roleType"
+            (selectionChange)="trackFieldInteraction('Role Type')"
           >
             <mat-option *ngFor="let type of roles" [value]="type.roleName">{{
               type.roleName
@@ -179,7 +182,7 @@
               <mat-checkbox
                 formControlName="selected"
                 [checked]="element.value.selected === true"
-                (change)="addQuestionnaire($event, element.value)"
+                (change)="addQuestionnaire($event, element.value); trackFieldInteraction('Select Questionnaire')"
                 [required]="
                  ( element.value.rank !== null &&
                   element.value.rank !== undefined &&
@@ -224,7 +227,7 @@
         <button
           mat-raised-button
           class="buttonColorRedish full-width buttonWidth"
-          (click)="back()"
+          (click)="back(); trackFieldInteraction('Back Button')"
           type="button"
         >
           {{ currentLanguageSet?.back }}
@@ -234,7 +237,7 @@
           class="buttonColorGreen full-width buttonWidth"
           style="margin-left: 10px"
           type="submit"
-          (click)="saveSectionQuestionnaireMapping()"
+          (click)="saveSectionQuestionnaireMapping(); trackFieldInteraction('Submit Button')"
           [disabled]="
             selectedQuestionnaires.length === 0 ||
             !sectionQuestionnaireMapForm.valid

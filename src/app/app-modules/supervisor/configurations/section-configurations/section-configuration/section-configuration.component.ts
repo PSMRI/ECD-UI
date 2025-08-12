@@ -31,6 +31,7 @@ import { CreateSectionConfigurationComponent } from '../create-section-configura
 import { EditSectionConfigurationComponent } from '../edit-section-configuration/edit-section-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 /**
  * KA40094929
@@ -65,7 +66,7 @@ export class SectionConfigurationComponent implements OnInit, DoCheck, AfterView
     private setLanguageService: SetLanguageService,
     private confirmationService: ConfirmationService,
     readonly sessionstorage:SessionStorageService,
-    
+    private trackingService: AmritTrackingService
   ) { }
 
   ngOnInit(): void {
@@ -195,7 +196,9 @@ export class SectionConfigurationComponent implements OnInit, DoCheck, AfterView
       });
     }
   }
-
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Section Configuration');
+  }
 }
 
 export interface sectionElement {

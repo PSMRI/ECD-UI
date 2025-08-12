@@ -34,6 +34,7 @@ import * as moment from 'moment';
 import * as CryptoJS from 'crypto-js';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { CaptchaComponent } from '../captcha/captcha.component';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 /**
  * DE40034072 - 12-01-2022
  */
@@ -74,6 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2, 
     readonly sessionstorage:SessionStorageService,
+    private trackingService: AmritTrackingService
   ) {
     this._keySize = 256;
       this._ivSize = 128;
@@ -239,6 +241,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                         userLoggedIn.data.previlegeObj !== null &&
                         userLoggedIn.data.previlegeObj !== undefined
                       ) {
+                        this.sessionstorage.setItem('loginDataResponse', JSON.stringify(userLoggedIn.data));
+                        this.trackingService.setUserId(userLoggedIn.data.userID);
                         this.loginService.userLoginData = userLoggedIn.data;
                         this.getServiceAuthenticationDetails(userLoggedIn.data);
                       } else {
@@ -311,6 +315,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           loginDataResponse.isAuthenticated
         );
         this.sessionstorage.setItem('userName', loginDataResponse.userName);
+        this.trackingService.setUserId(loginDataResponse.userID);
         this.sessionstorage.setItem('onCall', 'false');
         this.sessionstorage.setItem(
           'providerServiceMapID',

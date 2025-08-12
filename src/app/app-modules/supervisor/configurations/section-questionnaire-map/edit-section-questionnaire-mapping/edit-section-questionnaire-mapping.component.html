@@ -20,6 +20,7 @@
             id="questionType"
             formControlName="questionType"
             defaultNull
+            (focus)="trackFieldInteraction('Question Type')"
           />
         </mat-form-field>
       </div>
@@ -44,6 +45,7 @@
             formControlName="question"
             defaultNull
             disable
+            (focus)="trackFieldInteraction('Question')"
           ></textarea>
         </mat-form-field>
       </div>
@@ -64,6 +66,7 @@
             id="sectionName"
             formControlName="sectionName"
             defaultNull
+            (focus)="trackFieldInteraction('Section Name')"
           ></textarea>
         </mat-form-field>
       </div>
@@ -90,6 +93,7 @@
             [max]="10000"
             defaultNull
             required
+            (focus)="trackFieldInteraction('Section Question Rank')"
           />
 
           <mat-error
@@ -114,6 +118,7 @@
             multiple
             formControlName="roleType"
             required
+            (selectionChange)="trackFieldInteraction('Role Type')"
           >
             <mat-option *ngFor="let type of roles" [value]="type.roleName">{{
               type.roleName
@@ -129,7 +134,7 @@
         <button
           mat-raised-button
           class="buttonColorRedish full-width buttonWidth"
-          (click)="back()"
+          (click)="back(); trackFieldInteraction('Back Button')"
           type="submit"
         >
           {{ currentLanguageSet?.back }}
@@ -146,7 +151,7 @@
           (click)="
             updateQuestionnairesSectionMap(
               editQuestionnaireSectionMappingForm.value
-            )
+            ); trackFieldInteraction('Update Button')
           "
         >
           {{ currentLanguageSet?.update }}

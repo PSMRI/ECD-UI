@@ -4,7 +4,7 @@
       {{ currentLanguageSet?.ecdQuestionnaire }}
     </h2>
     <button mat-raised-button class="buttonColor full-width" style="float: right;"
-      (click)="openBenHistory()">Beneficiary Call History</button>
+      (click)="openBenHistory(); trackFieldInteraction('Beneficiary Call History Button')">Beneficiary Call History</button>
   </div>
 
   <div style="display: flex; gap: 1rem;">
@@ -19,10 +19,10 @@
                 <b class="inner fontHeaderStyle"> Beneficiary Details </b>
                 <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                   <button *ngIf="role.toLowerCase() !== 'associate' && !enableChildForm" style="float:right"
-                    mat-raised-button class="highRiskButtonColor full-width buttonWidth" (click)="getHRPReasons()">HRP
+                    mat-raised-button class="highRiskButtonColor full-width buttonWidth" (click)="getHRPReasons(); trackFieldInteraction('HRP Reasons Button')">HRP
                     Reasons</button>
                   <button *ngIf="role.toLowerCase() !== 'associate' && enableChildForm" style="float:right"
-                    mat-raised-button class="highRiskButtonColor full-width buttonWidth" (click)="getHRPReasons()">HRNI
+                    mat-raised-button class="highRiskButtonColor full-width buttonWidth" (click)="getHRPReasons(); trackFieldInteraction('HRNI Reasons Button')">HRNI
                     Reasons</button>
                 </div>
               </mat-panel-title>
@@ -33,80 +33,85 @@
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Mother Id</mat-label>
-                    <input matInput placeholder="" id="motherId" formControlName="motherId" type="text" readonly />
+                    <input matInput placeholder="" id="motherId" formControlName="motherId" type="text" readonly
+                      (focus)="trackFieldInteraction('Mother ID')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Mother Name</mat-label>
-                    <input matInput placeholder="" id="motherName" formControlName="motherName" type="text" readonly />
+                    <input matInput placeholder="" id="motherName" formControlName="motherName" type="text" readonly
+                      (focus)="trackFieldInteraction('Mother Name')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Husband's Name</mat-label>
                     <input matInput placeholder="" id="husbandName" formControlName="husbandName" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('Husband Name')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Age</mat-label>
-                    <input matInput placeholder="" id="age" formControlName="age" type="text" readonly />
+                    <input matInput placeholder="" id="age" formControlName="age" type="text" readonly
+                      (focus)="trackFieldInteraction('Age')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>District Name</mat-label>
                     <input matInput placeholder="" id="districtName" formControlName="districtName" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('District Name')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Health Block</mat-label>
                     <input matInput placeholder="" id="healthBlock" formControlName="healthBlock" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('Health Block')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>PHC Name</mat-label>
-                    <input matInput placeholder="" id="phcName" formControlName="phcName" type="text" readonly />
+                    <input matInput placeholder="" id="phcName" formControlName="phcName" type="text" readonly
+                      (focus)="trackFieldInteraction('PHC Name')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Sub Facility / Sub Center</mat-label>
                     <input matInput placeholder="" id="subFacility" formControlName="subFacility" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('Sub Facility')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Village Name</mat-label>
                     <input matInput placeholder="" id="villageName" formControlName="villageName" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('Village Name')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Address</mat-label>
-                    <input matInput placeholder="" id="address" formControlName="address" type="text" readonly />
+                    <input matInput placeholder="" id="address" formControlName="address" type="text" readonly
+                      (focus)="trackFieldInteraction('Address')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Phone Number</mat-label>
                     <input matInput placeholder="" id="whomPhoneNo" formControlName="whomPhoneNo" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('Phone Number')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Phone Number of Whom</mat-label>
                     <input matInput placeholder="" id="phoneNoOfWhom" formControlName="phoneNoOfWhom" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('Phone Number Of Whom')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
@@ -114,14 +119,15 @@
                     [style.width]="'100%'">
                     <mat-label>Alternate Phone Number</mat-label>
                     <input matInput placeholder="" id="alternatePhoneNo" formControlName="alternatePhoneNo" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('Alternate Phone Number')" />
                   </mat-form-field>
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Asha Name</mat-label>
-                    <input matInput placeholder="" id="ashaName" formControlName="ashaName" type="text" readonly />
+                    <input matInput placeholder="" id="ashaName" formControlName="ashaName" type="text" readonly
+                      (focus)="trackFieldInteraction('Asha Name')" />
                   </mat-form-field>
                 </div>
 
@@ -129,14 +135,15 @@
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Asha PhoneNo</mat-label>
                     <input matInput placeholder="" id="ashaPhoneNo" formControlName="ashaPhoneNo" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('Asha Phone Number')" />
                   </mat-form-field>
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>ANM Name</mat-label>
-                    <input matInput placeholder="" id="anmName" formControlName="anmName" type="text" readonly />
+                    <input matInput placeholder="" id="anmName" formControlName="anmName" type="text" readonly
+                      (focus)="trackFieldInteraction('ANM Name')" />
                   </mat-form-field>
                 </div>
 
@@ -144,21 +151,24 @@
                   <mat-form-field class="fieldStyleDisabled" class="fieldStyleDisabled" appearance="outline"
                     [style.width]="'100%'">
                     <mat-label>ANM PhoneNO</mat-label>
-                    <input matInput placeholder="" id="anmPhoneNo" formControlName="anmPhoneNo" type="text" readonly />
+                    <input matInput placeholder="" id="anmPhoneNo" formControlName="anmPhoneNo" type="text" readonly
+                      (focus)="trackFieldInteraction('ANM Phone Number')" />
                   </mat-form-field>
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>LMP Date</mat-label>
-                    <input matInput placeholder="" id="lmpDate" formControlName="lmpDate" type="text" readonly />
+                    <input matInput placeholder="" id="lmpDate" formControlName="lmpDate" type="text" readonly
+                      (focus)="trackFieldInteraction('LMP Date')" />
                   </mat-form-field>
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Expected Deivery Date</mat-label>
-                    <input matInput placeholder="" id="edd" formControlName="edd" type="text" readonly />
+                    <input matInput placeholder="" id="edd" formControlName="edd" type="text" readonly
+                      (focus)="trackFieldInteraction('Expected Delivery Date')" />
                   </mat-form-field>
                 </div>
               </form>
@@ -167,103 +177,114 @@
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Child Id</mat-label>
-                    <input matInput placeholder="" id="motherId" formControlName="childId" type="text" readonly />
+                    <input matInput placeholder="" id="motherId" formControlName="childId" type="text" readonly
+                      (focus)="trackFieldInteraction('Child ID')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Child Name</mat-label>
-                    <input matInput placeholder="" id="motherName" formControlName="childName" type="text" readonly />
+                    <input matInput placeholder="" id="motherName" formControlName="childName" type="text" readonly
+                      (focus)="trackFieldInteraction('Child Name')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box m-bottom" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Mother Id</mat-label>
-                    <input matInput placeholder="" id="motherId" formControlName="motherId" type="text" readonly />
+                    <input matInput placeholder="" id="motherId" formControlName="motherId" type="text" readonly
+                      (focus)="trackFieldInteraction('Mother ID')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Mother Name</mat-label>
-                    <input matInput placeholder="" id="motherName" formControlName="motherName" type="text" readonly />
+                    <input matInput placeholder="" id="motherName" formControlName="motherName" type="text" readonly
+                      (focus)="trackFieldInteraction('Mother Name')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Father Name</mat-label>
-                    <input matInput placeholder="" id="fatherName" formControlName="fatherName" type="text" readonly />
+                    <input matInput placeholder="" id="fatherName" formControlName="fatherName" type="text" readonly
+                      (focus)="trackFieldInteraction('Father Name')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Gender</mat-label>
-                    <input matInput placeholder="" id="gender" formControlName="gender" type="text" readonly />
+                    <input matInput placeholder="" id="gender" formControlName="gender" type="text" readonly
+                      (focus)="trackFieldInteraction('Gender')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>District Name</mat-label>
                     <input matInput placeholder="" id="districtName" formControlName="districtName" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('District Name')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Health Block</mat-label>
                     <input matInput placeholder="" id="healthBlock" formControlName="healthBlock" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('Health Block')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>PHC Name</mat-label>
-                    <input matInput placeholder="" id="phcName" formControlName="phcName" type="text" readonly />
+                    <input matInput placeholder="" id="phcName" formControlName="phcName" type="text" readonly
+                      (focus)="trackFieldInteraction('PHC Name')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Sub Facility / Sub Center</mat-label>
                     <input matInput placeholder="" id="subFacility" formControlName="subFacility" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('Sub Facility')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Village Name</mat-label>
                     <input matInput placeholder="" id="villageName" formControlName="villageName" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('Village Name')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Address</mat-label>
-                    <input matInput placeholder="" id="address" formControlName="address" type="text" readonly />
+                    <input matInput placeholder="" id="address" formControlName="address" type="text" readonly
+                      (focus)="trackFieldInteraction('Address')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Phone Number</mat-label>
-                    <input matInput placeholder="" id="phoneNo" formControlName="phoneNo" type="text" readonly />
+                    <input matInput placeholder="" id="phoneNo" formControlName="phoneNo" type="text" readonly
+                      (focus)="trackFieldInteraction('Phone Number')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Phone Number of Whom</mat-label>
-                    <input matInput placeholder="" id="phoneNoOf" formControlName="phoneNoOf" type="text" readonly />
+                    <input matInput placeholder="" id="phoneNoOf" formControlName="phoneNoOf" type="text" readonly
+                      (focus)="trackFieldInteraction('Phone Number Of Whom')" />
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Alternate Phone Number</mat-label>
                     <input matInput placeholder="" id="alternatePhoneNo" formControlName="alternatePhoneNo" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('Alternate Phone Number')" />
                   </mat-form-field>
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Asha Name</mat-label>
-                    <input matInput placeholder="" id="ashaName" formControlName="ashaName" type="text" readonly />
+                    <input matInput placeholder="" id="ashaName" formControlName="ashaName" type="text" readonly
+                      (focus)="trackFieldInteraction('Asha Name')" />
                   </mat-form-field>
                 </div>
 
@@ -271,28 +292,31 @@
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Asha PhoneNo</mat-label>
                     <input matInput placeholder="" id="ashaPhoneNo" formControlName="ashaPhoneNo" type="text"
-                      readonly />
+                      readonly (focus)="trackFieldInteraction('Asha Phone Number')" />
                   </mat-form-field>
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>ANM Name</mat-label>
-                    <input matInput placeholder="" id="anmName" formControlName="anmName" type="text" readonly />
+                    <input matInput placeholder="" id="anmName" formControlName="anmName" type="text" readonly
+                      (focus)="trackFieldInteraction('ANM Name')" />
                   </mat-form-field>
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>ANM PhoneNO</mat-label>
-                    <input matInput placeholder="" id="anmPhoneNo" formControlName="anmPhoneNo" type="text" readonly />
+                    <input matInput placeholder="" id="anmPhoneNo" formControlName="anmPhoneNo" type="text" readonly
+                      (focus)="trackFieldInteraction('ANM Phone Number')" />
                   </mat-form-field>
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box" style="margin-bottom: 10px;">
                   <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
                     <mat-label>Date of birth</mat-label>
-                    <input matInput placeholder="" id="lmpDate" formControlName="dob" type="text" readonly />
+                    <input matInput placeholder="" id="lmpDate" formControlName="dob" type="text" readonly
+                      (focus)="trackFieldInteraction('Date Of Birth')" />
                   </mat-form-field>
                 </div>
               </form>
@@ -301,7 +325,7 @@
         </div>
         <div class="stepper-paginator" [hidden]="filteredQuesData.length === 0">
           <div class="arrow-icons">
-            <button mat-icon-button (click)="paginatorBack()" *ngIf="page > 0">
+            <button mat-icon-button (click)="paginatorBack(); trackFieldInteraction('Previous Page Button')" *ngIf="page > 0">
               <mat-icon>keyboard_arrow_left</mat-icon>
             </button>
           </div>
@@ -329,7 +353,7 @@
                             <div class="section">
                               <mat-form-field appearance="outline" *ngIf="ques?.answerType?.toLowerCase() === 'text'">
                                 <input matInput type="input" placeholder="Please Enter Answer Here" required
-                                  [(ngModel)]="ques.answer" />
+                                  [(ngModel)]="ques.answer" (focus)="trackFieldInteraction('Text Answer')" />
                               </mat-form-field>
                               <mat-error class="error"
                                 *ngIf="ques?.answerType?.toLowerCase() === 'text' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
@@ -337,7 +361,7 @@
 
                               <mat-form-field appearance="outline" *ngIf="ques?.answerType?.toLowerCase() === 'date'">
                                 <input matInput type="date" placeholder="Please Enter Answer Here" required
-                                  [(ngModel)]="ques.answer" />
+                                  [(ngModel)]="ques.answer" (focus)="trackFieldInteraction('Date Answer')" />
                               </mat-form-field>
                               <mat-error class="error"
                                 *ngIf="ques?.answerType?.toLowerCase() === 'date' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
@@ -345,7 +369,7 @@
 
                               <mat-form-field appearance="outline" *ngIf="ques?.answerType?.toLowerCase() === 'time'">
                                 <input matInput type="time" placeholder="Please Enter Answer Here" required
-                                  [(ngModel)]="ques.answer" />
+                                  [(ngModel)]="ques.answer" (focus)="trackFieldInteraction('Time Answer')" />
                               </mat-form-field>
                               <mat-error class="error"
                                 *ngIf="ques?.answerType?.toLowerCase() === 'time' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
@@ -354,7 +378,7 @@
                               <mat-form-field appearance="outline" class="backgroundWhite dropdownfontStyle"
                                 *ngIf="ques?.answerType?.toLowerCase() === 'multiple'">
                                 <mat-select matInput multiple placeholder="Please Enter Answer Here" required
-                                  [(ngModel)]="ques.answer" (selectionChange)="processFilteredQuestionnaires(ques)">
+                                  [(ngModel)]="ques.answer" (selectionChange)="processFilteredQuestionnaires(ques); trackFieldInteraction('Multiple Choice Answer')">
                                   <mat-option *ngFor="let option of ques.options" [value]="option.options">
                                     {{ option.options }}
                                   </mat-option>
@@ -367,7 +391,7 @@
                               <mat-form-field appearance="outline"
                                 *ngIf="ques?.answerType?.toLowerCase() === 'date & time'">
                                 <input matInput type="datetime-local" placeholder="Please Enter Answer Here" required
-                                  [(ngModel)]="ques.answer" />
+                                  [(ngModel)]="ques.answer" (focus)="trackFieldInteraction('Date Time Answer')" />
                               </mat-form-field>
                               <mat-error class="error"
                                 *ngIf="ques?.answerType?.toLowerCase() === 'date & time' && validateAnswer && (ques.answer === null || ques.answer === '' || ques.answer === undefined)">Please
@@ -376,7 +400,7 @@
                               <!-- extra condition for the radio button not visible 2 tyms for hrp and hrni cases  -->
 
                               <mat-radio-group *ngIf="ques?.answerType?.toLowerCase() === 'radio'"
-                                [(ngModel)]="ques.answer" (change)="processFilteredQuestionnaires(ques)" required>
+                                [(ngModel)]="ques.answer" (change)="processFilteredQuestionnaires(ques); trackFieldInteraction('Radio Answer')" required>
                                 <mat-radio-button class="radioButtonFontStyle"
                                   style="margin-left: 5px; margin-right: 5px;" *ngFor="let option of ques.options"
                                   [value]="option.options">
@@ -392,7 +416,7 @@
                               <mat-form-field appearance="outline" class="backgroundWhite fieldForHRP dropdownfontStyle"
                                 *ngIf="ques?.answerType?.toLowerCase() === 'dropdown'">
                                 <mat-select matInput type="select" placeholder="Please Enter Answer Here" required
-                                  [(ngModel)]="ques.answer" (selectionChange)="processFilteredQuestionnaires(ques)">
+                                  [(ngModel)]="ques.answer" (selectionChange)="processFilteredQuestionnaires(ques); trackFieldInteraction('Dropdown Answer')">
                                   <mat-option *ngFor="let option of ques.options" [value]="option.options">
                                     {{ option.options }}
                                   </mat-option>
@@ -412,10 +436,10 @@
                     </mat-card-content>
                     <div style="display: flex; justify-content: center;">
                       <button style="margin-right: 5px;" mat-raised-button class="buttonColor full-width buttonWidth"
-                        [disabled]="stepper.selectedIndex === 0" (click)="goBack()">Previous</button>
+                        [disabled]="stepper.selectedIndex === 0" (click)="goBack(); trackFieldInteraction('Previous Button')">Previous</button>
                       <button style="margin-right: 5px;" mat-raised-button class="buttonColor full-width buttonWidth"
                         [disabled]="stepper.selectedIndex === stepper.steps.length - 1"
-                        (click)="goForward(stepper.selectedIndex)">Next</button>
+                        (click)="goForward(stepper.selectedIndex); trackFieldInteraction('Next Button')">Next</button>
                     </div>
                   </mat-card>
                 </mat-step>
@@ -424,7 +448,7 @@
           </div>
 
           <div class="arrow-icons">
-            <button mat-icon-button (click)="paginatorNext()" *ngIf="page < totalPages - 1">
+            <button mat-icon-button (click)="paginatorNext(); trackFieldInteraction('Next Page Button')" *ngIf="page < totalPages - 1">
               <mat-icon>keyboard_arrow_right</mat-icon>
             </button>
           </div>
@@ -438,9 +462,9 @@
 
         <div style="display: flex; justify-content: right;">
           <button style="margin-right: 5px;" mat-raised-button class="buttonColorRedish full-width buttonWidth"
-            (click)="goToClosure()">Closure</button>
+            (click)="goToClosure(); trackFieldInteraction('Closure Button')">Closure</button>
           <button *ngIf="filteredQuesData.length !== 0" style="margin-right: 5px;" mat-raised-button
-            class="buttonColorGreen full-width buttonWidth" (click)="saveQuestionnaire()">Submit</button>
+            class="buttonColorGreen full-width buttonWidth" (click)="saveQuestionnaire(); trackFieldInteraction('Submit Button')">Submit</button>
         </div>
 
         <div style="float: right; margin-right: -25px;"> <app-czentrix-iframe></app-czentrix-iframe></div>

@@ -7,7 +7,7 @@
   <button
     mat-raised-button
     class="buttonColor inner createButton fontStyleButton"
-    (click)="openCreateQuestionnaire()"
+    (click)="openCreateQuestionnaire(); trackFieldInteraction('Create Questionnaires Button')"
   >
     {{ currentLanguageSet?.createQuestionnaires }}
   </button>
@@ -33,6 +33,7 @@
         placeholder=""
         #filterTerm
         (keyup)="filterSearchTerm(filterTerm.value)"
+        (focus)="trackFieldInteraction('In Table Search')"
       />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
@@ -110,7 +111,7 @@
             aria-hidden="true"
             style="cursor: pointer"
             *ngIf="!element.deleted"
-            (click)="editQuestionnaire(element)"
+            (click)="editQuestionnaire(element); trackFieldInteraction('Edit Questionnaire Button')"
             >edit</mat-icon
           >
         </td>
@@ -125,7 +126,7 @@
             *ngIf="element.deleted === true"
             mat-raised-button
             class="buttonColorGreen full-width buttonWidth"
-            (click)="activateDeactivateQuestionnaire(element, 'activate')"
+            (click)="activateDeactivateQuestionnaire(element, 'activate'); trackFieldInteraction('Activate Button')"
           >
             {{ currentLanguageSet?.activate }}
           </button>
@@ -133,7 +134,7 @@
             *ngIf="element.deleted === false"
             mat-raised-button
             class="buttonColorRedish full-width buttonWidth"
-            (click)="activateDeactivateQuestionnaire(element, 'deactivate')"
+            (click)="activateDeactivateQuestionnaire(element, 'deactivate'); trackFieldInteraction('Deactivate Button')"
           >
             {{ currentLanguageSet?.deactivate }}
           </button>

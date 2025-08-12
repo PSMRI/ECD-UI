@@ -31,6 +31,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { SectionConfigurationComponent } from '../section-configuration/section-configuration.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 /**
  * KA40094929
@@ -56,6 +57,7 @@ export class CreateSectionConfigurationComponent implements OnInit, AfterViewIni
     private supervisorService: SupervisorService,
     private confirmationService: ConfirmationService,
     readonly sessionstorage:SessionStorageService,
+    private trackingService: AmritTrackingService
   ) { }
 
   sectionconfigurationform = this.fb.group({
@@ -156,6 +158,9 @@ export class CreateSectionConfigurationComponent implements OnInit, AfterViewIni
       });
   }
 
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Create Section Configuration');
+  }
 }
 
 export interface sectionElement {

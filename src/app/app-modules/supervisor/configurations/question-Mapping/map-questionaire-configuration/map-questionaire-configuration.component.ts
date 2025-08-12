@@ -8,6 +8,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { EditQuestionMappingComponent } from '../edit-question-mapping/edit-question-mapping.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-map-questionaire-configuration',
@@ -34,6 +35,7 @@ export class MapQuestionaireConfigurationComponent implements OnInit, DoCheck, A
     private supervisorService: SupervisorService,
     private confirmationService: ConfirmationService,
     readonly sessionstorage:SessionStorageService,
+    private trackingService: AmritTrackingService,
   ) { }
 
   ngOnInit(): void {
@@ -225,6 +227,9 @@ export class MapQuestionaireConfigurationComponent implements OnInit, DoCheck, A
     } else {
       return false;
     }
+  }
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Map Questionnaire Configuration');
   }
 
 }

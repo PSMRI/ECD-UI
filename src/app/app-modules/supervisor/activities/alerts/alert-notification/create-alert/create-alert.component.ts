@@ -33,6 +33,7 @@ import { MasterService } from 'src/app/app-modules/services/masterService/master
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-create-alert',
@@ -80,7 +81,7 @@ export class CreateAlertComponent implements OnInit, DoCheck {
   Stime = '';
   Etime = '';
 
-  constructor(readonly sessionstorage:SessionStorageService,private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService, private masterService: MasterService,) { }
+  constructor(readonly sessionstorage:SessionStorageService,private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService, private masterService: MasterService, private trackingService: AmritTrackingService) { }
 
   ngOnInit(): void {
     this.getSelectedLanguage();
@@ -289,5 +290,7 @@ export class CreateAlertComponent implements OnInit, DoCheck {
     console.log("heloo")
   }
 
-
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Create Alert');
+  }
 }

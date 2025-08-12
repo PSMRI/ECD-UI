@@ -39,6 +39,7 @@ import { SpinnerService } from '../../services/spinnerService/spinner.service';
 import { Subscription, map, timer } from 'rxjs';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { VideoConsultationService } from '../video-consultation/videoService';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-call-closure',
@@ -113,13 +114,13 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
     private associateAnmMoService: AssociateAnmMoService,
     private ctiService: CtiService,
     private loginService: LoginserviceService,
-private sms_service: SmsTemplateService,
+    private sms_service: SmsTemplateService,
     private router: Router,
     private masterService:MasterService,
     readonly sessionstorage:SessionStorageService,
     private spinnerService: SpinnerService,
     public videoService: VideoConsultationService,
-    
+    private trackingService: AmritTrackingService
   ) { 
     
   }
@@ -852,6 +853,10 @@ private sms_service: SmsTemplateService,
     const reasonForNoFurtherCallsIdControl = this.callClosureForm.get('reasonForNoFurtherCallsId');
     reasonForNoFurtherCallsIdControl?.clearValidators();
     reasonForNoFurtherCallsIdControl?.updateValueAndValidity();
+  }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Call Closure');
   }
 }
 export interface gradeMapping {

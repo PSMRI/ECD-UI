@@ -32,6 +32,7 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { CreateQuestionnaireComponent } from '../create-questionnaire/create-questionnaire.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 /**
  * DE40034072
  * 25-01-2023
@@ -67,7 +68,8 @@ export class QuestionnaireConfigurationComponent implements OnInit, DoCheck, Aft
     private confirmationService: ConfirmationService,
     private supervisorService: SupervisorService,
     readonly sessionstorage:SessionStorageService,
-    private loginService: LoginserviceService
+    private loginService: LoginserviceService,
+    private trackingService: AmritTrackingService
   ) {}
 
   ngOnInit(): void {
@@ -324,6 +326,10 @@ export class QuestionnaireConfigurationComponent implements OnInit, DoCheck, Aft
         }
       });
     }
+  }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Questionnaire Configuration');
   }
 }
 
