@@ -123,7 +123,7 @@
           defaultNull
           multiple="true"
           formControlName="roles"
-          required="true"
+          required
           (selectionChange)="setRoleType(editQualityAuditorQuestionnaireForm.controls.roles.value)"
           >
           <mat-option *ngFor="let type of roles" [value]="type.roleName">{{
