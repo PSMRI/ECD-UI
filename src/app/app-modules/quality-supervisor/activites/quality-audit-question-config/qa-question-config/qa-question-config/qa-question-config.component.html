@@ -68,6 +68,13 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="roles">
+          <th mat-header-cell *matHeaderCellDef style="border-bottom: none">{{ currentLanguageSet?.role }}</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.roles }}
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="sectionName">
           <th mat-header-cell *matHeaderCellDef style="border-bottom: none" mat-sort-header>{{ currentLanguageSet?.sectionName }}</th>
           <td mat-cell *matCellDef="let element">
