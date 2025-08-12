@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.iemr.ecd-ui</groupId>
   <artifactId>ecd-ui</artifactId>
-  <version>3.1.0</version>
+  <version>3.5.0</version>
   <name>ECD-UI</name>
   <packaging>war</packaging>
   <profiles>
