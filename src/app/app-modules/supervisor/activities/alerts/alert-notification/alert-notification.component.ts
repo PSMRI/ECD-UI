@@ -37,6 +37,7 @@ import { MasterService } from 'src/app/app-modules/services/masterService/master
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-alert-notification',
@@ -82,7 +83,7 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
   roleId: any;
   allRoleIDs: any = [];
 
-  constructor(readonly sessionstorage:SessionStorageService,private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService , private masterService: MasterService,) { }
+  constructor(readonly sessionstorage:SessionStorageService,private fb: FormBuilder,private setLanguageService: SetLanguageService,private supervisorService: SupervisorService,private confirmationService: ConfirmationService , private masterService: MasterService, private trackingService: AmritTrackingService) { }
 
   ngOnInit(): void {
     this.getSelectedLanguage();
@@ -349,5 +350,9 @@ export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewIni
         });
       }
     }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Alert Notification');
+  }
 
 }

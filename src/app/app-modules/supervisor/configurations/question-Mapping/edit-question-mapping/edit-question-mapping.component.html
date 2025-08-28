@@ -26,6 +26,7 @@
                 (input)="checkValidParentQuestion()"
                 (keyup)="filterQuestionsList(editQuestionaireMappingForm.controls['parentQuestion'].value)"
                 (click)="filterQuestionsList(editQuestionaireMappingForm.controls['parentQuestion'].value)" 
+                (focus)="trackFieldInteraction('Parent Question')"
               />
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onChange($event,'parent')">
                 <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
@@ -41,7 +42,9 @@
                 <mat-label>{{ currentLanguageSet?.answerType }}</mat-label>
                 <mat-select multiple
                   formControlName="answerType"
-                  required>
+                  required
+                  (selectionChange)="trackFieldInteraction('Answer Type')"
+                >
                   <mat-option
                     *ngFor="let ans of parentAnswersList"
                     [value]="ans">
@@ -69,6 +72,7 @@
                 (input)="checkValidChildQuestionQuestion()"
                 (keyup)="filterChildQuestionsList(editQuestionaireMappingForm.controls['childQuestion'].value)"
                 (click)="filterChildQuestionsList(editQuestionaireMappingForm.controls['childQuestion'].value)" 
+                (focus)="trackFieldInteraction('Child Question')"
               />
               <mat-autocomplete #autoComplete="matAutocomplete" (optionSelected)="onChange($event,'child')">
                 <mat-option *ngFor="let option of filteredChildOptions | async" [value]="option">
@@ -89,7 +93,7 @@
                 mat-raised-button
                 class="buttonColorRedish full-width buttonWidth"
                 type="button"
-                (click)="back()"
+                (click)="back(); trackFieldInteraction('Back Button')"
               >
                 {{ currentLanguageSet?.back }}
               </button>
@@ -99,7 +103,7 @@
                 style="margin-left: 10px"
                 [disabled]="
                 !editQuestionaireMappingForm.valid || !editQuestionaireMappingForm.dirty"
-                (click)="editMapping()"
+                (click)="editMapping(); trackFieldInteraction('Update Button')"
                 type="submit">
                 {{ currentLanguageSet?.update }}
               </button>

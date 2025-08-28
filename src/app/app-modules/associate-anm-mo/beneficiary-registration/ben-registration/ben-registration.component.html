@@ -4,7 +4,7 @@
   <button mat-raised-button
     *ngIf="selectedRole === 'MO' || selectedRole === 'ANM' || (selectedRole === 'Associate' && enableUpdateButton)"
     style="width: 200px; margin-top: -50px; float: right;" class="buttonColor quesButton fontStyleButton"
-    (click)="openEcdQuestionnaire()">
+    (click)="openEcdQuestionnaire(); trackFieldInteraction('ECD Questionnaire Button')">
     {{ currentLanguageSet?.ecdQuestionnaire}}
   </button>
 </div>
@@ -18,7 +18,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle fieldStyleDisabled">
             <mat-label class="fontStyleDisabled fieldStyleDisabled">{{ currentLanguageSet?.motherID}}</mat-label>
             <input matInput placeholder="" class="fontStyleDisabled" id="motherId" formControlName="motherId"
-              type="text" defaultNull readonly />
+              type="text" defaultNull readonly (focus)="trackFieldInteraction('Mother ID')" />
           </mat-form-field>
         </div>
 
@@ -26,7 +26,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle fieldStyleDisabled">
             <mat-label class="fontStyleDisabled fieldStyleDisabled">{{ currentLanguageSet?.childId}}</mat-label>
             <input matInput placeholder="" class="fontStyleDisabled" id="mctsidNoChildId"
-              formControlName="mctsidNoChildId" type="text" defaultNull readonly />
+              formControlName="mctsidNoChildId" type="text" defaultNull readonly (focus)="trackFieldInteraction('Child ID')" />
           </mat-form-field>
         </div>
 
@@ -35,7 +35,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyle">{{ currentLanguageSet?.childName}}</mat-label>
             <input matInput placeholder="" appMyName class="fontStyle" id="childName" formControlName="childName"
-              type="text" maxlength="200" defaultNull [required]="enableMotherRecord ? true : false" />
+              type="text" maxlength="200" defaultNull [required]="enableMotherRecord ? true : false" (focus)="trackFieldInteraction('Child Name')" />
           </mat-form-field>
         </div>
 
@@ -43,7 +43,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyle">{{ currentLanguageSet?.motherName}}</mat-label>
             <input matInput appMyName placeholder="" class="fontStyle" id="motherName" formControlName="motherName"
-              type="text" maxlength="200" defaultNull required />
+              type="text" maxlength="200" defaultNull required (focus)="trackFieldInteraction('Mother Name')" />
           </mat-form-field>
         </div>
 
@@ -52,7 +52,7 @@
             <mat-label class="fontStyle">{{ enableMotherRecord ? currentLanguageSet?.husbandName :
               currentLanguageSet?.fatherName }}</mat-label>
             <input matInput appMyName placeholder="" class="fontStyle" id="husbandName" formControlName="husbandName"
-              minlength="2" maxlength="100" type="text" defaultNull />
+              minlength="2" maxlength="100" type="text" defaultNull (focus)="trackFieldInteraction('Husband Name')" />
           </mat-form-field>
         </div>
 
@@ -62,7 +62,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label
               [ngClass]="enableMotherRecord ? 'fontStyleDisabled' : 'fontStyle'">{{currentLanguageSet?.gender}}</mat-label>
-            <mat-select formControlName="genderID" [disabled]="enableMotherRecord" required>
+            <mat-select formControlName="genderID" [disabled]="enableMotherRecord" required (selectionChange)="trackFieldInteraction('Gender')">
               <mat-option *ngFor="let genders of genderMasterList" (click)="setGenderName(genders.genderName)"
                 [value]="genders.genderID">
                 {{ genders.genderName }}
@@ -76,7 +76,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyleDisabled ">{{ currentLanguageSet?.age}}</mat-label>
             <input matInput placeholder="" class="fontStyle" id="age" min="12" max="50" formControlName="age"
-              type="number" allowText="number" (change)="ageEntered()" defaultNull required />
+              type="number" allowText="number" (change)="ageEntered()" defaultNull required (focus)="trackFieldInteraction('Age')" />
           </mat-form-field>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box marginAlign"
@@ -91,7 +91,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStylefieldStyleDisabled">
             <mat-label class="fontStyleDisabled fieldStyleDisabled">{{ currentLanguageSet?.state}}</mat-label>
             <input matInput placeholder="" class="fontStyleDisabled" id="stateID" formControlName="stateID" type="text"
-              defaultNull readonly />
+              defaultNull readonly (focus)="trackFieldInteraction('State')" />
           </mat-form-field>
         </div>
 
@@ -100,7 +100,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle fieldStyleDisabled">
             <mat-label class="fontStyleDisabled fieldStyleDisabled">{{ currentLanguageSet?.district}}</mat-label>
             <input matInput placeholder="" class="fontStyleDisabled" id="districtID" formControlName="districtID"
-              type="text" defaultNull readonly />
+              type="text" defaultNull readonly (focus)="trackFieldInteraction('District')" />
           </mat-form-field>
         </div>
 
@@ -108,7 +108,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle fieldStyleDisabled">
             <mat-label class="fontStyleDisabled fieldStyleDisabled">{{ currentLanguageSet?.block}}</mat-label>
             <input matInput placeholder="" class="fontStyleDisabled" id="blockID" formControlName="blockID" type="text"
-              defaultNull readonly />
+              defaultNull readonly (focus)="trackFieldInteraction('Block')" />
           </mat-form-field>
         </div>
 
@@ -117,7 +117,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle fieldStyleDisabled">
             <mat-label class="fontStyleDisabled fieldStyleDisabled">{{ currentLanguageSet?.village}}</mat-label>
             <input matInput placeholder="" class="fontStyleDisabled" id="districtBranchID"
-              formControlName="districtBranchID" type="text" defaultNull readonly />
+              formControlName="districtBranchID" type="text" defaultNull readonly (focus)="trackFieldInteraction('Village')" />
           </mat-form-field>
         </div>
 
@@ -126,14 +126,14 @@
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box marginAlign">
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyleDisabled">{{ currentLanguageSet?.healthBlock}}</mat-label>
-            <input matInput placeholder="" id="healthBlock" formControlName="healthBlock" type="text" defaultNull />
+            <input matInput placeholder="" id="healthBlock" formControlName="healthBlock" type="text" defaultNull (focus)="trackFieldInteraction('Health Block')" />
           </mat-form-field>
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box marginAlign">
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyleDisabled">{{ currentLanguageSet?.phcName}}</mat-label>
-            <input matInput placeholder="" id="phcName" formControlName="phcName" type="text" defaultNull />
+            <input matInput placeholder="" id="phcName" formControlName="phcName" type="text" defaultNull (focus)="trackFieldInteraction('PHC Name')" />
           </mat-form-field>
         </div>
 
@@ -142,7 +142,7 @@
             <mat-label class="fontStyleDisabled fieldStyleDisabled">{{
               currentLanguageSet?.subFacilitySubCentres}}</mat-label>
             <input matInput class="fontStyleDisabled" placeholder="" id="subFacility" formControlName="subFacility"
-              type="text" defaultNull readonly />
+              type="text" defaultNull readonly (focus)="trackFieldInteraction('Sub Facility')" />
           </mat-form-field>
         </div>
 
@@ -150,14 +150,14 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyle">{{ currentLanguageSet?.phoneNumber}}</mat-label>
             <input matInput placeholder="" class="fontStyle" id="phoneNo" formControlName="phoneNo" appMobileNumber
-              maxlength="10" minlength="10" defaultNull required />
+              maxlength="10" minlength="10" defaultNull required (focus)="trackFieldInteraction('Phone Number')" />
           </mat-form-field>
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box marginAlign">
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyle">{{ currentLanguageSet?.phoneNumOfWhom}}</mat-label>
-            <mat-select class="fontStyle" formControlName="phoneNoOf" required>
+            <mat-select class="fontStyle" formControlName="phoneNoOf" required (selectionChange)="trackFieldInteraction('Phone Number Of Whom')">
               <mat-option *ngFor="let number of phoneNumber" [value]="number.name">
                 {{ number.name }}
               </mat-option>
@@ -169,14 +169,14 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyle">{{ currentLanguageSet?.alternatePhoneNum}}</mat-label>
             <input matInput class="fontStyle" placeholder="" id="alternatePhoneNo" formControlName="alternatePhoneNo"
-              appMobileNumber minlength="10" maxlength="10" defaultNull />
+              appMobileNumber minlength="10" maxlength="10" defaultNull (focus)="trackFieldInteraction('Alternate Phone Number')" />
           </mat-form-field>
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box marginAlign">
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyleDisabled">{{ currentLanguageSet?.ashaName}}</mat-label>
-            <input matInput placeholder="" id="ashaName" formControlName="ashaName" type="text" defaultNull />
+            <input matInput placeholder="" id="ashaName" formControlName="ashaName" type="text" defaultNull (focus)="trackFieldInteraction('Asha Name')" />
           </mat-form-field>
         </div>
 
@@ -184,14 +184,14 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyleDisabled">{{ currentLanguageSet?.ashaPhoneNum}}</mat-label>
             <input matInput placeholder="" id="ashaPhoneNo" formControlName="ashaPhoneNo" defaultNull appMobileNumber
-              maxlength="10" minlength="10" />
+              maxlength="10" minlength="10" (focus)="trackFieldInteraction('Asha Phone Number')" />
           </mat-form-field>
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 box marginAlign">
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyleDisabled">{{ currentLanguageSet?.anmName}}</mat-label>
-            <input matInput placeholder="" id="anmName" formControlName="anmName" type="text" />
+            <input matInput placeholder="" id="anmName" formControlName="anmName" type="text" (focus)="trackFieldInteraction('ANM Name')" />
           </mat-form-field>
         </div>
 
@@ -199,7 +199,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyleDisabled">{{ currentLanguageSet?.anmPhoneNum}}</mat-label>
             <input matInput placeholder="" id="anmPhoneNo" formControlName="anmPhoneNo" defaultNull appMobileNumber
-              maxlength="10" minlength="10" />
+              maxlength="10" minlength="10" (focus)="trackFieldInteraction('ANM Phone Number')" />
           </mat-form-field>
         </div>
 
@@ -208,7 +208,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyle">{{ currentLanguageSet?.lmp}}</mat-label>
             <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="lmpPicker" [required]="enableMotherRecord"
-              (dateChange)="calculateEdd()" formControlName="lmpDate">
+              (dateChange)="calculateEdd()" formControlName="lmpDate" (focus)="trackFieldInteraction('LMP Date')">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="lmpPicker"></mat-datepicker-toggle>
             <mat-datepicker #lmpPicker></mat-datepicker>
@@ -219,7 +219,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle fieldStyleDisabled">
             <mat-label class="fontStyle">{{ currentLanguageSet?.lmp}}</mat-label>
             <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="lmpPicker" [required]="enableMotherRecord"
-              (dateChange)="calculateEdd()" formControlName="lmpDate">
+              (dateChange)="calculateEdd()" formControlName="lmpDate" (focus)="trackFieldInteraction('LMP Date')">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="lmpPicker"></mat-datepicker-toggle>
             <mat-datepicker #lmpPicker></mat-datepicker>
@@ -230,7 +230,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
             <mat-label class="fontStyle">{{ currentLanguageSet?.edd}}</mat-label>
             <input matInput class="fontStyleDisabled" [matDatepicker]="eddPicker" [required]="enableMotherRecord"
-              readonly formControlName="edd">
+              readonly formControlName="edd" (focus)="trackFieldInteraction('EDD Date')">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="eddPicker" disabled></mat-datepicker-toggle>
             <mat-datepicker #eddPicker></mat-datepicker>
@@ -241,7 +241,7 @@
             <mat-label class="fontStyleDisabled">{{ currentLanguageSet?.dob}}</mat-label>
             <input matInput [readonly]="selectedRole !== 'Associate'" class="fontStyle" [max]="maxDate"
               [min]="minimumDate" [matDatepicker]="picker" [required]="enableMotherRecord ? true : false"
-              formControlName="dob">
+              formControlName="dob" (focus)="trackFieldInteraction('Date of Birth')">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
@@ -254,7 +254,7 @@
           <mat-form-field appearance="outline" class="fieldAlignment fontStyle fieldStyleDisabled">
             <mat-label class="fontStyleDisabled">{{ currentLanguageSet?.ecdCallType}}</mat-label>
             <input matInput class="fontStyleDisabled fieldStyleDisabled" placeholder="" id="displayOBCallType"
-              formControlName="displayOBCallType" defaultNull readonly />
+              formControlName="displayOBCallType" defaultNull readonly (focus)="trackFieldInteraction('ECD Call Type')" />
           </mat-form-field>
         </div>
 
@@ -263,7 +263,7 @@
             <mat-form-field appearance="outline" [style.width]="'100%'" class="fontStyle">
               <mat-label class="fontStyle">{{ currentLanguageSet?.address}}</mat-label>
               <textarea style="height: 70px" class="fontStyle" matInput appTextarea placeholder="" id="address"
-                formControlName="address" maxlength="500" defaultNull></textarea>
+                formControlName="address" maxlength="500" defaultNull (focus)="trackFieldInteraction('Address')"></textarea>
             </mat-form-field>
           </div>
         </div>
@@ -271,26 +271,26 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right" style="margin-top: 100px">
 
           <button *ngIf="hideVideoCall" mat-raised-button class="buttonColorYellow full-width buttonWidth" type="submit"
-            style="margin-right: 10px" (click)="performAction()">
+            style="margin-right: 10px" (click)="performAction(); trackFieldInteraction('Video Call Button')">
             <mat-icon>video_call</mat-icon>
             {{ currentLanguageSet?.videoCall || 'Video Call' }}
           </button>
 
           <button style="margin-right: 5px;" mat-raised-button class="buttonColorRedish full-width buttonWidth"
-            (click)="goToClosure()">
+            (click)="goToClosure(); trackFieldInteraction('Closure Button')">
             {{ currentLanguageSet?.closure}}
           </button>
 
           <button *ngIf="(selectedRole === 'Associate') && !enableUpdateButton" mat-raised-button
             class="buttonColorGreen full-width buttonWidth" type="submit" style="margin-right: 10px"
-            (click)="onSubmit()" [disabled]="!benRegistrationForm.valid">
+            (click)="onSubmit(); trackFieldInteraction('Submit Button')" [disabled]="!benRegistrationForm.valid">
 
             {{ currentLanguageSet?.submit}}
           </button>
 
           <button *ngIf="(selectedRole === 'MO' || selectedRole === 'ANM') || enableUpdateButton" mat-raised-button
             class="buttonColorGreen full-width buttonWidth" type="submit" style="margin-right: 10px"
-            [disabled]="!benRegistrationForm.valid || !benRegistrationForm.dirty" (click)="onUpdate()">
+            [disabled]="!benRegistrationForm.valid || !benRegistrationForm.dirty" (click)="onUpdate(); trackFieldInteraction('Update Button')">
             {{ currentLanguageSet?.update}}
           </button>
         </div>
