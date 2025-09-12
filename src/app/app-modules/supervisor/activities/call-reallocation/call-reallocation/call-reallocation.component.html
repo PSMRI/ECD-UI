@@ -187,7 +187,7 @@
               currentLanguageSet?.allocateTo
             }}</mat-label>
             <mat-select
-              (click)="resetForm(); trackFieldInteraction('Reset Button')"
+              (click)="onClickOfAllocateTo(); trackFieldInteraction('Reset Button')"
               formControlName="allocateTo"
               multiple
               required
