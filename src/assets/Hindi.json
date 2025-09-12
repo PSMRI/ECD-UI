@@ -464,5 +464,17 @@
   "viewCasesheet" : "View Case Sheet",
   "isCallWrongNumber": "Is Wrong Number",
   "preferredLanguage" : "Preferred Language",
-  "enterCorrectPhoneNumber": "Enter Correct Phone Number"
+  "enterCorrectPhoneNumber": "Enter Correct Phone Number",
+  "platform_feedback": {
+    "feedback": "प्रतिक्रिया",
+    "weValueYourFeedback": "हम आपकी प्रतिक्रिया को महत्व देते हैं",
+    "youHaveLoggedOut": "आप सत्र से लॉग आउट हो चुके हैं",
+    "subtitle": "हम आपके अनुभव के बारे में जानना चाहेंगे (वैकल्पिक)",
+    "category": "श्रेणी",
+    "selectCategory": "श्रेणी चुनें",
+    "loggedInConsent": "गुमनाम रूप से सबमिट करें (यदि अनचेक है, तो हम फॉलो-अप के लिए आपका यूज़र आईडी सहेजेंगे)",
+    "anonymousInfo": "आप लॉग इन नहीं हैं, यह प्रतिक्रिया गुमनाम रूप से सबमिट की जाएगी।",
+    "okay": "ठीक है",
+    "thankYou": "धन्यवाद, आपकी प्रतिक्रिया हमारे लिए मूल्यवान है!"
+  }
 }

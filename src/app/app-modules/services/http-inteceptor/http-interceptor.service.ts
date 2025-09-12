@@ -62,6 +62,15 @@ export class HttpInterceptorService implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const key: any = sessionStorage.getItem('authenticationToken');
     let modifiedReq = null;
+    const isPlatformFeedback =
+    req.url && req.url.toLowerCase().includes('/platform-feedback');
+
+  if (isPlatformFeedback) {
+    const headers = req.headers
+      .delete('Authorization')
+      .set('Content-Type', 'application/json');
+    modifiedReq = req.clone({ headers });
+  } else {
     if (key !== undefined && key !== null) {
       modifiedReq = req.clone({
         headers: req.headers.set('Authorization', key),
@@ -71,6 +80,7 @@ export class HttpInterceptorService implements HttpInterceptor {
         headers: req.headers.set('Authorization', ''),
       });
     }
+  }
     return next.handle(modifiedReq).pipe(
       tap((event: HttpEvent<any>) => {
         if(req.url !== undefined && !req.url.includes('cti/getAgentState') )
