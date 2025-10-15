@@ -341,11 +341,13 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
 
     let phNo: any = null;
     if (this.associateAnmMoService.isMother !== undefined && this.associateAnmMoService.isMother !== null && this.associateAnmMoService.isMother === true) {
-      phNo = this.associateAnmMoService.selectedBenDetails.whomPhoneNo;
+      // phNo = this.associateAnmMoService.selectedBenDetails.whomPhoneNo;
+      phNo = 8147115862;
     }
     else if (this.associateAnmMoService.isMother !== undefined && this.associateAnmMoService.isMother !== null && this.associateAnmMoService.isMother === false) {
 
-      phNo = this.associateAnmMoService.selectedBenDetails.phoneNo;
+      // phNo = this.associateAnmMoService.selectedBenDetails.phoneNo;
+      phNo = 8147115862;
     }
 
 
