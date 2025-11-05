@@ -180,7 +180,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           res.data.previlegeObj !== undefined &&
           res.data.previlegeObj !== null
         ) {
-          this.getServiceAuthenticationDetails(res.data);
+          this.getServiceAuthenticationDetails(res.data, encryptedPwd);
         } else if (res.statusCode === 5002) {
           if (
             res.errorMessage ===
@@ -240,7 +240,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                         userLoggedIn.data.previlegeObj !== undefined
                       ) {
                         this.loginService.userLoginData = userLoggedIn.data;
-                        this.getServiceAuthenticationDetails(userLoggedIn.data);
+                        this.getServiceAuthenticationDetails(userLoggedIn.data, encryptedPwd);
                       } else {
                         this.resetCaptcha();
                         this.confirmationService.openDialog(
@@ -272,7 +272,7 @@ export class LoginComponent implements OnInit, OnDestroy {
    * @param loginDataResponse
    * Authenticating user have ECD privilege or not
    */
-  getServiceAuthenticationDetails(loginDataResponse: any) {    
+  getServiceAuthenticationDetails(loginDataResponse: any, encryptedPwd: string) {
     const servicePrivileges = loginDataResponse.previlegeObj.filter(
       (privilegeResp: any) => {
         if (
@@ -326,7 +326,7 @@ export class LoginComponent implements OnInit, OnDestroy {
          */
 
 
-         this.ctiService.getCTILoginToken(this.loginForm.controls.userName.value, this.loginForm.controls.password.value).subscribe((response:any) => {
+         this.ctiService.getCTILoginToken(this.loginForm.controls.userName.value, encryptedPwd).subscribe((response:any) => {
           if(response && response.data) {
           this.loginService.loginKey = response.data.login_key;
           }
