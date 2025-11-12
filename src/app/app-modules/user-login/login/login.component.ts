@@ -81,7 +81,24 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   }
 
+  @HostListener('paste', ['$event']) blockPaste(event: KeyboardEvent) {
+    event.preventDefault();
+  }
+
+  @HostListener('copy', ['$event']) blockCopy(event: KeyboardEvent) {
+    event.preventDefault();
+  }
+
+  @HostListener('cut', ['$event']) blockCut(event: KeyboardEvent) {
+    event.preventDefault();
+  }
+  @HostListener('document:contextmenu', ['$event'])
+  disableRightClick(event: MouseEvent) {
+    event.preventDefault();
+  }
+ 
   ngOnInit(): void {
+
     this.loginForm.valueChanges.subscribe(() => {
       this.updateLoginDisabled();
     });
@@ -272,7 +289,7 @@ export class LoginComponent implements OnInit, OnDestroy {
    * @param loginDataResponse
    * Authenticating user have ECD privilege or not
    */
-  getServiceAuthenticationDetails(loginDataResponse: any) {    
+  getServiceAuthenticationDetails(loginDataResponse: any) {
     const servicePrivileges = loginDataResponse.previlegeObj.filter(
       (privilegeResp: any) => {
         if (
