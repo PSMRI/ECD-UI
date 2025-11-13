@@ -343,7 +343,7 @@ export class LoginComponent implements OnInit, OnDestroy {
          */
 
 
-         this.ctiService.getCTILoginToken(this.loginForm.controls.userName.value, this.loginForm.controls.password.value).subscribe((response:any) => {
+         this.ctiService.getCTILoginToken(this.loginForm.controls.userName.value, encPassword).subscribe((response:any) => {
           if(response && response.data) {
           this.loginService.loginKey = response.data.login_key;
           }
