@@ -464,5 +464,7 @@
   "viewCasesheet" : "View Case Sheet",
   "isCallWrongNumber": "Is Wrong Number",
   "preferredLanguage" : "Preferred Language",
-  "enterCorrectPhoneNumber": "Enter Correct Phone Number"
+  "enterCorrectPhoneNumber": "Enter Correct Phone Number",
+  "invalidOrCurruptFile": "Invalid file. The uploaded Excel file is corrupt or not in a valid format."
+
 }
