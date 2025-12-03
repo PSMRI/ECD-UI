@@ -477,4 +477,6 @@
     "okay": "ठीक है",
     "thankYou": "धन्यवाद, आपकी प्रतिक्रिया हमारे लिए मूल्यवान है!"
   }
+  "invalidOrCurruptFile": "Invalid file. The uploaded Excel file is corrupt or not in a valid format."
+
 }

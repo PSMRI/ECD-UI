@@ -162,6 +162,7 @@
           placeholder=""
           id="templateName"
           formControlName="templateName"
+          appSmsTemplateValidator
           maxlength="40"
           defaultNull
           required
@@ -496,30 +497,14 @@
         />
       </mat-form-field>
     </div>
-
-    <div
-      class="col-xs-12 col-lg-12 p-t-4 marginAlign"
-    >
-      <mat-form-field
-      appearance="outline"
-      class="backgroundWhite questionnaireOptionsAlign fontStyle"
-      [style.width]="'70%'"
-      >
-        <mat-label class="fontStyle">{{currentLanguageSet?.smsTemplates}}</mat-label>
-        <textarea
-          matInput
-          placeholder=""
-          appSmsTemplateValidator
-          id="smsTemplate"
-          formControlName="smsTemplate"
-          defaultNull
-          minlength="10"
-          maxlength="500"
-          required
-          readonly
-        ></textarea>
-      </mat-form-field>
-    </div>
+<div class="col-xs-12 col-lg-12 p-t-4 marginAlign">
+  <mat-form-field appearance="outline" class="backgroundWhite questionnaireOptionsAlign fontStyle"
+    [style.width]="'70%'">
+    <mat-label class="fontStyle">{{currentLanguageSet?.smsTemplates}}</mat-label>
+    <textarea matInput placeholder="" appSmsTemplateValidator id="smsTemplate" formControlName="smsTemplate" defaultNull
+      minlength="10" maxlength="500" required readonly></textarea>
+  </mat-form-field>
+</div>
 
     <div class="mat-elevation-z8" style="margin-top: 30px">
     <table mat-table [dataSource]="viewSMSparameterTable" aria-describedby="parameter">

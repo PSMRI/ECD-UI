@@ -480,4 +480,5 @@
     "okay": "Okay",
     "thankYou": "Thank you, your feedback is valuable to us!"
   }
+  "invalidOrCurruptFile": "Invalid file. The uploaded Excel file is corrupt or not in a valid format."
 }
