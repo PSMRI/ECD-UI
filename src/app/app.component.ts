@@ -22,11 +22,13 @@
 
 
 import { Component } from '@angular/core';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent  {
-title = 'ECD-ui';
+export class AppComponent {
+  constructor(private trackingService: AmritTrackingService) {}
+  title = 'ECD-ui';
 }

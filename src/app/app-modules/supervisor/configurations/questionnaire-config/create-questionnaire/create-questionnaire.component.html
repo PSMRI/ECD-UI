@@ -46,6 +46,7 @@
             [max]="10000"
             defaultNull
             required
+            (focus)="trackFieldInteraction('Question Rank')"
           />
 
           <mat-error
@@ -73,7 +74,7 @@
             (selectionChange)="
               setQuestionnaireTypeName(
                 createQuestionnaireForm.controls.questionnaireTypeId.value
-              )
+              ); trackFieldInteraction('Questionnaire Type')
             "
           >
             <mat-option
@@ -115,6 +116,7 @@
             minlength="10"
             maxlength="500"
             required
+            (focus)="trackFieldInteraction('Questionnaire')"
           ></textarea>
           <mat-error style="margin: -5px 0px 5px opx;"
             *ngIf="
@@ -170,7 +172,7 @@
             defaultNull
             formControlName="answerTypeId"
             (selectionChange)="
-              setAnswerType(createQuestionnaireForm.controls.answerTypeId.value)
+              setAnswerType(createQuestionnaireForm.controls.answerTypeId.value); trackFieldInteraction('Answer Type')
             "
           >
             <mat-option
@@ -219,6 +221,7 @@
               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
               [matChipInputAddOnBlur]="addOnBlur"
               (matChipInputTokenEnd)="add($event)"
+              (focus)="trackFieldInteraction('Options Input')"
             />
           </mat-chip-list>
         </mat-form-field>
@@ -235,7 +238,7 @@
             mat-raised-button
             class="buttonColor full-width"
             type="submit"
-            (click)="addQuestionnaires(createQuestionnaireForm.value)"
+            (click)="addQuestionnaires(createQuestionnaireForm.value); trackFieldInteraction('Add Questionnaire Button')"
           >
             {{ currentLanguageSet?.addQuestionnaire }}
           </button>
@@ -269,6 +272,7 @@
             [max]="10000"
             defaultNull
             required
+            (focus)="trackFieldInteraction('Edit Question Rank')"
           />
 
           <mat-error
@@ -296,7 +300,7 @@
             (selectionChange)="
               setQuestionnaireTypeNameForEdit(
                 editQuestionnaireForm.controls.questionnaireTypeId.value
-              )
+              ); trackFieldInteraction('Edit Questionnaire Type')
             "
           >
             <mat-option
@@ -338,6 +342,7 @@
             minlength="10"
             maxlength="500"
             required
+            (focus)="trackFieldInteraction('Edit Questionnaire')"
           ></textarea>
           <mat-error
             *ngIf="
@@ -395,7 +400,7 @@
             (selectionChange)="
               setAnswerTypeForEdit(
                 editQuestionnaireForm.controls.answerTypeId.value
-              )
+              ); trackFieldInteraction('Edit Answer Type')
             "
           >
             <mat-option
@@ -437,6 +442,7 @@
               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
               [matChipInputAddOnBlur]="addOnBlur"
               (matChipInputTokenEnd)="add($event)"
+              (focus)="trackFieldInteraction('Edit Options Input')"
             />
           </mat-chip-list>
         </mat-form-field>
@@ -449,7 +455,7 @@
         <button
           mat-raised-button
           class="buttonColorRedish full-width buttonWidth"
-          (click)="back()"
+          (click)="back(); trackFieldInteraction('Back Button')"
           type="submit"
         >
           {{ currentLanguageSet?.back }}
@@ -464,7 +470,7 @@
           class="buttonColorGreen full-width buttonWidth"
           type="submit"
           style="margin-left: 10px"
-          (click)="updateQuestionnaires(editQuestionnaireForm.value)"
+          (click)="updateQuestionnaires(editQuestionnaireForm.value); trackFieldInteraction('Update Questionnaire Button')"
         >
           {{ currentLanguageSet?.update }}
         </button>
@@ -528,7 +534,7 @@
             <mat-icon
               class="cursorPointer"
               matTooltip="{{ currentLanguageSet?.delete }}"
-              (click)="removeQuestionnaire(dataSource.data.indexOf(element))"
+              (click)="removeQuestionnaire(dataSource.data.indexOf(element)); trackFieldInteraction('Remove Questionnaire Button')"
               >delete</mat-icon
             >
           </td>
@@ -555,7 +561,7 @@
       <button
         mat-raised-button
         class="buttonColorRed full-width buttonWidth"
-        (click)="back()"
+        (click)="back(); trackFieldInteraction('Back Button')"
         type="submit"
       >
         {{ currentLanguageSet?.back }}
@@ -566,7 +572,7 @@
         class="buttonColorGreen full-width buttonWidth"
         style="margin-left: 10px"
         type="submit"
-        (click)="saveQuestionnaires()"
+        (click)="saveQuestionnaires(); trackFieldInteraction('Submit Button')"
       >
         {{ currentLanguageSet?.submit }}
       </button>

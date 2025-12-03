@@ -14,18 +14,38 @@
   class="text-center text-white fixed-bottom"
   style="background-color: #003089"
 >
-  <div class="p-2" style="background-color: #003089">
-    <p class="text-white" style="float: left">
+  <div class="p-2 d-flex justify-content-between align-items-center" style="background-color: #003089">
+    
+    <!-- Left: Powered By -->
+    <p class="mb-0 text-white">
       {{ currentLanguageSet?.poweredByWipro }}
     </p>
-    <span class="text-center text-white"
-      >{{ year }} &copy; {{ currentLanguageSet?.psmri }}</span
-    >
-    <p class="text-white" style="float: right">
-      {{ currentLanguageSet?.version }}
-    </p>
+
+    <!-- Center: -->
+    <div class="text-center">
+      <span class="me-3">{{ year }} &copy; {{ currentLanguageSet?.psmri }}</span>
+      <span>{{ currentLanguageSet?.version }}</span>
+    </div>
+
+
+    <!-- Right: Version -->
+    <div
+    class="d-flex text-end"
+    style="cursor: pointer"
+    [routerLink]="['/feedback']"
+    [queryParams]="{ sl: 'ECD' }"
+    role="link"
+  >
+    <mat-icon style="vertical-align: middle; font-size: medium; margin-right: 6px">
+      mail
+    </mat-icon>
+    <span class="footer-text">
+      {{ currentLanguageSet?.platform_feedback?.feedback ?? 'Feedback' }}
+    </span>
+  </div>
   </div>
 </footer>
+
 
 <!-- <footer class="footer">
   <div class="row">

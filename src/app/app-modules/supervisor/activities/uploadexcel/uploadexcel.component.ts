@@ -31,6 +31,8 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import * as FileSaver from 'file-saver';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
+
 @Component({
   selector: 'app-uploadexcel',
   templateUrl: './uploadexcel.component.html',
@@ -74,9 +76,10 @@ export class UploadexcelComponent implements OnInit {
     private http: HttpClient,
     private confirmationService: ConfirmationService,
     private fb: FormBuilder,
-    readonly sessionstorage:SessionStorageService,
-    private supervisorService: SupervisorService
-    ) { }
+    readonly sessionstorage: SessionStorageService,
+    private supervisorService: SupervisorService,
+    private trackingService: AmritTrackingService
+  ) { }
 
   ngOnInit(): void {
     // this.autoRefresh(true);
@@ -403,4 +406,7 @@ export class UploadexcelComponent implements OnInit {
   }
   }
   
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Data Upload');
+  }
 }

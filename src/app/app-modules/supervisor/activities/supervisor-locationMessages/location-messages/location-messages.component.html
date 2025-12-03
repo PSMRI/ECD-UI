@@ -6,7 +6,7 @@
     class="buttonColor inner createButton "
     color="accent"
     type="button"
-    (click)="showForm()"
+    (click)="showForm(); trackFieldInteraction('Create Location Message Button')"
   >
    {{currentLanguageSet?.createLocMsg}}
   </button>
@@ -31,12 +31,14 @@
               formControlName="start"
               placeholder="Start date"
               required
+              (focus)="trackFieldInteraction('Start Date')"
             />
             <input
               matEndDate
               formControlName="end"
               placeholder="End date"
               required
+              (focus)="trackFieldInteraction('End Date')"
             />
           </mat-date-range-input>
           <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
@@ -60,7 +62,7 @@
           type="button" 
           class="styleButton"
           [disabled]="locationSearchForm.invalid"
-          (click)="getLocationOnSearch()" 
+          (click)="getLocationOnSearch(); trackFieldInteraction('Search Button')" 
         >
           {{currentLanguageSet?.search}}
         </button>
@@ -80,6 +82,7 @@
         placeholder=""
         #filterTerm
         (keyup)="filterSearchTerm(filterTerm.value)"
+        (focus)="trackFieldInteraction('In Table Search')"
       />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
@@ -123,7 +126,7 @@
         <td mat-cell *matCellDef="let element" style="text-align: center !important;">
           <mat-icon
           class="mat-icon material-icons"
-            (click)="editLocation(element)"
+            (click)="editLocation(element); trackFieldInteraction('Edit Location Message Button')"
             matTooltip="Edit"  *ngIf="!element.deleted"
             >edit</mat-icon
           >
@@ -138,7 +141,7 @@
             *ngIf="element.deleted === true"
             mat-raised-button
             class="buttonColorGreen full-width buttonWidth"
-            (click)="activateDeactivateConfig(element, 'activate')"
+            (click)="activateDeactivateConfig(element, 'activate'); trackFieldInteraction('Activate Button')"
           >
             {{ currentLanguageSet?.activate }}
           </button>
@@ -146,7 +149,7 @@
             *ngIf="element.deleted === false"
             mat-raised-button
             class="buttonColorRed full-width buttonWidth" 
-            (click)="activateDeactivateConfig(element, 'deactivate')"
+            (click)="activateDeactivateConfig(element, 'deactivate'); trackFieldInteraction('Deactivate Button')"
           >
             {{ currentLanguageSet?.deactivate }}
           </button>

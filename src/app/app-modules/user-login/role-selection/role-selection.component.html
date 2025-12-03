@@ -13,7 +13,7 @@
           mat-raised-button
           type="button"
           class="buttonSize"
-          (click)="selectRole(i,role.RoleName,role.RoleID)"
+          (click)="selectRole(i,role.RoleName,role.RoleID); trackFieldInteraction(role.RoleName + ' Button')"
           *ngFor="let role of userRoles; let i = index"
           [value]="role.RoleName"
         >

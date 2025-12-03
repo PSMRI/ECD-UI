@@ -5,7 +5,7 @@
   <button
     mat-raised-button
     class="buttonColor inner createButton fontStyleButton"
-    (click)="showForm()"
+    (click)="showForm(); trackFieldInteraction('Create New SMS Template Button')"
   >
     {{ currentLanguageSet?.createNewSMSTemplate }}
   </button>
@@ -33,6 +33,7 @@
         placeholder=""
         #filterTerm
         (keyup)="filterSearchTerm(filterTerm.value)"
+        (focus)="trackFieldInteraction('In Table Search')"
       />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
@@ -101,7 +102,7 @@
             <mat-icon
               class="cursorPointer"
               matTooltip="{{ currentLanguageSet?.view }}"
-              (click)="view(element)"
+              (click)="view(element); trackFieldInteraction('View SMS Template Button')"
               >visibility</mat-icon
             >
           </td>
@@ -112,8 +113,8 @@
             {{ currentLanguageSet?.delete }}
           </th>
           <td mat-cell *matCellDef="let element">
-            <button *ngIf="!element.deleted" mat-raised-button class="buttonColorRed full-width buttonWidth pull-right" type="button" (click)="ActivateDeactivate(element,true)">{{ currentLanguageSet?.deactivate }}</button>
-            <button *ngIf="element.deleted" [disabled]="element.deleted" mat-raised-button class="full-width buttonWidth pull-right" type="button" (click)="ActivateDeactivate(element,false)">{{ currentLanguageSet?.deactivated }}</button>  
+            <button *ngIf="!element.deleted" mat-raised-button class="buttonColorRed full-width buttonWidth pull-right" type="button" (click)="ActivateDeactivate(element,true); trackFieldInteraction('Deactivate Button')">{{ currentLanguageSet?.deactivate }}</button>
+            <button *ngIf="element.deleted" [disabled]="element.deleted" mat-raised-button class="full-width buttonWidth pull-right" type="button" (click)="ActivateDeactivate(element,false); trackFieldInteraction('Deactivated Button')">{{ currentLanguageSet?.deactivated }}</button>  
           </td>
         </ng-container>
 
@@ -165,6 +166,7 @@
           maxlength="40"
           defaultNull
           required
+          (focus)="trackFieldInteraction('Template Name')"
         />
         <mat-error *ngIf="createSMSTemplateForm.controls['templateName'].hasError('whitespace')">Please enter valid data</mat-error>            
       </mat-form-field>
@@ -182,6 +184,7 @@
           id="smsType"
           defaultNull
           formControlName="smsType"
+          (selectionChange)="trackFieldInteraction('SMS Type')"
         >
           <mat-option
             *ngFor="let smsTypeValue of SMS_Types"
@@ -211,6 +214,7 @@
           minlength="10"
           maxlength="500"
           required
+          (focus)="trackFieldInteraction('SMS Template')"
         ></textarea>
         <mat-error
         *ngIf="
@@ -245,7 +249,7 @@
         type="submit"
         style="margin-right: 10px"
         [disabled]="createSMSTemplateForm.invalid"
-        (click)="extractParameters(createSMSTemplateForm.controls.smsTemplate.value)"
+        (click)="extractParameters(createSMSTemplateForm.controls.smsTemplate.value); trackFieldInteraction('Continue Button')"
       >
         {{ currentLanguageSet?.continue }}
       </button>
@@ -268,7 +272,7 @@
         id="parameter"
         defaultNull
         formControlName="parameter"
-        (selectionChange)="getSMSparameters()"
+        (selectionChange)="getSMSparameters(); trackFieldInteraction('Select Parameter')"
       >
         <mat-option *ngFor="let parameter of smsDataParam" [value]="parameter"
           >{{ parameter }}
@@ -290,7 +294,7 @@
         id="parameterValueType"
         defaultNull
         formControlName="parameterValueType"
-        (selectionChange)="setValuesInDropdown(createParamsForm.controls.parameterValueType.value)"
+        (selectionChange)="setValuesInDropdown(createParamsForm.controls.parameterValueType.value); trackFieldInteraction('Select Value Type')"
       >
         <mat-option
           *ngFor="let parameterValuesType of smsParameters"
@@ -314,6 +318,7 @@
         id="parameterValue"
         defaultNull
         formControlName="parameterValue"
+        (selectionChange)="trackFieldInteraction('Select Value')"
       >
         <mat-option
           *ngFor="let parameterVals of selectedParameterValues"
@@ -332,7 +337,7 @@
       type="submit"
       style="margin-right: 10px; float: right;"
       [disabled]="!createParamsForm.valid"
-      (click)="add(createParamsForm.value)"
+      (click)="add(createParamsForm.value); trackFieldInteraction('Add Button')"
     >
       {{ currentLanguageSet?.added }}
     </button>
@@ -396,7 +401,7 @@
           <mat-icon
             class="cursorPointer"
             matTooltip="{{ currentLanguageSet?.remove }}"
-            (click)="remove(element,i)"
+            (click)="remove(element,i); trackFieldInteraction('Remove Parameter Button')"
             >clear</mat-icon
           >
         </td>
@@ -422,7 +427,7 @@
         type="submit"
         style="margin-right: 10px"
         [disabled]="smsParamsData.data.length!==Parameters_count"
-        (click)="saveSMStemplate(createSMSTemplateForm.value)"
+        (click)="saveSMStemplate(createSMSTemplateForm.value); trackFieldInteraction('Save Button')"
       >
         {{ currentLanguageSet?.save }}
       </button>
@@ -435,7 +440,7 @@
       class="buttonColorRed full-width buttonWidth"
       type="submit"
       style="margin-right: 10px"
-      (click)="showTable()"
+      (click)="showTable(); trackFieldInteraction('Back Button')"
     >
       {{ currentLanguageSet?.back }}
     </button>
@@ -537,7 +542,7 @@
         class="buttonColorRed full-width buttonWidth"
         type="submit"
         style="margin-right: 10px"
-        (click)="onBack()"
+        (click)="onBack(); trackFieldInteraction('Back Button')"
       >
         {{currentLanguageSet?.back}}
       </button>

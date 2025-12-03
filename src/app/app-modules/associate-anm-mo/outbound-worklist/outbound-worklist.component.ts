@@ -39,6 +39,7 @@ import { CtiService } from '../../services/cti/cti.service';
 import { map, Subscription, timer } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-outbound-worklist',
@@ -76,6 +77,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
     private loginService: LoginserviceService,
     readonly sessionstorage: SessionStorageService,
     private ctiService: CtiService,
+    private trackingService: AmritTrackingService
   ) { }
 
   ngDoCheck() {
@@ -542,4 +544,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
     // this.associateAnmMoService.loadComponent(BeneficiaryCallHistoryComponent,null)
   }
 
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Outbound Worklist');
+  }
 }
