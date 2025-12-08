@@ -96,7 +96,7 @@ export class HttpInterceptorService implements HttpInterceptor {
           );
         } else if (error.status === 500) {
           this.confirmationService.openDialog(
-            this.currentLanguageSet.somethingWentWrong,
+            this.currentLanguageSet.internalServerError,
             'error',
           );
         } else {

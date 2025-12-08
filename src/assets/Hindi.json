@@ -465,6 +465,10 @@
   "isCallWrongNumber": "Is Wrong Number",
   "preferredLanguage" : "Preferred Language",
   "enterCorrectPhoneNumber": "Enter Correct Phone Number",
-  "invalidOrCurruptFile": "Invalid file. The uploaded Excel file is corrupt or not in a valid format."
+  "invalidOrCurruptFile": "Invalid file. The uploaded Excel file is corrupt or not in a valid format.",
+  "accessDenied": "पहुंच अस्वीकृत",
+  "internaleServerError": "आंतरिक सर्वर त्रुटि",
+  "somethingWentWrong": "कुछ गलत हो गया",
+  "sessionExpiredPleaseLogin": "सत्र समाप्त हो गया, कृपया जारी रखने के लिए दोबारा लॉगिन करें"
 
 }
