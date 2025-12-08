@@ -54,7 +54,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { TrackingModule } from "Common-UI/src/tracking";
 
 
 
@@ -85,6 +85,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     SharedModule,
     MatCardModule,
     MatTooltipModule,
+    TrackingModule.forRoot(),
     BackButtonDisableModule.forRoot({
       preserveScroll: true
     }),

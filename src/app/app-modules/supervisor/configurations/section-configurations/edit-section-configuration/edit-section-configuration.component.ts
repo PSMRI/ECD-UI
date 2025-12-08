@@ -28,6 +28,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { SectionConfigurationComponent } from '../section-configuration/section-configuration.component';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 /**
  * KA40094929
@@ -51,6 +52,7 @@ export class EditSectionConfigurationComponent implements OnInit, DoCheck {
     private supervisorService: SupervisorService,
     private confirmationService: ConfirmationService,
     readonly sessionstorage:SessionStorageService,
+    private trackingService: AmritTrackingService,
   ) { }
 
   editsectionconfigurationform = this.fb.group({
@@ -131,6 +133,10 @@ export class EditSectionConfigurationComponent implements OnInit, DoCheck {
     (err: any) => {
     this.confirmationService.openDialog(err.error, 'error');
     }
+  }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Edit Section Configuration');
   }
 
 }

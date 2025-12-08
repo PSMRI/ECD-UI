@@ -34,6 +34,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AssociateAnmMoService } from '../../services/associate-anm-mo/associate-anm-mo.service';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-agents-innerpage',
@@ -80,6 +81,7 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
     public sanitizer: DomSanitizer,
     readonly sessionstorage:SessionStorageService,
     private setLanguageService: SetLanguageService,
+    private trackingService: AmritTrackingService
   ) { }
 
   
@@ -678,6 +680,10 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
       });
     }
 
+  }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Agent Dashboard');
   }
 
 }
