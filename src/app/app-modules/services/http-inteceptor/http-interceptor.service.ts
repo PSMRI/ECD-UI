@@ -97,24 +97,26 @@ export class HttpInterceptorService implements HttpInterceptor {
         this.spinnerService.setLoading(false);
         if (error.status === 401) {
           this.sessionstorage.clear();
-          this.confirmationService.openDialog(this.currentLanguageSet.sessionExpiredPleaseLogin, 'error');
-          setTimeout(() => this.router.navigate(['/login']), 0);
+          this.confirmationService.openDialog('Session expired, Please login again to continue', 'error');
         } else if (error.status === 403) {
           this.confirmationService.openDialog(
-            this.currentLanguageSet.accessDenied,
+            'Access denied',
             'error',
           );
         } else if (error.status === 500) {
           this.confirmationService.openDialog(
-            this.currentLanguageSet.internalServerError,
+            'Internal server error',
             'error',
           );
         } else {
           this.confirmationService.openDialog(
-            error.message || this.currentLanguageSet.somethingWentWrong,
+            error.message || 'Something went wrong',
             'error',
           );
         }
+        sessionStorage.clear();
+        localStorage.clear();
+        this.router.navigate(['/login'])
         return throwError(error.error);
       })
     );
