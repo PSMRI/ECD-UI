@@ -95,6 +95,14 @@ export class HttpInterceptorService implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         console.error(error);
         this.spinnerService.setLoading(false);
+        const silent404Apis = [
+          'getCSatScoreByPSMIdAndFrequency',];         
+
+        const isSilent404 = silent404Apis.some(api => req.url.includes(api));
+
+        if (error.status === 404  && isSilent404) {
+          return throwError(error);
+        }
         if (error.status === 401) {
           this.sessionstorage.clear();
           this.confirmationService.openDialog('Session expired, Please login again to continue', 'error');
@@ -121,6 +129,8 @@ export class HttpInterceptorService implements HttpInterceptor {
       })
     );
   }
+
+  
 
   private onSuccess(url: string, response: any): void {
     if (this.timerRef) clearTimeout(this.timerRef);
