@@ -62,6 +62,15 @@ export class HttpInterceptorService implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const key: any = sessionStorage.getItem('authenticationToken');
     let modifiedReq = null;
+    const isPlatformFeedback =
+    req.url && req.url.toLowerCase().includes('/platform-feedback');
+
+  if (isPlatformFeedback) {
+    const headers = req.headers
+      .delete('Authorization')
+      .set('Content-Type', 'application/json');
+    modifiedReq = req.clone({ headers });
+  } else {
     if (key !== undefined && key !== null) {
       modifiedReq = req.clone({
         headers: req.headers.set('Authorization', key),
@@ -71,6 +80,7 @@ export class HttpInterceptorService implements HttpInterceptor {
         headers: req.headers.set('Authorization', ''),
       });
     }
+  }
     return next.handle(modifiedReq).pipe(
       tap((event: HttpEvent<any>) => {
         if(req.url !== undefined && !req.url.includes('cti/getAgentState') )
@@ -85,10 +95,42 @@ export class HttpInterceptorService implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         console.error(error);
         this.spinnerService.setLoading(false);
+        const silent404Apis = [
+          'getCSatScoreByPSMIdAndFrequency',];         
+
+        const isSilent404 = silent404Apis.some(api => req.url.includes(api));
+
+        if (error.status === 404  && isSilent404) {
+          return throwError(error);
+        }
+        if (error.status === 401) {
+          this.sessionstorage.clear();
+          this.confirmationService.openDialog('Session expired, Please login again to continue', 'error');
+        } else if (error.status === 403) {
+          this.confirmationService.openDialog(
+            'Access denied',
+            'error',
+          );
+        } else if (error.status === 500) {
+          this.confirmationService.openDialog(
+            'Internal server error',
+            'error',
+          );
+        } else {
+          this.confirmationService.openDialog(
+            error.message || 'Something went wrong',
+            'error',
+          );
+        }
+        sessionStorage.clear();
+        localStorage.clear();
+        this.router.navigate(['/login'])
         return throwError(error.error);
       })
     );
   }
+
+  
 
   private onSuccess(url: string, response: any): void {
     if (this.timerRef) clearTimeout(this.timerRef);

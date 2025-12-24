@@ -6,7 +6,7 @@
           mat-icon-button
           class="arrowButton pull-left"
           matTooltip="Back To Dashboard"
-          (click)="navigateToPrev()"
+          (click)="navigateToPrev(); trackFieldInteraction('Back To Dashboard Button')"
         >
           <mat-icon>arrow_back</mat-icon>
         </button>
@@ -17,7 +17,7 @@
               formControlName="selectedActivity"
               value="selectedActivity"
               placeholder="Activities"
-              (selectionChange)="onSelectionChange($event)"
+              (selectionChange)="onSelectionChange($event); trackFieldInteraction('Activities')"
             >
               <mat-option value="dataUpload">ECD Data Upload</mat-option>
               <mat-option value="callAllocation">Call Allocation</mat-option>
@@ -35,7 +35,7 @@
               formControlName="selectedReport"
               value="selectedReport"
               placeholder="Reports"
-              (selectionChange)="onSelectionChange($event)"
+              (selectionChange)="onSelectionChange($event); trackFieldInteraction('Reports')"
             >
               <mat-option value="reports">ECD Reports</mat-option>
               <!-- <mat-option value="callDetailReport">Call Detail Report </mat-option>
@@ -50,7 +50,7 @@
               formControlName="selectedConfiguration"
               value="selectedConfiguration"
               placeholder="Configuration"
-              (selectionChange)="onSelectionChange($event)"
+              (selectionChange)="onSelectionChange($event); trackFieldInteraction('Configuration')"
             >
               <mat-option value="callConfiguration"
                 >Call Configuration</mat-option

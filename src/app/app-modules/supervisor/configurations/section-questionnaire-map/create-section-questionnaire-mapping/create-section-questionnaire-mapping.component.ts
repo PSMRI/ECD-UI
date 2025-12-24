@@ -33,6 +33,9 @@ import { SupervisorService } from 'src/app/app-modules/services/supervisor/super
 import { SectionQuestionnaireMappingComponent } from '../section-questionnaire-mapping/section-questionnaire-mapping.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { Injector } from '@angular/core';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
+
 /**
  * DE40034072
  * 02-02-2023
@@ -96,7 +99,8 @@ export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoChe
     private supervisorService: SupervisorService,
     private fb: FormBuilder,
     readonly sessionstorage:SessionStorageService,
-    private masterService: MasterService
+    private masterService: MasterService,
+    private injector: Injector,
   ) {}
 
   sectionQuestionnaireMapForm = this.fb.group({
@@ -661,4 +665,9 @@ export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoChe
       }
     })
    }
+
+     trackFieldInteraction(fieldName: string) {
+       const trackingService = this.injector.get(AmritTrackingService);
+       trackingService.trackFieldInteraction(fieldName, 'Abha Information');
+     }
 }

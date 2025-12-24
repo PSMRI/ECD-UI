@@ -30,6 +30,7 @@ import {
   MatLegacyDialogRef as MatDialogRef,
   MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
 } from '@angular/material/legacy-dialog';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-view-details',
@@ -85,7 +86,8 @@ export class ViewDetailsComponent implements OnInit {
      @Inject(MAT_DIALOG_DATA) public data: any,
      public dialogRef: MatDialogRef<ViewDetailsComponent>,
      private fb: FormBuilder,
-     private datePipe: DatePipe
+     private datePipe: DatePipe,
+     private trackingService: AmritTrackingService
   ) { 
     this.datePipeString = this.datePipe.transform(this.datePipeString,'MM/dd/yyyy');
     console.log(this.datePipeString);
@@ -151,6 +153,10 @@ export class ViewDetailsComponent implements OnInit {
 
   ngOnInit(): void {
      this.patchValueForviewDetails(this.viewDetails); 
+  }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'View Details');
   }
 
 }

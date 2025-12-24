@@ -49,7 +49,7 @@ export class CreateQaQuestionConfigComponent implements OnInit, DoCheck {
   selectedRoleId: any;
   currentLanguageSet: any;
   dataSource = new MatTableDataSource<questionnaireMapping>();
-  displayedColumns: string[] = ['sNo' ,'questionnaire', 'questionRank', 'answerType', 'options', 'scores', 'sectionName', 'action'];
+  displayedColumns: string[] = ['sNo' ,'questionnaire', 'questionRank', 'answerType', 'roles', 'options', 'scores', 'sectionName', 'action'];
   @Input() minValue = 1;
   @Input() maxValue = 50;
   numericValue: number | undefined; 
@@ -57,6 +57,7 @@ export class CreateQaQuestionConfigComponent implements OnInit, DoCheck {
   isOptionFilled = false;
   qaQuestionnaireConfigList: any = [];
   isFatalQues = false;
+  roles: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -80,6 +81,7 @@ export class CreateQaQuestionConfigComponent implements OnInit, DoCheck {
       this.enableEdit = false;
     }
     this.getQuestionnaires();
+    this.getRolesForQuestionare();
   }
 
   ngDoCheck() {
@@ -124,7 +126,8 @@ export class CreateQaQuestionConfigComponent implements OnInit, DoCheck {
     sectionName: ['', Validators.required],
     rank: ['', Validators.required],
     answerType: [''],
-    newOption: this.fb.array([this.createOptionField()])
+    newOption: this.fb.array([this.createOptionField()]),
+    roles:['']
   });
 
   validateWhitespace(control: FormControl) {
@@ -267,6 +270,7 @@ export class CreateQaQuestionConfigComponent implements OnInit, DoCheck {
       options: options,
       scores: scores,
       isFatalQues: addData.isFatalQues,
+      roles: addData.roles,
       createdBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
     };
@@ -355,6 +359,26 @@ export class CreateQaQuestionConfigComponent implements OnInit, DoCheck {
         });
   }
 
+  getRolesForQuestionare(){
+    const  providerServiceMapId = this.sessionstorage.getItem('providerServiceMapID');
+    this.masterService.getRoleMaster(providerServiceMapId).subscribe((res:any)=>{
+      if(res){
+        res.filter((role: any) => {
+          if(!["supervisor", "quality auditor","quality supervisor"].includes(role.roleName.toLowerCase()) ){
+            this.roles.push(role)
+          }
+        })
+      }
+    })
+  }
+
+  setRoleType(role: any) {
+    if (![null, undefined].includes(role)) {
+      this.createQualityAuditorQuestionnaireForm.controls['roles'].setValue(role);
+    }
+
+  }
+
 }
 
 export interface questionnaireMapping {
@@ -369,4 +393,5 @@ export interface questionnaireMapping {
   sectionId: number;
   sectionName: string;
   sectionRank: number;
+  roles:string[];
 }

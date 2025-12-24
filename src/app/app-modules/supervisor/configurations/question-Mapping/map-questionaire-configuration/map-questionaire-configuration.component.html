@@ -6,7 +6,7 @@
       <button
         mat-raised-button
         class="buttonColor inner createButton fontStyleButton"  
-        (click)="openCreateQuestionnaireMapping()"
+        (click)="openCreateQuestionnaireMapping(); trackFieldInteraction('Create Questionnaire Mapping Button')"
       >
         {{ currentLanguageSet?.createQuestionaireMapping }}
       </button>
@@ -27,6 +27,7 @@
                 placeholder=""
                 #filterTerm
                 (keyup)="filterSearchTerm(filterTerm.value)"
+                (focus)="trackFieldInteraction('In Table Search')"
               />
               <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
@@ -80,7 +81,7 @@
                     role="img"
                     aria-hidden="true"
                     style="cursor: pointer"
-                    (click)="editQuestionMapping(element)"
+                    (click)="editQuestionMapping(element); trackFieldInteraction('Edit Question Mapping Button')"
                     *ngIf="!element.deleted"
                     >edit</mat-icon
                   >
@@ -96,7 +97,7 @@
                     *ngIf="element.deleted === true"
                     mat-raised-button
                     class="buttonColorGreen full-width buttonWidth"
-                    (click)="activateDeactivateQuestionnaire(element, 'activate')"
+                    (click)="activateDeactivateQuestionnaire(element, 'activate'); trackFieldInteraction('Activate Button')"
                     >
                     {{ currentLanguageSet?.activate }}
                   </button>
@@ -104,7 +105,7 @@
                     *ngIf="element.deleted === false"
                     mat-raised-button
                     class="buttonColorRed full-width buttonWidth"
-                    (click)="activateDeactivateQuestionnaire(element, 'deactivate')"
+                    (click)="activateDeactivateQuestionnaire(element, 'deactivate'); trackFieldInteraction('Deactivate Button')"
                   >
                     {{ currentLanguageSet?.deactivate }}
                   </button>

@@ -54,7 +54,7 @@ export class EditQaConfigComponent implements OnInit, DoCheck {
   numericValue: number | undefined; 
   isOptionFilled = false;
   isFatalQues = false;
-  
+  roles: any[] = [];
   constructor(
     private fb: FormBuilder,
     private confirmationService: ConfirmationService,
@@ -72,7 +72,8 @@ export class EditQaConfigComponent implements OnInit, DoCheck {
     questionRank: ['', Validators.required],
     answerType: ['', Validators.required],
     questionId: [''],
-    newOption: this.fb.array([this.createOptionField()])
+    newOption: this.fb.array([this.createOptionField()]),
+    roles: [''],
   });
 
   validateWhitespace(control: FormControl) {
@@ -98,6 +99,7 @@ export class EditQaConfigComponent implements OnInit, DoCheck {
     this.getAnswerMaster();
     this.getSectionList();
     this.getQuestionnaires();
+    this.getRolesForQuestionare();
     if (this.data){
       this.editQualityAuditorQuestionnaireForm.patchValue(this.data);
       const options = this.data.options;
@@ -269,6 +271,7 @@ export class EditQaConfigComponent implements OnInit, DoCheck {
       sectionRank: editValueData.sectionRank,
       deleted: false,
       isFatalQues: editValueData.isFatalQues,
+      roles: editValueData.roles,
       createdBy: this.sessionstorage.getItem('userName'),
       modifiedBy: this.sessionstorage.getItem('userName'),
       psmId: this.sessionstorage.getItem('providerServiceMapID'),
@@ -345,6 +348,25 @@ setAnswerType(answerTypeValue: any) {
   resetForm() {
     this.editQualityAuditorQuestionnaireForm.reset();
    }
+
+   getRolesForQuestionare(){
+    const  providerServiceMapId = this.sessionstorage.getItem('providerServiceMapID');
+    this.masterService.getRoleMaster(providerServiceMapId).subscribe((res:any)=>{
+      if(res){
+        res.filter((role: any) => {
+          if(!["supervisor", "quality auditor","quality supervisor"].includes(role.roleName.toLowerCase()) ){
+            this.roles.push(role)
+          }
+        })
+      }
+    })
+  }
+
+  setRoleType(role: any) {
+    if (![null, undefined].includes(role)) {
+      this.editQualityAuditorQuestionnaireForm.controls['roles'].setValue(role);
+    }
+  }
 
 }
 

@@ -29,6 +29,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { SectionQuestionnaireMappingComponent } from '../section-questionnaire-mapping/section-questionnaire-mapping.component';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 /**
  * DE40034072
  * 02-02-2023
@@ -52,7 +53,8 @@ export class EditSectionQuestionnaireMappingComponent implements OnInit, DoCheck
     private setLanguageService: SetLanguageService,
     private supervisorService: SupervisorService,
     readonly sessionstorage:SessionStorageService,
-    private masterService: MasterService
+    private masterService: MasterService,
+    private trackingService: AmritTrackingService
   ) {}
 
   ngOnInit(): void {
@@ -258,4 +260,8 @@ export class EditSectionQuestionnaireMappingComponent implements OnInit, DoCheck
       }
     })
    }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Edit Section Questionnaire Mapping');
+  }   
 }

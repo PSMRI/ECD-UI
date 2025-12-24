@@ -35,6 +35,7 @@ import { MasterService } from 'src/app/app-modules/services/masterService/master
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-location-messages',
@@ -72,6 +73,7 @@ export class LocationMessagesComponent implements OnInit, DoCheck, AfterViewInit
     private supervisorService: SupervisorService,
     private confirmationService: ConfirmationService,  
     readonly sessionstorage:SessionStorageService,
+    private trackingService: AmritTrackingService,
     private masterService: MasterService) { }
 
   ngOnInit(): void {
@@ -327,5 +329,7 @@ getNotificationType(){
       }
     }
 
-
+    trackFieldInteraction(fieldName: string) {
+      this.trackingService.trackFieldInteraction(fieldName, 'Location Messages');
+    }
 }

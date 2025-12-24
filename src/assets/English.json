@@ -468,5 +468,21 @@
   "isCallWrongNumber": "Is Wrong Number",
   "preferredLanguage" : "Preferred Language",
   "enterCorrectPhoneNumber": "Enter Correct Phone Number",
-  "invalidOrCurruptFile": "Invalid file. The uploaded Excel file is corrupt or not in a valid format."
+  "invalidOrCurruptFile": "Invalid file. The uploaded Excel file is corrupt or not in a valid format.",
+  "accessDenied": "Access Denied",
+  "internaleServerError": "Internal Server Error",
+  "somethingWentWrong": "Something went wrong",
+  "sessionExpiredPleaseLogin": "Session expired, Please login again to continue",
+  "platform_feedback": {
+    "feedback": "Feedback",
+    "weValueYourFeedback": "We value your feedback",
+    "youHaveLoggedOut":"You have logged out of the session",
+    "subtitle": " We’d love to hear about your experience (optional)",
+    "category": "Category",
+    "selectCategory": "Select Category",
+    "loggedInConsent":"Submit anonymously (if unchecked, we will store your user id for follow-up)",
+    "anonymousInfo":"You are not logged in, this feedback will be submitted anonymously.",
+    "okay": "Okay",
+    "thankYou": "Thank you, your feedback is valuable to us!"
+  }
 }
