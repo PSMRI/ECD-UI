@@ -1,30 +1,33 @@
-<div class="row" style="margin:0px"> 
-  <div
-    class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
-<h2 class="mainHeading">{{currentLanguageSet?.forceLogout}}</h2>
+<div class="row" style="margin: 0px">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mainHeadingDiv">
+    <h2 class="mainHeading">{{ currentLanguageSet?.forceLogout }}</h2>
   </div>
 </div>
 <mat-card class="innerCard">
-    <mat-card-content>
-      <form class="row" [formGroup]="kickoutForm" style="margin-top: 10px">
-        <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
-            <mat-label class="fontStyle">{{ currentLanguageSet?.enterUserName }}</mat-label>
-            <input
-              matInput
-              class="fontStyle"
-              allowText="usernameValidator"
-              placeholder=""
-              id="username"
-              formControlName="userName"
-              type="text" required
-            />
-          </mat-form-field>
-        
-        <button
-        mat-raised-button 
-        class="buttonColorRed full-width buttonWidth" 
+  <mat-card-content>
+    <form class="row" [formGroup]="kickoutForm" style="margin-top: 10px">
+      <mat-form-field appearance="outline" class="fieldAlignment fontStyle">
+        <mat-label class="fontStyle">{{
+          currentLanguageSet?.enterUserName
+        }}</mat-label>
+        <input
+          matInput
+          class="fontStyle"
+          allowText="usernameValidator"
+          placeholder=""
+          id="username"
+          formControlName="userName"
+          type="text"
+          required
+          (focus)="trackFieldInteraction('Enter Username')"
+        />
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        class="buttonColorRed full-width buttonWidth"
         type="button"
-        (click)="kickoutUsername()"
+        (click)="kickoutUsername(); trackFieldInteraction('Logout Button')"
         [disabled]="!kickoutForm.valid"
       >
         {{ currentLanguageSet?.logout }}

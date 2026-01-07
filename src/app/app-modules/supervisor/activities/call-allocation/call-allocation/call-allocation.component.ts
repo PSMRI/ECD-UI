@@ -30,7 +30,7 @@ import { MasterService } from 'src/app/app-modules/services/masterService/master
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
-
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-call-allocation',
@@ -102,7 +102,9 @@ export class CallAllocationComponent implements OnInit, DoCheck {
     private confirmationService: ConfirmationService,
     private setLanguageService: SetLanguageService,
     readonly sessionstorage: SessionStorageService,
-    private masterService: MasterService) {
+    private masterService: MasterService,
+    private trackingService : AmritTrackingService
+  ) {
   }
 
   ngOnInit(): void {
@@ -427,5 +429,9 @@ export class CallAllocationComponent implements OnInit, DoCheck {
         this.confirmationService.openDialog(err.error, 'error');
       }
     );
+  }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Call Allocation');
   }
 }

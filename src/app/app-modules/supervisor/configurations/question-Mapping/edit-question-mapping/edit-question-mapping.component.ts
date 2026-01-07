@@ -7,6 +7,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { MapQuestionaireConfigurationComponent } from '../map-questionaire-configuration/map-questionaire-configuration.component';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-edit-question-mapping',
@@ -34,6 +35,7 @@ export class EditQuestionMappingComponent implements OnInit, DoCheck {
     private confirmationService: ConfirmationService,
     private supervisorService: SupervisorService,
     readonly sessionstorage:SessionStorageService,
+    private trackingService: AmritTrackingService
   ) { }
   editQuestionaireMappingForm = this.fb.group({
     id:[''],
@@ -278,4 +280,7 @@ filterChildQuestionsList(editQuestionaireMappingForm:any){
     this.selectedParentId=null;
   }
 
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Edit Question Mapping');
+  }
 }

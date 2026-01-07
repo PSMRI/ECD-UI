@@ -31,6 +31,7 @@ import { Router } from '@angular/router';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-role-selection',
@@ -46,7 +47,8 @@ export class RoleSelectionComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     readonly sessionstorage:SessionStorageService,
-    private loginService: LoginserviceService
+    private loginService: LoginserviceService,
+    private trackingService: AmritTrackingService
   ) {}
 
   ngOnInit(): void {
@@ -78,5 +80,9 @@ export class RoleSelectionComponent implements OnInit {
     this.sessionstorage.setItem('role', role);
     this.sessionstorage.setItem('roleId', roleId);
     this.router.navigate(['/dashboard']);
+  }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Role Selection');
   }
 }

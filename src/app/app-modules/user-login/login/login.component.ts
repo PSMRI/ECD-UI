@@ -34,6 +34,7 @@ import * as moment from 'moment';
 import * as CryptoJS from 'crypto-js';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { CaptchaComponent } from '../captcha/captcha.component';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 /**
  * DE40034072 - 12-01-2022
  */
@@ -74,6 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2, 
     readonly sessionstorage:SessionStorageService,
+    private trackingService: AmritTrackingService
   ) {
     this._keySize = 256;
       this._ivSize = 128;
@@ -81,7 +83,24 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   }
 
+  @HostListener('paste', ['$event']) blockPaste(event: KeyboardEvent) {
+    event.preventDefault();
+  }
+
+  @HostListener('copy', ['$event']) blockCopy(event: KeyboardEvent) {
+    event.preventDefault();
+  }
+
+  @HostListener('cut', ['$event']) blockCut(event: KeyboardEvent) {
+    event.preventDefault();
+  }
+  @HostListener('document:contextmenu', ['$event'])
+  disableRightClick(event: MouseEvent) {
+    event.preventDefault();
+  }
+ 
   ngOnInit(): void {
+
     this.loginForm.valueChanges.subscribe(() => {
       this.updateLoginDisabled();
     });
@@ -180,7 +199,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           res.data.previlegeObj !== undefined &&
           res.data.previlegeObj !== null
         ) {
-          this.getServiceAuthenticationDetails(res.data);
+          this.getServiceAuthenticationDetails(res.data, encryptedPwd);
         } else if (res.statusCode === 5002) {
           if (
             res.errorMessage ===
@@ -239,8 +258,10 @@ export class LoginComponent implements OnInit, OnDestroy {
                         userLoggedIn.data.previlegeObj !== null &&
                         userLoggedIn.data.previlegeObj !== undefined
                       ) {
+                        this.sessionstorage.setItem('loginDataResponse', JSON.stringify(userLoggedIn.data));
+                        this.trackingService.setUserId(userLoggedIn.data.userID);
                         this.loginService.userLoginData = userLoggedIn.data;
-                        this.getServiceAuthenticationDetails(userLoggedIn.data);
+                        this.getServiceAuthenticationDetails(userLoggedIn.data, encryptedPwd);
                       } else {
                         this.resetCaptcha();
                         this.confirmationService.openDialog(
@@ -272,7 +293,7 @@ export class LoginComponent implements OnInit, OnDestroy {
    * @param loginDataResponse
    * Authenticating user have ECD privilege or not
    */
-  getServiceAuthenticationDetails(loginDataResponse: any) {    
+  getServiceAuthenticationDetails(loginDataResponse: any, encPassword:any) {
     const servicePrivileges = loginDataResponse.previlegeObj.filter(
       (privilegeResp: any) => {
         if (
@@ -311,6 +332,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           loginDataResponse.isAuthenticated
         );
         this.sessionstorage.setItem('userName', loginDataResponse.userName);
+        this.trackingService.setUserId(loginDataResponse.userID);
         this.sessionstorage.setItem('onCall', 'false');
         this.sessionstorage.setItem(
           'providerServiceMapID',
@@ -326,7 +348,7 @@ export class LoginComponent implements OnInit, OnDestroy {
          */
 
 
-         this.ctiService.getCTILoginToken(this.loginForm.controls.userName.value, this.loginForm.controls.password.value).subscribe((response:any) => {
+         this.ctiService.getCTILoginToken(this.loginForm.controls.userName.value, encPassword).subscribe((response:any) => {
           if(response && response.data) {
           this.loginService.loginKey = response.data.login_key;
           }

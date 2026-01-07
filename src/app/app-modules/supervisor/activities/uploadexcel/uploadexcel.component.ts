@@ -31,6 +31,8 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import * as FileSaver from 'file-saver';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
+
 @Component({
   selector: 'app-uploadexcel',
   templateUrl: './uploadexcel.component.html',
@@ -74,9 +76,10 @@ export class UploadexcelComponent implements OnInit {
     private http: HttpClient,
     private confirmationService: ConfirmationService,
     private fb: FormBuilder,
-    readonly sessionstorage:SessionStorageService,
-    private supervisorService: SupervisorService
-    ) { }
+    readonly sessionstorage: SessionStorageService,
+    private supervisorService: SupervisorService,
+    private trackingService: AmritTrackingService
+  ) { }
 
   ngOnInit(): void {
     // this.autoRefresh(true);
@@ -120,39 +123,45 @@ export class UploadexcelComponent implements OnInit {
   };
     this.supervisorService.postFormData(requestData).subscribe(
       (res:any) => {
-        if(res !== undefined && res !== null && res.response){
-
-          if(res.response.includes("No valid")) {
-            this.confirmationService.openDialog(res.response,"error");
+        if(res !== undefined && res !== null){
+          if(res.success === false || res.statusCode === 5000) {
+            const errorMessage = res.errorMessage || res.status || "File upload failed";
+            if (errorMessage.includes("Invalid Excel File Uploaded file is corrupted or not a valid Excel file")) {
+              this.confirmationService.openDialog(this.currentLanguageSet.invalidOrCurruptFile, 'error');
+            }
+            else {
+              this.confirmationService.openDialog(errorMessage, 'error');
+            }
           }
-          else {
-            this.confirmationService.openDialog(res.response,"success");
+          
+          else if(res.response && res.response !== undefined) {
+            if(res.response.includes("No valid")) {
+              this.confirmationService.openDialog(res.response,"error");
+            }
+            else {
+              this.confirmationService.openDialog(res.response,"success");
+            }
+            // this.data = res;
+            this.uploadForm.reset();
+            this.file=undefined;
+            this.fileList=null;
+            this.fileContent=undefined;
           }
-         
-          // this.data = res;
-          this.uploadForm.reset();
-          this.file=undefined;
-          this.fileList=null;
-          this.fileContent=undefined;
-          // this.confirmationService.openDialog("File Upload Successfully," + this.data.validRecordCount+"and"+"0 Invalid Records" ,"success")
+          else{
+            this.confirmationService.openDialog(res.errorMessage , 'error');
+          }
         }
-        else{
-         
-          this.confirmationService.openDialog(res.errorMessage, 'error');
-        }
-
       },
       (err: any) => {
-        if(err && err.error){
-         
-        this.confirmationService.openDialog(err.error, 'error');
+        // Handle HTTP errors
+        if (err && err.error) {
+          this.confirmationService.openDialog(err.error, 'error');
         }
-        
-        else{ this.confirmationService.openDialog(err.title + err.detail, 'error')
-     
+        else {
+          this.confirmationService.openDialog(err.title + err.detail, 'error')
+
+        }
       }
-       
-        }
     );
   }
 }
@@ -343,39 +352,61 @@ export class UploadexcelComponent implements OnInit {
     this.supervisorService.postTemplateData(requestData).subscribe(
       (res:any) => {
         if(res !== undefined && res !== null){
-
-          if(res.response.includes("No valid")) {
-            this.confirmationService.openDialog(res.response,"error");
+          // Check if the response indicates failure first
+          if(res.success === false || res.statusCode === 5000) {
+            // Error case with proper message extraction
+            const errorMessage = res.errorMessage || res.status || "Template upload failed";
+            if (errorMessage.includes("Invalid Excel File Uploaded file is corrupted or not a valid Excel file")) {
+              this.confirmationService.openDialog("Invalid file. The uploaded Excel file is corrupt or not in a valid format.", 'error');
+            }
+            else {
+              this.confirmationService.openDialog(errorMessage, 'error');
+            }
           }
-          else {
-            this.confirmationService.openDialog(res.response,"success");
+          // Check if the response indicates success
+          else if(res.response) {
+            if(res.response.includes("No valid")) {
+              this.confirmationService.openDialog(res.response,"error");
+            }
+            else {
+              this.confirmationService.openDialog(res.response,"success");
+            }
+            // this.data = res;
+            this.uploadTemplateForm.reset();
+            this.file=undefined;
+            this.fileList=null;
+            this.fileContent=undefined;
           }
-          // this.data = res;
-          this.uploadTemplateForm.reset();
-          this.file=undefined;
-          this.fileList=null;
-          this.fileContent=undefined;
-          // this.confirmationService.openDialog("File Upload Successfully," + this.data.validRecordCount+"and"+"0 Invalid Records" ,"success")
+          else{
+            this.confirmationService.openDialog(res.errorMessage || "An error occurred during upload", 'error');
+          }
         }
-        else{
-         
-          this.confirmationService.openDialog(res.errorMessage, 'error');
-        }
-
       },
       (err: any) => {
+        // Handle HTTP errors
         if(err && err.error){
-         
-        this.confirmationService.openDialog(err.error, 'error');
+          if(err.error.errorMessage) {
+            this.confirmationService.openDialog(err.error.errorMessage, 'error');
+          }
+          else if(typeof err.error === 'string') {
+            this.confirmationService.openDialog(err.error, 'error');
+          }
+          else {
+            this.confirmationService.openDialog("An error occurred during file upload", 'error');
+          }
         }
-        
-        else{ this.confirmationService.openDialog(err.title + err.detail, 'error')
-     
+        else if(err.status && err.message) {
+          this.confirmationService.openDialog(err.message, 'error');
+        }
+        else {
+          this.confirmationService.openDialog("An unexpected error occurred", 'error');
+        }
       }
-       
-        }
     );
   }
   }
   
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Data Upload');
+  }
 }

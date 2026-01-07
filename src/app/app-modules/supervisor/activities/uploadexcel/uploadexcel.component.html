@@ -8,6 +8,7 @@
       [checked]="choice === option"
       class="fontStyle"
       style="margin-left: 15px"
+      (change)="trackFieldInteraction('Data Upload Type')"
       formControlName="choice"
       required
     >
@@ -22,12 +23,24 @@
       </div>
     
       <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-        <button [disabled]="!uploadForm.controls['choice'].value" mat-raised-button color="accent" type="button" (click)="downloadTemplate()" class="buttonFontStyle changeOpacity">
+        <button 
+          [disabled]="!uploadForm.controls['choice'].value" 
+          mat-raised-button 
+          color="accent" 
+          type="button" 
+          (click)="downloadTemplate(); trackFieldInteraction('Download Template Button')" 
+          class="buttonFontStyle changeOpacity"
+        >
           {{ currentLanguageSet?.downloadTemplate }}
         </button> 
       </div>
       <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-        <button mat-raised-button color="accent" (click)="uploadTemplate()" class="buttonFontStyle">
+        <button 
+          mat-raised-button 
+          color="accent" 
+          (click)="uploadTemplate(); trackFieldInteraction('Upload New Template Button')" 
+          class="buttonFontStyle"
+        >
           Upload New Template
         </button>   
       </div>
@@ -41,6 +54,7 @@
     id="options"
     name="options"
     [checked]="choice === option"
+    (change)="trackFieldInteraction('Template Upload Type')"
     class="fontStyle"
     style="margin-left: 15px"
     formControlName="choice"
@@ -107,7 +121,7 @@
                     accept=".xls, .xlsx, .xlsm, .xlsb"
                     size="100"
                     placeholder="{{ currentLanguageSet?.uploadFile }}"
-                    (change)="onFileUpload($event)"
+                    (change)="onFileUpload($event); trackFieldInteraction('Data Upload File')"
                     name="fileList"
                     formControlName="uploadfile"
                     style="display:none" 
@@ -121,8 +135,13 @@
             </div>    
         </div>
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-          <button  mat-raised-button class="uploadButton" type="submit"
-          [disabled]="!uploadForm.valid || invalid_file_flag || error2 || inValidFileName || !fileContent">
+          <button  
+            mat-raised-button 
+            class="uploadButton" 
+            type="submit"
+            [disabled]="!uploadForm.valid || invalid_file_flag || error2 || inValidFileName || !fileContent"
+            (click)="trackFieldInteraction('Upload Button')"
+          >
             {{ currentLanguageSet?.upload }}
           </button>
         </div>    
@@ -174,7 +193,7 @@
                     accept=".xls, .xlsx, .xlsm, .xlsb"
                     size="100"
                     placeholder="{{ currentLanguageSet?.uploadFile }}"
-                    (change)="onFileUpload($event)"
+                    (change)="onFileUpload($event); trackFieldInteraction('Template Upload File')"
                     name="fileList"
                     formControlName="uploadTemplatefile"
                     style="display:none" 
@@ -189,13 +208,23 @@
         </div>
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <button  mat-raised-button class="uploadButtonForTemplate" type="submit"
-            [disabled]="!uploadTemplateForm.valid || invalid_file_flag || error2 || inValidFileName || !fileContent">
+            <button  
+              mat-raised-button 
+              class="uploadButtonForTemplate" 
+              type="submit"
+              [disabled]="!uploadTemplateForm.valid || invalid_file_flag || error2 || inValidFileName || !fileContent"
+              (click)="trackFieldInteraction('Upload Template Button')"
+            >
               {{ currentLanguageSet?.upload }}
             </button>
           </div>  
           <div class="col-xs-12 col-sm-3 col-md-6 col-lg-6">
-            <button (click)="onback()" mat-raised-button class="uploadButtonForTemplate buttonColorRed" type="button">
+            <button 
+              (click)="onback(); trackFieldInteraction('Back Button')" 
+              mat-raised-button 
+              class="uploadButtonForTemplate buttonColorRed" 
+              type="button"
+            >
               {{ currentLanguageSet?.back }}
             </button>
           </div>    

@@ -50,6 +50,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorReportsComponent } from '../../supervisor-reports/supervisor-reports/supervisor-reports.component';
 import { MapQuestionaireConfigurationComponent } from '../../configurations/question-Mapping/map-questionaire-configuration/map-questionaire-configuration.component';
 // import { SupervisorReportsComponent } from '../'
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-innerpage-supervisor',
@@ -88,7 +89,8 @@ export class InnerpageSupervisorComponent implements OnInit {
     private route: ActivatedRoute,
     private confirmationService: ConfirmationService,
     private fb: FormBuilder,
-    private setLanguageService: SetLanguageService
+    private setLanguageService: SetLanguageService,
+    private trackingService: AmritTrackingService
   ) {}
 
   innerpageheaderForm = this.fb.group({
@@ -155,5 +157,9 @@ export class InnerpageSupervisorComponent implements OnInit {
       if(res)
       this.router.navigate(['/dashboard']);
     });  
+  }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Supervisor Dashboard');
   }
 }

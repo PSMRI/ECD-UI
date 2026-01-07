@@ -11,14 +11,14 @@
         mat-raised-button
         [ngClass]="activeMother === true ? 'activeButton' : 'nonActiveButton'"
         class="m-right"
-        (click)="selectedRecord('mother')"
+        (click)="selectedRecord('mother'); trackFieldInteraction('Mother Records Button')"
         >
         {{currentLanguageSet?.motherRecords}}
       </button>
       <button
         mat-raised-button
         [ngClass]="activeChild === true ? 'activeButton' : 'nonActiveButton'"
-        (click)="selectedRecord('child')"
+        (click)="selectedRecord('child'); trackFieldInteraction('Child Records Button')"
        >
          {{currentLanguageSet?.childRecords}}
       </button>
@@ -38,6 +38,7 @@
               placeholder=""
               #filterTerm
               (keyup)="filterSearchTerm(filterTerm.value)"
+              (focus)="trackFieldInteraction('In Table Search')"
             />
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
@@ -56,6 +57,7 @@
               placeholder=""
               #filterTerm
               (keyup)="filterSearchTerm(filterTerm.value)"
+              (focus)="trackFieldInteraction('In Table Search')"
             />
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
@@ -160,7 +162,7 @@
                 role="img"
                 aria-hidden="true"
                 style="cursor: pointer"
-                (click)="openDialog(element)"
+                (click)="openDialog(element); trackFieldInteraction('View Button')"
                 >visibility</mat-icon
               >
             </td>
@@ -178,7 +180,7 @@
                 role="img"
                 aria-hidden="true"
                 style="cursor: pointer"
-                (click)="callBeneficary(element,true)"
+                (click)="callBeneficary(element,true); trackFieldInteraction('Call Button')"
                 >phone</mat-icon
               >
             </td>
@@ -290,7 +292,7 @@
                 role="img"
                 aria-hidden="true"
                 style="cursor: pointer"
-                (click)="openDialog(element)"
+                (click)="openDialog(element); trackFieldInteraction('View Button')"
                 >visibility</mat-icon
               >
             </td>
@@ -308,7 +310,7 @@
                 role="img"
                 aria-hidden="true"
                 style="cursor: pointer"
-                (click)="callBeneficary(element,false)"
+                (click)="callBeneficary(element,false); trackFieldInteraction('Call Button')"
                 >phone</mat-icon
               >
             </td>

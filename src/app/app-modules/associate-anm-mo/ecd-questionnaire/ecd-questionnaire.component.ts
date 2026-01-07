@@ -36,7 +36,7 @@ import { CallClosureComponent } from '../call-closure/call-closure.component';
 import { HighRiskReasonsComponent } from '../high-risk-reasons/high-risk-reasons.component';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { VideoConsultationService } from '../video-consultation/videoService';
-
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-ecd-questionnaire',
@@ -93,7 +93,8 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
     private masterService: MasterService,
     private changeDetectorRefs: ChangeDetectorRef,
     readonly sessionstorage:SessionStorageService,
-    public videoService: VideoConsultationService,    
+    public videoService: VideoConsultationService, 
+    private trackingService: AmritTrackingService   
   ) { }
 
   beneficiaryMotherDataForm = this.fb.group({
@@ -859,5 +860,8 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
     
   }
   
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'ECD Questionnaire');
+  }
 
 }
