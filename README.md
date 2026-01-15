@@ -108,6 +108,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Documentation
 
-Detailed technical documentation for this service is available on DeepWiki:
-
-- https://deepwiki.com/PSMRI/ECD-UI
+[DeepWiki - ECD-UI](https://deepwiki.com/PSMRI/ECD-UI)
