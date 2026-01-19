@@ -1,7 +1,8 @@
 # AMRIT - Early Childhood Developemnt (ECD) Service
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-![Build Status](https://github.com/PSMRI/ECD-API/actions/workflows/sast-and-package.yml/badge.svg)
+[![DeepWiki](https://img.shields.io/badge/DeepWiki-PSMRI%2FECD--UI-blue)](https://deepwiki.com/PSMRI/ECD-UI)
+
 
 The Early Childhood Development (ECD) Initiative by the Ministry of Health and Family Welfare (MoHFW) aims to nurture the cognitive capital of the country by enabling young children to attain their fullest potential. The initiative focuses on the critical period of brain development, which includes the 270 days of pregnancy and the first two years of the child's life, also known as the first 1,000 days.
 
@@ -105,7 +106,3 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 -->
-
-## Documentation
-
-[DeepWiki - ECD-UI](https://deepwiki.com/PSMRI/ECD-UI)
