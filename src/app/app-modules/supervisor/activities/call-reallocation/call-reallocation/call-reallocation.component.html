@@ -7,7 +7,7 @@
       <mat-radio-group
         [(ngModel)]="selectedRadioButtonChange"
         aria-label="Select an option"
-        (click)="onRadioButtonChange()"
+        (click)="onRadioButtonChange(); trackFieldInteraction('Activity')"
         class="fontStyle"
         formControlName="selectedRadioButton"
       >
@@ -29,7 +29,7 @@
             currentLanguageSet?.role
           }}</mat-label>
           <mat-select
-          (selectionChange)="onClickOfRoles($event);resetReallocateForm()"
+          (selectionChange)="onClickOfRoles($event);resetReallocateForm(); trackFieldInteraction('Role')"
             formControlName="agentTypes"
             required
           >
@@ -45,7 +45,7 @@
 
         <mat-form-field *ngIf="enableLanguage" appearance="outline"  class="dropdownAlignment fontStyle">
           <mat-label class="fontStyle">{{ currentLanguageSet?.preferredLanguage }}</mat-label>
-          <mat-select formControlName="preferredLanguage" (selectionChange)="onSelectionOfLanguage();resetReallocateForm()">
+          <mat-select formControlName="preferredLanguage" (selectionChange)="onSelectionOfLanguage();resetReallocateForm(); trackFieldInteraction('Preferred Language')">
             <mat-option *ngFor="let language of languages" [value]="language.languageName">
               {{ language.languageName }}
             </mat-option>
@@ -61,7 +61,7 @@
             currentLanguageSet?.agentName
           }}</mat-label>
           <mat-select
-            (selectionChange)="onClickOfAgents($event);resetReallocateForm()"
+            (selectionChange)="onClickOfAgents($event);resetReallocateForm(); trackFieldInteraction('Agent Name')"
             formControlName="agentName"
             required
           >
@@ -80,7 +80,7 @@
             currentLanguageSet?.recordType
           }}</mat-label>
           <mat-select
-            (selectionChange)="onClickOfRecordType($event);resetReallocateForm()"
+            (selectionChange)="onClickOfRecordType($event);resetReallocateForm(); trackFieldInteraction('Record Type')"
             formControlName="recordType"
             required
           >
@@ -101,7 +101,7 @@
             currentLanguageSet?.phoneNumberType
           }}</mat-label>
           <mat-select
-            (selectionChange)="onClickOfPhoneNoType($event);resetReallocateForm()"
+            (selectionChange)="onClickOfPhoneNoType($event);resetReallocateForm(); trackFieldInteraction('Phone Number Type')"
             formControlName="phoneNoType"
             required
           >
@@ -125,12 +125,14 @@
               formControlName="start"
               placeholder="{{ currentLanguageSet?.startDate }}"
               (dateChange)="resetReallocateForm()"
+              (focus)="trackFieldInteraction('Start Date')"
             />
             <input
               matEndDate
               formControlName="end"
               placeholder="{{ currentLanguageSet?.endDate }}"
               (dateChange)="resetReallocateForm()"
+              (focus)="trackFieldInteraction('End Date')"
             />
           </mat-date-range-input>
           <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
@@ -159,7 +161,7 @@
         type="submit"
         style="float: right; margin: 20px;"
         [disabled]="isSubmitDisabled || !callReallocationForm.valid"
-        (click)="onSubmit()"
+        (click)="onSubmit(); trackFieldInteraction('Submit Button')"
       >
         {{ currentLanguageSet?.submit }}
       </button>
@@ -185,7 +187,7 @@
               currentLanguageSet?.allocateTo
             }}</mat-label>
             <mat-select
-              (selectionChange)="onClickOfAllocateTo()"
+              (click)="onClickOfAllocateTo(); trackFieldInteraction('Reset Button')"
               formControlName="allocateTo"
               multiple
               required
@@ -214,6 +216,7 @@
               placeholder="{{ currentLanguageSet?.allocateRecords }}"
               style="width: 250px"
               formControlName="numericValue"
+              (focus)="trackFieldInteraction('Allocate Records')"
               [max]="totalCount"
               allowText="number"
               (change)="enableUnallocateReallocateButton()"
@@ -228,7 +231,7 @@
             style="margin: 5px"
             type="submit"
             [disabled]="!callReallocateForm.valid || isDisableUnallocateButton"
-            (click)="onClickOfAllocate()"
+            (click)="onClickOfAllocate(); trackFieldInteraction('Reallocate Button')"
           >
             {{ currentLanguageSet?.reallocate }}
           </button>
@@ -239,7 +242,7 @@
             class="buttonColor full-width buttonWidth"
             style="margin: 5px"
             type="submit"
-            (click)="onClickOfBin()"
+            (click)="onClickOfBin(); trackFieldInteraction('Unallocate Button')"
             [disabled]="isDisableUnallocateButton"
           >
             {{ currentLanguageSet?.unallocate }}

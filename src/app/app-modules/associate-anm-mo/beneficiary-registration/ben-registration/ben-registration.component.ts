@@ -32,6 +32,7 @@ import { LoginserviceService } from 'src/app/app-modules/services/loginservice/l
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { VideoConsultationService } from '../../video-consultation/videoService';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-ben-registration',
@@ -87,7 +88,7 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
     readonly sessionstorage: SessionStorageService,
     public dialog: MatDialog,
     public videoService: VideoConsultationService,
-
+    private trackingService: AmritTrackingService
   ) {
   }
 
@@ -699,5 +700,9 @@ import { VideoConsultationService } from '../../video-consultation/videoService'
     return finalDate;
 
  }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Beneficiary Registration');
+  }
 
 }

@@ -9,27 +9,27 @@
         <div>
             <mat-form-field appearance="outline">
                 <mat-label> {{currentLanguageSet?.noOfEcdCalls}} </mat-label>
-                <input matInput id="noOfEcdCalls" type="number" min="3" formControlName="noOfEcdCalls"/>
+                <input matInput id="noOfEcdCalls" type="number" min="3" formControlName="noOfEcdCalls" (focus)="trackFieldInteraction('No Of ECD Calls')"/>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label> {{currentLanguageSet?.noOfIntroductoryCalls}} </mat-label>
-                <input matInput id="noOfIntroductoryCalls" type="number" min="2" formControlName="noOfIntroductoryCalls"/>
+                <input matInput id="noOfIntroductoryCalls" type="number" min="2" formControlName="noOfIntroductoryCalls" (focus)="trackFieldInteraction('No Of Introductory Calls')"/>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label> {{currentLanguageSet?.noOfAncCalls}} </mat-label>
-                <input matInput id="noOfAncCalls" type="number" min="1" formControlName="noOfAncCalls"/>
+                <input matInput id="noOfAncCalls" type="number" min="1" formControlName="noOfAncCalls" (focus)="trackFieldInteraction('No Of ANC Calls')"/>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label> {{currentLanguageSet?.noOfPncCalls}} </mat-label>
-                <input matInput id="noOfPncCalls" type="number" min="1" formControlName="noOfPncCalls"/>
+                <input matInput id="noOfPncCalls" type="number" min="1" formControlName="noOfPncCalls" (focus)="trackFieldInteraction('No Of PNC Calls')"/>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field [ngClass]="enableDateRange === true ? 'backgroundWhite' : ''" appearance="outline">
                 <mat-label> {{currentLanguageSet?.enterDateRange}} </mat-label>
                 <mat-date-range-input [rangePicker]="picker" [min]="minDate" required>
-                <input matStartDate formControlName="startDate" placeholder="Start date" (dateChange)="validateDateRange()" [disabled]="disabledStartDate">
-                <input matEndDate formControlName="endDate" placeholder="End date" (dateChange)="validateDateRange()" [disabled]="!enableDateRange">
+                <input matStartDate formControlName="startDate" placeholder="Start date" (dateChange)="validateDateRange()" [disabled]="disabledStartDate" (focus)="trackFieldInteraction('Start Date')">
+                <input matEndDate formControlName="endDate" placeholder="End date" (dateChange)="validateDateRange()" [disabled]="!enableDateRange" (focus)="trackFieldInteraction('End Date')">
                 </mat-date-range-input>
                 <mat-hint>MM/DD/YYYY – MM/DD/YYYY
                   <br>  <span style="color: red;" *ngIf="showStartDateValidation">Start Date cannot be modified</span>
@@ -42,7 +42,7 @@
             </mat-form-field>
             <mat-form-field class="backgroundWhite" appearance="outline">
                 <mat-label> {{currentLanguageSet?.configTerms}} </mat-label>
-                <mat-select matInput id="configTerms" formControlName="configTerms">
+                <mat-select matInput id="configTerms" formControlName="configTerms" (selectionChange)="trackFieldInteraction('Config Terms')">
                     <mat-option value="days">Days</mat-option>
                     <mat-option value="months">Months</mat-option>
                     <!-- <mat-option value="weeks">Weeks</mat-option> -->
@@ -50,11 +50,11 @@
             </mat-form-field>
             <mat-form-field class="backgroundWhite" appearance="outline">
                 <mat-label> {{currentLanguageSet?.noOfAttempts}} </mat-label>
-                <input matInput id="noOfAttempts"appMobileNumber type="number" min="1" formControlName="noOfAttempts"  (input)="checkNoOfAttempts()"/>
+                <input matInput id="noOfAttempts"appMobileNumber type="number" min="1" formControlName="noOfAttempts"  (input)="checkNoOfAttempts()" (focus)="trackFieldInteraction('No Of Attempts')"/>
             </mat-form-field>
             <mat-form-field class="backgroundWhite" appearance="outline" *ngIf="enableNextCallAttempt">
                 <mat-label> {{currentLanguageSet?.nextCallAttemptPeriod}} </mat-label>
-                <input matInput id="nextCallAttempt" type="number" min="0" formControlName="nextCallAttempt" (input)="enableSubmitOnFill()" required/>
+                <input matInput id="nextCallAttempt" type="number" min="0" formControlName="nextCallAttempt" (input)="enableSubmitOnFill()" required (focus)="trackFieldInteraction('Next Call Attempt Period')"/>
                 <mat-error *ngIf="editcallconfigurationform.controls.nextCallAttempt?.errors?.['required']">{{ currentLanguageSet.fieldIsRequired }}</mat-error>
             </mat-form-field>
         </div>
@@ -70,7 +70,7 @@
                 <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.displayName}} </th>
                 <td style="padding-left: 2px !important; padding-right: 35px;" mat-cell *matCellDef="let element">
                 <mat-form-field>
-                    <input matInput placeholder="" [(ngModel)]="element.displayName" name="displayName" [disabled]="isDisabled">
+                    <input matInput placeholder="" [(ngModel)]="element.displayName" name="displayName" [disabled]="isDisabled" (focus)="trackFieldInteraction('Display Name')">
                 </mat-form-field>
                 </td>
             </ng-container>
@@ -98,7 +98,7 @@
                 <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.displayName}} </th>
                 <td mat-cell *matCellDef="let element">
                 <mat-form-field>
-                    <input matInput placeholder="" [(ngModel)]="element.displayName" name="displayName" [disabled]="isDisabled">
+                    <input matInput placeholder="" [(ngModel)]="element.displayName" name="displayName" [disabled]="isDisabled" (focus)="trackFieldInteraction('Display Name')">
                 </mat-form-field>
                 </td>
             </ng-container>
@@ -110,7 +110,7 @@
                 <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.termRange}} </th>
                 <td mat-cell *matCellDef="let element">
                     <mat-form-field>
-                        <input matInput appMobileNumber placeholder="" type="number" [min]="0" [(ngModel)]="element.termRange" name="termRange" (ngModelChange)="onTermRangeChangeForAnc(element)">
+                        <input matInput appMobileNumber placeholder="" type="number" [min]="0" [(ngModel)]="element.termRange" name="termRange" (ngModelChange)="onTermRangeChangeForAnc(element)" (focus)="trackFieldInteraction('ANC Term Range')">
                     </mat-form-field>
                     <mat-error>{{ element.rowErrorMessage }}</mat-error>
                 </td>
@@ -127,7 +127,7 @@
                 <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.displayName}} </th>
                 <td mat-cell *matCellDef="let element">
                 <mat-form-field>
-                    <input matInput placeholder="" [(ngModel)]="element.displayName" name="displayName" [disabled]="isDisabled">
+                    <input matInput placeholder="" [(ngModel)]="element.displayName" name="displayName" [disabled]="isDisabled" (focus)="trackFieldInteraction('Display Name')">
                 </mat-form-field>
                 </td>
             </ng-container>
@@ -139,7 +139,7 @@
                 <th mat-header-cell *matHeaderCellDef> {{currentLanguageSet?.termRange}} </th>
                 <td mat-cell *matCellDef="let element">
                     <mat-form-field>
-                        <input matInput appMobileNumber placeholder="" type="number" [min]="0" [(ngModel)]="element.termRange" name="termRange" (ngModelChange)="onTermRangeChangeForPnc(element)">
+                        <input matInput appMobileNumber placeholder="" type="number" [min]="0" [(ngModel)]="element.termRange" name="termRange" (ngModelChange)="onTermRangeChangeForPnc(element)" (focus)="trackFieldInteraction('PNC Term Range')">
                     </mat-form-field>
                     <mat-error>{{ element.rowErrorMessage }}</mat-error>
                 </td>
@@ -149,7 +149,7 @@
     </div>
     <br>
     <div class="pull-right" style="margin-top: 35px;">
-        <button mat-raised-button style="margin: 5px;" class="buttonColorRed full-width buttonWidth" (click)="goBack()"> {{currentLanguageSet?.back}} </button>
-        <button mat-raised-button style="margin: 5px;" class="buttonColorGreen full-width buttonWidth" [disabled]="showStartDateValidation || !editcallconfigurationform.dirty || disableUpdate || editcallconfigurationform.controls.endDate.value === null" (click)="updateCallConfiguration()" > {{currentLanguageSet?.update}} </button>
+        <button mat-raised-button style="margin: 5px;" class="buttonColorRed full-width buttonWidth" (click)="goBack(); trackFieldInteraction('Back Button')"> {{currentLanguageSet?.back}} </button>
+        <button mat-raised-button style="margin: 5px;" class="buttonColorGreen full-width buttonWidth" [disabled]="showStartDateValidation || !editcallconfigurationform.dirty || disableUpdate || editcallconfigurationform.controls.endDate.value === null" (click)="updateCallConfiguration(); trackFieldInteraction('Update Button')" > {{currentLanguageSet?.update}} </button>
     </div>
 </mat-card>

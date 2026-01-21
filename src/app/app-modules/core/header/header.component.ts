@@ -204,7 +204,7 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
   logOutUser() {
     this.loginService.sessionLogout().subscribe((res: any) => {
       if(res.statusCode === 200){
-        this.router.navigate(['/login']);
+        this.router.navigate(['/feedback'], { queryParams: { sl: 'ECD' } });
           localStorage.clear();
           sessionStorage.clear();
           this.qualityAuditorService.callAuditData=undefined;

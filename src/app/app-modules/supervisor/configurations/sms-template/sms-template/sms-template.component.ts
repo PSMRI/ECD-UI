@@ -32,6 +32,7 @@ import { LoginserviceService } from 'src/app/app-modules/services/loginservice/l
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-sms-template',
@@ -89,6 +90,7 @@ export class SmsTemplateComponent implements OnInit, DoCheck, AfterViewInit {
     private fb: FormBuilder,
     private supervisorService: SupervisorService,
     readonly sessionstorage:SessionStorageService,
+    private trackingService: AmritTrackingService
   ) {}
 
   ngOnInit() {
@@ -503,5 +505,9 @@ export class SmsTemplateComponent implements OnInit, DoCheck, AfterViewInit {
         }
       });
     }
+  }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'SMS Template');
   }
 }

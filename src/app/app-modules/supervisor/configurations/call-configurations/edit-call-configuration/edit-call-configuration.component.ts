@@ -30,6 +30,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { CallConfigurationComponent } from '../call-configuration/call-configuration.component';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 /**
  * KA40094929
@@ -69,8 +70,8 @@ export class EditCallConfigurationComponent implements OnInit, DoCheck {
     private setLanguageService: SetLanguageService,
     private route: ActivatedRoute,
     readonly sessionstorage:SessionStorageService,
-    private supervisorService: SupervisorService
-
+    private supervisorService: SupervisorService,
+    private trackingService: AmritTrackingService
   ) { }
 
   editcallconfigurationform = this.fb.group({
@@ -416,4 +417,8 @@ export class EditCallConfigurationComponent implements OnInit, DoCheck {
     this.confirmationService.openDialog(this.currentLanguageSet.pleaseFillAllTheValuesToProceedFurther, 'info');
   }
 }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Edit Call Configuration');
+  }
 }

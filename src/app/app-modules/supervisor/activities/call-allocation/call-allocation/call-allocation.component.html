@@ -6,7 +6,7 @@
       <mat-form-field appearance="outline" id="fieldBackground" class="dropdownAlignment fontStyle">
         <mat-label class="fontStyle">{{ currentLanguageSet?.recordType }}</mat-label>
         <mat-select
-          (selectionChange)="onClickOfRecordType($event)"
+          (selectionChange)="onClickOfRecordType($event); trackFieldInteraction('Record Type')"
           formControlName="recordType"
           required
         >
@@ -19,7 +19,7 @@
       <mat-form-field appearance="outline" id="fieldBackground" class="dropdownAlignment fontStyle">
         <mat-label class="fontStyle">{{ currentLanguageSet?.phoneNumberType }}</mat-label>
         <mat-select
-          (selectionChange)="onClickOfPhoneNoType($event)"
+          (selectionChange)="onClickOfPhoneNoType($event); trackFieldInteraction('Phone Number Type')"
           formControlName="phoneNoType"
           required
         >
@@ -41,11 +41,13 @@
             matStartDate
             formControlName="start"
             placeholder="{{ currentLanguageSet?.startDate }}"
+            (focus)="trackFieldInteraction('Start Date')"
           />
           <input
             matEndDate
             formControlName="end"
             placeholder="{{ currentLanguageSet?.endDate }}"
+            (focus)="trackFieldInteraction('End Date')"
           />
         </mat-date-range-input>
         <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
@@ -67,7 +69,7 @@
         type="submit"
         style="margin-left: 30px;"
         [disabled]="isSubmitDisabled"
-        (click)="onSubmit()"
+        (click)="onSubmit(); trackFieldInteraction('Submit Button')"
       >
         {{ currentLanguageSet?.submit }}
       </button>
@@ -93,7 +95,7 @@
                       class="buttonColor full-width-allocate buttonWidth"
                       type="submit"
                       style="float: right;"
-                      (click)="onAllocate('introductory', recordsData.totalIntroductoryRecord)"
+                      (click)="onAllocate('introductory', recordsData.totalIntroductoryRecord); trackFieldInteraction('Allocate Introductory Records Button')"
                       [disabled]="!(recordsData.totalIntroductoryRecord > 0)"
                     >
                       {{ currentLanguageSet?.allocate }}
@@ -109,7 +111,7 @@
                       class="buttonColor full-width-allocate buttonWidth"
                       type="submit"
                       style="float: right;"
-                      (click)="onAllocate('low risk', recordsData.totalLowRiskRecord)"
+                      (click)="onAllocate('low risk', recordsData.totalLowRiskRecord); trackFieldInteraction('Allocate Low Risk Records Button')"
                       [disabled]="!(recordsData.totalLowRiskRecord > 0)"
                     >
                       {{ currentLanguageSet?.allocate }}
@@ -125,7 +127,7 @@
                       class="buttonColor full-width-allocate buttonWidth"
                       type="submit"
                       style="float: right;"
-                      (click)="onAllocate('high risk',recordsData.totalHighRiskRecord)"
+                      (click)="onAllocate('high risk',recordsData.totalHighRiskRecord); trackFieldInteraction('Allocate High Risk Records Button')"
                       [disabled]="!(recordsData.totalHighRiskRecord > 0)"
                     >
                       {{ currentLanguageSet?.allocate }}
@@ -157,7 +159,7 @@
                       class="buttonColor full-width-allocate buttonWidth"
                       type="submit"
                       style="float: right;"
-                      (click)="onAllocate('introductory',recordsData.totalIntroductoryRecord)"
+                      (click)="onAllocate('introductory',recordsData.totalIntroductoryRecord); trackFieldInteraction('Allocate Introductory Records Button')"
                       [disabled]="!(recordsData.totalIntroductoryRecord > 0)"
                     >
                       {{ currentLanguageSet?.allocate }}
@@ -173,7 +175,7 @@
                       class="buttonColor full-width-allocate buttonWidth"
                       type="submit"
                       style="float: right;"
-                      (click)="onAllocate('low risk',recordsData.totalLowRiskRecord)"
+                      (click)="onAllocate('low risk',recordsData.totalLowRiskRecord); trackFieldInteraction('Allocate Low Risk Records Button')"
                       [disabled]="!(recordsData.totalLowRiskRecord > 0)"
                     >
                       {{ currentLanguageSet?.allocate }}
@@ -189,7 +191,7 @@
                       class="buttonColor full-width-allocate buttonWidth"
                       type="submit"
                       style="float: right;"
-                      (click)="onAllocate('high risk',recordsData.totalHighRiskRecord)"
+                      (click)="onAllocate('high risk',recordsData.totalHighRiskRecord); trackFieldInteraction('Allocate High Risk Records Button')"
                       [disabled]="!(recordsData.totalHighRiskRecord > 0)"
                     >
                       {{ currentLanguageSet?.allocate }}
@@ -215,7 +217,7 @@
               <mat-form-field appearance="outline" class="dropdownAllocateAlignment fontStyle">
                 <mat-label class="fontStyle">{{ currentLanguageSet?.role }}</mat-label>
                 <mat-select
-                  (selectionChange)="onClickOfAgentType()"
+                  (selectionChange)="onClickOfAgentType(); trackFieldInteraction('Agent Role')"
                   formControlName="agentType"
                   required
                 >
@@ -227,7 +229,7 @@
 
               <mat-form-field *ngIf="enableLanguage" appearance="outline" class="dropdownAllocateAlignment fontStyle">
                 <mat-label class="fontStyle">{{ currentLanguageSet?.preferredLanguage }}</mat-label>
-                <mat-select formControlName="preferredLanguage" (selectionChange)="onClickOfAgentType()">
+                <mat-select formControlName="preferredLanguage" (selectionChange)="onClickOfAgentType(); trackFieldInteraction('Preferred Language')">
                   <mat-option *ngFor="let language of languages" [value]="language.languageName">
                     {{ language.languageName }}
                   </mat-option>
@@ -237,7 +239,7 @@
               <mat-form-field appearance="outline" class="dropdownAllocateAlignment fontStyle">
                 <mat-label class="fontStyle">{{ currentLanguageSet?.allocateTo }}</mat-label>
                 <mat-select
-                  (selectionChange)="onClickOfAllocateTo($event)"
+                  (selectionChange)="onClickOfAllocateTo($event); trackFieldInteraction('Allocate To Agent')"
                   formControlName="allocateTo"
                   class="arrow_width"
                   multiple
@@ -263,6 +265,7 @@
                   allowText="number"
                   (ngModelChange)="checkAllocateDisabledButton()"
                   required
+                  (focus)="trackFieldInteraction('Number of Records to Allocate')"
                 />
               </mat-form-field>
               <br>
@@ -273,7 +276,7 @@
                 style="margin: 5px"
                 type="submit"
                 [disabled]="isAllocateDisabled"
-                (click)="onClickOfAllocate()"
+                (click)="onClickOfAllocate(); trackFieldInteraction('Final Allocate Button')"
               >
                 {{ currentLanguageSet?.allocate }}
               </button>

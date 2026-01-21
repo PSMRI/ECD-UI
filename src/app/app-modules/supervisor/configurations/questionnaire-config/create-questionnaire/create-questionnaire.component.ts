@@ -35,6 +35,7 @@ import { QuestionnaireConfigurationComponent } from '../questionnaire-configurat
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 /**
  * DE40034072
  * 25-01-2023
@@ -82,7 +83,8 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
     private setLanguageService: SetLanguageService,
     private supervisorService: SupervisorService,
     readonly sessionstorage:SessionStorageService,
-    private masterService: MasterService
+    private masterService: MasterService,
+    private trackingService: AmritTrackingService
   ) {}
 
   ngOnInit(): void {
@@ -734,6 +736,10 @@ export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewI
           });
     
     }
+  }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Create Questionnaire');
   }
 }
 

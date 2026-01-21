@@ -142,7 +142,14 @@ const routes: Routes = [
         (x) => x.AssociateAnmMoModule
       ),
   },
-  { path: 'beneficiary-registration', component: BenRegistrationComponent }
+  { path: 'beneficiary-registration', component: BenRegistrationComponent },
+  {
+    path: 'feedback',
+    loadChildren: () =>
+      import('Common-UI/src/feedback/feedback.module').then(
+        m => m.FeedbackModule
+      ),
+  },
 ];
 
 @NgModule({

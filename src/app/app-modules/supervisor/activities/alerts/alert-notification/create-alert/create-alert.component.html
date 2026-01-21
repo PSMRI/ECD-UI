@@ -17,7 +17,7 @@
             [value]="roles"
             formControlName="roleType"
             required
-            (selectionChange)="getLocationsForAlert()"
+            (selectionChange)="getLocationsForAlert(); trackFieldInteraction('Select Roles')"
           >
             <mat-option *ngFor="let type of roles" [value]="type.roleId">{{
               type.roleName
@@ -34,6 +34,7 @@
             formControlName="officeType"
             multiple
             required
+            (selectionChange)="trackFieldInteraction('Select Offices')"
           >
             <mat-option *ngFor="let item of locationData" [value]="item.pSAddMapID">{{
               item.locationName
@@ -57,6 +58,7 @@
               placeholder="{{ currentLanguageSet?.startDate }}"
               required
               (dateChange)="validateTime(range.controls.start.value, range.controls.end.value,createAlertNotificationForm.controls['startTime'].value,createAlertNotificationForm.controls['endTime'].value)"
+              (focus)="trackFieldInteraction('Start Date')"
             />
             <input
             (dateChange)="validateTime(range.controls.start.value, range.controls.end.value,createAlertNotificationForm.controls['startTime'].value,createAlertNotificationForm.controls['endTime'].value)"
@@ -64,6 +66,7 @@
               formControlName="end"
               placeholder="{{ currentLanguageSet?.endDate }}"
               required
+              (focus)="trackFieldInteraction('End Date')"
             />
           </mat-date-range-input>
           <mat-hint class="font-style">MM/DD/YYYY – MM/DD/YYYY</mat-hint>
@@ -95,6 +98,7 @@
           formControlName="startTime"
           required
           [(ngModel)]="Stime"
+          (focus)="trackFieldInteraction('Start Time')"
         />
         <mat-timepicker-toggle matSuffix [for]="startPicker"></mat-timepicker-toggle>
         <mat-timepicker #startPicker></mat-timepicker>
@@ -111,6 +115,7 @@
           formControlName="endTime"
           required
           [(ngModel)]="Etime"
+          (focus)="trackFieldInteraction('End Time')"
         />
         <mat-timepicker-toggle matSuffix [for]="endPicker"></mat-timepicker-toggle>
         <mat-timepicker #endPicker></mat-timepicker>
@@ -140,6 +145,7 @@
           minlength="5"
           maxlength="100"
           formControlName="subject" required
+          (focus)="trackFieldInteraction('Subject')"
         />
         <mat-error
           *ngIf="
@@ -181,6 +187,7 @@
           minlength="5"
           maxlength="300"
           formControlName="message" required
+          (focus)="trackFieldInteraction('Message')"
         ></textarea>
         <mat-error
           *ngIf="
@@ -217,7 +224,7 @@
     <button
       mat-raised-button
       class="buttonColorRed full-width buttonWidth"
-      (click)="showTable()"
+      (click)="showTable(); trackFieldInteraction('Back Button')"
       type="button"
     >
       {{ currentLanguageSet?.back }}
@@ -227,7 +234,7 @@
     color="accent"
     class="buttonColorGreen full-width buttonWidth"
     type="button"
-    (click)="saveAlertForm()"
+    (click)="saveAlertForm(); trackFieldInteraction('Submit Button')"
     [disabled]="createAlertNotificationForm.invalid || invalidTimeFlag===true "
   >
       {{ currentLanguageSet?.submit }}

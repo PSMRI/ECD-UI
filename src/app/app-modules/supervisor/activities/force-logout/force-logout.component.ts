@@ -28,6 +28,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { environment } from 'src/environments/environment';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 @Component({
   selector: 'app-force-logout',
@@ -38,7 +39,7 @@ export class ForceLogoutComponent implements OnInit {
   currentLanguageSet: any;
   languageData: any;
 
-  constructor(readonly sessionstorage:SessionStorageService,private setLanguageService: SetLanguageService,private fb: FormBuilder,private supervisorService: SupervisorService,private confirmationService: ConfirmationService) { }
+  constructor(readonly sessionstorage:SessionStorageService,private setLanguageService: SetLanguageService,private fb: FormBuilder,private supervisorService: SupervisorService,private confirmationService: ConfirmationService, private trackingService: AmritTrackingService) { }
 
   kickoutForm = this.fb.group({
     userName: ['',Validators.required]
@@ -71,4 +72,7 @@ export class ForceLogoutComponent implements OnInit {
    })
   }
 
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Force Logout');
+  }
 }

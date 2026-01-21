@@ -38,6 +38,15 @@ export const environment = {
   language: 'English',
   licenseUrl: `${COMMON_API}license.html`,
 
+  tracking: {
+    platform: 'matomo',
+    siteId: parseInt('<%= SITE_ID %>'),
+    trackerUrl: '<%= TRACKER_URL %>',
+    trackingPlatform: '<%= TRACKING_PLATFORM %>',
+    enabled: '<%= TRACKING_ENABLED %>' === 'true'
+  },
+
+
   getSecurityQuestionURL: `${COMMON_API}user/getsecurityquetions`,
   getLoginURL: `${COMMON_API}user/userAuthenticate`,
   userLogoutPreviousSessionUrl: `${COMMON_API}user/logOutUserFromConcurrentSession`,

@@ -1,5 +1,5 @@
 <h2 class="fontStyle" mat-dialog-title>View Record</h2>
-<button class="inline closeButton" mat-icon-button mat-dialog-close aria-label="Close">
+<button class="inline closeButton" mat-icon-button mat-dialog-close aria-label="Close" (click)="trackFieldInteraction('Close Button')">
     <mat-icon>close</mat-icon>
 </button>
 <mat-dialog-content>
@@ -20,6 +20,7 @@
           defaultNull
           
           readonly
+          (focus)="trackFieldInteraction('Record Upload Date')"
         />
       </mat-form-field>
   </div>
@@ -36,6 +37,7 @@
         defaultNull
         
         readonly
+        (focus)="trackFieldInteraction('Mother ID')"
       />
     </mat-form-field>
   </div>
@@ -52,6 +54,7 @@
         defaultNull
         
         readonly
+        (focus)="trackFieldInteraction('Mother Name')"
       />
     </mat-form-field>
   </div>
@@ -68,6 +71,7 @@
         defaultNull
         
         readonly
+        (focus)="trackFieldInteraction('Husband Name')"
       />
     </mat-form-field>
   </div>
@@ -84,6 +88,7 @@
         defaultNull
         
         readonly
+        (focus)="trackFieldInteraction('Health Block')"
       />
     </mat-form-field>
   </div>
@@ -100,6 +105,7 @@
         defaultNull
         
         readonly
+        (focus)="trackFieldInteraction('PHC Name')"
       />
     </mat-form-field>
   </div>
@@ -116,6 +122,7 @@
         defaultNull
         
         readonly
+        (focus)="trackFieldInteraction('Address')"
       />
     </mat-form-field>
   </div>
@@ -134,6 +141,7 @@
         defaultNull
         
         readonly
+        (focus)="trackFieldInteraction('Sub Facility')"
       />
     </mat-form-field>
   </div>
@@ -150,6 +158,7 @@
         defaultNull
         
         readonly
+        (focus)="trackFieldInteraction('Phone Number')"
       />
     </mat-form-field>
   </div>
@@ -167,6 +176,7 @@
         defaultNull
         
         readonly
+        (focus)="trackFieldInteraction('Asha')"
       />
     </mat-form-field>
   </div>
@@ -186,7 +196,7 @@
         defaultNull
         
         readonly
-       
+        (focus)="trackFieldInteraction('ANM')"
       />
     </mat-form-field>
   </div>
@@ -204,6 +214,7 @@
         defaultNull
         
         readonly 
+        (focus)="trackFieldInteraction('LMP Date')"
       />
     </mat-form-field>
   </div> 
@@ -221,6 +232,7 @@
         defaultNull
         
         readonly
+        (focus)="trackFieldInteraction('Expected Delivery Date')"
       />
     </mat-form-field>
   </div> 
@@ -259,6 +271,7 @@ style="margin-top: 10px"
       defaultNull
       
       readonly
+      (focus)="trackFieldInteraction('Record Upload Date')"
     />
   </mat-form-field>
 </div>
@@ -275,6 +288,7 @@ style="margin-top: 10px"
     defaultNull
     
     readonly
+    (focus)="trackFieldInteraction('Child ID')"
   />
 </mat-form-field>
 </div>
@@ -291,6 +305,7 @@ style="margin-top: 10px"
     defaultNull
     
     readonly
+    (focus)="trackFieldInteraction('Child Name')"
   />
 </mat-form-field>
 </div>
@@ -307,6 +322,7 @@ style="margin-top: 10px"
     defaultNull
     
     readonly
+    (focus)="trackFieldInteraction('Health Block')"
   />
 </mat-form-field>
 </div>
@@ -323,6 +339,7 @@ style="margin-top: 10px"
     defaultNull
     
     readonly
+    (focus)="trackFieldInteraction('PHC Name')"
   />
 </mat-form-field>
 </div>
@@ -340,7 +357,7 @@ style="margin-top: 10px"
         defaultNull
         
         readonly
-        readonly
+        (focus)="trackFieldInteraction('Sub Facility')"
       />
     </mat-form-field>
     </div>
@@ -357,7 +374,7 @@ style="margin-top: 10px"
     defaultNull
     
     readonly
-    readonly
+    (focus)="trackFieldInteraction('Address')"
   />
 </mat-form-field>
 </div>
@@ -377,7 +394,7 @@ style="margin-top: 10px"
     defaultNull
     
     readonly
-    readonly
+    (focus)="trackFieldInteraction('Phone Number')"
   />
 </mat-form-field>
 </div>
@@ -395,7 +412,7 @@ style="margin-top: 10px"
     defaultNull
     
     readonly
-    readonly
+    (focus)="trackFieldInteraction('Asha')"
   />
 </mat-form-field>
 </div>
@@ -415,7 +432,7 @@ style="margin-top: 10px"
     defaultNull
     
     readonly
-   
+    (focus)="trackFieldInteraction('ANM')"
   />
 </mat-form-field>
 </div> 

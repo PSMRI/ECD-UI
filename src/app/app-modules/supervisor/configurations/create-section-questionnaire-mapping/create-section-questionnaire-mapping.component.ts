@@ -26,6 +26,7 @@ import { FormBuilder } from '@angular/forms';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 /**
  * KA40094929
@@ -45,7 +46,8 @@ export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoChe
     private fb: FormBuilder,
     private confirmationService: ConfirmationService,
     private setLanguageService: SetLanguageService,
-    private supervisorService: SupervisorService
+    private supervisorService: SupervisorService,
+    private trackingService: AmritTrackingService
   ) {}
 
   ngOnInit(): void {
@@ -72,5 +74,9 @@ export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoChe
       this.setLanguageService.languageData !== null
     )
       this.currentLanguageSet = this.setLanguageService.languageData;
+  }
+
+  trackFieldInteraction(fieldName: string) {
+    this.trackingService.trackFieldInteraction(fieldName, 'Create Section Questionnaire Mapping');
   }
 }

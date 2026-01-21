@@ -45,7 +45,13 @@ export const environment = {
   extendSessionUrl: `${ECD_API}common/extend/redisSession`,
   language: 'English',
   licenseUrl: `${COMMON_API}license.html`,
-
+  tracking: {
+    platform: 'matomo',
+    siteId: 4,  
+    trackerUrl: '//127.0.0.1/',
+    trackingPlatform: 'local',
+    enabled: true 
+  },
   getSecurityQuestionURL: `${COMMON_API}user/getsecurityquetions`,
   getLoginURL: `${COMMON_API}user/userAuthenticate`,
   userLogoutPreviousSessionUrl: `${COMMON_API}user/logOutUserFromConcurrentSession`,

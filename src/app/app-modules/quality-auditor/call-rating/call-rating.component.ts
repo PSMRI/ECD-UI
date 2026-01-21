@@ -75,6 +75,7 @@ export class CallRatingComponent implements OnInit{
   finalScorePercentage = 0;
 
   ratingQuestions: any = [];
+  auiteeRole: any;
 
   constructor(
     private setLanguageService: SetLanguageService,
@@ -93,6 +94,7 @@ export class CallRatingComponent implements OnInit{
       this.benCallId = this.routedData.benCallID;
       this.beneficiaryId = this.routedData.beneficiaryid;
       this.auditType = this.data.type;
+      this.auiteeRole = this.routedData.roleName;
     }
     this.getSectionQuestions();
     this.getCallRecording();
@@ -222,7 +224,9 @@ export class CallRatingComponent implements OnInit{
   }
 
   filterQuestionsForRatings(){
-    this.filteredRatingQuestions = this.ratingQuestions.reduce((acc: { sectionId: number; sectionName: string; sectionRank: number; questions: any[] }[], curr: any) => {
+    const roleBasedQuestions = this.filterQuestionsByRole(this.ratingQuestions, this.auiteeRole);
+
+    this.filteredRatingQuestions = roleBasedQuestions.reduce((acc: { sectionId: number; sectionName: string; sectionRank: number; questions: any[] }[], curr: any) => {
       const existingSection = acc.find(section => section.sectionRank === curr.sectionRank);
   
       if (existingSection) {
@@ -246,7 +250,9 @@ export class CallRatingComponent implements OnInit{
   }
   
   filterRatedQuestions(){
-    this.filteredRatingQuestions = this.ratedQuestions.reduce((acc: { sectionId: number; sectionName: string; sectionRank: number; questions: any[] }[], curr: any) => {
+    const roleBasedRatedQuestions = this.filterQuestionsByRole(this.ratedQuestions, this.auiteeRole);
+
+    this.filteredRatingQuestions = roleBasedRatedQuestions.reduce((acc: { sectionId: number; sectionName: string; sectionRank: number; questions: any[] }[], curr: any) => {
       const existingSection = acc.find(section => section.sectionRank === curr.sectionRank);
   
       if (existingSection) {
@@ -266,6 +272,10 @@ export class CallRatingComponent implements OnInit{
         questions: section.questions.sort((a: { questionRank: number; }, b: { questionRank: number; }) => a.questionRank - b.questionRank)
       }));
       console.log("filtered data", this.filteredRatingQuestions);
+  }
+
+  private filterQuestionsByRole(questions: any[], role: string): any[] {
+    return questions.filter((q: any) => !q.roles || q.roles.includes(role));
   }
 
   calculateScore(element: any, section: any) {
