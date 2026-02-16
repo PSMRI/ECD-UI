@@ -62,23 +62,23 @@ export class CallAllocationComponent implements OnInit, DoCheck {
 
   recordData = [
     {
-      id: 1,
-      name: "Mother",
-    },
-    {
       id: 2,
       name: "Child",
+    },
+    {
+      id: 1,
+      name: "Mother",
     },
   ];
 
   phoneNumber = [
     {
-      id: 1,
-      name: "Self",
-    },
-    {
       id: 2,
       name: "Others",
+    },
+    {
+      id: 1,
+      name: "Self",
     }
   ];
 

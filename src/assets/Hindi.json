@@ -469,7 +469,7 @@
   "accessDenied": "पहुंच अस्वीकृत",
   "internaleServerError": "आंतरिक सर्वर त्रुटि",
   "somethingWentWrong": "कुछ गलत हो गया",
-  "sessionExpiredPleaseLogin": "सत्र समाप्त हो गया, कृपया जारी रखने के लिए दोबारा लॉगिन करें"
+  "sessionExpiredPleaseLogin": "सत्र समाप्त हो गया, कृपया जारी रखने के लिए दोबारा लॉगिन करें",
   "platform_feedback": {
     "feedback": "प्रतिक्रिया",
     "weValueYourFeedback": "हम आपकी प्रतिक्रिया को महत्व देते हैं",

@@ -53,12 +53,12 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
 
   phoneNumber = [
     {
-      id: 1,
-      name: "Self",
-    },
-    {
       id: 2,
       name: "Others",
+    },
+    {
+      id: 1,
+      name: "Self",
     }
   ];
   phonenumofwhom: any;
