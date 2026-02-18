@@ -1,8 +1,8 @@
-/* 
-* AMRIT – Accessible Medical Records via Integrated Technology 
-* Integrated EHR (Electronic Health Records) Solution 
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
 *
-* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
 *
 * This file is part of AMRIT.
 *
@@ -24,6 +24,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { sortByProperty } from '../utils/sort-util';
+
+const sortByName = (item: any) => (item.firstName || '') + ' ' + (item.lastName || '');
 
 @Injectable({
   providedIn: 'root',
@@ -35,32 +39,51 @@ export class MasterService {
   constructor(private http: HttpClient) {}
 
   getQuestionnaireTypeMaster() {
-    return this.http.get(environment.getQuestionnaireTypeUrl);
+    return this.http.get(environment.getQuestionnaireTypeUrl).pipe(
+      map((res: any) => sortByProperty(res, 'questionType'))
+    );
   }
 
   getAnswerTypeMaster() {
-    return this.http.get(environment.getAnswerTypeUrl);
+    return this.http.get(environment.getAnswerTypeUrl).pipe(
+      map((res: any) => sortByProperty(res, 'answerType'))
+    );
   }
 
   getSectionMaster(reqObj: any) {
-    return this.http.get(environment.getSectionMastersUrl + '/' + reqObj);
+    return this.http.get(environment.getSectionMastersUrl + '/' + reqObj).pipe(
+      map((res: any) => sortByProperty(res, 'sectionName'))
+    );
   }
   getSMSMaster() {
-    return this.http.get(environment.getSMSTypeUrl);
+    return this.http.get(environment.getSMSTypeUrl).pipe(
+      map((res: any) => sortByProperty(res, 'smsType'))
+    );
   }
 
   getRoleMaster(reqObj: any) {
-    return this.http.get(environment.getRoleMasterUrl + '/' + reqObj);
+    return this.http.get(environment.getRoleMasterUrl + '/' + reqObj).pipe(
+      map((res: any) => sortByProperty(res, 'roleName'))
+    );
   }
   getOfficesMaster(reqObj: any) {
-    return this.http.get(environment.getOfficeMasterUrl + '/' + reqObj);
+    return this.http.get(environment.getOfficeMasterUrl + '/' + reqObj).pipe(
+      map((res: any) => sortByProperty(res, 'locationName'))
+    );
   }
 
   getOfficeMasterData(providerServiceMapID: any) {
     return this.http.post(environment.getOfficeMasterDataUrl,
       {
         'providerServiceMapID': providerServiceMapID
-      });
+      }).pipe(
+      map((res: any) => {
+        if (res && res.data) {
+          res.data = sortByProperty(res.data, 'locationName');
+        }
+        return res;
+      })
+    );
   }
 
   getLocationsMaster(providerServiceMapID: any, roleID: any) {
@@ -68,80 +91,127 @@ export class MasterService {
       {
         'providerServiceMapID': providerServiceMapID,
         'roleID': roleID
-      });
+      }).pipe(
+      map((res: any) => {
+        if (res && res.data) {
+          res.data = sortByProperty(res.data, 'locationName');
+        }
+        return res;
+      })
+    );
   }
 
   getFrequencyMaster() {
-    return this.http.get(environment.getFrequencyMasterUrl);
+    return this.http.get(environment.getFrequencyMasterUrl).pipe(
+      map((res: any) => sortByProperty(res, 'name'))
+    );
   }
   getAuditorMaster(reqObj: any) {
-    return this.http.get(environment.getAuditorMastersUrl + '/' + reqObj);
+    return this.http.get(environment.getAuditorMastersUrl + '/' + reqObj).pipe(
+      map((res: any) => sortByProperty(res, sortByName))
+    );
   }
   getGradeMaster(reqObj:any){
-    return this.http.get(environment.getGradeMastersUrl);
+    return this.http.get(environment.getGradeMastersUrl).pipe(
+      map((res: any) => sortByProperty(res, 'name'))
+    );
   }
   getCyclesMaster(reqObj: any){
-    return this.http.get(environment.getCycleMastersUrl);
+    return this.http.get(environment.getCycleMastersUrl).pipe(
+      map((res: any) => sortByProperty(res, 'name'))
+    );
   }
   getAgentMaster(reqObj: any){
-    return this.http.get(environment.getAgentMastersUrl +'/' + reqObj.roleId );
+    return this.http.get(environment.getAgentMastersUrl +'/' + reqObj.roleId ).pipe(
+      map((res: any) => sortByProperty(res, sortByName))
+    );
   }
 
   getAgentMasterByRoleId(reqObj: any){
-    return this.http.get(environment.getAgentMastersUrl +'/' + reqObj );
+    return this.http.get(environment.getAgentMastersUrl +'/' + reqObj ).pipe(
+      map((res: any) => sortByProperty(res, sortByName))
+    );
   }
   getNoFurtherCallsReason(){
-    return this.http.get(environment.getNoFurtherCallsReasonUrl);
+    return this.http.get(environment.getNoFurtherCallsReasonUrl).pipe(
+      map((res: any) => sortByProperty(res, 'name'))
+    );
   }
   getReasonsOfNotCallAnswered(){
-    return this.http.get(environment.getReasonsOfNotCallAnsweredUrl);
+    return this.http.get(environment.getReasonsOfNotCallAnsweredUrl).pipe(
+      map((res: any) => sortByProperty(res, 'name'))
+    );
   }
   getTypeOfComplaints(){
-    return this.http.get(environment.getTypeOfComplaintsUrl);
+    return this.http.get(environment.getTypeOfComplaintsUrl).pipe(
+      map((res: any) => sortByProperty(res, 'name'))
+    );
   }
 
   getLanguageMaster(){
-    return this.http.get(environment.getLanguageMasterUrl );
+    return this.http.get(environment.getLanguageMasterUrl ).pipe(
+      map((res: any) => sortByProperty(res, 'languageName'))
+    );
   }
 
   getLanguageMasterByUserId(userId: any){
-    return this.http.get(environment.getLanguageMasterByUserIdUrl + userId);
+    return this.http.get(environment.getLanguageMasterByUserIdUrl + userId).pipe(
+      map((res: any) => sortByProperty(res, 'languageName'))
+    );
   }
 
   getHrpReasons(){
-    return this.http.get(environment.getHrpReasonMasterUrl);
+    return this.http.get(environment.getHrpReasonMasterUrl).pipe(
+      map((res: any) => sortByProperty(res, 'name'))
+    );
   }
 
   getHniReasons(){
-    return this.http.get(environment.getHrniReasonMasterUrl);
+    return this.http.get(environment.getHrniReasonMasterUrl).pipe(
+      map((res: any) => sortByProperty(res, 'name'))
+    );
   }
 
   getContentialAnomaliesReasons(){
-    return this.http.get(environment.getCongentialAnomaliesMasterUrl);
+    return this.http.get(environment.getCongentialAnomaliesMasterUrl).pipe(
+      map((res: any) => sortByProperty(res, 'name'))
+    );
   }
 
   getStateMaster(countryId:any) {
-    return this.http.get(environment.getStatesMasterUrl + "/" + countryId);
+    return this.http.get(environment.getStatesMasterUrl + "/" + countryId).pipe(
+      map((res: any) => sortByProperty(res, 'stateName'))
+    );
   }
 
   getDistrictMaster(stateId:any) {
-    return this.http.get(environment.getDistrictMasterUrl + "/" + stateId);
+    return this.http.get(environment.getDistrictMasterUrl + "/" + stateId).pipe(
+      map((res: any) => sortByProperty(res, 'districtName'))
+    );
   }
 
   getBlockMaster(districtId:any) {
-    return this.http.get(environment.getBlockMasterUrl + "/" + districtId);
+    return this.http.get(environment.getBlockMasterUrl + "/" + districtId).pipe(
+      map((res: any) => sortByProperty(res, 'blockName'))
+    );
   }
 
   getVillageMaster(blockId:any) {
-    return this.http.get(environment.getVillageMasterUrl + "/" + blockId);
+    return this.http.get(environment.getVillageMasterUrl + "/" + blockId).pipe(
+      map((res: any) => sortByProperty(res, 'villageName'))
+    );
   }
 
   getGenderMaster() {
-    return this.http.get(environment.getGenderMasterUrl);
+    return this.http.get(environment.getGenderMasterUrl).pipe(
+      map((res: any) => sortByProperty(res, 'genderName'))
+    );
   }
 
   getAgentMasterByRoleIdAndLanguage(roleId : any,language : any){
-      return this.http.get(environment.getAgentMasterByRoleIdAndLanguageUrl + "/" + roleId + "/" + language);
+      return this.http.get(environment.getAgentMasterByRoleIdAndLanguageUrl + "/" + roleId + "/" + language).pipe(
+        map((res: any) => sortByProperty(res, sortByName))
+      );
   }
 
 }
