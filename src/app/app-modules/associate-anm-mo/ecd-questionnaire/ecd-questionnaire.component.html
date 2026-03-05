@@ -461,6 +461,10 @@
         </div>
 
         <div style="display: flex; justify-content: right;">
+          <button *ngIf="role.toLowerCase() === 'mo'" style="margin-right: 5px;"
+            mat-raised-button class="buttonColor full-width buttonWidth"
+            (click)="reassignToANM(); trackFieldInteraction('Reassign to ANM Button')">
+            {{currentLanguageSet?.reassignToANM}}</button>
           <button style="margin-right: 5px;" mat-raised-button class="buttonColorRedish full-width buttonWidth"
             (click)="goToClosure(); trackFieldInteraction('Closure Button')">Closure</button>
           <button *ngIf="filteredQuesData.length !== 0" style="margin-right: 5px;" mat-raised-button

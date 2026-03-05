@@ -34,6 +34,7 @@ import { EcdQuestionnaireComponent } from '../ecd-questionnaire/ecd-questionnair
 import { BenRegistrationComponent } from '../beneficiary-registration/ben-registration/ben-registration.component';
 import { AssociateAnmMoService } from '../../services/associate-anm-mo/associate-anm-mo.service';
 import { BeneficiaryCallHistoryComponent } from '../beneficiary-call-history/beneficiary-call-history.component';
+import { HighRiskReasonsComponent } from '../high-risk-reasons/high-risk-reasons.component';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { CtiService } from '../../services/cti/cti.service';
 import { map, Subscription, timer } from 'rxjs';
@@ -179,6 +180,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
               // 'callStatus',
               'recordUploadDate',
               'ecdCallType',
+              'hrpStatus',
               'view',
               'action'
             ];
@@ -217,6 +219,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
               // 'callStatus',
               'recordUploadDate',
               'ecdCallType',
+              'hrniStatus',
               'view',
               'action'
             ];
@@ -542,6 +545,15 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
   openBenCallHistory() {
     this.associateAnmMoService.setOpenComp("Beneficiary Call History");
     // this.associateAnmMoService.loadComponent(BeneficiaryCallHistoryComponent,null)
+  }
+
+  openHrpReasonsDialog(element: any) {
+    this.dialog.open(HighRiskReasonsComponent, {
+      data: {
+        motherId: element.mctsidNo,
+        childId: element.mctsidNoChildId ?? null
+      }
+    });
   }
 
   trackFieldInteraction(fieldName: string) {

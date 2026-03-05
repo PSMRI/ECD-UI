@@ -482,6 +482,16 @@
     "okay": "ठीक है",
     "thankYou": "धन्यवाद, आपकी प्रतिक्रिया हमारे लिए मूल्यवान है!"
   },
-  "invalidOrCurruptFile": "Invalid file. The uploaded Excel file is corrupt or not in a valid format."
+  "invalidOrCurruptFile": "Invalid file. The uploaded Excel file is corrupt or not in a valid format.",
+  "reassignToANM": "ANM को पुनः सौंपें",
+  "reassignCallType": "पुनः सौंपने का कॉल प्रकार",
+  "regularANC": "नियमित ANC",
+  "regularPNC": "नियमित PNC",
+  "hrpStatus": "HRP स्थिति",
+  "hrniStatus": "HRNI स्थिति",
+  "viewHrpReasons": "HRP कारण देखें",
+  "viewHrniReasons": "HRNI कारण देखें",
+  "reassignConfirmation": "क्या आप वाकई इस केस को ANM को पुनः सौंपना चाहते हैं?",
+  "caseReassignedSuccessfully": "केस सफलतापूर्वक ANM को पुनः सौंपा गया"
 
 }
