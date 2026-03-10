@@ -269,29 +269,30 @@
                                     </button>
                                 </div>
                             </div>
-                            <!-- Reassign to ANM section - MO only -->
-                            <div class="row" *ngIf="showReassignToANM && showVerifiedFields">
+                            <!-- HRP Status section - MO only, mother cases -->
+                            <div class="row" *ngIf="showMoStatusFields && showVerifiedFields && showHrpStatus">
                                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom" style="padding: 10px;">
                                     <mat-label class="radio-button-styling">
-                                        {{currentLanguageSet?.reassignToANM}}:
+                                        {{currentLanguageSet?.hrpStatus}}:
                                     </mat-label>
-                                    <mat-radio-group formControlName="reassignToANM"
-                                        (change)="onReassignToANMChange($event.value); trackFieldInteraction('Reassign to ANM')">
+                                    <mat-radio-group formControlName="hrpStatus"
+                                        (change)="onHrpStatusChange($event.value); trackFieldInteraction('HRP Status')">
                                         <mat-radio-button class="m-10" value="Yes">{{currentLanguageSet?.yes}}</mat-radio-button>
                                         <mat-radio-button class="m-10" value="No">{{currentLanguageSet?.no}}</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
-                                <div *ngIf="callClosureForm.controls['reassignToANM'].value === 'Yes'"
-                                    class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
-                                    <mat-form-field class="backgroundWhite" appearance="outline" style="width:100%">
-                                        <mat-label>{{currentLanguageSet?.reassignCallType}}</mat-label>
-                                        <mat-select formControlName="reassignCallType"
-                                            (selectionChange)="trackFieldInteraction('Reassign Call Type')">
-                                            <mat-option value="Regular ANC">{{currentLanguageSet?.regularANC}}</mat-option>
-                                            <mat-option value="Regular PNC">{{currentLanguageSet?.regularPNC}}</mat-option>
-                                        </mat-select>
-                                        <mat-error>{{currentLanguageSet?.fieldIsRequired}}</mat-error>
-                                    </mat-form-field>
+                            </div>
+                            <!-- HRNI Status section - MO only, child cases -->
+                            <div class="row" *ngIf="showMoStatusFields && showVerifiedFields && showHrniStatus">
+                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom" style="padding: 10px;">
+                                    <mat-label class="radio-button-styling">
+                                        {{currentLanguageSet?.hrniStatus}}:
+                                    </mat-label>
+                                    <mat-radio-group formControlName="hrniStatus"
+                                        (change)="onHrniStatusChange($event.value); trackFieldInteraction('HRNI Status')">
+                                        <mat-radio-button class="m-10" value="Yes">{{currentLanguageSet?.yes}}</mat-radio-button>
+                                        <mat-radio-button class="m-10" value="No">{{currentLanguageSet?.no}}</mat-radio-button>
+                                    </mat-radio-group>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn-toolbar pull-right"

@@ -73,7 +73,9 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
   callTimerSubscription: Subscription = new Subscription;
   wrapupTimerSubscription: Subscription = new Subscription;
   isNextAttempt = true;
-  showReassignToANM = false;
+  showMoStatusFields = false;
+  showHrpStatus = false;
+  showHrniStatus = false;
   callClosureForm: FormGroup = this.fb.group({
 
     isFurtherCallRequired: [],
@@ -97,8 +99,8 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
     sendAdvice: [null],
     altPhoneNo: [null, [Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
     iVRFeedbackRequired: false,
-    reassignToANM: [null],
-    reassignCallType: [null],
+    hrpStatus: [null],
+    hrniStatus: [null],
   }
   );
   isCallVerifiedStatus: any;
@@ -138,6 +140,8 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
   }
   ngDoCheck() {
     this.getSelectedLanguage();
+    this.showHrpStatus = this.associateAnmMoService.isMother === true;
+    this.showHrniStatus = this.associateAnmMoService.isMother === false;
   }
   ngOnInit(): void {
      this.minimumDate = new Date();
@@ -154,13 +158,7 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
     this.getCallTypes();
     this.isStickyAgentValid();
     this.getLanguageMaster();
-    this.showReassignToANM = (this.selectedRole === 'MO');
-
-    if (this.associateAnmMoService.reassignToANMFlag) {
-      this.callClosureForm.controls['reassignToANM'].setValue('Yes');
-      this.onReassignToANMChange('Yes');
-      this.associateAnmMoService.reassignToANMFlag = false;
-    }
+    this.showMoStatusFields = (this.selectedRole === 'MO');
 
     this.associateAnmMoService.openCompFlag$.subscribe((responseComp) => {
       if (responseComp !== null && responseComp === "Call Closed") {
@@ -183,7 +181,8 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
         this.clearPreferredLanguageValidator();
         this.clearIsFurtherCallValidator();
         this.enablePreferredLanguage = false;
-        this.clearReassignCallTypeValidator();
+        this.clearHrpStatusValidator();
+        this.clearHrniStatusValidator();
         this.callClosureForm.reset();
       }
       
@@ -367,10 +366,8 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
       sendAdvice: formData.sendAdvice,
       altPhoneNo: formData.altPhoneNo,
       isStickyAgentRequired: formData.isStickyAgentRequired,
-      isHrp: (formData.reassignToANM === "Yes") ? false : (this.associateAnmMoService.isMother?this.associateAnmMoService.isHighRiskPregnancy:false),
-      isHrni: (formData.reassignToANM === "Yes") ? false : ((this.associateAnmMoService.isMother === false)?this.associateAnmMoService.isHighRiskInfant:false),
-      reassignToANM: (formData.reassignToANM === "Yes") ? true : false,
-      reassignCallType: formData.reassignCallType ?? null,
+      isHrp: (this.selectedRole === 'MO' && this.associateAnmMoService.isMother) ? (formData.hrpStatus === "Yes") : (this.associateAnmMoService.isMother ? this.associateAnmMoService.isHighRiskPregnancy : false),
+      isHrni: (this.selectedRole === 'MO' && this.associateAnmMoService.isMother === false) ? (formData.hrniStatus === "Yes") : ((this.associateAnmMoService.isMother === false) ? this.associateAnmMoService.isHighRiskInfant : false),
       deleted: false,
       createdBy: this.sessionstorage.getItem('userName'),
       modifiedBy: this.sessionstorage.getItem('userName'),
@@ -419,7 +416,6 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
             this.enablePhoneNumber = false;
             this.clearPreferredLanguageValidator();
             this.clearIsFurtherCallValidator();
-            this.clearReassignCallTypeValidator();
             this.enablePreferredLanguage = false;
             this.disableIVRFeedback = true;
             this.resetSessions();
@@ -869,24 +865,30 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
     reasonForNoFurtherCallsIdControl?.updateValueAndValidity();
   }
 
-  onReassignToANMChange(value: string) {
-    if (value === 'Yes') {
-      const reassignCallTypeControl = this.callClosureForm.get('reassignCallType');
-      reassignCallTypeControl?.setValidators([Validators.required]);
-      reassignCallTypeControl?.updateValueAndValidity();
+  onHrpStatusChange(value: string) {
+    if (value === 'No') {
       this.associateAnmMoService.isHighRiskPregnancy = false;
-      this.associateAnmMoService.isHighRiskInfant = false;
       this.callClosureForm.controls['isFurtherCallRequired'].setValue('Yes');
-    } else {
-      this.callClosureForm.controls['reassignCallType'].reset();
-      this.clearReassignCallTypeValidator();
     }
   }
 
-  clearReassignCallTypeValidator() {
-    const reassignCallTypeControl = this.callClosureForm.get('reassignCallType');
-    reassignCallTypeControl?.clearValidators();
-    reassignCallTypeControl?.updateValueAndValidity();
+  onHrniStatusChange(value: string) {
+    if (value === 'No') {
+      this.associateAnmMoService.isHighRiskInfant = false;
+      this.callClosureForm.controls['isFurtherCallRequired'].setValue('Yes');
+    }
+  }
+
+  clearHrpStatusValidator() {
+    const hrpStatusControl = this.callClosureForm.get('hrpStatus');
+    hrpStatusControl?.clearValidators();
+    hrpStatusControl?.updateValueAndValidity();
+  }
+
+  clearHrniStatusValidator() {
+    const hrniStatusControl = this.callClosureForm.get('hrniStatus');
+    hrniStatusControl?.clearValidators();
+    hrniStatusControl?.updateValueAndValidity();
   }
 
   trackFieldInteraction(fieldName: string) {
