@@ -239,7 +239,7 @@
                                     class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
                                     <mat-form-field class="backgroundWhite" appearance="outline" [style.width]="'100%'">
                                         <mat-label>{{currentLanguageSet?.sendAdvice}}</mat-label>
-                                        <textarea minlength="10" maxlength="500" matInput placeholder="" id="sendAdvice"
+                                        <textarea minlength="1" maxlength="500" matInput placeholder="" id="sendAdvice"
                                             formControlName="sendAdvice" type="text" defaultNull (focus)="trackFieldInteraction('Send Advice')"></textarea>
                                         <!-- <mat-error *ngIf="callClosureForm.controls['sendAdvice'].errors?.['required']">{{
                                     currentLanguageSet.Advice }}</mat-error>
