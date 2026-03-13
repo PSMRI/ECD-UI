@@ -486,14 +486,10 @@
     "thankYou": "Thank you, your feedback is valuable to us!"
   },
   "invalidOrCurruptFile": "Invalid file. The uploaded Excel file is corrupt or not in a valid format.",
-  "reassignToANM": "Reassign to ANM",
-  "reassignCallType": "Reassignment Call Type",
   "regularANC": "Regular ANC",
   "regularPNC": "Regular PNC",
   "hrpStatus": "HRP Status",
   "hrniStatus": "HRNI Status",
   "viewHrpReasons": "View HRP Reasons",
-  "viewHrniReasons": "View HRNI Reasons",
-  "reassignConfirmation": "Are you sure you want to reassign this case to ANM?",
-  "caseReassignedSuccessfully": "Case reassigned to ANM successfully"
+  "viewHrniReasons": "View HRNI Reasons"
 }

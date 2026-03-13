@@ -860,21 +860,6 @@ export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
     
   }
   
-  reassignToANM() {
-    this.confirmationService
-      .openDialog(
-        this.currentLanguageSet.reassignConfirmation,
-        'confirm'
-      )
-      .afterClosed()
-      .subscribe((result) => {
-        if (result) {
-          this.associateAnmMoService.reassignToANMFlag = true;
-          this.associateAnmMoService.fromComponent = "ECD Questionnaire";
-          this.associateAnmMoService.setOpenComp("Call Closure");
-        }
-      });
-  }
 
   trackFieldInteraction(fieldName: string) {
     this.trackingService.trackFieldInteraction(fieldName, 'ECD Questionnaire');

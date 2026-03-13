@@ -40,7 +40,6 @@ export class AssociateAnmMoService {
   isHighRiskPregnancy = false;
   isHighRiskInfant = false;
   autoDialing = false;
-  reassignToANMFlag = false;
 
   callWrapup: any = "";
   callWrapupFlag = new BehaviorSubject(this.callWrapup);
