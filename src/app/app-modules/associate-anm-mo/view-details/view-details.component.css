@@ -39,3 +39,9 @@
    cursor: not-allowed;
    pointer-events: none;
  }
+
+ .highRiskButtonColor {
+   font-family: 'Lato', sans-serif;
+   background-color: #E14646 !important;
+   color: #ffffff !important;
+ }

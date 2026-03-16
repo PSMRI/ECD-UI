@@ -269,6 +269,32 @@
                                     </button>
                                 </div>
                             </div>
+                            <!-- HRP Status section - MO only, mother cases -->
+                            <div class="row" *ngIf="showMoStatusFields && showVerifiedFields && showHrpStatus">
+                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom" style="padding: 10px;">
+                                    <mat-label class="radio-button-styling">
+                                        {{currentLanguageSet?.hrpStatus}}:
+                                    </mat-label>
+                                    <mat-radio-group formControlName="hrpStatus"
+                                        (change)="onHrpStatusChange($event.value); trackFieldInteraction('HRP Status')">
+                                        <mat-radio-button class="m-10" value="Yes">{{currentLanguageSet?.yes}}</mat-radio-button>
+                                        <mat-radio-button class="m-10" value="No">{{currentLanguageSet?.no}}</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                            <!-- HRNI Status section - MO only, child cases -->
+                            <div class="row" *ngIf="showMoStatusFields && showVerifiedFields && showHrniStatus">
+                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom" style="padding: 10px;">
+                                    <mat-label class="radio-button-styling">
+                                        {{currentLanguageSet?.hrniStatus}}:
+                                    </mat-label>
+                                    <mat-radio-group formControlName="hrniStatus"
+                                        (change)="onHrniStatusChange($event.value); trackFieldInteraction('HRNI Status')">
+                                        <mat-radio-button class="m-10" value="Yes">{{currentLanguageSet?.yes}}</mat-radio-button>
+                                        <mat-radio-button class="m-10" value="No">{{currentLanguageSet?.no}}</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn-toolbar pull-right"
                                 style="margin-top: 30px; justify-content: right;">
                                 <button mat-raised-button class="buttonColorRed full-width buttonWidth" type="button"
