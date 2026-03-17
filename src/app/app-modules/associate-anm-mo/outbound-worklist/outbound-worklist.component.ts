@@ -170,6 +170,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
             this.dataSource.data.forEach((sectionCount: any, index: number) => {
               sectionCount.sno = index + 1;
             });
+            const role = this.sessionstorage.getItem('role');
             this.displayedColumns = [
               'sno',
               'phoneNo',
@@ -180,7 +181,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
               // 'callStatus',
               'recordUploadDate',
               'ecdCallType',
-              'hrpStatus',
+              ...(role !== 'MO' ? ['hrpStatus'] : []),
               'view',
               'action'
             ];
