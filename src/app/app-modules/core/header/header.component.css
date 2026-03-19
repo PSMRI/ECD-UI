@@ -1,3 +1,8 @@
+.logout {
+  flex-shrink: 0;
+  min-width: fit-content;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -5,7 +10,7 @@
   top: 0;
   height: 70px;
   color: #ffffff;
-  overflow: hidden;
+  overflow: visible;
   padding-left: 12px;
   padding-right: 12px;
 }
@@ -13,27 +18,27 @@
 .logoutButton {
   display: flex;
   align-items: center;
-  margin-right: 40px;
-  padding-right: 65px;
+  margin-right: 0px;
+  padding: 0px !important;
   font-size: large;
+  white-space: nowrap;
+  gap: 8px;
+  background: transparent !important;
 }
 
 .language {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
-
-/* .logoutButton {
-  margin-right: 40px;
-  padding-right: 65px;
-  font-size: large;
-} */
 
 .roleButton {
   display: flex;
   align-items: center;
   margin-left: 40px;
+  flex-shrink: 0;
 }
+
 @media (max-width: 767px) {
   .roleButton {
     display: flex;
@@ -46,20 +51,11 @@
   border-top-color: #ffffff;
   border-width: 2px;
 }
-/* 
-.language {
-  display: flex;
-  align-items: center;
-  margin-right: 40px;
-} */
 
-::ng-deep
-  .mat-form-field-appearance-outline#fieldBackground
-  .mat-form-field-outline {
+::ng-deep .mat-form-field-appearance-outline#fieldBackground .mat-form-field-outline {
   background-color: #ffffff;
   border-radius: 8px;
   width: 100%;
-  /* max-width: 280px; */
 }
 
 img {
@@ -74,34 +70,32 @@ img {
   width: 20px;
 }
 
-/* ::ng-deep .mat-select-value.fontBlue {
-  font-family: "Lato", sans-serif;
-  color: #4fa2d0 !important;
-  font-size: 17px;
-} */
-
 ::ng-deep .mat-select-blue .mat-select-value {
   font-family: "Lato", sans-serif;
   color: #4fa2d0 !important;
   font-size: 17px;
 }
+
 @media (max-width: 767px) {
   .header {
     display: inline;
     top: 0;
     height: auto;
     color: #ffffff;
-    /* overflow: hidden; */
     padding-top: 5px;
     padding-top: 12px;
   }
 }
 
-.logout >>>.mat-icon-button {
-  width: 0px !important;
-  height: 0px !important;
- 
+.logout>>>.mat-icon-button {
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  background: transparent !important;
 }
 
-
-
+.logout>>>.mat-icon-button .mat-button-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
