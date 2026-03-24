@@ -35,6 +35,7 @@ import { AssociateAnmMoService } from '../../services/associate-anm-mo/associate
 import { SetLanguageService } from '../../services/set-language/set-language.service';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { AmritTrackingService } from 'Common-UI/src/tracking';
+import { VideoConsultationService } from '../video-consultation/videoService';
 
 @Component({
   selector: 'app-agents-innerpage',
@@ -81,7 +82,8 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
     public sanitizer: DomSanitizer,
     readonly sessionstorage:SessionStorageService,
     private setLanguageService: SetLanguageService,
-    private trackingService: AmritTrackingService
+    private trackingService: AmritTrackingService,
+    public videoService: VideoConsultationService
   ) { }
 
   

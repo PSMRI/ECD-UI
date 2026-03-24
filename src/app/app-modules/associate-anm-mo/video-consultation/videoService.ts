@@ -20,7 +20,8 @@ videoStateChange$ = this.videoStateChange.asObservable();
   SMSStatus = '';
   apiInitialized = false;
   showFloatingVideo = false;
-  isVideoCallActive = false; 
+  jitsiApi: any = null;
+  isVideoCallActive = false;
   callerPhoneNumber= '';
   agentID= '';
   agentName= '';
@@ -52,6 +53,14 @@ videoStateChange$ = this.videoStateChange.asObservable();
 
 
 resetVideoCall() {
+    if (this.jitsiApi) {
+      try {
+        this.jitsiApi.dispose();
+      } catch (error) {
+        console.error('Error disposing Jitsi API:', error);
+      }
+      this.jitsiApi = null;
+    }
     this.showFloatingVideo = false;
     this.apiInitialized = false;
   }
