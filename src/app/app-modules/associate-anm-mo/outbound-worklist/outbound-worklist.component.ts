@@ -181,7 +181,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
               // 'callStatus',
               'recordUploadDate',
               'ecdCallType',
-              ...(role !== 'MO' ? ['hrpStatus'] : []),
+              ...(role === 'ANM' ? ['hrpStatus'] : []),
               'view',
               'action'
             ];
