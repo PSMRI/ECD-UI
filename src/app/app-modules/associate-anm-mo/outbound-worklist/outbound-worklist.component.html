@@ -162,6 +162,12 @@
                 (click)="openHrpReasonsDialog(element); trackFieldInteraction('HRP Status Icon')">
                 warning
               </mat-icon>
+              <mat-icon *ngIf="element.highRisk !== true"
+                matTooltip="Previously High Risk - View HRP Reasons"
+                style="cursor: pointer; color: orange;"
+                (click)="openHrpReasonsDialog(element); trackFieldInteraction('HRP Status Icon')">
+                warning
+              </mat-icon>
             </td>
           </ng-container>
           <ng-container matColumnDef="view">
