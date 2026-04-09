@@ -80,7 +80,11 @@ export class VideoConsultationComponent {
       panelClass: ['snackbar-success']
     });
 
-    this.saveVideoCallRequest(this.videoService.meetLink, 'Initiated');
+    // The t_videocallparameter row is already persisted by send_sms() before
+    // the SMS is fired, so there is nothing to save here. A previous version
+    // called saveVideoCallRequest() again, which created a duplicate row and
+    // broke findByMeetingLink (JPA NonUniqueResultException) for subsequent
+    // updateCallStatus / resolve calls.
   }
 
   endConsultation(): void {
@@ -132,7 +136,29 @@ export class VideoConsultationComponent {
   send_sms(link: string, phoneNo: string): void {
     const currentServiceID = this.loginService.currentServiceId;
 
-    this.sms_service.getSMStypes(currentServiceID).pipe(
+    // Persist the VideoCallParameters row FIRST, then fetch SMS
+    // type/template and send the SMS. The backend SMSServiceImpl's
+    // "Video Consultation" branch looks up t_videocallparameter by
+    // meeting link to render the template, so the row must exist
+    // before /sms/sendSMS is invoked - otherwise the backend throws
+    // "Video Call Parameters not found for the provided meeting link".
+    // (Previously saveVideoCall was only called in the SMS success
+    // handler, which meant the row was never written in time.)
+    const videoCallRequest: VideoCallRequest = {
+      dateOfCall: new Date().toISOString(),
+      callerPhoneNumber: this.videoService.callerPhoneNumber,
+      agentID: this.videoService.agentID,
+      agentName: this.videoService.agentName,
+      meetingLink: link,
+      callStatus: 'Initiated',
+      callDuration: '0',
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
+      closureRemark: '',
+      beneficiaryRegID: this.videoService.benRegId,
+    };
+
+    this.associateAnmMoService.saveVideoCall(videoCallRequest).pipe(
+      switchMap(() => this.sms_service.getSMStypes(currentServiceID)),
       map((res: any) => res?.data?.find((t: any) => t.smsType === 'Video Consultation')?.smsTypeID),
       switchMap((smsTypeID: string | null) => {
         if (!smsTypeID) throw new Error('Video Consultation type not found');
@@ -164,12 +190,13 @@ export class VideoConsultationComponent {
           verticalPosition: 'top',
           panelClass: ['snackbar-success']
         });
-        this.saveVideoCallRequest(link, 'Initiated');
         this.videoService.linkStatus = 'Sent Successfully';
+        this.videoService.SMSStatus = 'SMS Sent Successfully';
       },
       error: (err) => {
-        console.error('Error sending SMS:', err);
-        this.videoService.linkStatus = 'Sent Successfully';
+        console.error('Error in video consultation send flow:', err);
+        this.videoService.linkStatus = 'Not Sent';
+        this.videoService.SMSStatus = 'Failed to send SMS';
 
         this.snackBar.open('SMS not sent', 'Close', {
           duration: 3000,
