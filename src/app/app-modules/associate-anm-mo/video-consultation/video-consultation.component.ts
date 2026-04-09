@@ -173,7 +173,7 @@ export class VideoConsultationComponent {
         if (!smsTemplateID) throw new Error('Valid SMS template not found');
         const reqObj = {
           sms_Advice: link,
-          phoneNo,
+          benPhoneNo: phoneNo,
           createdBy: this.sessionstorage.getItem('userName'),
           is1097: false,
           providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
