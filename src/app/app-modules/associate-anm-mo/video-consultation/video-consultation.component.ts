@@ -28,6 +28,7 @@ interface VideocallStatusUpdate {
   callStatus: string;
   callDuration: string;
   modifiedBy: string;
+  isLinkUsed: boolean;
 }
 
 @Component({
@@ -98,7 +99,8 @@ export class VideoConsultationComponent {
       meetingLink: this.videoService.meetLink,
       callStatus: 'COMPLETED',
       callDuration,
-      modifiedBy: this.sessionstorage.getItem('userName')
+      modifiedBy: this.sessionstorage.getItem('userName'),
+      isLinkUsed: true,
     };
 
     this.associateAnmMoService.updateCallStatus(updateRequest).subscribe({
