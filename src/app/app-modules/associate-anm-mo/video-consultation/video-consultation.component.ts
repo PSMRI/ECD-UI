@@ -80,12 +80,6 @@ export class VideoConsultationComponent {
       verticalPosition: 'top',
       panelClass: ['snackbar-success']
     });
-
-    // The t_videocallparameter row is already persisted by send_sms() before
-    // the SMS is fired, so there is nothing to save here. A previous version
-    // called saveVideoCallRequest() again, which created a duplicate row and
-    // broke findByMeetingLink (JPA NonUniqueResultException) for subsequent
-    // updateCallStatus / resolve calls.
   }
 
  endConsultation(): void {

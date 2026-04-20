@@ -25,18 +25,6 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-// const ecdIP = 'https://amritwprdev.piramalswasthya.org/';
-// const commonIP = 'https://amritwprdev.piramalswasthya.org/';
-// const adminIP = 'https://amritwprdev.piramalswasthya.org/';
-// const COMMON_API = `${commonIP}commonapi-ecd/`;
-// const COMMON_API1 = `https://commonurl.loca.lt/`;
-// const ADMIN_API = `${adminIP}adminapi-v1.0/`;
-// const ECD_API = `${ecdIP}ecdapi-v1.0/`;
-// const biologicalScreeningDeviceAPI = `${ADMIN_API}diagnostics/biologicalScreeningDevice`; 
-// const sessionStorageEncKey = '';
-// const siteKey = '';
-// const captchaChallengeURL = '';
-// const enableCaptcha = false;
 const ecdIP = 'http://localhost';
 const commonIP = 'http://localhost';
 const adminIP = 'http://localhost';
