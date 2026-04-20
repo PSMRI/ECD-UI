@@ -88,15 +88,17 @@ export class VideoConsultationComponent {
     // updateCallStatus / resolve calls.
   }
 
-  endConsultation(): void {
+ endConsultation(): void {
+    // Capture meetLink BEFORE any reset
+    const meetingLink = this.videoService.meetLink;
+    
     this.videoService.callEndTime = new Date();
     this.videoService.callStatus = 'Completed';
-    this.videoService.setVideoCallData(
-      false, '', '', '', '')
+    
     const callDuration = this.calculateCallDuration();
 
     const updateRequest: VideocallStatusUpdate = {
-      meetingLink: this.videoService.meetLink,
+      meetingLink: meetingLink,   // uses captured value, not the reset one
       callStatus: 'COMPLETED',
       callDuration,
       modifiedBy: this.sessionstorage.getItem('userName'),
@@ -112,9 +114,11 @@ export class VideoConsultationComponent {
       }
     });
 
+    // Reset AFTER the request is built and dispatched
+    this.videoService.setVideoCallData(false, '', '', '', '');
     this.videoService.reset();
     this.consultationClosed.emit();
-  }
+}
 
   updateReceiptConfirmation(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
