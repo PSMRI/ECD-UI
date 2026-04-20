@@ -28,6 +28,7 @@ interface VideocallStatusUpdate {
   callStatus: string;
   callDuration: string;
   modifiedBy: string;
+  isLinkUsed: boolean;
 }
 
 @Component({
@@ -79,22 +80,23 @@ export class VideoConsultationComponent {
       verticalPosition: 'top',
       panelClass: ['snackbar-success']
     });
-
-    this.saveVideoCallRequest(this.videoService.meetLink, 'Initiated');
   }
 
-  endConsultation(): void {
+ endConsultation(): void {
+    // Capture meetLink BEFORE any reset
+    const meetingLink = this.videoService.meetLink;
+    
     this.videoService.callEndTime = new Date();
     this.videoService.callStatus = 'Completed';
-    this.videoService.setVideoCallData(
-      false, '', '', '', '')
+    
     const callDuration = this.calculateCallDuration();
 
     const updateRequest: VideocallStatusUpdate = {
-      meetingLink: this.videoService.meetLink,
+      meetingLink: meetingLink,   // uses captured value, not the reset one
       callStatus: 'COMPLETED',
       callDuration,
-      modifiedBy: this.sessionstorage.getItem('userName')
+      modifiedBy: this.sessionstorage.getItem('userName'),
+      isLinkUsed: true,
     };
 
     this.associateAnmMoService.updateCallStatus(updateRequest).subscribe({
@@ -106,9 +108,11 @@ export class VideoConsultationComponent {
       }
     });
 
+    // Reset AFTER the request is built and dispatched
+    this.videoService.setVideoCallData(false, '', '', '', '');
     this.videoService.reset();
     this.consultationClosed.emit();
-  }
+}
 
   updateReceiptConfirmation(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
@@ -132,7 +136,29 @@ export class VideoConsultationComponent {
   send_sms(link: string, phoneNo: string): void {
     const currentServiceID = this.loginService.currentServiceId;
 
-    this.sms_service.getSMStypes(currentServiceID).pipe(
+    // Persist the VideoCallParameters row FIRST, then fetch SMS
+    // type/template and send the SMS. The backend SMSServiceImpl's
+    // "Video Consultation" branch looks up t_videocallparameter by
+    // meeting link to render the template, so the row must exist
+    // before /sms/sendSMS is invoked - otherwise the backend throws
+    // "Video Call Parameters not found for the provided meeting link".
+    // (Previously saveVideoCall was only called in the SMS success
+    // handler, which meant the row was never written in time.)
+    const videoCallRequest: VideoCallRequest = {
+      dateOfCall: new Date().toISOString(),
+      callerPhoneNumber: this.videoService.callerPhoneNumber,
+      agentID: this.videoService.agentID,
+      agentName: this.videoService.agentName,
+      meetingLink: link,
+      callStatus: 'Initiated',
+      callDuration: '0',
+      providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
+      closureRemark: '',
+      beneficiaryRegID: this.videoService.benRegId,
+    };
+
+    this.associateAnmMoService.saveVideoCall(videoCallRequest).pipe(
+      switchMap(() => this.sms_service.getSMStypes(currentServiceID)),
       map((res: any) => res?.data?.find((t: any) => t.smsType === 'Video Consultation')?.smsTypeID),
       switchMap((smsTypeID: string | null) => {
         if (!smsTypeID) throw new Error('Video Consultation type not found');
@@ -147,7 +173,7 @@ export class VideoConsultationComponent {
         if (!smsTemplateID) throw new Error('Valid SMS template not found');
         const reqObj = {
           sms_Advice: link,
-          phoneNo,
+          benPhoneNo: phoneNo,
           createdBy: this.sessionstorage.getItem('userName'),
           is1097: false,
           providerServiceMapID: this.sessionstorage.getItem('providerServiceMapID'),
@@ -164,12 +190,13 @@ export class VideoConsultationComponent {
           verticalPosition: 'top',
           panelClass: ['snackbar-success']
         });
-        this.saveVideoCallRequest(link, 'Initiated');
         this.videoService.linkStatus = 'Sent Successfully';
+        this.videoService.SMSStatus = 'SMS Sent Successfully';
       },
       error: (err) => {
-        console.error('Error sending SMS:', err);
-        this.videoService.linkStatus = 'Sent Successfully';
+        console.error('Error in video consultation send flow:', err);
+        this.videoService.linkStatus = 'Not Sent';
+        this.videoService.SMSStatus = 'Failed to send SMS';
 
         this.snackBar.open('SMS not sent', 'Close', {
           duration: 3000,
