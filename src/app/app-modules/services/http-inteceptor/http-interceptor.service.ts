@@ -85,6 +85,39 @@ export class HttpInterceptorService implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         console.error(error);
         this.spinnerService.setLoading(false);
+        const silent404Apis = [
+          'getCSatScoreByPSMIdAndFrequency',];         
+
+        const isSilent404 = silent404Apis.some(api => req.url.includes(api));
+
+        if (error.status === 404  && isSilent404) {
+          return throwError(error);
+        }
+        const isLoginUrl = req.url.includes('user/userAuthenticate');
+        if (!isLoginUrl) {
+          if (error.status === 401) {
+            this.sessionstorage.clear();
+            this.confirmationService.openDialog('Session expired, Please login again to continue', 'error');
+          } else if (error.status === 403) {
+            this.confirmationService.openDialog(
+              'Access denied',
+              'error',
+            );
+          } else if (error.status === 500) {
+            this.confirmationService.openDialog(
+              'Internal server error',
+              'error',
+            );
+          } else {
+            this.confirmationService.openDialog(
+              error.message || 'Something went wrong',
+              'error',
+            );
+          }
+          sessionStorage.clear();
+          localStorage.clear();
+          this.router.navigate(['/login'])
+        }
         return throwError(error.error);
       })
     );
