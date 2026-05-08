@@ -126,7 +126,20 @@ export class HttpInterceptorService implements HttpInterceptor {
 
   private onSuccess(url: string, response: any): void {
     if (this.timerRef) clearTimeout(this.timerRef);
-    this.startTimer();
+    
+
+    if (
+      response && 
+      response.statusCode === 5002 &&
+      url.indexOf('user/userAuthenticate') < 0
+    ) {
+      sessionStorage.clear();
+      localStorage.clear();
+      setTimeout(() => this.router.navigate(['/login']), 0);
+      this.confirmationService.openDialog(response.errorMessage || 'Session expired, Please login again', 'error');
+    } else {
+      this.startTimer();
+    }
   }
 
   startTimer() {
