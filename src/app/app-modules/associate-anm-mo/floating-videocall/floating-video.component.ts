@@ -50,8 +50,9 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
       
         const domain = 'vc.piramalswasthya.org';
         try {
-        const options = {
-          roomName: this.videoService.meetLink?.split('/').pop(),
+        const options: any = {
+          roomName: this.videoService.agentRoomName || this.videoService.meetLink?.split('/').pop(),
+          jwt: this.videoService.agentJwt || undefined,
           parentNode: this.jitsiContainerRef.nativeElement,
           userInfo: {
             displayName: this.sessionstorage.getItem('userName'),

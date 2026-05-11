@@ -57,7 +57,27 @@ export class VideoConsultationComponent {
       next: (response: any) => {
         this.videoService.linkSent = true;
         this.videoService.meetLink = response.meetingLink;
-        
+
+        // Extract the slug from the meeting link (value after "m=") so we can
+        // fetch a moderator JWT for the agent and get the correct room name.
+        const slug = response.meetingLink?.split('m=').pop();
+        if (slug) {
+          this.associateAnmMoService.getAgentToken(
+            slug,
+            this.videoService.agentName,
+            this.sessionstorage.getItem('userEmailID')
+          ).subscribe({
+            next: (tokenResp: any) => {
+              this.videoService.agentRoomName = tokenResp.roomName ?? '';
+              this.videoService.agentJwt = tokenResp.jwt ?? '';
+            },
+            error: () => {
+              // Non-fatal: agent can still join, just without moderator role
+              console.warn('Could not fetch agent moderator token');
+            }
+          });
+        }
+
         this.send_sms(this.videoService.meetLink, this.videoService.callerPhoneNumber);
       },
       error: () => {

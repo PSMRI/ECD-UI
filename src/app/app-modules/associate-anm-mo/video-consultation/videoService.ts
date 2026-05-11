@@ -17,6 +17,8 @@ videoStateChange$ = this.videoStateChange.asObservable();
   callStatus: 'Not Initiated' | 'Ongoing' | 'Completed' = 'Not Initiated';
   isMeetAvailable = false;
   meetLink = "";
+  agentRoomName = "";
+  agentJwt = "";
   SMSStatus = '';
   apiInitialized = false;
   showFloatingVideo = false;
@@ -39,6 +41,8 @@ videoStateChange$ = this.videoStateChange.asObservable();
     this.callStatus = 'Not Initiated';
     this.isMeetAvailable = false;
     this.meetLink = '';
+    this.agentRoomName = '';
+    this.agentJwt = '';
     this.SMSStatus = '';
     this.isVideoCallActive = false; 
     // Notify subscribers of the reset
