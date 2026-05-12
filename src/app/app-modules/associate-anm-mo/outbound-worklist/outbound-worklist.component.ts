@@ -63,6 +63,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
   isAutoPreviewDial = false;
   previewWindowTime: any;
   agentStatus: any;
+  callInitiated = false;  
   autoPreviewTimeSub: Subscription = new Subscription;
   autoCallStarted: any = false
   showPrompt = false;
@@ -378,6 +379,8 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
 
                       this.sessionstorage.setItem("onCall", "true");
                       this.associateAnmMoService.setBenRegistartionComp(true);
+                      this.callInitiated = true;
+                      this.associateAnmMoService.setCallInitiated(true);
                     }
                     else {
                       this.confirmationService.openDialog(response.errorMessage, 'error');
@@ -406,6 +409,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
 
                 this.sessionstorage.setItem("onCall", "true");
                 this.associateAnmMoService.setBenRegistartionComp(true);
+                this.callInitiated = true;
               }
             },
             (err: any) => {

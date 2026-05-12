@@ -40,6 +40,7 @@ export class AssociateAnmMoService {
   isHighRiskPregnancy = false;
   isHighRiskInfant = false;
   autoDialing = false;
+  isCallInitiated = false; 
 
   callWrapup: any = "";
   callWrapupFlag = new BehaviorSubject(this.callWrapup);
@@ -267,4 +268,9 @@ export class AssociateAnmMoService {
   updateCallStatus(reqObj: any) {
     return this.http.post(environment.updateCallStatusAPI, reqObj);
   }
+
+  setCallInitiated(value: boolean) {  
+    this.isCallInitiated = value;
+  }
+
 }
