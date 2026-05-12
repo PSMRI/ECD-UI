@@ -628,19 +628,22 @@ export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
   }
 
 
-
-  getAgentState() {
-    const reqObj = {"agent_id" : this.loginService.agentId};
-    this.ctiService.getAgentState(reqObj).subscribe((response:any) => {
-        if (response && response.data && response.data.stateObj.stateName) {
-            this.agentStatus = response.data.stateObj.stateName;
-            this.associateAnmMoService.setAgentState(this.agentStatus);
-        }
-
-    }, (err) => {
-       console.log("error");
-    });
-}
+getAgentState() {  
+  const reqObj = {"agent_id" : this.loginService.agentId};  
+  this.ctiService.getAgentState(reqObj).subscribe((response:any) => {  
+    if (response && response.data && response.data.stateObj.stateName) {  
+      const previousStatus = this.agentStatus;  
+      this.agentStatus = response.data.stateObj.stateName;  
+      this.associateAnmMoService.setAgentState(this.agentStatus);  
+        
+      // Navigate when transitioning to INCALL after call initiation  
+      if (this.associateAnmMoService.isCallInitiated && previousStatus !== "INCALL" && this.agentStatus === "INCALL") {  
+        this.viewBenRegScreen();  
+        this.associateAnmMoService.setCallInitiated(false);
+      }  
+    }  
+  });  
+}  
 
   getAgentIpAddress() {
     const reqObj={
