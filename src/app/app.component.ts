@@ -27,7 +27,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-})
+
+  standalone: false})
 export class AppComponent {
   constructor(private trackingService: AmritTrackingService) {}
   title = 'ECD-ui';

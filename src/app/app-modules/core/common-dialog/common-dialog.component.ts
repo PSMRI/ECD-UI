@@ -23,17 +23,18 @@
 
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-} from '@angular/material/legacy-dialog';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-common-dialog',
   templateUrl: './common-dialog.component.html',
   styleUrls: ['./common-dialog.component.css'],
-})
+
+  standalone: false})
 export class CommonDialogComponent implements OnInit {
   minutes: any;
   seconds: any;

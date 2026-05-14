@@ -45,7 +45,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-call-closure',
   templateUrl: './call-closure.component.html',
   styleUrls: ['./call-closure.component.css']
-})
+,
+  standalone: false})
 export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecked, AfterViewInit, OnDestroy {
   selectedRole: any;
   currentLanguageSet: any;

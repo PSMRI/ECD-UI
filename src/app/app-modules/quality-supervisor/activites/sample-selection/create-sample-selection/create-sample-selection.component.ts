@@ -25,7 +25,7 @@ import { Component, DoCheck, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { SampleSelectionConfigurationComponent } from '../sample-selection-configuration/sample-selection-configuration.component';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
@@ -37,7 +37,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-create-sample-selection',
   templateUrl: './create-sample-selection.component.html',
   styleUrls: ['./create-sample-selection.component.css']
-})
+,
+  standalone: false})
 export class CreateSampleSelectionComponent implements OnInit, DoCheck {
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @Input()

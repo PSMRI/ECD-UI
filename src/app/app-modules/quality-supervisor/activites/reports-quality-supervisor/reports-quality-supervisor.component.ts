@@ -24,7 +24,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import * as FileSaver from 'file-saver';
@@ -35,7 +35,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-reports-quality-supervisor',
   templateUrl: './reports-quality-supervisor.component.html',
   styleUrls: ['./reports-quality-supervisor.component.css']
-})
+,
+  standalone: false})
 export class ReportsQualitySupervisorComponent implements OnInit, AfterViewInit {
   currentLanguageSet: any;
   displayedColumns: string[] = [

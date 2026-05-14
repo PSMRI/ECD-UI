@@ -25,7 +25,7 @@ import { E } from '@angular/cdk/keycodes';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { AssociateAnmMoService } from '../../services/associate-anm-mo/associate-anm-mo.service';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
@@ -42,7 +42,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-ecd-questionnaire',
   templateUrl: './ecd-questionnaire.component.html',
   styleUrls: ['./ecd-questionnaire.component.css']
-})
+,
+  standalone: false})
 export class EcdQuestionnaireComponent implements OnInit, AfterViewInit {
   @ViewChild("stepper") private myStepper!: MatStepper;
   

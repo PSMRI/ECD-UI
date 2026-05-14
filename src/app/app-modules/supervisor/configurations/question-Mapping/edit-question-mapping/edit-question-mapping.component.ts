@@ -13,7 +13,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-edit-question-mapping',
   templateUrl: './edit-question-mapping.component.html',
   styleUrls: ['./edit-question-mapping.component.css']
-})
+,
+  standalone: false})
 export class EditQuestionMappingComponent implements OnInit, DoCheck {
   @Input()
   public data: any;

@@ -28,7 +28,6 @@ import { EChartsOption } from 'echarts';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
-import { ajax, css } from "jquery";
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072
@@ -38,7 +37,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-skillset-wise-quality-rating-chart',
   templateUrl: './skillset-wise-quality-rating-chart.component.html',
   styleUrls: ['./skillset-wise-quality-rating-chart.component.css'],
-})
+
+  standalone: false})
 export class SkillsetWiseQualityRatingChartComponent implements OnInit, DoCheck {
   currentLanguageSet: any;
   qualityRatingData: any;
@@ -230,8 +230,7 @@ export class SkillsetWiseQualityRatingChartComponent implements OnInit, DoCheck 
     if(chartDom){
       const myChart = echarts.init(chartDom);
 
-      const $ = jQuery;
-      $(window).on('resize', function(){
+      window.addEventListener('resize', function(){
         if(myChart !== null && myChart !== undefined){
           myChart.resize();
         }
@@ -297,7 +296,6 @@ export class SkillsetWiseQualityRatingChartComponent implements OnInit, DoCheck 
     }
   //   const myChart = echarts.init(chartDom);
 
-  //   const $ = jQuery;
   //   $(window).on('resize', function(){
   //     if(myChart !== null && myChart !== undefined){
   //       myChart.resize();

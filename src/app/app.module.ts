@@ -30,11 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './app-modules/material/material.module';
 import { CoreModule } from './app-modules/core/core.module';
 import { HttpInterceptorService } from './app-modules/services/http-inteceptor/http-interceptor.service';
-import {
-  HttpClient,
-  HttpClientModule,
-  HTTP_INTERCEPTORS,
-} from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ConfirmationService } from './app-modules/services/confirmation/confirmation.service';
 import { UserLoginModule } from './app-modules/user-login/user-login.module';
 import { DatePipe } from '@angular/common';
@@ -58,59 +54,52 @@ import { TrackingModule } from "Common-UI/src/tracking";
 
 
 
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MatDialogModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    MaterialModule,
-    CoreModule,
-    UserLoginModule,
-    HttpClientModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatNativeDateModule,
-    MatDatepickerModule,
-    ReactiveFormsModule,
-    MatExpansionModule,
-
-    MatSlideToggleModule,
-    SharedModule,
-    MatCardModule,
-    MatTooltipModule,
-    TrackingModule.forRoot(),
-    BackButtonDisableModule.forRoot({
-      preserveScroll: true
-    }),
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [
-    ConfirmationService,
-    HttpInterceptorService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpInterceptorService,
-      multi: true,
-    },
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
-    // HttpClient,
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: HttpInterceptorService,
-    //   multi: true,
-    // },
-    DatePipe,
-    TitleCasePipe
-  ],
-  bootstrap: [AppComponent],
-  exports:[SharedModule]
-})
+@NgModule({ declarations: [
+        AppComponent
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    bootstrap: [AppComponent],
+    exports: [SharedModule], imports: [BrowserModule,
+        AppRoutingModule,
+        MatDialogModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        MaterialModule,
+        CoreModule,
+        UserLoginModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatNativeDateModule,
+        MatDatepickerModule,
+        ReactiveFormsModule,
+        MatExpansionModule,
+        MatSlideToggleModule,
+        SharedModule,
+        MatCardModule,
+        MatTooltipModule,
+        TrackingModule.forRoot(),
+        BackButtonDisableModule.forRoot({
+            preserveScroll: true
+        })], providers: [
+        ConfirmationService,
+        HttpInterceptorService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpInterceptorService,
+            multi: true,
+        },
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
+        // HttpClient,
+        // {
+        //   provide: HTTP_INTERCEPTORS,
+        //   useClass: HttpInterceptorService,
+        //   multi: true,
+        // },
+        DatePipe,
+        TitleCasePipe,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {}
 MatCardModule

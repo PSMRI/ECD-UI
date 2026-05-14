@@ -35,7 +35,8 @@ interface VideocallStatusUpdate {
   selector: 'app-video-consultation',
   templateUrl: './video-consultation.component.html',
   styleUrls: ['./video-consultation.component.css']
-})
+,
+  standalone: false})
 export class VideoConsultationComponent {
   @ViewChild('jitsiContainer', { static: false }) jitsiContainerRef!: ElementRef;
 

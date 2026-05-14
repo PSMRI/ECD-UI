@@ -24,7 +24,7 @@
 import { Component, DoCheck, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
@@ -37,7 +37,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-edit-alert',
   templateUrl: './edit-alert.component.html',
   styleUrls: ['./edit-alert.component.css']
-})
+,
+  standalone: false})
 export class EditAlertComponent implements OnInit, DoCheck {
   types = ['Alerts','Notification'];
   roles = ['ANM','MO','Supervisor'];

@@ -25,7 +25,7 @@ import { X } from '@angular/cdk/keycodes';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
 import { QualityAuditorService } from '../../services/quality-auditor/quality-auditor.service';
@@ -34,14 +34,15 @@ import { CallAuditComponent } from '../call-audit/call-audit/call-audit.componen
 import { MatPaginator } from '@angular/material/paginator';
 import { ViewCasesheetComponent } from '../view-casesheet/view-casesheet.component';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
-import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 
 @Component({
   selector: 'app-call-rating',
   templateUrl: './call-rating.component.html',
   styleUrls: ['./call-rating.component.css']
-})
+,
+  standalone: false})
 export class CallRatingComponent implements OnInit{
 
   @Input()

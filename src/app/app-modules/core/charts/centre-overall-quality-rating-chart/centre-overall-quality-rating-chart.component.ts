@@ -28,7 +28,6 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from '../../../services/set-language/set-language.service';
-import { ajax, css } from "jquery";
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 /**
@@ -39,7 +38,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-centre-overall-quality-rating-chart',
   templateUrl: './centre-overall-quality-rating-chart.component.html',
   styleUrls: ['./centre-overall-quality-rating-chart.component.css'],
-})
+
+  standalone: false})
 export class CentreOverallQualityRatingChartComponent implements OnInit, DoCheck {
   currentLanguageSet: any;
   qualityRatingData: any;
@@ -176,8 +176,7 @@ export class CentreOverallQualityRatingChartComponent implements OnInit, DoCheck
     const chartDom = document.getElementById('main');
     if(chartDom){
       const myChart = echarts.init(chartDom);
-    const $ = jQuery;
-    $(window).on('resize', function(){
+    window.addEventListener('resize', function(){
       if(myChart !== null && myChart !== undefined){
         myChart.resize();
       }
@@ -229,7 +228,6 @@ export class CentreOverallQualityRatingChartComponent implements OnInit, DoCheck
     }
 
   //   const myChart = echarts.init(chartDom);
-  //   const $ = jQuery;
   //   $(window).on('resize', function(){
   //     if(myChart !== null && myChart !== undefined){
   //       myChart.resize();

@@ -28,7 +28,6 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from '../../../services/set-language/set-language.service';
-import { ajax, css } from "jquery";
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072
@@ -38,7 +37,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-customer-satisfaction',
   templateUrl: './customer-satisfaction.component.html',
   styleUrls: ['./customer-satisfaction.component.css'],
-})
+
+  standalone: false})
 export class CustomerSatisfactionComponent implements OnInit, DoCheck {
   currentLanguageSet: any;
   customerSatisfactionData: any;
@@ -123,8 +123,7 @@ export class CustomerSatisfactionComponent implements OnInit, DoCheck {
     if(chartDom){
       const myChart = echarts.init(chartDom);
 
-    const $ = jQuery;
-    $(window).on('resize', function(){
+    window.addEventListener('resize', function(){
       if(myChart !== null && myChart !== undefined){
         myChart.resize();
       }
@@ -174,7 +173,6 @@ export class CustomerSatisfactionComponent implements OnInit, DoCheck {
 
   //   const myChart = echarts.init(chartDom);
 
-  //   const $ = jQuery;
   //   $(window).on('resize', function(){
   //     if(myChart !== null && myChart !== undefined){
   //       myChart.resize();

@@ -28,7 +28,6 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from '../../../services/set-language/set-language.service';
-import { ajax, css } from "jquery";
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 /**
@@ -40,7 +39,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-agent-quality-score-chart',
   templateUrl: './agent-quality-score-chart.component.html',
   styleUrls: ['./agent-quality-score-chart.component.css'],
-})
+
+  standalone: false})
 export class AgentQualityScoreChartComponent implements OnInit, DoCheck {
   currentLanguageSet: any;
   qualityGradeData: any;
@@ -150,8 +150,7 @@ export class AgentQualityScoreChartComponent implements OnInit, DoCheck {
     const chartDom = document.getElementById('agentQualityMain');
     if(chartDom){
       const myChart = echarts.init(chartDom);
-    const $ = jQuery;
-    $(window).on('resize', function(){
+    window.addEventListener('resize', function(){
       if(myChart !== null && myChart !== undefined){
         myChart.resize();
       }
@@ -200,7 +199,6 @@ export class AgentQualityScoreChartComponent implements OnInit, DoCheck {
     option && myChart.setOption(option);
     }
   //   const myChart = echarts.init(chartDom);
-  //   const $ = jQuery;
   //   $(window).on('resize', function(){
   //     if(myChart !== null && myChart !== undefined){
   //       myChart.resize();

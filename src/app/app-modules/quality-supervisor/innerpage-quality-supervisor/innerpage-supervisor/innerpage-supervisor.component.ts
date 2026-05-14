@@ -38,7 +38,8 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
   selector: 'app-innerpage-supervisor',
   templateUrl: './innerpage-supervisor.component.html',
   styleUrls: ['./innerpage-supervisor.component.css']
-})
+,
+  standalone: false})
 
 export class InnerpageSupervisorComponent implements OnInit {
   @ViewChild('dynamicContent', { read: ViewContainerRef, static: true })

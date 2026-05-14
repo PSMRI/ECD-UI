@@ -27,7 +27,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { EditLocationMessageComponent } from '../edit-location-message/edit-location-message.component';
 import { CreateLocationMessageComponent } from '../create-location-message/create-location-message.component';
@@ -41,7 +41,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-location-messages',
   templateUrl: './location-messages.component.html',
   styleUrls: ['./location-messages.component.css']
-})
+,
+  standalone: false})
 export class LocationMessagesComponent implements OnInit, DoCheck, AfterViewInit {
   offices : any = [];
   displayedColumns: string[]= ['sno','subject','validFrom','validTill','edit','action'];

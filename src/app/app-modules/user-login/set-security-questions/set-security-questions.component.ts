@@ -32,7 +32,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-set-security-questions',
   templateUrl: './set-security-questions.component.html',
   styleUrls: ['./set-security-questions.component.css']
-})
+,
+  standalone: false})
 export class SetSecurityQuestionsComponent implements OnInit {
   
   answers: {[key: string]: string} = {};

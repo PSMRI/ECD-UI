@@ -29,7 +29,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import * as FileSaver from 'file-saver';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 import { saveAs } from 'file-saver';
 import { MatPaginator } from '@angular/material/paginator';
@@ -39,7 +39,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-supervisor-reports',
   templateUrl: './supervisor-reports.component.html',
   styleUrls: ['./supervisor-reports.component.css']
-})
+,
+  standalone: false})
 export class SupervisorReportsComponent implements OnInit, DoCheck, AfterViewInit {
 
   currentLanguageSet: any;

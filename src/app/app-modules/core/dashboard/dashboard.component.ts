@@ -25,7 +25,7 @@ import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
 import { Router } from '@angular/router';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { OpenAlertsNotificationLocationmessagesComponent } from '../alerts-notifications-locationmessages/open-alerts-notification-locationmessages/open-alerts-notification-locationmessages.component';
 import { CoreService } from '../../services/core/core.service';
 import { map, Subscription, timer } from 'rxjs';
@@ -44,7 +44,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-})
+
+  standalone: false})
 export class DashboardComponent implements OnInit, DoCheck, OnDestroy {
   selectedRole: any;
   currentLanguageSet: any;

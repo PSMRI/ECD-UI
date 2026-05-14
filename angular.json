@@ -110,10 +110,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ECD-ui:build:production"
+              "buildTarget": "ECD-ui:build:production"
             },
             "development": {
-              "browserTarget": "ECD-ui:build:development"
+              "buildTarget": "ECD-ui:build:development"
             }
           },
           "defaultConfiguration": "development",
@@ -124,7 +124,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ECD-ui:build"
+            "buildTarget": "ECD-ui:build"
           }
         },
         "test": {

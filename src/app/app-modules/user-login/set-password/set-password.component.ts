@@ -37,7 +37,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-set-password',
   templateUrl: './set-password.component.html',
   styleUrls: ['./set-password.component.css']
-})
+,
+  standalone: false})
 export class SetPasswordComponent implements OnInit {
 
   hide = true;

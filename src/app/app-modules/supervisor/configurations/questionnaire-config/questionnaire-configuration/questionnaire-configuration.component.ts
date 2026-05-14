@@ -23,7 +23,7 @@
 
 import { AfterViewInit, Component, DoCheck, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
@@ -41,7 +41,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-questionnaire-configuration',
   templateUrl: './questionnaire-configuration.component.html',
   styleUrls: ['./questionnaire-configuration.component.css'],
-})
+
+  standalone: false})
 export class QuestionnaireConfigurationComponent implements OnInit, DoCheck, AfterViewInit {
   currentLanguageSet: any;
   displayedColumns: string[] = [
