@@ -75,7 +75,7 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   callerPhoneNumber: any;
   agentID: any;
   agentName: any;
-  hideVideoCall =  true;
+  hideVideoCall =  false;
 
   constructor(
     private fb: FormBuilder,
