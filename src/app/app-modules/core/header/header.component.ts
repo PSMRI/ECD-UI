@@ -35,6 +35,7 @@ import { QualityAuditorService } from '../../services/quality-auditor/quality-au
 import { CookieService } from 'ngx-cookie-service';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { AuthService } from "../../services/auth.service";
+import { sortByProperty } from '../../services/utils/sort-util';
 
 @Component({
   selector: 'app-header',
@@ -112,7 +113,7 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
         setTimeout(() => {
           const userRolesString:any = this.sessionstorage.getItem('userRoles');
           if (userRolesString !== null) {
-            this.roles = JSON.parse(userRolesString);
+            this.roles = sortByProperty(JSON.parse(userRolesString), 'RoleName');
             this.getLanguageList();
             //this.refreshLogin();
           }
@@ -147,7 +148,7 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
   ngAfterViewInit(){
     const userRolesString = this.sessionstorage.getItem('userRoles');
     if (userRolesString && userRolesString !== null) {
-      this.roles = JSON.parse(userRolesString);
+      this.roles = sortByProperty(JSON.parse(userRolesString), 'RoleName');
     }
     this.getSelectedLanguage();
     // this.getLanguageList();
@@ -156,7 +157,7 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
   ngOnChanges(){
     const userRolesString = this.sessionstorage.getItem('userRoles');
     if (userRolesString !== null) {
-      this.roles = JSON.parse(userRolesString);
+      this.roles = sortByProperty(JSON.parse(userRolesString), 'RoleName');
     }
    
   }
@@ -261,7 +262,7 @@ export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChange
   getLanguageList(){
     this.loginService.getLanguages().subscribe((res: any) => {
       if(res)
-      this.languages = res.data;
+      this.languages = sortByProperty(res.data, 'languageName');
       this.selectedLanguage = "English"
     });
   }

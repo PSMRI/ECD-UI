@@ -461,7 +461,7 @@
         </div>
 
         <div style="display: flex; justify-content: right;">
-          <button style="margin-right: 5px;" mat-raised-button class="buttonColorRedish full-width buttonWidth"
+<button style="margin-right: 5px;" mat-raised-button class="buttonColorRedish full-width buttonWidth"
             (click)="goToClosure(); trackFieldInteraction('Closure Button')">Closure</button>
           <button *ngIf="filteredQuesData.length !== 0" style="margin-right: 5px;" mat-raised-button
             class="buttonColorGreen full-width buttonWidth" (click)="saveQuestionnaire(); trackFieldInteraction('Submit Button')">Submit</button>
@@ -474,5 +474,3 @@
       <app-video-consultation></app-video-consultation>
     </div>
   </div>
-
-  <app-floating-video *ngIf="videoService.showFloatingVideo"></app-floating-video>

@@ -1,6 +1,7 @@
 import {
     Component,
     AfterViewInit,
+    OnDestroy,
     ElementRef,
     ViewChild,
     ChangeDetectionStrategy
@@ -16,7 +17,7 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
     styleUrls: ['./floating-video.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
   })
-  export class FloatingVideoComponent implements AfterViewInit {
+  export class FloatingVideoComponent implements AfterViewInit, OnDestroy {
     @ViewChild('jitsiContainer', { static: true }) jitsiContainerRef!: ElementRef;
     @ViewChild('floatingWindow', { static: true }) floatingWindowRef!: ElementRef;
 
@@ -33,9 +34,7 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
     ) {}
   
     ngAfterViewInit(): void {
-      const container = this.jitsiContainerRef?.nativeElement;
-
-      if ((!this.videoService.apiInitialized || container?.childElementCount === 0) && this.videoService.meetLink) {
+      if (!this.videoService.apiInitialized && this.videoService.meetLink) {
         this.initializeJitsi();
       }
     }
@@ -51,8 +50,9 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
       
         const domain = 'vc.piramalswasthya.org';
         try {
-        const options = {
-          roomName: this.videoService.meetLink?.split('/').pop(),
+        const options: any = {
+          roomName: this.videoService.agentRoomName || this.videoService.meetLink?.split('/').pop(),
+          jwt: this.videoService.agentJwt || undefined,
           parentNode: this.jitsiContainerRef.nativeElement,
           userInfo: {
             displayName: this.sessionstorage.getItem('userName'),
@@ -81,8 +81,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
           }
         };
       
-        const api = new JitsiMeetExternalAPI(domain, options);
-        api.addListener('readyToClose', () => this.close());
+        this.videoService.jitsiApi = new JitsiMeetExternalAPI(domain, options);
+        this.videoService.jitsiApi.addListener('readyToClose', () => this.close());
       } catch (error) {
             console.error('Failed to initialize Jitsi:', error);
             this.videoService.apiInitialized = false;
@@ -136,14 +136,7 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
     };
 
     ngOnDestroy(): void {
-        // Clean up any remaining event listeners
       document.removeEventListener('mousemove', this.onDrag);
       document.removeEventListener('mouseup', this.endDrag);
-      
-      // Reset the video service if needed
-      if (this.videoService.showFloatingVideo) {
-        this.videoService.resetVideoCall();
-      }
      }
   }
-  
