@@ -35,6 +35,7 @@ import * as CryptoJS from 'crypto-js';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { CaptchaComponent } from '../captcha/captcha.component';
 import { AmritTrackingService } from 'Common-UI/src/tracking';
+import { finalize } from 'rxjs/operators';
 /**
  * DE40034072 - 12-01-2022
  */
@@ -63,6 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   _iterationCount: any;
   captchaToken!:string;
   isLoginDisabled = true;
+  isSubmitting = false;
   enableCaptcha = environment.enableCaptcha;
 
   constructor(
@@ -183,6 +185,11 @@ export class LoginComponent implements OnInit, OnDestroy {
    * Calling user authentication API
    */
   public onSubmit(): void {
+   if (this.isSubmitting || this.loginForm.invalid) {
+    return;
+   }
+   this.isSubmitting = true;
+   this.updateLoginDisabled();
    const encryptedPwd = this.encrypt(this.Key_IV, this.loginForm.controls.password.value)
     const reqObj = {
       userName: this.loginForm.controls.userName.value,
@@ -191,7 +198,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       withCredentials: true,
       ...( this.enableCaptcha ? {captchaToken:this.captchaToken} : {})
     };
-    this.loginService.validateLogin(reqObj).subscribe(
+    this.loginService.validateLogin(reqObj).pipe(
+      finalize(() => {
+        this.isSubmitting = false;
+        this.updateLoginDisabled();
+      })
+    ).subscribe(
       (res: any) => {
         if (
           res.statusCode === 200 &&
@@ -219,10 +231,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
       (err: any) => {
         this.resetCaptcha();
-        if(err && err.error)
-        this.confirmationService.openDialog(err.error, 'error');
-        else
-        this.confirmationService.openDialog(err.title + err.detail, 'error')
+        this.handleLoginError(err);
       });
   }
 
@@ -422,7 +431,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     // Disable login button if the form is invalid or captcha is required but not resolved
     const isFormValid = this.loginForm.valid;
     const isCaptchaValid = !this.enableCaptcha || !!this.captchaToken;
-    this.isLoginDisabled = !(isFormValid && isCaptchaValid);
+    this.isLoginDisabled = this.isSubmitting || !(isFormValid && isCaptchaValid);
   }
   
   onCaptchaResolved(token: string) {
@@ -435,6 +444,18 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.captchaCmp.reset();
       this.captchaToken = '';
       this.updateLoginDisabled();
+    }
+  }
+
+  private handleLoginError(err: any): void {
+    if (err && typeof err.error === 'string') {
+      this.confirmationService.openDialog(err.error, 'error');
+    } else if (err && err.error && typeof err.error.errorMessage === 'string') {
+      this.confirmationService.openDialog(err.error.errorMessage, 'error');
+    } else if (err && typeof err.errorMessage === 'string') {
+      this.confirmationService.openDialog(err.errorMessage, 'error');
+    } else {
+      this.confirmationService.openDialog((err?.title || '') + (err?.detail || ''), 'error');
     }
   }
 }

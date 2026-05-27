@@ -61,6 +61,8 @@ export class HttpInterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const key: any = sessionStorage.getItem('authenticationToken');
+    const isLoginRequest =
+      req.url !== undefined && req.url.includes('user/userAuthenticate');
     let modifiedReq = null;
     const isPlatformFeedback =
     req.url && req.url.toLowerCase().includes('/platform-feedback');
@@ -95,6 +97,9 @@ export class HttpInterceptorService implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         console.error(error);
         this.spinnerService.setLoading(false);
+        if (isLoginRequest) {
+          return throwError(error.error);
+        }
         const silent404Apis = [
           'getCSatScoreByPSMIdAndFrequency',];         
 
