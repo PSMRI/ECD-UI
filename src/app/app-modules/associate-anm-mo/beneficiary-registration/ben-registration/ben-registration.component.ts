@@ -650,8 +650,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
 
     if (this.benRegistrationForm.controls.lmpDate.value !== null) {
       const eddDate = new Date(this.benRegistrationForm.controls.lmpDate.value);
-      eddDate.setDate(this.benRegistrationForm.controls.lmpDate.value.getDate() + 7);
-      eddDate.setMonth(this.benRegistrationForm.controls.lmpDate.value.getMonth() + 9);
+      eddDate.setDate(eddDate.getDate() + 7);
+      eddDate.setMonth(eddDate.getMonth() + 9);
       this.benRegistrationForm.patchValue({ edd: eddDate })
     } else {
       console.log("EDD VALUE", this.benRegistrationForm.controls.edd.value);
