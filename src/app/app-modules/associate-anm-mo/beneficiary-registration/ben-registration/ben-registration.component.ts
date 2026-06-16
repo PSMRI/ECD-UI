@@ -289,10 +289,9 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
         // eDate = new Date(eDate.getTime() + eDate.getTimezoneOffset() * 60000)
         // this.benRegistrationForm.controls.edd.setValue(eDate);
 
-        // Calculate EDD based on LMP Date
-        const eddDate = new Date(lDate);
-        eddDate.setDate(eddDate.getDate() + 7); // Add 7 days
-        eddDate.setMonth(eddDate.getMonth() + 9); // Add 9 months
+        // Calculate EDD based on LMP Date (Naegele's rule: LMP + 9 months + 7 days)
+        // Using Date constructor to safely handle day/month overflow in one step
+        const eddDate = new Date(lDate.getFullYear(), lDate.getMonth() + 9, lDate.getDate() + 7);
         console.log("EDD FORM VALUE FIRST", this.benRegistrationForm);
         this.benRegistrationForm.controls.edd.setValue(eddDate);
         console.log("EDD PATCHING VALUE", eddDate);
@@ -649,9 +648,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   calculateEdd() {
 
     if (this.benRegistrationForm.controls.lmpDate.value !== null) {
-      const eddDate = new Date(this.benRegistrationForm.controls.lmpDate.value);
-      eddDate.setDate(eddDate.getDate() + 7);
-      eddDate.setMonth(eddDate.getMonth() + 9);
+      const lmpVal = new Date(this.benRegistrationForm.controls.lmpDate.value);
+      const eddDate = new Date(lmpVal.getFullYear(), lmpVal.getMonth() + 9, lmpVal.getDate() + 7);
       this.benRegistrationForm.patchValue({ edd: eddDate })
     } else {
       console.log("EDD VALUE", this.benRegistrationForm.controls.edd.value);
