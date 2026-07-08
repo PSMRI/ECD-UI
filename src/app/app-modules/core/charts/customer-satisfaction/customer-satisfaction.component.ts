@@ -21,7 +21,7 @@
 */
 
 
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit, OnDestroy } from '@angular/core';
 import * as echarts from 'echarts';
 import { EChartsOption } from 'echarts';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
@@ -39,11 +39,13 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   styleUrls: ['./customer-satisfaction.component.css'],
 
   standalone: false})
-export class CustomerSatisfactionComponent implements OnInit, DoCheck {
+export class CustomerSatisfactionComponent implements OnInit, DoCheck, OnDestroy {
   currentLanguageSet: any;
   customerSatisfactionData: any;
   frequencyList: any[] = [];
   frequency: any;
+  private chartInstance: echarts.ECharts | null = null;
+  private resizeHandler: (() => void) | null = null;
 
   constructor(
     private setLanguageService: SetLanguageService,
@@ -121,13 +123,20 @@ export class CustomerSatisfactionComponent implements OnInit, DoCheck {
 
     const chartDom = document.getElementById('mainCustomerChart');
     if(chartDom){
-      const myChart = echarts.init(chartDom);
-
-    window.addEventListener('resize', function(){
-      if(myChart !== null && myChart !== undefined){
-        myChart.resize();
+      if (this.chartInstance) {
+        this.chartInstance.dispose();
       }
-  });
+      if (this.resizeHandler) {
+        window.removeEventListener('resize', this.resizeHandler);
+      }
+
+      this.chartInstance = echarts.init(chartDom);
+      this.resizeHandler = () => {
+        if (this.chartInstance) {
+          this.chartInstance.resize();
+        }
+      };
+      window.addEventListener('resize', this.resizeHandler);
 
 
     const option = {
@@ -168,7 +177,7 @@ export class CustomerSatisfactionComponent implements OnInit, DoCheck {
       ],
     };
 
-    option && myChart.setOption(option);
+    option && this.chartInstance.setOption(option);
     }
 
   //   const myChart = echarts.init(chartDom);
@@ -252,5 +261,16 @@ export class CustomerSatisfactionComponent implements OnInit, DoCheck {
     // };
 
     // option && myChart.setOption(option);
+  }
+
+  ngOnDestroy() {
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+      this.resizeHandler = null;
+    }
+    if (this.chartInstance) {
+      this.chartInstance.dispose();
+      this.chartInstance = null;
+    }
   }
 }

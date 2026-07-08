@@ -26,8 +26,8 @@ import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
+  MatDialogModule
 } from '@angular/material/dialog';
-import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-common-dialog',

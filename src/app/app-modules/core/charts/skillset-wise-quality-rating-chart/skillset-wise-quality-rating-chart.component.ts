@@ -21,7 +21,7 @@
 */
 
 
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit, OnDestroy } from '@angular/core';
 import { SetLanguageService } from '../../../services/set-language/set-language.service';
 import * as echarts from 'echarts';
 import { EChartsOption } from 'echarts';
@@ -39,7 +39,7 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   styleUrls: ['./skillset-wise-quality-rating-chart.component.css'],
 
   standalone: false})
-export class SkillsetWiseQualityRatingChartComponent implements OnInit, DoCheck {
+export class SkillsetWiseQualityRatingChartComponent implements OnInit, DoCheck, OnDestroy {
   currentLanguageSet: any;
   qualityRatingData: any;
   roleList: any[] = [];
@@ -49,6 +49,8 @@ export class SkillsetWiseQualityRatingChartComponent implements OnInit, DoCheck 
   month: any;
   psmId: any;
   monthsOfCurrentYear: any = [];
+  private chartInstance: echarts.ECharts | null = null;
+  private resizeHandler: (() => void) | null = null;
 
   constructor(
     private setLanguageService: SetLanguageService,
@@ -228,13 +230,20 @@ export class SkillsetWiseQualityRatingChartComponent implements OnInit, DoCheck 
   setChartData(xValue: any, yValue: any, ratingData: any) {
     const chartDom = document.getElementById('mainQualityChart');
     if(chartDom){
-      const myChart = echarts.init(chartDom);
+      if (this.chartInstance) {
+        this.chartInstance.dispose();
+      }
+      if (this.resizeHandler) {
+        window.removeEventListener('resize', this.resizeHandler);
+      }
 
-      window.addEventListener('resize', function(){
-        if(myChart !== null && myChart !== undefined){
-          myChart.resize();
+      this.chartInstance = echarts.init(chartDom);
+      this.resizeHandler = () => {
+        if (this.chartInstance) {
+          this.chartInstance.resize();
         }
-    });
+      };
+      window.addEventListener('resize', this.resizeHandler);
   
       // let option: EChartsOption;
   
@@ -291,7 +300,7 @@ export class SkillsetWiseQualityRatingChartComponent implements OnInit, DoCheck 
         ],
       };
   
-      option && myChart.setOption(option);
+      option && this.chartInstance.setOption(option);
 
     }
   //   const myChart = echarts.init(chartDom);
@@ -377,5 +386,16 @@ export class SkillsetWiseQualityRatingChartComponent implements OnInit, DoCheck 
     // };
 
     // option && myChart.setOption(option);
+  }
+
+  ngOnDestroy() {
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+      this.resizeHandler = null;
+    }
+    if (this.chartInstance) {
+      this.chartInstance.dispose();
+      this.chartInstance = null;
+    }
   }
 }

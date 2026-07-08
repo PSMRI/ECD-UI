@@ -4,7 +4,7 @@ import {
     OnDestroy,
     ElementRef,
     ViewChild,
-    ChangeDetectionStrategy, OnDestroy
+    ChangeDetectionStrategy
   } from '@angular/core';
 import { VideoConsultationService } from '../video-consultation/videoService';  
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';

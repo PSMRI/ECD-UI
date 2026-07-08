@@ -41,16 +41,4 @@ export class NoEmptySpaceWithAllChracsDirective {
       return;
     }
   }
-//   @HostListener("paste", ["$event"]) blockPaste(event: ClipboardEvent) {
-//     event.preventDefault();
-//   }
-
-//   @HostListener("copy", ["$event"]) blockCopy(event: ClipboardEvent) {
-//     event.preventDefault();
-//   }
-
-//   @HostListener("cut", ["$event"]) blockCut(event: ClipboardEvent) {
-//     event.preventDefault();
-//   }
-  
 }
