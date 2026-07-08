@@ -28,7 +28,8 @@ import { SetLanguageService } from '../../services/set-language/set-language.ser
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css'],
-})
+
+  standalone: false})
 
 /**
  * DE40034072 - 12-01-2022

@@ -34,7 +34,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-force-logout',
   templateUrl: './force-logout.component.html',
   styleUrls: ['./force-logout.component.css']
-})
+,
+  standalone: false})
 export class ForceLogoutComponent implements OnInit {
   currentLanguageSet: any;
   languageData: any;

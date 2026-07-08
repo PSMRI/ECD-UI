@@ -23,7 +23,7 @@
 
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormControl} from '@angular/forms';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
@@ -35,7 +35,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-edit-quality-section-configuration',
   templateUrl: './edit-quality-section-configuration.component.html',
   styleUrls: ['./edit-quality-section-configuration.component.css']
-})
+,
+  standalone: false})
 export class EditQualitySectionConfigurationComponent implements OnInit {
   currentLanguageSet: any;
   qualityAuditSectionList:any =[];

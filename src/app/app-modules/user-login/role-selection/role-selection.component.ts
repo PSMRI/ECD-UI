@@ -37,7 +37,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-role-selection',
   templateUrl: './role-selection.component.html',
   styleUrls: ['./role-selection.component.css'],
-})
+
+  standalone: false})
 export class RoleSelectionComponent implements OnInit {
   title: any;
   isSelected = false;

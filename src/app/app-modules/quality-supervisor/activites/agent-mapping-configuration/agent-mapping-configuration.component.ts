@@ -23,7 +23,7 @@
 
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { CreateAgentComponent } from '../create-agent/create-agent.component';
@@ -37,7 +37,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-agent-mapping-configuration',
   templateUrl: './agent-mapping-configuration.component.html',
   styleUrls: ['./agent-mapping-configuration.component.css']
-})
+,
+  standalone: false})
 export class AgentMappingConfigurationComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort | null = null;
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;

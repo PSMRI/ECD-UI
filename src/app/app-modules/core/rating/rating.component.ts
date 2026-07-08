@@ -26,9 +26,9 @@ import { ConfirmationService } from '../../services/confirmation/confirmation.se
 import { CoreService } from '../../services/core/core.service';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 /**
  * DE40034072
@@ -38,7 +38,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-rating',
   templateUrl: './rating.component.html',
   styleUrls: ['./rating.component.css'],
-})
+
+  standalone: false})
 export class RatingComponent implements OnInit, DoCheck {
   currentLanguageSet: any;
   selectedRole: any;

@@ -23,7 +23,7 @@
 
 import { AfterViewInit, Component, DoCheck, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
@@ -37,7 +37,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-quality-section-configuration',
   templateUrl: './quality-section-configuration.component.html',
   styleUrls: ['./quality-section-configuration.component.css']
-})
+,
+  standalone: false})
 export class QualitySectionConfigurationComponent implements OnInit, AfterViewInit, DoCheck {
 
   currentLanguageSet: any;

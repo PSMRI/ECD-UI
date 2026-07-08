@@ -24,7 +24,7 @@
 // common-dialog.service.ts
 
 import { Injectable } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CommonDialogComponent } from '../../core/common-dialog/common-dialog.component';
 // import { Observable } from 'rxjs/internal/Observable';
 // import { CommonDialogComponent } from '../../core/common-dialog/common-dialog.component';

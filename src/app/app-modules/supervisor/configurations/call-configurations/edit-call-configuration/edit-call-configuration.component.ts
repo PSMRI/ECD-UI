@@ -40,7 +40,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-edit-call-configuration',
   templateUrl: './edit-call-configuration.component.html',
   styleUrls: ['./edit-call-configuration.component.css']
-})
+,
+  standalone: false})
 export class EditCallConfigurationComponent implements OnInit, DoCheck {
 
   @Input()

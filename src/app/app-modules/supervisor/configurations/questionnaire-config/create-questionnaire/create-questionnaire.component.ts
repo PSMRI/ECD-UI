@@ -24,10 +24,10 @@
 import { AfterViewInit, Component, DoCheck, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTable as MatTable, MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
@@ -44,7 +44,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-create-questionnaire',
   templateUrl: './create-questionnaire.component.html',
   styleUrls: ['./create-questionnaire.component.css'],
-})
+
+  standalone: false})
 export class CreateQuestionnaireComponent implements OnInit, DoCheck, AfterViewInit {
   questionnaireTypeList: any[] = [];
 

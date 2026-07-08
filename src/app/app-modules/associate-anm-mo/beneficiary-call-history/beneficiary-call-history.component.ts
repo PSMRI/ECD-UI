@@ -34,7 +34,8 @@ import { ConfirmationService } from '../../services/confirmation/confirmation.se
   selector: 'app-beneficiary-call-history',
   templateUrl: './beneficiary-call-history.component.html',
   styleUrls: ['./beneficiary-call-history.component.css']
-})
+,
+  standalone: false})
 export class BeneficiaryCallHistoryComponent implements OnInit, OnDestroy, DoCheck {
   datePipeString : any='2023-02-13T00:00:00.000Z';
   currentLanguageSet: any;

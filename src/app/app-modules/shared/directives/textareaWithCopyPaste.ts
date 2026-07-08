@@ -25,7 +25,8 @@ import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   selector: '[appTextareaWithCopyPaste]'
-})
+,
+  standalone: false})
 export class TextareaWithCopyPasteDirective {
 
   constructor() { }
@@ -79,16 +80,4 @@ export class TextareaWithCopyPasteDirective {
       event.preventDefault();
     }
     
-//   @HostListener("paste", ["$event"]) blockPaste(event: KeyboardEvent) {
-//     event.preventDefault();
-//   }
-
-//   @HostListener("copy", ["$event"]) blockCopy(event: KeyboardEvent) {
-//     event.preventDefault();
-//   }
-
-//   @HostListener("cut", ["$event"]) blockCut(event: KeyboardEvent) {
-//     event.preventDefault();
-//   }
-  
 }

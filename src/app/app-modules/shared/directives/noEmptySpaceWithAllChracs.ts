@@ -25,7 +25,8 @@ import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   selector: '[appNoEmptySpaceWithAllChracs]'
-})
+,
+  standalone: false})
 export class NoEmptySpaceWithAllChracsDirective {
 
   constructor() { }
@@ -40,16 +41,4 @@ export class NoEmptySpaceWithAllChracsDirective {
       return;
     }
   }
-//   @HostListener("paste", ["$event"]) blockPaste(event: KeyboardEvent) {
-//     event.preventDefault();
-//   }
-
-//   @HostListener("copy", ["$event"]) blockCopy(event: KeyboardEvent) {
-//     event.preventDefault();
-//   }
-
-//   @HostListener("cut", ["$event"]) blockCut(event: KeyboardEvent) {
-//     event.preventDefault();
-//   }
-  
 }

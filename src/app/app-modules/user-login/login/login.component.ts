@@ -42,7 +42,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-})
+
+  standalone: false})
 export class LoginComponent implements OnInit, OnDestroy {
   @ViewChild('captchaCmp') captchaCmp: CaptchaComponent | undefined;
   username: any;
@@ -83,15 +84,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   }
 
-  @HostListener('paste', ['$event']) blockPaste(event: KeyboardEvent) {
+  @HostListener('paste', ['$event']) blockPaste(event: ClipboardEvent) {
     event.preventDefault();
   }
 
-  @HostListener('copy', ['$event']) blockCopy(event: KeyboardEvent) {
+  @HostListener('copy', ['$event']) blockCopy(event: ClipboardEvent) {
     event.preventDefault();
   }
 
-  @HostListener('cut', ['$event']) blockCut(event: KeyboardEvent) {
+  @HostListener('cut', ['$event']) blockCut(event: ClipboardEvent) {
     event.preventDefault();
   }
   @HostListener('document:contextmenu', ['$event'])

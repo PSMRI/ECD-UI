@@ -36,7 +36,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-call-reallocation',
   templateUrl: './call-reallocation.component.html',
   styleUrls: ['./call-reallocation.component.css']
-})
+,
+  standalone: false})
 export class CallReallocationComponent implements OnInit, DoCheck {
   recordType: any;
   phoneNoType: any;

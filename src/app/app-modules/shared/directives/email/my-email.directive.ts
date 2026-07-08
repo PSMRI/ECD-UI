@@ -26,7 +26,8 @@ import { AbstractControl, Validator } from '@angular/forms';
 
 @Directive({
   selector: '[appMyEmail]'
-})
+,
+  standalone: false})
 export class MyEmailDirective implements Validator {
 
   constructor() { }
@@ -42,15 +43,15 @@ export class MyEmailDirective implements Validator {
     return null;
   }
 
-  @HostListener("paste", ["$event"]) blockPaste(event: KeyboardEvent) {
+  @HostListener("paste", ["$event"]) blockPaste(event: ClipboardEvent) {
     event.preventDefault();
   }
 
-  @HostListener("copy", ["$event"]) blockCopy(event: KeyboardEvent) {
+  @HostListener("copy", ["$event"]) blockCopy(event: ClipboardEvent) {
     event.preventDefault();
   }
 
-  @HostListener("cut", ["$event"]) blockCut(event: KeyboardEvent) {
+  @HostListener("cut", ["$event"]) blockCut(event: ClipboardEvent) {
     event.preventDefault();
   }
 }

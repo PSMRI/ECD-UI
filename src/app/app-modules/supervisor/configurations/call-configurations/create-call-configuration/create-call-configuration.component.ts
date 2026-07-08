@@ -39,7 +39,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-create-call-configuration',
   templateUrl: './create-call-configuration.component.html',
   styleUrls: ['./create-call-configuration.component.css']
-})
+,
+  standalone: false})
 export class CreateCallConfigurationComponent implements OnInit, DoCheck, OnDestroy {
 
   @Input()

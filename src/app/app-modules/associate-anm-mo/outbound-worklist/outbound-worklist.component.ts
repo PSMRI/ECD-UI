@@ -23,9 +23,9 @@
 
 import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
-import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ViewDetailsComponent } from '../view-details/view-details.component';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -46,7 +46,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-outbound-worklist',
   templateUrl: './outbound-worklist.component.html',
   styleUrls: ['./outbound-worklist.component.css']
-})
+,
+  standalone: false})
 export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort | null = null;
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;

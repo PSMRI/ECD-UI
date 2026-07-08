@@ -30,7 +30,8 @@ import { LoginserviceService } from '../../services/loginservice/loginservice.se
   selector: 'app-czentrix-iframe',
   templateUrl: './czentrix-iframe.component.html',
   styleUrls: ['./czentrix-iframe.component.css']
-})
+,
+  standalone: false})
 export class CzentrixIframeComponent implements OnInit {
   barMinimized = true;
   ctiHandlerURL: any;

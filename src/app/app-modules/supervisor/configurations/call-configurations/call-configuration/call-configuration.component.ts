@@ -23,7 +23,7 @@
 
 import { Component, DoCheck, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { config } from 'rxjs';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
@@ -43,7 +43,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-call-configuration',
   templateUrl: './call-configuration.component.html',
   styleUrls: ['./call-configuration.component.css']
-})
+,
+  standalone: false})
 export class CallConfigurationComponent implements OnInit, DoCheck {
   
   callConfigData = new MatTableDataSource<callConfigurationElement>();

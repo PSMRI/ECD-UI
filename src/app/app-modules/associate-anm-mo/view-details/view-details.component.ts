@@ -26,10 +26,10 @@ import { FormBuilder } from '@angular/forms';
 import { Inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-} from '@angular/material/legacy-dialog';
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { AmritTrackingService } from 'Common-UI/src/tracking';
 import { HighRiskReasonsComponent } from '../high-risk-reasons/high-risk-reasons.component';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
@@ -38,7 +38,8 @@ import { SetLanguageService } from '../../services/set-language/set-language.ser
   selector: 'app-view-details',
   templateUrl: './view-details.component.html',
   styleUrls: ['./view-details.component.css']
-})
+,
+  standalone: false})
 export class ViewDetailsComponent implements OnInit {
   datePipeString : any='2023-02-13T00:00:00.000Z';
   viewDetails:any=this.data.selectedDetails;

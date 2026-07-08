@@ -22,7 +22,7 @@
 
 
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AssociateAnmMoService } from '../../services/associate-anm-mo/associate-anm-mo.service';
 import { ConfirmationService } from '../../services/confirmation/confirmation.service';
 import { SetLanguageService } from '../../services/set-language/set-language.service';
@@ -31,7 +31,8 @@ import { SetLanguageService } from '../../services/set-language/set-language.ser
   selector: 'app-high-risk-reasons',
   templateUrl: './high-risk-reasons.component.html',
   styleUrls: ['./high-risk-reasons.component.css']
-})
+,
+  standalone: false})
 export class HighRiskReasonsComponent implements OnInit {
   motherId: any;
   currentLanguageSet: any;

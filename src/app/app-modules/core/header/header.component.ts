@@ -41,7 +41,8 @@ import { sortByProperty } from '../../services/utils/sort-util';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
-})
+,
+  standalone: false})
 export class HeaderComponent implements OnInit, DoCheck, AfterViewInit, OnChanges {
   isAuthenticated = false;
   userName: string | null | undefined;
