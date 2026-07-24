@@ -66,7 +66,8 @@ export class CallRatingComponent implements OnInit{
   beneficiaryId: any;
   auditType: any;
   filteredRatingQuestions: any = [];
-  audioResponse: any = " ";
+  audioResponse: any = null;
+  audioLoadFailed = false;
   ratingId: any;
   showCallAuditForm  = false;
   ratedQuestions: any =[];
@@ -117,15 +118,24 @@ export class CallRatingComponent implements OnInit{
     }
     this.qualityAuditorService.getCallRecording(reqObj).subscribe((res: any) => {
       if(res && res.statusCode === 200 && res.data && res.data.response){
+        console.log("Audio file:", res);
+        
         this.audioResponse = res.data.response;
-     
-      } 
+      } else {
+        this.audioLoadFailed = true;
+      }
     },
     (err: any) => {
+      this.audioLoadFailed = true;
       this.confirmationService.openDialog(err.error, 'error');
     }
     );
 
+  }
+
+  onAudioError() {
+    this.audioResponse = null;
+    this.audioLoadFailed = true;
   }
   getQualityGrades(){
     const psmId = this.sessionstorage.getItem('providerServiceMapID');

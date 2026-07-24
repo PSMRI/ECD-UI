@@ -14,15 +14,16 @@
     </audio>
   </div> -->
 
-  <div  class="inner" *ngIf="audioResponse !== undefined && audioResponse !== null && audioResponse !== ' '">
+  <div class="inner" *ngIf="audioResponse">
     <h2 style="margin-right: 30px;overflow: hidden;" class="mainHeading">
       {{ routedData.agetname | titlecase }} {{ currentLanguageSet?.recording }} :
     </h2>
-    </div>
-    <div class="inner" *ngIf="audioResponse !== undefined && audioResponse !== null && audioResponse !== ' '">
-    <audio controls style="margin-top: 12px;"><source src="{{ audioResponse }}" type="audio/ogg" />
-      <source src="{{ audioResponse }}" type="audio/mpeg" />
-    </audio>
+  </div>
+  <div class="inner" *ngIf="audioResponse">
+    <audio controls style="margin-top: 12px;" [src]="audioResponse" (error)="onAudioError()"></audio>
+  </div>
+  <div class="inner" *ngIf="!audioResponse && audioLoadFailed">
+    <span class="help-block">{{ currentLanguageSet?.unableToLoadCallRecording || 'Unable to load call recording' }}</span>
   </div>
 
   <div style="float: right;">
