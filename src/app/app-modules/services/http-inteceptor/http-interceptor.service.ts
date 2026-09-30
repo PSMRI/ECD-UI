@@ -85,55 +85,58 @@ export class HttpInterceptorService implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         console.error(error);
         this.spinnerService.setLoading(false);
-        const silent404Apis = [
-          'getCSatScoreByPSMIdAndFrequency',];         
-
+        const silent404Apis = ['getCSatScoreByPSMIdAndFrequency'];         
         const isSilent404 = silent404Apis.some(api => req.url.includes(api));
 
-        if (error.status === 404  && isSilent404) {
+        if (error.status === 404 && isSilent404) {
           return throwError(error);
         }
+
         const isLoginUrl = req.url.includes('user/userAuthenticate');
-        if (!isLoginUrl) {
-          if (error.status === 401) {
-            this.sessionstorage.clear();
-            this.confirmationService.openDialog('Session expired, Please login again to continue', 'error');
-          } else if (error.status === 403) {
-            this.confirmationService.openDialog(
-              'Access denied',
-              'error',
-            );
-          } else if (error.status === 500) {
-            this.confirmationService.openDialog(
-              'Internal server error',
-              'error',
-            );
-          } else {
-            this.confirmationService.openDialog(
-              error.message || 'Something went wrong',
-              'error',
-            );
-          }
-          sessionStorage.clear();
-          localStorage.clear();
-          this.router.navigate(['/login'])
+        let errorMessage = 'Something went wrong';
+
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message;
+        } else if (error.message) {
+          errorMessage = error.message;
         }
-        return throwError(error.error);
+
+        if (error.status === 401 || error.status === 403) {
+          if (!isLoginUrl) {
+            this.sessionstorage.clear();
+            sessionStorage.clear();
+            localStorage.clear();
+            this.confirmationService.openDialog(error.status === 401 ? 'Session expired, Please login again' : 'Access denied', 'error');
+            this.router.navigate(['/login']);
+          } else {
+            this.confirmationService.openDialog('Invalid credentials', 'error');
+          }
+        } else if (error.status === 400) {
+          this.confirmationService.openDialog(errorMessage, 'error');
+        } else if (error.status >= 500) {
+          this.confirmationService.openDialog('Server error. Please try again later.', 'error');
+        } else {
+          this.confirmationService.openDialog(errorMessage, 'error');
+        }
+
+        return throwError(error);
       })
     );
   }
 
   private onSuccess(url: string, response: any): void {
     if (this.timerRef) clearTimeout(this.timerRef);
+    
 
     if (
+      response && 
       response.statusCode === 5002 &&
       url.indexOf('user/userAuthenticate') < 0
     ) {
       sessionStorage.clear();
       localStorage.clear();
       setTimeout(() => this.router.navigate(['/login']), 0);
-      this.confirmationService.openDialog(response.errorMessage, 'error');
+      this.confirmationService.openDialog(response.errorMessage || 'Session expired, Please login again', 'error');
     } else {
       this.startTimer();
     }
