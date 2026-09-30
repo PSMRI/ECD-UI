@@ -199,12 +199,19 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       },
       (err: any) => {
-        this.resetCaptcha();
-        if(err && err.error)
-        this.confirmationService.openDialog(err.error, 'error');
-        else
-        this.confirmationService.openDialog(err.title + err.detail, 'error')
+        this.handleLoginError(err);
       });
+  }
+
+  private handleLoginError(err: any) {
+    this.resetCaptcha();
+    if (err && err.error) {
+      this.confirmationService.openDialog(err.error, 'error');
+    } else if (err && err.title && err.detail) {
+      this.confirmationService.openDialog(err.title + ' ' + err.detail, 'error');
+    } else {
+      this.confirmationService.openDialog(err.message || (typeof err === 'string' ? err : null) || 'Login failed. Please try again.', 'error');
+    }
   }
 
   /**
@@ -255,6 +262,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                         'error'
                       );
                     }
+                  }, (err: any) => {
+                    this.handleLoginError(err);
                   });
               } else {
                 this.resetCaptcha();
@@ -263,6 +272,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                   'error'
                 );
               }
+            }, (err: any) => {
+              this.handleLoginError(err);
             });
         }
       });
@@ -331,10 +342,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.loginService.loginKey = response.data.login_key;
           }
         }, (err: any) => {
-          if(err && err.error)
-          this.confirmationService.openDialog(err.error, 'error');
-          else
-          this.confirmationService.openDialog(err.title + err.detail, 'error')
+          this.handleLoginError(err);
           });
      
 
