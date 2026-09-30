@@ -263,6 +263,7 @@ downloadJsyReportURL: `${ECD_API}ecdReportController/getECDJSYRelatedComplaintsR
 downloadMiscarriageReportURL:`${ECD_API}ecdReportController/getECDMiscarriageReport`,
 generateVideoLinkURL :`${COMMON_API}video-consultation/generate-link`,
 sendSMSAPI: `${COMMON_API}video-consultation/send-link`,
+agentVideoTokenURL: `${COMMON_API}video-consultation/agent-token`,
 updateCallStatusAPI: `${COMMON_API}video-consultation/update-call-status`,
 siteKey: siteKey,
 captchaChallengeURL: captchaChallengeURL,

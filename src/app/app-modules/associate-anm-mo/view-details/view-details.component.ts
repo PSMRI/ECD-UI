@@ -31,6 +31,8 @@ import {
   MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
 } from '@angular/material/legacy-dialog';
 import { AmritTrackingService } from 'Common-UI/src/tracking';
+import { HighRiskReasonsComponent } from '../high-risk-reasons/high-risk-reasons.component';
+import { SetLanguageService } from '../../services/set-language/set-language.service';
 
 @Component({
   selector: 'app-view-details',
@@ -40,6 +42,7 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
 export class ViewDetailsComponent implements OnInit {
   datePipeString : any='2023-02-13T00:00:00.000Z';
   viewDetails:any=this.data.selectedDetails;
+  currentLanguageSet: any;
   viewOutboundWorklistForm = this.fb.group({
         id: [''],
         phoneNo:[''],
@@ -61,7 +64,8 @@ export class ViewDetailsComponent implements OnInit {
         lmpDate:[''],
         edd:[''],
         nextAnc : [''],
-        age: ['']
+        age: [''],
+        highRiskStatus: [''],
   })
   viewOutboundWorklistFormForChild = this.fb.group({
     id: [''],
@@ -81,14 +85,17 @@ export class ViewDetailsComponent implements OnInit {
     Aasha:[''],
     anmName:[''],
     nextPnc : [''],
+    hrniStatus: [''],
 })
   constructor(
      @Inject(MAT_DIALOG_DATA) public data: any,
      public dialogRef: MatDialogRef<ViewDetailsComponent>,
      private fb: FormBuilder,
      private datePipe: DatePipe,
-     private trackingService: AmritTrackingService
-  ) { 
+     private trackingService: AmritTrackingService,
+     public dialog: MatDialog,
+     private setLanguageService: SetLanguageService,
+  ) {
     this.datePipeString = this.datePipe.transform(this.datePipeString,'MM/dd/yyyy');
     console.log(this.datePipeString);
   }
@@ -109,6 +116,7 @@ export class ViewDetailsComponent implements OnInit {
       lmpDate:this.datePipe.transform(viewDetails.lmpDate,'MM/dd/yyyy'),
       edd:this.datePipe.transform(viewDetails.edd,'MM/dd/yyyy'),
       nextAnc:this.datePipe.transform(viewDetails.nextAnc,'MM/dd/yyyy'),
+      highRiskStatus: viewDetails.highRisk ? 'Yes' : 'No',
 
     }
     const modifiedObjForChild={
@@ -123,6 +131,7 @@ export class ViewDetailsComponent implements OnInit {
       Aasha:viewDetails.ashaName,
       anmName:viewDetails.anmName,
       nextPnc:this.datePipe.transform(viewDetails.nextPnc,'MM/dd/yyyy'),
+      hrniStatus: viewDetails.isHrni ? 'Yes' : 'No',
     }
 
     if(this.data.activeMother){
@@ -152,7 +161,25 @@ export class ViewDetailsComponent implements OnInit {
   
 
   ngOnInit(): void {
-     this.patchValueForviewDetails(this.viewDetails); 
+     this.getSelectedLanguage();
+     this.patchValueForviewDetails(this.viewDetails);
+  }
+
+  getSelectedLanguage() {
+    if (
+      this.setLanguageService.languageData !== undefined &&
+      this.setLanguageService.languageData !== null
+    )
+      this.currentLanguageSet = this.setLanguageService.languageData;
+  }
+
+  openHrpReasonsDialog() {
+    this.dialog.open(HighRiskReasonsComponent, {
+      data: {
+        motherId: this.viewDetails.mctsidNo,
+        childId: this.viewDetails.mctsidNoChildId ?? null
+      }
+    });
   }
 
   trackFieldInteraction(fieldName: string) {

@@ -262,10 +262,11 @@ downloadNotConnectedReportURL:`${ECD_API}ecdReportController/getECDNotConnectedP
 downloadJsyReportURL: `${ECD_API}ecdReportController/getECDJSYRelatedComplaintsReport`,
 downloadMiscarriageReportURL:`${ECD_API}ecdReportController/getECDMiscarriageReport`,
 
-//video call 
+//video call
 generateVideoLinkURL :`${COMMON_API}video-consultation/generate-link`,
 sendSMSAPI: `${COMMON_API}video-consultation/send-link`,
 updateCallStatusAPI: `${COMMON_API}video-consultation/update-call-status`,
+agentVideoTokenURL: `${COMMON_API}video-consultation/agent-token`,
 
 siteKey: siteKey,
 captchaChallengeURL: captchaChallengeURL,

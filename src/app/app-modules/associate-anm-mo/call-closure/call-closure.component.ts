@@ -73,6 +73,9 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
   callTimerSubscription: Subscription = new Subscription;
   wrapupTimerSubscription: Subscription = new Subscription;
   isNextAttempt = true;
+  showMoStatusFields = false;
+  showHrpStatus = false;
+  showHrniStatus = false;
   callClosureForm: FormGroup = this.fb.group({
 
     isFurtherCallRequired: [],
@@ -95,7 +98,9 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
     preferredLanguage: [null],
     sendAdvice: [null],
     altPhoneNo: [null, [Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
-    iVRFeedbackRequired: false
+    iVRFeedbackRequired: false,
+    hrpStatus: [null],
+    hrniStatus: [null],
   }
   );
   isCallVerifiedStatus: any;
@@ -135,6 +140,8 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
   }
   ngDoCheck() {
     this.getSelectedLanguage();
+    this.showHrpStatus = this.associateAnmMoService.isMother === true;
+    this.showHrniStatus = this.associateAnmMoService.isMother === false;
   }
   ngOnInit(): void {
      this.minimumDate = new Date();
@@ -151,6 +158,7 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
     this.getCallTypes();
     this.isStickyAgentValid();
     this.getLanguageMaster();
+    this.showMoStatusFields = (this.selectedRole === 'MO');
 
     this.associateAnmMoService.openCompFlag$.subscribe((responseComp) => {
       if (responseComp !== null && responseComp === "Call Closed") {
@@ -173,6 +181,8 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
         this.clearPreferredLanguageValidator();
         this.clearIsFurtherCallValidator();
         this.enablePreferredLanguage = false;
+        this.clearHrpStatusValidator();
+        this.clearHrniStatusValidator();
         this.callClosureForm.reset();
       }
       
@@ -356,8 +366,8 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
       sendAdvice: formData.sendAdvice,
       altPhoneNo: formData.altPhoneNo,
       isStickyAgentRequired: formData.isStickyAgentRequired,
-      isHrp: this.associateAnmMoService.isMother?this.associateAnmMoService.isHighRiskPregnancy:false,
-      isHrni: (this.associateAnmMoService.isMother === false)?this.associateAnmMoService.isHighRiskInfant:false,
+      isHrp: (this.selectedRole === 'MO' && this.associateAnmMoService.isMother) ? (formData.hrpStatus === "Yes") : (this.associateAnmMoService.isMother ? this.associateAnmMoService.isHighRiskPregnancy : false),
+      isHrni: (this.selectedRole === 'MO' && this.associateAnmMoService.isMother === false) ? (formData.hrniStatus === "Yes") : ((this.associateAnmMoService.isMother === false) ? this.associateAnmMoService.isHighRiskInfant : false),
       deleted: false,
       createdBy: this.sessionstorage.getItem('userName'),
       modifiedBy: this.sessionstorage.getItem('userName'),
@@ -853,6 +863,32 @@ export class CallClosureComponent implements OnInit, DoCheck, AfterContentChecke
     const reasonForNoFurtherCallsIdControl = this.callClosureForm.get('reasonForNoFurtherCallsId');
     reasonForNoFurtherCallsIdControl?.clearValidators();
     reasonForNoFurtherCallsIdControl?.updateValueAndValidity();
+  }
+
+  onHrpStatusChange(value: string) {
+    if (value === 'No') {
+      this.associateAnmMoService.isHighRiskPregnancy = false;
+      this.callClosureForm.controls['isFurtherCallRequired'].setValue('Yes');
+    }
+  }
+
+  onHrniStatusChange(value: string) {
+    if (value === 'No') {
+      this.associateAnmMoService.isHighRiskInfant = false;
+      this.callClosureForm.controls['isFurtherCallRequired'].setValue('Yes');
+    }
+  }
+
+  clearHrpStatusValidator() {
+    const hrpStatusControl = this.callClosureForm.get('hrpStatus');
+    hrpStatusControl?.clearValidators();
+    hrpStatusControl?.updateValueAndValidity();
+  }
+
+  clearHrniStatusValidator() {
+    const hrniStatusControl = this.callClosureForm.get('hrniStatus');
+    hrniStatusControl?.clearValidators();
+    hrniStatusControl?.updateValueAndValidity();
   }
 
   trackFieldInteraction(fieldName: string) {

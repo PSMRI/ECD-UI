@@ -353,7 +353,7 @@
   "complaintRemarksCall":"Complaint Remarks",
   "callClosureRemarks":"Remarks",
   "sendAdvice":"Send Advice",
-  "alternateNumber":"Aternate Phone Number",
+  "alternateNumber":"Alternate Phone Number",
   "deactivated": "Deactivated",
   "doYouReallyWantToCancel": "Do you really want to cancel? Any unsaved data would be lost",
   "callVerified":"Call Verified*:",
@@ -484,5 +484,12 @@
     "anonymousInfo":"You are not logged in, this feedback will be submitted anonymously.",
     "okay": "Okay",
     "thankYou": "Thank you, your feedback is valuable to us!"
-  }
+  },
+  "invalidOrCurruptFile": "Invalid file. The uploaded Excel file is corrupt or not in a valid format.",
+  "regularANC": "Regular ANC",
+  "regularPNC": "Regular PNC",
+  "hrpStatus": "HRP Status",
+  "hrniStatus": "HRNI Status",
+  "viewHrpReasons": "View HRP Reasons",
+  "viewHrniReasons": "View HRNI Reasons"
 }

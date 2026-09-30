@@ -42,12 +42,13 @@ This microservice is built using Java and the Spring Boot framework, with MySQL 
 To install the ECD module, please follow these steps:
 
 1. Clone the repository to your local machine.
-2. Install the dependencies and build the module:
+2. Clone the Common-ui repository, switch branch to release-3.6.1-ECD.
+3. Install the dependencies and build the module:
    - Run the command `npm install`.
    - Run the command `npm run build`.
    - Run the command `mvn clean install`.
    - Run the command `npm start`.
-3. Open your browser and access `http://localhost:4200/#/login` to view the login page of module.
+4. Open your browser and access `http://localhost:4200/#/login` to view the login page of module.
 
 ## Building war files
 

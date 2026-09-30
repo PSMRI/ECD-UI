@@ -34,6 +34,7 @@ import { EcdQuestionnaireComponent } from '../ecd-questionnaire/ecd-questionnair
 import { BenRegistrationComponent } from '../beneficiary-registration/ben-registration/ben-registration.component';
 import { AssociateAnmMoService } from '../../services/associate-anm-mo/associate-anm-mo.service';
 import { BeneficiaryCallHistoryComponent } from '../beneficiary-call-history/beneficiary-call-history.component';
+import { HighRiskReasonsComponent } from '../high-risk-reasons/high-risk-reasons.component';
 import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 import { CtiService } from '../../services/cti/cti.service';
 import { map, Subscription, timer } from 'rxjs';
@@ -62,6 +63,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
   isAutoPreviewDial = false;
   previewWindowTime: any;
   agentStatus: any;
+  callInitiated = false;  
   autoPreviewTimeSub: Subscription = new Subscription;
   autoCallStarted: any = false
   showPrompt = false;
@@ -169,6 +171,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
             this.dataSource.data.forEach((sectionCount: any, index: number) => {
               sectionCount.sno = index + 1;
             });
+            const role = this.sessionstorage.getItem('role');
             this.displayedColumns = [
               'sno',
               'phoneNo',
@@ -179,6 +182,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
               // 'callStatus',
               'recordUploadDate',
               'ecdCallType',
+              ...(role === 'ANM' ? ['hrpStatus'] : []),
               'view',
               'action'
             ];
@@ -217,6 +221,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
               // 'callStatus',
               'recordUploadDate',
               'ecdCallType',
+              'hrniStatus',
               'view',
               'action'
             ];
@@ -374,6 +379,8 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
 
                       this.sessionstorage.setItem("onCall", "true");
                       this.associateAnmMoService.setBenRegistartionComp(true);
+                      this.callInitiated = true;
+                      this.associateAnmMoService.setCallInitiated(true);
                     }
                     else {
                       this.confirmationService.openDialog(response.errorMessage, 'error');
@@ -402,6 +409,7 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
 
                 this.sessionstorage.setItem("onCall", "true");
                 this.associateAnmMoService.setBenRegistartionComp(true);
+                this.callInitiated = true;
               }
             },
             (err: any) => {
@@ -542,6 +550,15 @@ export class OutboundWorklistComponent implements OnInit, DoCheck, AfterViewInit
   openBenCallHistory() {
     this.associateAnmMoService.setOpenComp("Beneficiary Call History");
     // this.associateAnmMoService.loadComponent(BeneficiaryCallHistoryComponent,null)
+  }
+
+  openHrpReasonsDialog(element: any) {
+    this.dialog.open(HighRiskReasonsComponent, {
+      data: {
+        motherId: element.mctsidNo,
+        childId: element.mctsidNoChildId ?? null
+      }
+    });
   }
 
   trackFieldInteraction(fieldName: string) {

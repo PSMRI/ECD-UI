@@ -37,6 +37,8 @@ const sessionStorageEncKey = '';
 const siteKey = '';
 const captchaChallengeURL = '';
 const enableCaptcha = false;
+const vcDomain = 'vc.piramalswasthya.org';
+
 
 export const environment = {
   production: false,
@@ -268,9 +270,10 @@ downloadJsyReportURL: `${ECD_API}ecdReportController/getECDJSYRelatedComplaintsR
 downloadMiscarriageReportURL:`${ECD_API}ecdReportController/getECDMiscarriageReport`,
 
 //video call 
-generateVideoLinkURL :`${COMMON_API1}video-consultation/generate-link`,
-sendSMSAPI: `${COMMON_API1}video-consultation/send-link`,
-updateCallStatusAPI: `${COMMON_API1}video-consultation/update-call-status`,
+generateVideoLinkURL :`${COMMON_API}video-consultation/generate-link`,
+sendSMSAPI: `${COMMON_API}video-consultation/send-link`,
+updateCallStatusAPI: `${COMMON_API}video-consultation/update-call-status`,
+agentVideoTokenURL: `${COMMON_API}video-consultation/agent-token`,
 
 siteKey: siteKey,
 captchaChallengeURL: captchaChallengeURL,

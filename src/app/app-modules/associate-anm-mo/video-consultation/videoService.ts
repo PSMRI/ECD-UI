@@ -17,10 +17,13 @@ videoStateChange$ = this.videoStateChange.asObservable();
   callStatus: 'Not Initiated' | 'Ongoing' | 'Completed' = 'Not Initiated';
   isMeetAvailable = false;
   meetLink = "";
+  agentRoomName = "";
+  agentJwt = "";
   SMSStatus = '';
   apiInitialized = false;
   showFloatingVideo = false;
-  isVideoCallActive = false; 
+  jitsiApi: any = null;
+  isVideoCallActive = false;
   callerPhoneNumber= '';
   agentID= '';
   agentName= '';
@@ -38,6 +41,8 @@ videoStateChange$ = this.videoStateChange.asObservable();
     this.callStatus = 'Not Initiated';
     this.isMeetAvailable = false;
     this.meetLink = '';
+    this.agentRoomName = '';
+    this.agentJwt = '';
     this.SMSStatus = '';
     this.isVideoCallActive = false; 
     // Notify subscribers of the reset
@@ -52,6 +57,14 @@ videoStateChange$ = this.videoStateChange.asObservable();
 
 
 resetVideoCall() {
+    if (this.jitsiApi) {
+      try {
+        this.jitsiApi.dispose();
+      } catch (error) {
+        console.error('Error disposing Jitsi API:', error);
+      }
+      this.jitsiApi = null;
+    }
     this.showFloatingVideo = false;
     this.apiInitialized = false;
   }

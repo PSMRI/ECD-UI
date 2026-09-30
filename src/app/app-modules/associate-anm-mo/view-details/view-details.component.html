@@ -235,7 +235,23 @@
         (focus)="trackFieldInteraction('Expected Delivery Date')"
       />
     </mat-form-field>
-  </div> 
+  </div>
+
+  <!-- HRP Status -->
+  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+    <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+      <mat-label>{{currentLanguageSet?.hrpStatus || 'HRP Status'}}</mat-label>
+      <input matInput formControlName="highRiskStatus" type="text" readonly />
+    </mat-form-field>
+  </div>
+  <!-- View HRP Reasons button (shown only when high risk) -->
+  <div *ngIf="viewDetails.highRisk === true"
+       class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+    <button mat-raised-button class="highRiskButtonColor full-width buttonWidth"
+      (click)="openHrpReasonsDialog(); trackFieldInteraction('View HRP Reasons')">
+      {{currentLanguageSet?.viewHrpReasons || 'View HRP Reasons'}}
+    </button>
+  </div>
 
   <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
     <mat-form-field appearance="outline" [style.width]="'100%'">
@@ -435,7 +451,23 @@ style="margin-top: 10px"
     (focus)="trackFieldInteraction('ANM')"
   />
 </mat-form-field>
-</div> 
+</div>
+
+<!-- HRNI Status -->
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+  <mat-form-field class="fieldStyleDisabled" appearance="outline" [style.width]="'100%'">
+    <mat-label>{{currentLanguageSet?.hrniStatus || 'HRNI Status'}}</mat-label>
+    <input matInput formControlName="hrniStatus" type="text" readonly />
+  </mat-form-field>
+</div>
+<!-- View HRNI Reasons button (shown only when HRNI) -->
+<div *ngIf="viewDetails.isHrni === true"
+     class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box m-bottom">
+  <button mat-raised-button class="highRiskButtonColor full-width buttonWidth"
+    (click)="openHrpReasonsDialog(); trackFieldInteraction('View HRNI Reasons')">
+    {{currentLanguageSet?.viewHrniReasons || 'View HRNI Reasons'}}
+  </button>
+</div>
 
 <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 box">
 <mat-form-field appearance="outline" [style.width]="'100%'">
