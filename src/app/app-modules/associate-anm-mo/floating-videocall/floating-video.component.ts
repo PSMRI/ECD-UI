@@ -16,7 +16,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
     templateUrl: './floating-video.component.html',
     styleUrls: ['./floating-video.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
-  })
+  ,
+    standalone: false})
   export class FloatingVideoComponent implements AfterViewInit, OnDestroy {
     @ViewChild('jitsiContainer', { static: true }) jitsiContainerRef!: ElementRef;
     @ViewChild('floatingWindow', { static: true }) floatingWindowRef!: ElementRef;

@@ -32,7 +32,8 @@ import { CallAuditComponent } from '../../call-audit/call-audit/call-audit.compo
   selector: 'app-innerpage-quality-auditor',
   templateUrl: './innerpage-quality-auditor.component.html',
   styleUrls: ['./innerpage-quality-auditor.component.css']
-})
+,
+  standalone: false})
 export class InnerpageQualityAuditorComponent implements OnInit {
   selectedRoute: any;
   currentLanguageSet: any;

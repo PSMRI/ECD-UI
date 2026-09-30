@@ -38,7 +38,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-edit-section-configuration',
   templateUrl: './edit-section-configuration.component.html',
   styleUrls: ['./edit-section-configuration.component.css']
-})
+,
+  standalone: false})
 export class EditSectionConfigurationComponent implements OnInit, DoCheck {
   @Input()
   public data: any;

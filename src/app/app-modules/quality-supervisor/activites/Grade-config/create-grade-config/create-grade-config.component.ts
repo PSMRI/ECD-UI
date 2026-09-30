@@ -27,7 +27,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { GradeConfigurationComponent } from '../grade-configuration/grade-configuration.component';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
@@ -35,7 +35,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-create-grade-config',
   templateUrl: './create-grade-config.component.html',
   styleUrls: ['./create-grade-config.component.css']
-})
+,
+  standalone: false})
 export class CreateGradeConfigComponent implements OnInit, DoCheck {
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @Input()

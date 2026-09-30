@@ -23,7 +23,7 @@
 
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
@@ -36,7 +36,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-qa-question-config',
   templateUrl: './qa-question-config.component.html',
   styleUrls: ['./qa-question-config.component.css']
-})
+,
+  standalone: false})
 export class QaQuestionConfigComponent implements OnInit, AfterViewInit { 
   @ViewChild(MatSort) sort: MatSort | null = null;
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;

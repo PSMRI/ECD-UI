@@ -204,8 +204,8 @@
           <mat-label class="fontStyle"
             >{{ currentLanguageSet?.options }} *</mat-label
           >
-          <mat-chip-list #chipList formControlName="options">
-            <mat-chip
+          <mat-chip-grid #chipList formControlName="options">
+            <mat-chip-row
               *ngFor="let optionValue of optionList"
               [selectable]="selectable"
               [removable]="removable"
@@ -214,7 +214,7 @@
             >
               {{ optionValue }}
               <mat-icon matChipRemove *ngIf="removable" >cancel</mat-icon>
-            </mat-chip>
+            </mat-chip-row>
             <input
               placeholder=""
               [matChipInputFor]="chipList"
@@ -223,7 +223,7 @@
               (matChipInputTokenEnd)="add($event)"
               (focus)="trackFieldInteraction('Options Input')"
             />
-          </mat-chip-list>
+          </mat-chip-grid>
         </mat-form-field>
       </div>
 
@@ -425,8 +425,8 @@
           <mat-label class="fontStyle"
             >{{ currentLanguageSet?.options }} *</mat-label
           >
-          <mat-chip-list #chipList formControlName="options">
-            <mat-chip
+          <mat-chip-grid #chipList formControlName="options">
+            <mat-chip-row
               *ngFor="let optionValue of optionList"
               [selectable]="selectable"
               [removable]="removable"
@@ -435,7 +435,7 @@
             >
               {{ optionValue }}
               <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-            </mat-chip>
+            </mat-chip-row>
             <input
               placeholder=""
               [matChipInputFor]="chipList"
@@ -444,7 +444,7 @@
               (matChipInputTokenEnd)="add($event)"
               (focus)="trackFieldInteraction('Edit Options Input')"
             />
-          </mat-chip-list>
+          </mat-chip-grid>
         </mat-form-field>
       </div>
 

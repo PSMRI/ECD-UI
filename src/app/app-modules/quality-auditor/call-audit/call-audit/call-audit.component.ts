@@ -24,9 +24,8 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { endOfMonth, startOfMonth } from 'date-fns';
-import addMonths from 'date-fns/addMonths';
+import { MatTableDataSource } from '@angular/material/table';
+import { addMonths, endOfMonth, startOfMonth } from 'date-fns';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { QualityAuditorService } from 'src/app/app-modules/services/quality-auditor/quality-auditor.service';
@@ -37,13 +36,14 @@ import * as moment from 'moment';
 import { tr } from 'date-fns/locale';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
-import {MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-call-audit',
   templateUrl: './call-audit.component.html',
   styleUrls: ['./call-audit.component.css']
-})
+,
+  standalone: false})
 export class CallAuditComponent implements OnInit {
   
   @Input()

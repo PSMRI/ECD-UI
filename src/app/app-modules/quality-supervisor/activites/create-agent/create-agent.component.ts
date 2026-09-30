@@ -23,7 +23,7 @@
 
 import { Component, DoCheck, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
@@ -36,7 +36,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-create-agent',
   templateUrl: './create-agent.component.html',
   styleUrls: ['./create-agent.component.css']
-})
+,
+  standalone: false})
 export class CreateAgentComponent implements OnInit, DoCheck {
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @Input()

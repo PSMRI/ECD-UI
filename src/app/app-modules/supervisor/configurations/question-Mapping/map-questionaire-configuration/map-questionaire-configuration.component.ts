@@ -3,7 +3,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { CreateQuestionMappingComponent } from '../create-question-mapping/create-question-mapping.component';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { EditQuestionMappingComponent } from '../edit-question-mapping/edit-question-mapping.component';
 import { MatPaginator } from '@angular/material/paginator';
@@ -14,7 +14,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-map-questionaire-configuration',
   templateUrl: './map-questionaire-configuration.component.html',
   styleUrls: ['./map-questionaire-configuration.component.css']
-})
+,
+  standalone: false})
 export class MapQuestionaireConfigurationComponent implements OnInit, DoCheck, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort | null = null;
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;

@@ -34,7 +34,8 @@ import { ConfirmationService } from '../../services/confirmation/confirmation.se
   selector: 'app-call-statistics',
   templateUrl: './call-statistics.component.html',
   styleUrls: ['./call-statistics.component.css'],
-})
+
+  standalone: false})
 export class CallStatisticsComponent implements OnInit, DoCheck {
   today: number = Date.now();
   currentLanguageSet: any;

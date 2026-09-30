@@ -34,7 +34,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-activity-this-week',
   templateUrl: './activity-this-week.component.html',
   styleUrls: ['./activity-this-week.component.css'],
-})
+
+  standalone: false})
 export class ActivityThisWeekComponent implements OnInit, DoCheck {
   currentLanguageSet: any;
   selectedRole: any;

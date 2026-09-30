@@ -36,7 +36,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-create-section-questionnaire-mapping',
   templateUrl: './create-section-questionnaire-mapping.component.html',
   styleUrls: ['./create-section-questionnaire-mapping.component.css'],
-})
+
+  standalone: false})
 export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoCheck {
   currentLanguageSet: any;
   @Input()

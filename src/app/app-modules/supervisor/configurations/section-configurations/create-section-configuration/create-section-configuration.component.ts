@@ -24,7 +24,7 @@
 import { AfterViewInit, Component, DoCheck, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
@@ -41,7 +41,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-create-section-configuration',
   templateUrl: './create-section-configuration.component.html',
   styleUrls: ['./create-section-configuration.component.css']
-})
+,
+  standalone: false})
 export class CreateSectionConfigurationComponent implements OnInit, AfterViewInit, DoCheck {
   currentLanguageSet: any;
   languageData: any;

@@ -11,7 +11,8 @@ import { MapQuestionaireConfigurationComponent } from '../map-questionaire-confi
   selector: 'app-create-question-mapping',
   templateUrl: './create-question-mapping.component.html',
   styleUrls: ['./create-question-mapping.component.css']
-})
+,
+  standalone: false})
 export class CreateQuestionMappingComponent implements OnInit, DoCheck {
   @Input()
   public data: any;

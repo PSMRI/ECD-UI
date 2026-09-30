@@ -23,7 +23,7 @@
 
 import { AfterViewInit, Component, DoCheck, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
@@ -39,7 +39,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-section-questionnaire-mapping',
   templateUrl: './section-questionnaire-mapping.component.html',
   styleUrls: ['./section-questionnaire-mapping.component.css'],
-})
+
+  standalone: false})
 export class SectionQuestionnaireMappingComponent implements OnInit, DoCheck, AfterViewInit {
   currentLanguageSet: any;
   displayedColumns: string[] = [

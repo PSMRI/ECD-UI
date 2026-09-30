@@ -25,7 +25,8 @@ import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   selector: '[appMyPassword]'
-})
+,
+  standalone: false})
 export class MyPasswordDirective {
 
   constructor() { }
@@ -68,15 +69,15 @@ export class MyPasswordDirective {
     }
   }
 
-  @HostListener("paste", ["$event"]) blockPaste(event: KeyboardEvent) {
+  @HostListener("paste", ["$event"]) blockPaste(event: ClipboardEvent) {
     event.preventDefault();
   }
 
-  @HostListener("copy", ["$event"]) blockCopy(event: KeyboardEvent) {
+  @HostListener("copy", ["$event"]) blockCopy(event: ClipboardEvent) {
     event.preventDefault();
   }
 
-  @HostListener("cut", ["$event"]) blockCut(event: KeyboardEvent) {
+  @HostListener("cut", ["$event"]) blockCut(event: ClipboardEvent) {
     event.preventDefault();
   }
   

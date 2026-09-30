@@ -23,9 +23,9 @@
 
 import { AfterViewInit, Component, DoCheck, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder } from '@angular/forms';
-import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
@@ -44,7 +44,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-create-section-questionnaire-mapping',
   templateUrl: './create-section-questionnaire-mapping.component.html',
   styleUrls: ['./create-section-questionnaire-mapping.component.css'],
-})
+
+  standalone: false})
 export class CreateSectionQuestionnaireMappingComponent implements OnInit, DoCheck, AfterViewInit {
   totalRecords = 0;
   currentLanguageSet: any;

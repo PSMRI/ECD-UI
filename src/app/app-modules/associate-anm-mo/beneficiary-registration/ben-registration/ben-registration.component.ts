@@ -30,7 +30,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
-import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { VideoConsultationService } from '../../video-consultation/videoService';
 import { AmritTrackingService } from 'Common-UI/src/tracking';
 
@@ -38,7 +38,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-ben-registration',
   templateUrl: './ben-registration.component.html',
   styleUrls: ['./ben-registration.component.css'],
-}) export class BenRegistrationComponent implements OnInit, DoCheck {
+
+  standalone: false}) export class BenRegistrationComponent implements OnInit, DoCheck {
 
   // viewDetails:any=this.data.selectedDetails;
   enableMotherRecord = false;

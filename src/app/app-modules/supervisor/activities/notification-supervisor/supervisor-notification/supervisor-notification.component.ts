@@ -27,7 +27,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { EditNotificationComponent } from '../edit-notification/edit-notification.component';
 import { CreateNotificationComponent } from '../create-notification/create-notification.component';
@@ -40,7 +40,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-supervisor-notification',
   templateUrl: './supervisor-notification.component.html',
   styleUrls: ['./supervisor-notification.component.css']
-})
+,
+  standalone: false})
 export class SupervisorNotificationComponent implements OnInit, DoCheck, AfterViewInit {
 
   types = ['Alerts','Notification'];

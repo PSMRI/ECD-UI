@@ -21,22 +21,22 @@
 */
 
 
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit, OnDestroy } from '@angular/core';
 import { SetLanguageService } from '../../../services/set-language/set-language.service';
 import * as echarts from 'echarts';
 import { EChartsOption } from 'echarts';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
-import { ajax, css } from "jquery";
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 @Component({
   selector: 'app-tenure-wise-quality-ratings',
   templateUrl: './tenure-wise-quality-ratings.component.html',
   styleUrls: ['./tenure-wise-quality-ratings.component.css'],
-})
-export class TenureWiseQualityRatingsComponent implements OnInit, DoCheck {
+
+  standalone: false})
+export class TenureWiseQualityRatingsComponent implements OnInit, DoCheck, OnDestroy {
   currentLanguageSet: any;
   qualityRatingData: any;
   frequencyList: any[] = [];
@@ -44,6 +44,8 @@ export class TenureWiseQualityRatingsComponent implements OnInit, DoCheck {
   roleList: any = [];
   psmId: any;
   agentRole: any;
+  private chartInstance: echarts.ECharts | null = null;
+  private resizeHandler: (() => void) | null = null;
   /**
    * DE40034072
    * 10-02-2023
@@ -139,14 +141,20 @@ export class TenureWiseQualityRatingsComponent implements OnInit, DoCheck {
 
     const chartDom = document.getElementById('mainTenureChart');
     if(chartDom){
-      const myChart = echarts.init(chartDom);
-
-    const $ = jQuery;
-    $(window).on('resize', function(){
-      if(myChart !== null && myChart !== undefined){
-        myChart.resize();
+      if (this.chartInstance) {
+        this.chartInstance.dispose();
       }
-  });
+      if (this.resizeHandler) {
+        window.removeEventListener('resize', this.resizeHandler);
+      }
+
+      this.chartInstance = echarts.init(chartDom);
+      this.resizeHandler = () => {
+        if (this.chartInstance) {
+          this.chartInstance.resize();
+        }
+      };
+      window.addEventListener('resize', this.resizeHandler);
 
     // let option: EChartsOption;
     // myChart.resize({
@@ -189,12 +197,11 @@ export class TenureWiseQualityRatingsComponent implements OnInit, DoCheck {
       ],
     };
 
-    option && myChart.setOption(option);
+    option && this.chartInstance.setOption(option);
 
     }
   //   const myChart = echarts.init(chartDom);
 
-  //   const $ = jQuery;
   //   $(window).on('resize', function(){
   //     if(myChart !== null && myChart !== undefined){
   //       myChart.resize();
@@ -243,5 +250,16 @@ export class TenureWiseQualityRatingsComponent implements OnInit, DoCheck {
   //   };
 
   //   option && myChart.setOption(option);
+  }
+
+  ngOnDestroy() {
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+      this.resizeHandler = null;
+    }
+    if (this.chartInstance) {
+      this.chartInstance.dispose();
+      this.chartInstance = null;
+    }
   }
 }

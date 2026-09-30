@@ -23,7 +23,7 @@
 
 import { Component, DoCheck, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { AgentMappingConfigurationComponent } from '../agent-mapping-configuration/agent-mapping-configuration.component';
@@ -36,7 +36,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-edit-agent',
   templateUrl: './edit-agent.component.html',
   styleUrls: ['./edit-agent.component.css']
-})
+,
+  standalone: false})
 export class EditAgentComponent implements OnInit, DoCheck {
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @Input()

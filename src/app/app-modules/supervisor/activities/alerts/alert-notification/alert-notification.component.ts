@@ -24,7 +24,7 @@
 import { AfterViewInit, Component, DoCheck, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { CreatequalitySectionConfigurationComponent } from 'src/app/app-modules/quality-supervisor/activites/qualityAudit-sectionConfiguration/createquality-section-configuration/createquality-section-configuration.component';
 import { EditQualitySectionConfigurationComponent } from 'src/app/app-modules/quality-supervisor/activites/qualityAudit-sectionConfiguration/edit-quality-section-configuration/edit-quality-section-configuration.component';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
@@ -43,7 +43,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-alert-notification',
   templateUrl: './alert-notification.component.html',
   styleUrls: ['./alert-notification.component.css']
-})
+,
+  standalone: false})
 export class AlertNotificationComponent implements OnInit, DoCheck, AfterViewInit {
   types = ['Alerts','Notification'];
   // roles = ['ANM','MO','Supervisor'];

@@ -41,7 +41,8 @@ import { VideoConsultationService } from '../video-consultation/videoService';
   selector: 'app-agents-innerpage',
   templateUrl: './agents-innerpage.component.html',
   styleUrls: ['./agents-innerpage.component.css']
-})
+,
+  standalone: false})
 export class AgentsInnerpageComponent implements OnInit, DoCheck, OnDestroy {
 
  selectedRoute: any;

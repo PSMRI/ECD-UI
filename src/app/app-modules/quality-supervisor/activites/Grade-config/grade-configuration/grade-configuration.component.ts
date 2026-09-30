@@ -25,7 +25,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { CreateGradeConfigComponent } from '../create-grade-config/create-grade-config.component';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
@@ -37,7 +37,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-grade-configuration',
   templateUrl: './grade-configuration.component.html',
   styleUrls: ['./grade-configuration.component.css']
-})
+,
+  standalone: false})
 export class GradeConfigurationComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort | null = null;
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;

@@ -30,7 +30,8 @@ import { Directive, ElementRef, HostListener, Injectable, Input } from '@angular
 @Directive({
   selector:
     "[app-allowText][ngModel],[allowText][formControl],[allowText][formControlName],[allowText]",
-})
+
+  standalone: false})
 
 export class StringValidatorDirective {
   @Input()
@@ -206,15 +207,15 @@ export class StringValidatorDirective {
       if (!this.isValidChar(str.substr(i, 1))) return false;
     return true;
   }
-  @HostListener("paste", ["$event"]) blockPaste(event: KeyboardEvent) {
+  @HostListener("paste", ["$event"]) blockPaste(event: ClipboardEvent) {
     event.preventDefault();
   }
 
-  @HostListener("copy", ["$event"]) blockCopy(event: KeyboardEvent) {
+  @HostListener("copy", ["$event"]) blockCopy(event: ClipboardEvent) {
     event.preventDefault();
   }
 
-  @HostListener("cut", ["$event"]) blockCut(event: KeyboardEvent) {
+  @HostListener("cut", ["$event"]) blockCut(event: ClipboardEvent) {
     event.preventDefault();
   }
 }

@@ -24,7 +24,7 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
@@ -37,7 +37,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-createquality-section-configuration',
   templateUrl: './createquality-section-configuration.component.html',
   styleUrls: ['./createquality-section-configuration.component.css']
-})
+,
+  standalone: false})
 export class CreatequalitySectionConfigurationComponent implements OnInit, AfterViewInit {
   currentLanguageSet: any;
   item:any;

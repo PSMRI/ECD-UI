@@ -22,7 +22,7 @@
 
 
 import { Component, DoCheck, Inject, OnInit } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { CoreService } from 'src/app/app-modules/services/core/core.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
@@ -32,7 +32,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-open-alerts-notification-locationmessages',
   templateUrl: './open-alerts-notification-locationmessages.component.html',
   styleUrls: ['./open-alerts-notification-locationmessages.component.css']
-})
+,
+  standalone: false})
 export class OpenAlertsNotificationLocationmessagesComponent implements OnInit, DoCheck {
   dialogTitle: any;
   dialogContent: any = [];

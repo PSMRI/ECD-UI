@@ -34,7 +34,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-reports',
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css'],
-})
+
+  standalone: false})
 export class ReportsComponent implements OnInit, DoCheck {
   currentLanguageSet: any;
   selectedRole: any;

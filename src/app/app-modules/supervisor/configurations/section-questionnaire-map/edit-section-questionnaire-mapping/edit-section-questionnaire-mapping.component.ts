@@ -38,7 +38,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-edit-section-questionnaire-mapping',
   templateUrl: './edit-section-questionnaire-mapping.component.html',
   styleUrls: ['./edit-section-questionnaire-mapping.component.css'],
-})
+
+  standalone: false})
 export class EditSectionQuestionnaireMappingComponent implements OnInit, DoCheck {
   currentLanguageSet: any;
   roles :any = [];

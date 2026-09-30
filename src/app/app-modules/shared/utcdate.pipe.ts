@@ -25,7 +25,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'utcdate'
-})
+,
+  standalone: false})
 
 export class UtcdatePipe implements PipeTransform {
 

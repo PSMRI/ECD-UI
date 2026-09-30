@@ -7,10 +7,10 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Inject } from '@angular/core';
 import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-} from '@angular/material/legacy-dialog';
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 
 import { SpinnerService } from '../../services/spinnerService/spinner.service';
 
@@ -19,7 +19,8 @@ import { SpinnerService } from '../../services/spinnerService/spinner.service';
   selector: 'app-view-casesheet',
   templateUrl: './view-casesheet.component.html',
   styleUrls: ['./view-casesheet.component.css']
-})
+,
+  standalone: false})
 export class ViewCasesheetComponent implements OnInit, DoCheck {
   currentLanguageSet: any;
   beneficiaryCaseSheetData:any;

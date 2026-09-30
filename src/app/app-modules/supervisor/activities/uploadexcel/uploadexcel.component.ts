@@ -37,7 +37,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-uploadexcel',
   templateUrl: './uploadexcel.component.html',
   styleUrls: ['./uploadexcel.component.css']
-})
+,
+  standalone: false})
 export class UploadexcelComponent implements OnInit {
   languageData: any;
   currentLanguageSet: any;

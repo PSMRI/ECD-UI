@@ -21,14 +21,13 @@
 */
 
 
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit, OnDestroy } from '@angular/core';
 import * as echarts from 'echarts';
 import { EChartsOption } from 'echarts';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from '../../../services/set-language/set-language.service';
-import { ajax, css } from "jquery";
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 /**
@@ -40,8 +39,9 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-agent-quality-score-chart',
   templateUrl: './agent-quality-score-chart.component.html',
   styleUrls: ['./agent-quality-score-chart.component.css'],
-})
-export class AgentQualityScoreChartComponent implements OnInit, DoCheck {
+
+  standalone: false})
+export class AgentQualityScoreChartComponent implements OnInit, DoCheck, OnDestroy {
   currentLanguageSet: any;
   qualityGradeData: any;
   frequencyList: any[] = [];
@@ -49,6 +49,8 @@ export class AgentQualityScoreChartComponent implements OnInit, DoCheck {
   lastSixMonths: any = [];
   enableMonthFilter = false;
   month: any;
+  private chartInstance: echarts.ECharts | null = null;
+  private resizeHandler: (() => void) | null = null;
 
   constructor(
     private setLanguageService: SetLanguageService,
@@ -149,13 +151,20 @@ export class AgentQualityScoreChartComponent implements OnInit, DoCheck {
 
     const chartDom = document.getElementById('agentQualityMain');
     if(chartDom){
-      const myChart = echarts.init(chartDom);
-    const $ = jQuery;
-    $(window).on('resize', function(){
-      if(myChart !== null && myChart !== undefined){
-        myChart.resize();
+      if (this.chartInstance) {
+        this.chartInstance.dispose();
       }
-  });
+      if (this.resizeHandler) {
+        window.removeEventListener('resize', this.resizeHandler);
+      }
+
+      this.chartInstance = echarts.init(chartDom);
+      this.resizeHandler = () => {
+        if (this.chartInstance) {
+          this.chartInstance.resize();
+        }
+      };
+      window.addEventListener('resize', this.resizeHandler);
     // let option: EChartsOption;
     const option: EChartsOption = {
       toolbox: {
@@ -197,10 +206,9 @@ export class AgentQualityScoreChartComponent implements OnInit, DoCheck {
       ],
     };
 
-    option && myChart.setOption(option);
+    option && this.chartInstance.setOption(option);
     }
   //   const myChart = echarts.init(chartDom);
-  //   const $ = jQuery;
   //   $(window).on('resize', function(){
   //     if(myChart !== null && myChart !== undefined){
   //       myChart.resize();
@@ -248,5 +256,16 @@ export class AgentQualityScoreChartComponent implements OnInit, DoCheck {
   //   };
 
   //   option && myChart.setOption(option);
+  }
+
+  ngOnDestroy() {
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+      this.resizeHandler = null;
+    }
+    if (this.chartInstance) {
+      this.chartInstance.dispose();
+      this.chartInstance = null;
+    }
   }
 }

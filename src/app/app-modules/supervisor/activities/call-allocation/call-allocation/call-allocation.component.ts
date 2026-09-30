@@ -36,7 +36,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-call-allocation',
   templateUrl: './call-allocation.component.html',
   styleUrls: ['./call-allocation.component.css']
-})
+,
+  standalone: false})
 export class CallAllocationComponent implements OnInit, DoCheck {
   recordType: any;
   phoneNoType: any;

@@ -24,7 +24,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { id } from 'date-fns/locale';
 import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
@@ -41,7 +41,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-call-section-questionaire-mapping',
   templateUrl: './call-section-questionaire-mapping.component.html',
   styleUrls: ['./call-section-questionaire-mapping.component.css']
-})
+,
+  standalone: false})
 export class CallSectionQuestionaireMappingComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
 
   @Input()

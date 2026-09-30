@@ -91,7 +91,8 @@ function sanitizeText(input: string): string {
 
 @Directive({
   selector: '[appSmsTemplateValidator]',
-})
+
+  standalone: false})
 export class SmsTemplateValidatorDirective implements Validator, OnInit, OnDestroy {
   private el: HTMLTextAreaElement | HTMLInputElement;
   private maxLength: number;

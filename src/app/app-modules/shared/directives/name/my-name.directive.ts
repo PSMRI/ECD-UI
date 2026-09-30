@@ -25,7 +25,8 @@ import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   selector: '[appMyName]'
-})
+,
+  standalone: false})
 export class MyNameDirective {
 
   constructor() { }
@@ -37,15 +38,15 @@ export class MyNameDirective {
       ev.preventDefault();
     }
   }
-  @HostListener("paste", ["$event"]) blockPaste(event: KeyboardEvent) {
+  @HostListener("paste", ["$event"]) blockPaste(event: ClipboardEvent) {
     event.preventDefault();
   }
 
-  @HostListener("copy", ["$event"]) blockCopy(event: KeyboardEvent) {
+  @HostListener("copy", ["$event"]) blockCopy(event: ClipboardEvent) {
     event.preventDefault();
   }
 
-  @HostListener("cut", ["$event"]) blockCut(event: KeyboardEvent) {
+  @HostListener("cut", ["$event"]) blockCut(event: ClipboardEvent) {
     event.preventDefault();
   }
   

@@ -29,7 +29,7 @@ import { SetLanguageService } from 'src/app/app-modules/services/set-language/se
 import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 import { SmsTemplateService } from 'src/app/app-modules/services/smsTemplate/sms-template.service';
 import { LoginserviceService } from 'src/app/app-modules/services/loginservice/loginservice.service';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 import { AmritTrackingService } from 'Common-UI/src/tracking';
@@ -38,7 +38,8 @@ import { AmritTrackingService } from 'Common-UI/src/tracking';
   selector: 'app-sms-template',
   templateUrl: './sms-template.component.html',
   styleUrls: ['./sms-template.component.css']
-})
+,
+  standalone: false})
 
 export class SmsTemplateComponent implements OnInit, DoCheck, AfterViewInit {
   providerServiceMapID: any;

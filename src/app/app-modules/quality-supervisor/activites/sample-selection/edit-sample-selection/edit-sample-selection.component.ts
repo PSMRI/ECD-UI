@@ -27,7 +27,7 @@ import { ConfirmationService } from 'src/app/app-modules/services/confirmation/c
 import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
 import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 import { SampleSelectionConfigurationComponent } from '../sample-selection-configuration/sample-selection-configuration.component';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MasterService } from 'src/app/app-modules/services/masterService/master.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
@@ -36,7 +36,8 @@ import { SessionStorageService } from 'Common-UI/src/registrar/services/session-
   selector: 'app-edit-sample-selection',
   templateUrl: './edit-sample-selection.component.html',
   styleUrls: ['./edit-sample-selection.component.css']
-})
+,
+  standalone: false})
 export class EditSampleSelectionComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @Input()
