@@ -20,27 +20,53 @@
 * along with this program.  If not, see https://www.gnu.org/licenses/.
 */
 
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { CzentrixIframeComponent } from './czentrix-iframe.component';
+import { AssociateAnmMoService } from '../../services/associate-anm-mo/associate-anm-mo.service';
+import { CtiService } from '../../services/cti/cti.service';
+import { LoginserviceService } from '../../services/loginservice/loginservice.service';
 
 describe('CzentrixIframeComponent', () => {
   let component: CzentrixIframeComponent;
   let fixture: ComponentFixture<CzentrixIframeComponent>;
+  let sanitizer: DomSanitizer;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CzentrixIframeComponent ]
+      declarations: [CzentrixIframeComponent],
+      providers: [
+        { provide: AssociateAnmMoService, useValue: {} },
+        { provide: CtiService, useValue: { ctiUrl: 'http://cti/', eventCtiUrl: 'events?agent=' } },
+        { provide: LoginserviceService, useValue: { agentId: 'A-1' } },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
-    .compileComponents();
+      .overrideTemplate(CzentrixIframeComponent, '')
+      .compileComponents();
 
+    sanitizer = TestBed.inject(DomSanitizer);
+    spyOn(sanitizer, 'bypassSecurityTrustResourceUrl').and.callThrough();
     fixture = TestBed.createComponent(CzentrixIframeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should build the trusted CTI event url for the agent', () => {
     expect(component).toBeTruthy();
+    expect(sanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith('http://cti/events?agent=A-1');
+    expect(component.ctiHandlerURL).toBeTruthy();
+  });
+
+  it('toggleBar should flip and minimizeBar should collapse the bar', () => {
+    expect(component.barMinimized).toBeTrue();
+    component.toggleBar();
+    expect(component.barMinimized).toBeFalse();
+    component.minimizeBar();
+    expect(component.barMinimized).toBeTrue();
+    component.toggleBar();
+    component.toggleBar();
+    expect(component.barMinimized).toBeTrue();
   });
 });

@@ -20,16 +20,15 @@
 * along with this program.  If not, see https://www.gnu.org/licenses/.
 */
 
+import { DomSanitizer } from '@angular/platform-browser';
+import { SafeUrlPipe } from './safe-url.pipe';
 
-import { ElementRef } from '@angular/core';
-import { SmsTemplateValidatorDirective } from './sms-template-validator.directive';
-
-describe('SmsTemplateValidatorDirective', () => {
-  it('should create an instance', () => {
-    const directive = new SmsTemplateValidatorDirective(
-      null as any,
-      new ElementRef(document.createElement('textarea'))
-    );
-    expect(directive).toBeTruthy();
+describe('SafeUrlPipe', () => {
+  it('should mark the url as a trusted resource url', () => {
+    const sanitizer = jasmine.createSpyObj<DomSanitizer>('DomSanitizer', ['bypassSecurityTrustResourceUrl']);
+    sanitizer.bypassSecurityTrustResourceUrl.and.returnValue('trusted' as any);
+    const pipe = new SafeUrlPipe(sanitizer);
+    expect(pipe.transform('https://meet.example/room')).toBe('trusted' as any);
+    expect(sanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith('https://meet.example/room');
   });
 });
