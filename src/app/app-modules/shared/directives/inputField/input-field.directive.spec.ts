@@ -24,8 +24,41 @@
 import { InputFieldDirective } from './input-field.directive';
 
 describe('InputFieldDirective', () => {
-  it('should create an instance', () => {
-    const directive = new InputFieldDirective();
-    expect(directive).toBeTruthy();
+  let directive: InputFieldDirective;
+
+  const keypress = (key: string, useWhich = false) => {
+    const code = key.charCodeAt(0);
+    return {
+      charCode: useWhich ? 0 : code,
+      which: code,
+      preventDefault: jasmine.createSpy('preventDefault'),
+    };
+  };
+
+  beforeEach(() => (directive = new InputFieldDirective()));
+
+  // NOTE: the character class in the key regex is closed early by an
+  // unescaped "]", so the pattern never matches a single key and nothing
+  // is blocked. These tests document that current behaviour.
+  it('does not block any single key (current behaviour)', () => {
+    ['a', 'Z', '1', '~', '@', ' '].forEach((key) => {
+      const ev = keypress(key);
+      directive.onKeyPress(ev);
+      expect(ev.preventDefault).withContext(key).not.toHaveBeenCalled();
+    });
+  });
+
+  it('reads the key from "which" when charCode is 0', () => {
+    const ev = keypress('~', true);
+    directive.onKeyPress(ev);
+    expect(ev.preventDefault).not.toHaveBeenCalled();
+  });
+
+  it('blocks paste, copy and cut', () => {
+    (['blockPaste', 'blockCopy', 'blockCut'] as const).forEach((handler) => {
+      const ev = { preventDefault: jasmine.createSpy('preventDefault') } as any;
+      directive[handler](ev);
+      expect(ev.preventDefault).withContext(handler).toHaveBeenCalled();
+    });
   });
 });

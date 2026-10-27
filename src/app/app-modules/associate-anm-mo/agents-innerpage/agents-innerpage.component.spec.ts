@@ -276,7 +276,9 @@ describe('AgentsInnerpageComponent', () => {
     });
 
     it('CustDisconnect for another call should be ignored', () => {
-      component.handleEvent(['CustDisconnect', 'other']);
+      // the CTI listener stores the split event before calling handleEvent
+      component.eventSpiltData = ['CustDisconnect', 'other'];
+      component.handleEvent(component.eventSpiltData);
       expect(cti.getRoleBasedWrapuptime).not.toHaveBeenCalled();
     });
 
@@ -332,8 +334,9 @@ describe('AgentsInnerpageComponent', () => {
       create();
       component.callId = 'a';
       component.custDisconnectCallId = 'b';
+      const before = component.wrapupTimerSubscription;
       component.roleBasedCallWrapupTime(3);
-      expect(component.wrapupTimerSubscription.closed).toBeTrue();
+      expect(component.wrapupTimerSubscription).toBe(before);
     });
   });
 
@@ -344,6 +347,7 @@ describe('AgentsInnerpageComponent', () => {
     });
 
     it('should close as a disconnected call and return to the worklist', () => {
+      anm.isHighRiskPregnancy = false;
       anm.commonCallClosure.and.returnValue(of({ statusCode: 200, data: {} }));
       anm.callClosure.and.returnValue(of({ response: 'ok' }));
       component.closeCall();

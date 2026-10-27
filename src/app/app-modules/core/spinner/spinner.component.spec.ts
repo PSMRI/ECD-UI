@@ -22,25 +22,27 @@
 
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { SpinnerComponent } from './spinner.component';
+import { SpinnerService } from '../../services/spinnerService/spinner.service';
 
 describe('SpinnerComponent', () => {
-  let component: SpinnerComponent;
   let fixture: ComponentFixture<SpinnerComponent>;
+  const spinner = {};
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SpinnerComponent ]
+      declarations: [SpinnerComponent],
+      providers: [{ provide: SpinnerService, useValue: spinner }],
+      schemas: [NO_ERRORS_SCHEMA],
     })
-    .compileComponents();
-
+      .overrideTemplate(SpinnerComponent, '')
+      .compileComponents();
     fixture = TestBed.createComponent(SpinnerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('exposes the spinner service to the template', () => {
+    expect(fixture.componentInstance.spinnerService).toBe(spinner as any);
   });
 });

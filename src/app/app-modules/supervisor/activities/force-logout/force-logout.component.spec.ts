@@ -22,25 +22,78 @@
 
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { of } from 'rxjs';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
 
 import { ForceLogoutComponent } from './force-logout.component';
+import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
+import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
+import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 
 describe('ForceLogoutComponent', () => {
   let component: ForceLogoutComponent;
   let fixture: ComponentFixture<ForceLogoutComponent>;
+  let supervisor: jasmine.SpyObj<SupervisorService>;
+  let confirmation: jasmine.SpyObj<ConfirmationService>;
+  let tracking: jasmine.SpyObj<AmritTrackingService>;
+  const lang = { userLoggedOutSuccessfully: 'userLoggedOutSuccessfully' };
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ ForceLogoutComponent ]
-    })
-    .compileComponents();
+    supervisor = jasmine.createSpyObj('SupervisorService', ['getUserLogout']);
+    confirmation = jasmine.createSpyObj('ConfirmationService', ['openDialog']);
+    tracking = jasmine.createSpyObj('AmritTrackingService', ['trackFieldInteraction']);
 
+    await TestBed.configureTestingModule({
+      declarations: [ForceLogoutComponent],
+      providers: [
+        FormBuilder,
+        { provide: SessionStorageService, useValue: { getItem: () => 4 } },
+        { provide: SetLanguageService, useValue: { getLanguageData: () => of(lang) } },
+        { provide: SupervisorService, useValue: supervisor },
+        { provide: ConfirmationService, useValue: confirmation },
+        { provide: AmritTrackingService, useValue: tracking },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideTemplate(ForceLogoutComponent, '')
+      .compileComponents();
+    spyOn(console, 'log');
     fixture = TestBed.createComponent(ForceLogoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('loads the language and requires a user name', () => {
+    expect(component.currentLanguageSet).toBe(lang);
+    expect(component.languageData).toBe(lang);
+    expect(component.kickoutForm.valid).toBeFalse();
+  });
+
+  it('logs the user out and resets the form', () => {
+    supervisor.getUserLogout.and.returnValue(of({ statusCode: 200 }));
+    component.kickoutForm.setValue({ userName: 'agent1' });
+    component.kickoutUsername();
+    expect(supervisor.getUserLogout).toHaveBeenCalledWith({
+      providerServiceMapID: 4,
+      userName: 'agent1',
+    });
+    expect(confirmation.openDialog).toHaveBeenCalledWith('userLoggedOutSuccessfully', 'success');
+    expect(component.kickoutForm.value.userName).toBeNull();
+  });
+
+  it('shows the error message on failure', () => {
+    supervisor.getUserLogout.and.returnValue(of({ statusCode: 5000, errorMessage: 'not logged in' }));
+    component.kickoutForm.setValue({ userName: 'agent1' });
+    component.kickoutUsername();
+    expect(confirmation.openDialog).toHaveBeenCalledWith('not logged in', 'error');
+    expect(component.kickoutForm.value.userName).toBe('agent1');
+  });
+
+  it('tracks field interactions', () => {
+    component.trackFieldInteraction('userName');
+    expect(tracking.trackFieldInteraction).toHaveBeenCalledWith('userName', 'Force Logout');
   });
 });
