@@ -22,25 +22,108 @@
 
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { of, throwError } from 'rxjs';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
+import { AmritTrackingService } from 'Common-UI/src/tracking';
+import { ConfirmationService } from 'src/app/app-modules/services/confirmation/confirmation.service';
+import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
+import { SupervisorService } from 'src/app/app-modules/services/supervisor/supervisor.service';
 
 import { EditSectionConfigurationComponent } from './edit-section-configuration.component';
+import { SectionConfigurationComponent } from '../section-configuration/section-configuration.component';
 
 describe('EditSectionConfigurationComponent', () => {
   let component: EditSectionConfigurationComponent;
   let fixture: ComponentFixture<EditSectionConfigurationComponent>;
+  let supervisor: jasmine.SpyObj<SupervisorService>;
+  let confirmation: jasmine.SpyObj<ConfirmationService>;
+  let tracking: jasmine.SpyObj<AmritTrackingService>;
+  const lang = {
+    doYouReallyWantToCancelUnsavedData: 'cancelUnsaved',
+    updatedSectionConfigurationSuccessfully: 'updated',
+  };
+  const session: any = { providerServiceMapID: 4, userName: 'sup1' };
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ EditSectionConfigurationComponent ]
-    })
-    .compileComponents();
+    supervisor = jasmine.createSpyObj('SupervisorService', ['updateSectionConfiguration', 'createComponent']);
+    confirmation = jasmine.createSpyObj('ConfirmationService', ['openDialog']);
+    tracking = jasmine.createSpyObj('AmritTrackingService', ['trackFieldInteraction']);
 
+    await TestBed.configureTestingModule({
+      declarations: [EditSectionConfigurationComponent],
+      providers: [
+        FormBuilder,
+        { provide: SetLanguageService, useValue: { languageData: lang } },
+        { provide: SupervisorService, useValue: supervisor },
+        { provide: ConfirmationService, useValue: confirmation },
+        { provide: SessionStorageService, useValue: { getItem: (k: string) => session[k] } },
+        { provide: AmritTrackingService, useValue: tracking },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideTemplate(EditSectionConfigurationComponent, '')
+      .compileComponents();
     fixture = TestBed.createComponent(EditSectionConfigurationComponent);
     component = fixture.componentInstance;
+    component.data = { sectionId: 7, sectionName: 'Pregnancy', sectionDesc: 'ANC questions' };
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  const form = (): any => component.editsectionconfigurationform;
+
+  it('patches the selected section', () => {
+    expect(form().value).toEqual({
+      sectionId: 7 as any,
+      sectionName: 'Pregnancy',
+      sectionDescription: 'ANC questions',
+    });
+    expect(form().valid).toBeTrue();
+    expect(component.currentLanguageSet).toBe(lang);
+  });
+
+  it('validates name and description', () => {
+    form().controls.sectionName.setValue('  ');
+    expect(form().controls.sectionName.hasError('whitespace')).toBeTrue();
+    form().controls.sectionDescription.setValue('     ');
+    expect(form().controls.sectionDescription.hasError('nonWhitespace')).toBeTrue();
+  });
+
+  it('updates the section and returns to the list', () => {
+    supervisor.updateSectionConfiguration.and.returnValue(of({ ok: true }));
+    form().controls.sectionName.setValue('Pregnancy care');
+    component.updateSectionConfiguration();
+    expect(supervisor.updateSectionConfiguration).toHaveBeenCalledWith({
+      sectionId: 7,
+      sectionName: 'Pregnancy care',
+      sectionDesc: 'ANC questions',
+      createdBy: 'sup1',
+      psmId: 4,
+      modifiedBy: 'sup1',
+      deleted: false,
+    });
+    expect(confirmation.openDialog).toHaveBeenCalledWith('updated', 'success');
+    expect(supervisor.createComponent).toHaveBeenCalledWith(SectionConfigurationComponent, null);
+  });
+
+  describe('goBack', () => {
+    it('returns to the list after confirmation', () => {
+      confirmation.openDialog.and.returnValue({ afterClosed: () => of(true) } as any);
+      component.goBack();
+      expect(form().value.sectionName).toBeNull();
+      expect(supervisor.createComponent).toHaveBeenCalledWith(SectionConfigurationComponent, null);
+    });
+
+    it('stays when declined', () => {
+      confirmation.openDialog.and.returnValue({ afterClosed: () => of(false) } as any);
+      component.goBack();
+      expect(supervisor.createComponent).not.toHaveBeenCalled();
+    });
+  });
+
+  it('tracks field interactions', () => {
+    component.trackFieldInteraction('sectionName');
+    expect(tracking.trackFieldInteraction).toHaveBeenCalledWith('sectionName', 'Edit Section Configuration');
   });
 });

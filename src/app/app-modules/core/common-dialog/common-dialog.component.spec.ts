@@ -21,26 +21,83 @@
 */
 
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import {
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+} from '@angular/material/legacy-dialog';
 
 import { CommonDialogComponent } from './common-dialog.component';
 
 describe('CommonDialogComponent', () => {
   let component: CommonDialogComponent;
-  let fixture: ComponentFixture<CommonDialogComponent>;
+  let dialogRef: jasmine.SpyObj<MatDialogRef<CommonDialogComponent>>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ CommonDialogComponent ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(CommonDialogComponent);
+  function create(data: any) {
+    dialogRef = jasmine.createSpyObj('MatDialogRef', ['close']);
+    TestBed.configureTestingModule({
+      declarations: [CommonDialogComponent],
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: data },
+        { provide: MatDialogRef, useValue: dialogRef },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).overrideTemplate(CommonDialogComponent, '');
+    const fixture = TestBed.createComponent(CommonDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  }
+
+  it('takes title and message from the dialog data', () => {
+    create({ action: 'confirm', message: 'Sure?' });
+    expect(component.title).toBe('confirm');
+    expect(component.message).toBe('Sure?');
+    expect(component.intervalRef).toBeUndefined();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('confirm and cancel close with true or false', () => {
+    create({ action: 'confirm', message: 'Sure?' });
+    component.onConfirm();
+    expect(dialogRef.close).toHaveBeenCalledWith(true);
+    component.onCancel();
+    expect(dialogRef.close).toHaveBeenCalledWith(false);
+  });
+
+  describe('session timeout', () => {
+    it('counts down from 120 seconds and closes on timeout', fakeAsync(() => {
+      create({ action: 'sessionTimeOut', message: 'Session expiring' });
+      expect(component.timer).toBe(120);
+      tick(1000);
+      expect(component.timer).toBe(119);
+      expect(component.minutes).toBe(2);
+      expect(component.seconds).toBe(0);
+      tick(120000);
+      expect(dialogRef.close).toHaveBeenCalledOnceWith({ action: 'timeout' });
+    }));
+
+    it('stopTimer closes with the remaining time', fakeAsync(() => {
+      create({ action: 'sessionTimeOut', message: 'x' });
+      tick(3000);
+      component.stopTimer();
+      expect(dialogRef.close).toHaveBeenCalledWith({ action: 'cancel', remainingTime: 117 });
+      tick(5000);
+      expect(dialogRef.close).toHaveBeenCalledTimes(1);
+    }));
+
+    it('continueSession closes with continue', fakeAsync(() => {
+      create({ action: 'sessionTimeOut', message: 'x' });
+      component.continueSession();
+      expect(dialogRef.close).toHaveBeenCalledWith({ action: 'continue' });
+      tick(130000);
+      expect(dialogRef.close).toHaveBeenCalledTimes(1);
+    }));
+
+    it('updateTimer ignores non-positive values', () => {
+      create({ action: 'x', message: 'x' });
+      component.updateTimer(0);
+      expect(component.timer).toBe(0);
+      expect(component.intervalRef).toBeUndefined();
+    });
   });
 });

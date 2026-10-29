@@ -21,26 +21,55 @@
 */
 
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  discardPeriodicTasks,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
 
 import { FooterComponent } from './footer.component';
+import { SetLanguageService } from '../../services/set-language/set-language.service';
 
 describe('FooterComponent', () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
+  let langService: any;
 
   beforeEach(async () => {
+    langService = {
+      languageData: { footer: 'en' },
+      getLanguageData: jasmine.createSpy('getLanguageData').and.returnValue(of({ fetched: true })),
+    };
     await TestBed.configureTestingModule({
-      declarations: [ FooterComponent ]
+      declarations: [FooterComponent],
+      providers: [{ provide: SetLanguageService, useValue: langService }],
+      schemas: [NO_ERRORS_SCHEMA],
     })
-    .compileComponents();
-
+      .overrideTemplate(FooterComponent, '')
+      .compileComponents();
+    spyOn(console, 'log');
     fixture = TestBed.createComponent(FooterComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('sets the language and year and polls the online status', fakeAsync(() => {
+    fixture.detectChanges();
+    expect(component.currentLanguageSet).toEqual({ footer: 'en' });
+    expect(component.year).toBe(new Date().getFullYear());
+    expect(component.status).toBeUndefined();
+    tick(1000);
+    expect(component.status).toBe(navigator.onLine);
+    discardPeriodicTasks();
+  }));
+
+  it('loads English when no language is cached', () => {
+    langService.languageData = null;
+    component.ngDoCheck();
+    expect(langService.getLanguageData).toHaveBeenCalledWith('English');
+    expect(component.currentLanguageSet).toEqual({ fetched: true });
   });
 });

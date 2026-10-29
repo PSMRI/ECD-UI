@@ -21,11 +21,38 @@
 */
 
 
+import { FormControl } from '@angular/forms';
+
 import { MyEmailDirective } from './my-email.directive';
 
 describe('MyEmailDirective', () => {
-  it('should create an instance', () => {
-    const directive = new MyEmailDirective();
-    expect(directive).toBeTruthy();
+  let directive: MyEmailDirective;
+
+  beforeEach(() => (directive = new MyEmailDirective()));
+
+  it('requires a value', () => {
+    expect(directive.validate(new FormControl(''))).toEqual({ required: true });
+  });
+
+  it('accepts valid emails', () => {
+    ['a@b.com', 'first.last+tag@sub.example.org'].forEach((v) =>
+      expect(directive.validate(new FormControl(v))).withContext(v).toBeNull(),
+    );
+  });
+
+  it('flags invalid emails', () => {
+    ['plain', 'a@', '@b.com', 'a b@c.com', 'a@-b.com'].forEach((v) =>
+      expect(directive.validate(new FormControl(v)))
+        .withContext(v)
+        .toEqual({ email: true }),
+    );
+  });
+
+  it('blocks paste, copy and cut', () => {
+    (['blockPaste', 'blockCopy', 'blockCut'] as const).forEach((handler) => {
+      const ev = { preventDefault: jasmine.createSpy('preventDefault') } as any;
+      directive[handler](ev);
+      expect(ev.preventDefault).withContext(handler).toHaveBeenCalled();
+    });
   });
 });

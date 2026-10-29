@@ -21,26 +21,87 @@
 */
 
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { of } from 'rxjs';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 import { ReportsQualitySupervisorComponent } from './reports-quality-supervisor.component';
+import { QualitySupervisorService } from 'src/app/app-modules/services/quality-supervisor/quality-supervisor.service';
+import { SetLanguageService } from 'src/app/app-modules/services/set-language/set-language.service';
 
 describe('ReportsQualitySupervisorComponent', () => {
   let component: ReportsQualitySupervisorComponent;
   let fixture: ComponentFixture<ReportsQualitySupervisorComponent>;
+  let qs: jasmine.SpyObj<QualitySupervisorService>;
 
   beforeEach(async () => {
+    qs = jasmine.createSpyObj('QualitySupervisorService', ['qualityReportDownload']);
     await TestBed.configureTestingModule({
-      declarations: [ ReportsQualitySupervisorComponent ]
+      declarations: [ReportsQualitySupervisorComponent],
+      providers: [
+        FormBuilder,
+        { provide: SetLanguageService, useValue: { languageData: { r: 1 } } },
+        { provide: SessionStorageService, useValue: { getItem: () => 4 } },
+        { provide: QualitySupervisorService, useValue: qs },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
-    .compileComponents();
-
+      .overrideTemplate(ReportsQualitySupervisorComponent, '')
+      .compileComponents();
     fixture = TestBed.createComponent(ReportsQualitySupervisorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('lists the three quality reports', () => {
+    expect(component.dataSource.data.map((r: any) => r.reportName)).toEqual([
+      'AGENT-WISE\u00a0TOTAL PRIMARY DEFECTS',
+      'AGENT-WISE TOTAL SECONDARY DEFECTS',
+      'HIGHLIGHTING OF THE AGENTS BELOW 95% QUALITY SCORE FOR Training need identification',
+    ]);
+    expect(component.today).toEqual(jasmine.any(Date));
+    expect(component.reportsForm.valid).toBeFalse();
   });
+
+  it('filterSearchTerm filters by report name', () => {
+    component.filterSearchTerm('secondary');
+    expect(component.dataSource.data.length).toBe(1);
+    component.filterSearchTerm('');
+    expect(component.dataSource.data.length).toBe(3);
+  });
+
+  describe('searchReport', () => {
+    it('requests the report for the date range', () => {
+      qs.qualityReportDownload.and.returnValue(of({ statusCode: 200, data: [{ reportName: 'R' }] }) as any);
+      component.reportsForm.patchValue({ startDate: '2026-01-01', endDate: '2026-01-31' });
+      component.searchReport();
+      expect(qs.qualityReportDownload).toHaveBeenCalledWith({
+        startDate: '2026-01-01',
+        endDate: '2026-01-31',
+        providerServiceMapId: 4,
+      });
+      // NOTE: the table data source is replaced by the raw array (current behaviour)
+      expect(component.dataSource as any).toEqual([{ reportName: 'R' }]);
+    });
+
+    it('keeps the table for unsuccessful responses', () => {
+      qs.qualityReportDownload.and.returnValue(of({ statusCode: 5000 }) as any);
+      component.searchReport();
+      expect(component.dataSource.data.length).toBe(3);
+    });
+  });
+
+  it('downloadReport saves the excel data under the report name', fakeAsync(() => {
+    const click = spyOn(HTMLAnchorElement.prototype, 'dispatchEvent').and.returnValue(true);
+    const createUrl = spyOn(URL, 'createObjectURL').and.callThrough();
+    component.downloadReport({ reportName: 'Defects', excelData: 'a,b' });
+    tick();
+    expect(createUrl).toHaveBeenCalledWith(jasmine.any(Blob));
+    expect(click).toHaveBeenCalled();
+    const anchor = click.calls.mostRecent().object as HTMLAnchorElement;
+    expect(anchor.download).toBe('Defects.xls');
+    flush();
+  }));
 });

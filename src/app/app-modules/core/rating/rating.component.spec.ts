@@ -22,25 +22,73 @@
 
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { of, throwError } from 'rxjs';
+import { SessionStorageService } from 'Common-UI/src/registrar/services/session-storage.service';
 
 import { RatingComponent } from './rating.component';
+import { ConfirmationService } from '../../services/confirmation/confirmation.service';
+import { CoreService } from '../../services/core/core.service';
+import { LoginserviceService } from '../../services/loginservice/loginservice.service';
+import { SetLanguageService } from '../../services/set-language/set-language.service';
 
 describe('RatingComponent', () => {
   let component: RatingComponent;
   let fixture: ComponentFixture<RatingComponent>;
+  let core: jasmine.SpyObj<CoreService>;
+  let confirmation: jasmine.SpyObj<ConfirmationService>;
+  let langService: any;
+  const session: any = { role: 'Associate', userID: 9, providerServiceMapID: 4 };
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ RatingComponent ]
-    })
-    .compileComponents();
+    core = jasmine.createSpyObj('CoreService', ['getAgentAuditScore']);
+    core.getAgentAuditScore.and.returnValue(of([{ grade: 'A' }]));
+    confirmation = jasmine.createSpyObj('ConfirmationService', ['openDialog']);
+    langService = { languageData: { rating: 'en' } };
 
+    await TestBed.configureTestingModule({
+      declarations: [RatingComponent],
+      providers: [
+        { provide: SetLanguageService, useValue: langService },
+        { provide: LoginserviceService, useValue: {} },
+        { provide: ConfirmationService, useValue: confirmation },
+        { provide: SessionStorageService, useValue: { getItem: (k: string) => session[k] } },
+        { provide: CoreService, useValue: core },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideTemplate(RatingComponent, '')
+      .compileComponents();
     fixture = TestBed.createComponent(RatingComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('loads the role, language and the agent audit score', () => {
+    fixture.detectChanges();
+    expect(component.selectedRole).toBe('Associate');
+    expect(component.currentLanguageSet).toEqual({ rating: 'en' });
+    expect(core.getAgentAuditScore).toHaveBeenCalledWith(9, 4);
+    expect(component.agentRatingData).toEqual([{ grade: 'A' }]);
+  });
+
+  it('keeps the previous language when none is cached', () => {
+    fixture.detectChanges();
+    langService.languageData = null;
+    component.ngDoCheck();
+    expect(component.currentLanguageSet).toEqual({ rating: 'en' });
+  });
+
+  it('shows the error body on failure', () => {
+    core.getAgentAuditScore.and.returnValue(throwError(() => ({ error: 'denied' })));
+    fixture.detectChanges();
+    expect(confirmation.openDialog).toHaveBeenCalledWith('denied', 'error');
+  });
+
+  it('falls back to title and detail for problem responses', () => {
+    core.getAgentAuditScore.and.returnValue(
+      throwError(() => ({ title: 'Bad ', detail: 'request' })),
+    );
+    fixture.detectChanges();
+    expect(confirmation.openDialog).toHaveBeenCalledWith('Bad request', 'error');
   });
 });

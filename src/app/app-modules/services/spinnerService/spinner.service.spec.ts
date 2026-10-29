@@ -20,7 +20,6 @@
 * along with this program.  If not, see https://www.gnu.org/licenses/.
 */
 
-
 import { TestBed } from '@angular/core/testing';
 
 import { SpinnerService } from './spinner.service';
@@ -35,5 +34,16 @@ describe('SpinnerService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should not be loading by default', () => {
+    expect(service.getLoading()).toBeFalse();
+  });
+
+  it('setLoading should update the loading state', () => {
+    service.setLoading(true);
+    expect(service.getLoading()).toBeTrue();
+    service.setLoading(false);
+    expect(service.getLoading()).toBeFalse();
   });
 });
